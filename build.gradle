@@ -24,7 +24,6 @@ repositories {
 }
 
 dependencies {
-dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'                    
@@ -49,8 +48,6 @@ dependencies {
 	implementation 'org.jsoup:jsoup:1.15.3'
 	// commons-io
 	implementation 'commons-io:commons-io:2.18.0'
-}
-
 }
 
 tasks.named('test') {
