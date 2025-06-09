@@ -5,5 +5,15 @@
 
 <mapper namespace="com.example.demo.mapper.GameInfoMapper">
 
-
+	<select id="selectTop10GamesByPlatform"
+		resultType="com.example.demo.model.GameInfo">
+		SELECT *
+		FROM (
+		SELECT *
+		FROM GAME_INFO
+		WHERE LOWER(GI_PLATFORM) = LOWER(#{platform})
+		ORDER BY GI_NUM
+		)
+		WHERE ROWNUM &lt;= 10
+	</select>
 </mapper>

@@ -1,5 +1,9 @@
 package com.example.demo.mapper;
 
-public class GameInfoMapper {
+import java.util.List;
 
+import com.example.demo.model.GameInfo;
+
+public class GameInfoMapper {
+	List<GameInfo> selectTop10GamesByPlatform(String platform);
 }

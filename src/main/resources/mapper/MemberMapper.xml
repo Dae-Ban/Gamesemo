@@ -3,5 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.MemberMapper">
-
+	<select id="selectAllEmailSubscribers" resultType="com.example.demo.model.Member">
+        SELECT * FROM MEMBER WHERE EMAIL_AD = 'Y'
+    </select>
 </mapper>
