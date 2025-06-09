@@ -15,8 +15,8 @@ public class Pagenation {
 	private int endPage;            // 각 블럭의 끝 페이지
 	private int totalPage;			// 총 페이지 수
 	// page
-	private int startRow;
-	private int endRow;
+	private int startRow;			// 시작 번호
+	private int endRow;				// 마지막 번호
 	// 검색
 	private String search;
 	private String keyword;
