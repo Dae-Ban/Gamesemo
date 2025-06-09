@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="container">
-        <h2> 회원 가입</h2>
+        <h2>회원 가입</h2>
         <form action="/member/insert" method="post">
             <label>아이디</label>
             <input type="text" name="id" required>
