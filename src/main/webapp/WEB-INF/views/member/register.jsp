@@ -3,63 +3,68 @@
 <html>
 <head>
     <title>회원 가입</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
-        input, select { width: 100%; padding: 8px; margin: 5px 0; }
-        .checkbox-group { display: flex; gap: 10px; }
-        .btn { background-color: #007bff; color: white; padding: 10px; border: none; cursor: pointer; width: 100%; }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jiseon.css">
 </head>
 <body>
     <div class="container">
-        <h2>회원 가입</h2>
+        <h2 class="title">회원 가입</h2>
+        <div class="divider"></div>
+
         <form action="/member/insert" method="post">
-            <label>아이디</label>
-            <input type="text" name="id" required>
-
-            <label>닉네임</label>
-            <input type="text" name="nickname" required>
-
-            <label>비밀번호</label>
-            <input type="password" name="password" required>
-
-            <label>비밀번호 확인</label>
-            <input type="password" name="passwordConfirm" required>
-
-            <label>이메일</label>
-            <input type="email" name="email" required>
-            <button type="button">이메일 인증하기</button><br>
-
-            <label>생년월일</label>
-            <input type="date" name="birthdate" required>
-
-            <label>성별</label>
-            <div class="checkbox-group">
-                <input type="radio" name="gender" value="male" required> 남자
-                <input type="radio" name="gender" value="female" required> 여자
+            <div class="form-group">
+                <label>ID</label>
+                <input type="text" name="id" required>
             </div>
 
-            <label>휴대폰 번호</label>
-            <input type="tel" name="phone" required>
+            <div class="form-group">
+                <label>닉네임</label>
+                <input type="text" name="nickname" required>
+            </div>
 
-          <label>선호 게임 장르 선택</label>
-<div class="checkbox-group">
-    <label><input type="checkbox" name="gameGenre" value="rpg"> RPG</label>
-    <label><input type="checkbox" name="gameGenre" value="fps"> FPS</label>
-    <label><input type="checkbox" name="gameGenre" value="sports"> 스포츠</label>
-    <label><input type="checkbox" name="gameGenre" value="strategy"> 전략</label>
-    <label><input type="checkbox" name="gameGenre" value="adventure"> 어드벤처</label>
-</div>
+            <div class="form-group">
+                <label>비밀번호</label>
+                <input type="password" name="pw" required>
+            </div>
 
-            
-            <input type="checkbox" name="agreeTerms" required>
-			<label>정보수집 및 약관 동의 (필수)</label>
-             <input type="checkbox" name="agreeEmail">
-             <label>이메일 발송 동의 (필수)</label>
-           
+            <div class="form-group">
+                <label>비밀번호 확인</label>
+                <input type="password" name="pwConfirm" required>
+            </div>
 
-            <button type="submit" class="btn">가입하기</button>
+            <div class="form-group input-group">
+                <input type="email" name="email" placeholder="이메일" required>
+                <button type="button" class="btn"> 이메일 인증 </button>
+            </div>
+
+            <div class="form-group">
+                <label>생년월일</label>
+                <input type="date" name="birth" required>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label><input type="radio" name="gender" value="M" required> 남자</label>
+                <label><input type="radio" name="gender" value="F" required> 여자</label>
+            </div>
+
+            <div class="form-group">
+                <label>휴대폰</label>
+                <input type="tel" name="phone" required>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label><input type="checkbox" name="genre" value="rpg"> RPG</label>
+                <label><input type="checkbox" name="genre" value="fps"> FPS</label>
+                <label><input type="checkbox" name="genre" value="sports"> 스포츠</label>
+                <label><input type="checkbox" name="genre" value="strategy"> 전력</label>
+                <label><input type="checkbox" name="genre" value="adventure"> 어드베우처</label>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label><input type="checkbox" name="agreeTerms" required> 약관 동의</label>
+                <label><input type="checkbox" name="agreeEmail"> 이메일 동의</label>
+            </div>
+
+            <button type="submit" class="btn"> 가입하기 </button>
         </form>
     </div>
 </body>
