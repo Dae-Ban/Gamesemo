@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.example.demo.mapper.GameInfoMapper;
 import com.example.demo.mapper.MemberMapper;
@@ -12,6 +13,7 @@ import com.example.demo.model.GameInfo;
 import com.example.demo.model.Member;
 import com.example.demo.service.EmailService;
 
+@Component
 public class EmailScheduler {
 	@Autowired
 	private MemberMapper memberMapper;
@@ -128,12 +130,12 @@ public class EmailScheduler {
 	              .append("<table style='float: right; font-size: 12px; border-collapse: collapse;'>")
 	              .append("<tr>")
 	              .append("<td style='text-align: center;'><del style='color: #888; text-align: left;'>₩")
-	              .append(formatter.format(Integer.parseInt(game.getGiPrice()))).append("</del></td>")
+	              .append(formatter.format(game.getGiPrice())).append("</del></td>")
 	              .append("<td rowspan='2'><div style='background-color: #000; color: #fff; border-radius: 12px; padding: 5px 7px; font-size: 15px; margin-left: 5px;'>")
 	              .append(game.getGiRate()).append("%</div></td>")
 	              .append("</tr>")
 	              .append("<tr><td style='font-weight: bold; text-align: center; text-align: left;'>₩")
-	              .append(formatter.format(Integer.parseInt(game.getGiFprice()))).append("</td></tr>")
+	              .append(formatter.format(game.getGiFprice())).append("</td></tr>")
 	              .append("</table>")
 	              .append("</div>");
 	        }
