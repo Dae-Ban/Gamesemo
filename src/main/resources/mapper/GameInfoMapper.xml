@@ -5,29 +5,5 @@
 
 <mapper namespace="com.example.demo.mapper.GameInfoMapper">
 
-  <!-- Steam 게임 10개 조회 -->
-  <select id="selectTop10GamesByPlatform" resultType="com.example.demo.model.GameInfo">
-  SELECT *
-  FROM (
-    SELECT *
-    FROM GAME_INFO
-    WHERE LOWER(GI_PLATFORM) = LOWER(#{platform})
-    ORDER BY GI_NUM
-  )
-  WHERE ROWNUM &lt;= 10
-</select>
-
-
-  <!-- 특정 플랫폼의 게임 10개 조회 (확장 가능) -->
-<!-- <select id="selectTop10SteamGames" resultType="com.example.demo.model.GameInfo"> -->
-<!--   SELECT * -->
-<!--   FROM ( -->
-<!--     SELECT * -->
-<!--     FROM GAME_INFO -->
-<!--     WHERE LOWER(GI_PLATFORM) = 'steam' -->
-<!--     ORDER BY GI_NUM -->
-<!--   ) -->
-<!--   WHERE ROWNUM &lt;= 10 -->
-<!-- </select> -->
 
 </mapper>
