@@ -12,16 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.ScrapMapper;
-import com.example.demo.model.GameInfo;
+import com.example.demo.model.ScrapData;
 
 @Service
 public class SteamDCScraper {
 	@Autowired
 	private ScrapMapper mapper;
 
-	public void steamScrap() {
+	public void scrap() {
 		try {
-			mapper.steamClean();
+			mapper.steamDCClean();
+			int pk = 0;
 			for (int page = 1; page <= 5; page++) {
 
 				Document doc = Jsoup
@@ -30,29 +31,17 @@ public class SteamDCScraper {
 				Elements games = doc.select(".search_result_row");
 
 				for (Element game : games.stream().limit(24).toList()) {
-					GameInfo g = new GameInfo();
-					g.setGiTitle(game.select(".title").text());
-					String dcRate = game.select(".discount_pct").text().replaceAll("[^0-9]", "").trim();
-					if (dcRate == null) {
-						g.setGiRate(0);
-					} else {
-						g.setGiRate(Integer.parseInt(dcRate));
-					}
-					g.setGiPrice(Integer
-							.parseInt(game.select(".discount_original_price").text().replaceAll("[^0-9]", "").trim()));
-					g.setGiFprice(Integer
-							.parseInt(game.select(".discount_final_price").text().replaceAll("[^0-9]", "").trim()));
-					g.setGiThumb(game.select("img").attr("src"));
-					g.setGiLink(game.attr("href"));
-					g.setGiDate(Timestamp.valueOf(LocalDateTime.now()));
-					mapper.steamInsert(g);
-					System.out.println(g.getGiTitle());
-					System.out.println(g.getGiRate());
-					System.out.println(g.getGiPrice());
-					System.out.println(g.getGiFprice());
-					System.out.println(g.getGiThumb());
-					System.out.println(g.getGiLink());
-					System.out.println(g.getGiDate());
+					ScrapData g = new ScrapData();
+					pk++;
+					g.setPk(pk);
+					g.setTitle(game.select(".title").text());
+					g.setRate(game.select(".discount_pct").text().trim());
+					g.setPrice(game.select(".discount_original_price").text().trim());
+					g.setFprice(game.select(".discount_final_price").text().trim());
+					g.setThumb(game.select("img").attr("src"));
+					g.setLink(game.attr("href"));
+					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));
+					mapper.steamDCInsert(g);
 				}
 			}
 

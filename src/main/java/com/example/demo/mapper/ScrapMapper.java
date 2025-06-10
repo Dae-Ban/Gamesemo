@@ -1,10 +1,10 @@
 package com.example.demo.mapper;
 
-import com.example.demo.model.GameInfo;
+import com.example.demo.model.ScrapData;
 
 public interface ScrapMapper {
 
-	void steamClean();
-	void steamInsert(GameInfo g);
+	void steamDCClean();
+	void steamDCInsert(ScrapData scrap);
 
 }
