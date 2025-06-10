@@ -1,14 +1,4 @@
-<<<<<<< Upstream, based on origin/main
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-=======
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -45,8 +35,8 @@
   <div class="dropdown">
     <a href="#" class="dropdown-toggle">커뮤니티</a>
     <div class="dropdown-menu">
-      <a href="/board/free">자유게시판</a>
-      <a href="/board/review">리뷰게시판</a>
+      <a href="#">자유게시판</a>
+      <a href="#">리뷰게시판</a>
     </div>
   </div>
 
@@ -62,7 +52,7 @@
       <option>게시판</option>
     </select>
     <button class="search-btn">
-      <img src="<c:url value='/images/search-icon.png'/>" alt="검색" />
+      <img src="<c:url value='/images/icons/search-icon.png'/>" alt="검색" />
     </button>
   </div>
 
@@ -70,7 +60,7 @@
 
 <!-- 드롭다운 시작 -->
 <div class="dropdown">
-  <img src="<c:url value='/images/profile-icon.png'/>" alt="프로필" class="profile-icon" />
+  <img src="<c:url value='/images/icons/profile-icon.png'/>" alt="프로필" class="profile-icon" />
   <div class="dropdown-menu">
     <a href="/mypage">마이페이지</a>
     <a href="/wishlist">위시리스트</a>
@@ -91,21 +81,21 @@
     <!-- Slides -->
     <div class="carousel-inner">
       <div class="item active">
-        <img src="<c:url value='/images/mario.jpg' />" alt="mario"  style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
+        <img src="<c:url value='/images/thumbnails/mario.jpg' />" alt="mario"  style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
         <div class="carousel-caption">
           <h3>Mario</h3>
         </div>
       </div>
 
       <div class="item">
-        <img src="<c:url value='/images/zelda.jpg' />" alt="zelda"  style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
+        <img src="<c:url value='/images/thumbnails/zelda.jpg' />" alt="zelda"  style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
         <div class="carousel-caption">
           <h3>Zelda</h3>
         </div>
       </div>
 
       <div class="item">
-        <img src="<c:url value='/images/FANTASY.jpg' />" alt="FANTASY" style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
+        <img src="<c:url value='/images/thumbnails/FANTASY.jpg' />" alt="FANTASY" style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
         <div class="carousel-caption">
           <h3>FANTASY</h3>
         </div>
@@ -167,7 +157,7 @@
   </footer>
 
   <script src="<c:url value='/js/platform.js'/>"></script>
->>>>>>> b822292 meta-inf -> WEB-INF 변경
+
 
 </body>
 </html>
