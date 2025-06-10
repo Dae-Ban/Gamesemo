@@ -15,11 +15,11 @@
     <form action="/admin/login" method="post">
       <div class="form-group">
         <label for="username">아이디</label>
-        <input type="text" name="username" id="username" placeholder="ID" />
+        <input type="text" name="admin_id" id="admin_id" placeholder="ID" />
       </div>
       <div class="form-group">
         <label for="password">비밀번호</label>
-        <input type="password" name="password" id="password" placeholder="PASSWORD" />
+        <input type="password" name="admin_pw" id="admin_pw" placeholder="PASSWORD" />
       </div>
       <button type="submit" class="login-btn">Log In</button>
     </form>

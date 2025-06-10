@@ -16,8 +16,8 @@ public class AdminService {
     public boolean login(String admin_id, String admin_pw) {
         Admin admin = adminMapper.findByUsername(admin_id);
         System.out.println("👉 [디버그] 조회된 admin: " + admin);
-        System.out.println("💡 전달된 username: [" + admin_id + "]");
-        System.out.println("💡 전달된 password: [" + admin_pw + "]");
+        System.out.println("💡 전달된 admin_id: [" + admin_id + "]");
+        System.out.println("💡 전달된 admin_pw: [" + admin_pw + "]");
 
         if (admin == null) {
             System.out.println("❌ 사용자 없음");
