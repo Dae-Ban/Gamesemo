@@ -1,0 +1,125 @@
+/* =============================
+   📌 기본 스타일
+============================= */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  padding: 40px;
+}
+
+/* =============================
+   📌 컨테이너 & 제목
+============================= */
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: left;
+  color: #333;
+}
+
+/* =============================
+   📌 입력 필드 및 폼 그룹
+============================= */
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group,
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* =============================
+   📌 버튼 스타일
+============================= */
+.btn {
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  color: white;
+  background-color: #007bff;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+/* =============================
+   📌 구분선
+============================= */
+.divider {
+  border-top: 2px solid #ccc;
+  margin: 20px 0 30px;
+  height: 1px;
+  background-color: #ccc;
+}
+
+/* =============================
+   📌 탭 메뉴 및 콘텐츠
+============================= */
+.tab-menu {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+  color: #333;
+}
+
+.tab-button.active {
+  font-weight: bold;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background-color: black;
+}
+
+.tab-content {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tab-content.active {
+  display: flex;
+}
