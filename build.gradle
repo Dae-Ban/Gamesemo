@@ -48,6 +48,8 @@ dependencies {
 	implementation 'org.jsoup:jsoup:1.15.3'
 	// commons-io
 	implementation 'commons-io:commons-io:2.18.0'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
