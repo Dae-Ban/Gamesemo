@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class GameInfo {
-    private int giNum;           // 게임 고유 번호 (PK)
-    private int glNum;           // 게임 카테고리 또는 그룹 번호
+    private int giNum;           // PK
+    private int gNum;            // 게임 고유 번호
     private String giPlatform;   // 플랫폼 (예: steam, nintendo)
     private String giTitle;      // 게임 제목
     private String giThumb;      // 썸네일 이미지 URL
