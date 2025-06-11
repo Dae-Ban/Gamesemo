@@ -18,6 +18,21 @@
 
   <h1>회원 관리</h1>
   
+    <div class="menu-container">
+    <div class="menu-box">
+      <a href="/admin/adminHome">홈</a>
+    </div>
+    <div class="menu-box">
+      <a href="/admin/adminReport">신고글관리</a>
+    </div>
+    <div class="menu-box">
+      <a href="/admin/adminAnno">공지사항관리</a>
+    </div>
+     <div class="menu-box">
+    <a href="/admin/logout">로그아웃</a>
+    </div>
+  </div>
+  
   <!-- 검색 영역 -->
 <form method="get" action="<c:url value='/admin/adminMember' />" class="search-form">
   <select name="type">

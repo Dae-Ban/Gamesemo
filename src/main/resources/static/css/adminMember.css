@@ -62,3 +62,36 @@ form {
   color: white;
   border-color: #007bff;
 }
+
+/* 메뉴 전체 컨테이너 */
+.menu-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* 각 메뉴 박스 */
+.menu-box {
+  padding: 8px 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 메뉴 링크 스타일 */
+.menu-box a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Hover 시 스타일 */
+.menu-box:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.menu-box:hover a {
+  color: #fff;
+}
