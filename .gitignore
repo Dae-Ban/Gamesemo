@@ -64,4 +64,5 @@ hs_err_pid*
 replay_pid*
 
 # 환경 설정 파일
-src/main/resources/application-secret.properties
+src/main/resources/secret.properties
+.env

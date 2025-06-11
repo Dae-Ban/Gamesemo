@@ -20,5 +20,5 @@ public class Member {
     private Timestamp joinDate;       // 가입일
     private int state;                // 상태값 (활성/비활성 등)
     private String emailAd;           // 이메일 광고 수신 동의 여부
-    private String emailVerified;     // 이메일 인증 여부
+    private String emailVerified;     // 이메일 인증 여부.
 }
