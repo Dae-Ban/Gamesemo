@@ -8,4 +8,8 @@ import com.example.demo.model.Member;
 @Mapper
 public interface MemberMapper {
     Member findByIdAndPw(@Param("id") String id, @Param("pw") String pw);
+
+	Member findBySocialIdAndPlatform(String socialId, String platform);
+
+	void insert(Member member);
 }
