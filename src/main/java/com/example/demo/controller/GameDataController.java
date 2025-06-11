@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.GameInfo;
+import com.example.demo.scraper.SteamApi;
 import com.example.demo.service.GameDataService;
 import com.example.demo.service.GameInfoService;
-import com.example.demo.service.SteamApi;
 
 @RestController
 @RequestMapping("/gamedata")

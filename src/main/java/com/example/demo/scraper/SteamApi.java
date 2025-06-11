@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.scraper;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.example.demo.mapper.GameDataMapper;
 import com.example.demo.model.Game;
 import com.example.demo.model.SteamAppListResponse;
+import com.example.demo.service.Normalize;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
