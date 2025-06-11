@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +30,15 @@ public class AdminController {
     @PostMapping("/login")
     public String login(@RequestParam("adminId") String adminId,
                         @RequestParam("adminPw") String adminPw,
-                        HttpSession session) {
+                        HttpSession session,
+                        Model model) {
         if (adminService.login(adminId, adminPw)) {
             System.out.println("✅ 로그인 성공: " + adminId);
             session.setAttribute("admin", adminId);
             return "redirect:/admin/adminHome";
         }
-        System.out.println("❌ 로그인 실패: " + adminId);
-        return "adminLogin"; // 실패 시 로그인 페이지로 다시 이동
+        model.addAttribute("loginError", "아이디 또는 비밀번호가 올바르지 않습니다.");
+        return "adminLogin";
     }
     
     // 로그아웃
@@ -52,12 +55,12 @@ public class AdminController {
         return "adminHome"; // home.jsp로 이동
     }
 	
-    // 회원관리 이동
-	@GetMapping("/adminMember")
-	public String adminMember() {
-		System.out.println("✅ 회원관리 진입");
-		return "adminMember";
-	}
+//    // 회원관리 이동
+//	@GetMapping("/adminMember")
+//	public String adminMember() {
+//		System.out.println("✅ 회원관리 진입");
+//		return "adminMember";
+//	}
 	
 	
 }

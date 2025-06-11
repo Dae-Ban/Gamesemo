@@ -4,6 +4,7 @@
 
 <mapper namespace="com.example.demo.mapper.AdminMapper">
 
+  <!-- 로그인 -->
   <select id="findByUsername" parameterType="string" resultType="com.example.demo.model.Admin">
     SELECT 
       admin_id AS adminId,
@@ -11,5 +12,6 @@
     FROM admin
     WHERE admin_id = #{adminId}
   </select>
+
 
 </mapper>
