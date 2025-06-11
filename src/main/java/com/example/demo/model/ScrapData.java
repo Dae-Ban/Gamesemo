@@ -19,4 +19,5 @@ public class ScrapData {
     private String rate;          // 할인율
     private String link;       // 게임 링크 URL
     private Timestamp scrapedAt;    // 등록일
+    private String nTitle; // 제목 정규화
 }

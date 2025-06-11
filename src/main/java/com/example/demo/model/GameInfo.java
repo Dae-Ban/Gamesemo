@@ -2,9 +2,12 @@ package com.example.demo.model;
 
 import java.sql.Timestamp;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Data;
 
 @Data
+@Alias("gameinfo")
 public class GameInfo {
     private int giNum;           // PK
     private int gNum;            // 게임 고유 번호

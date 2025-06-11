@@ -1,0 +1,16 @@
+package com.example.demo.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.mapper.GameDataMapper;
+
+@Service
+public class GameDataService {
+	@Autowired
+	private GameDataMapper mapper;
+	
+	public void margeSteamDC() {
+		mapper.margeSteamDC();
+	}
+}

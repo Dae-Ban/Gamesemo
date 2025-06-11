@@ -1,10 +1,13 @@
 package com.example.demo.mapper;
 
+import java.util.List;
+
 import com.example.demo.model.ScrapData;
 
 public interface ScrapMapper {
 
-	void steamDCClean();
-	void steamDCInsert(ScrapData scrap);
+	public void steamDCClean();
+	public void steamDCInsert(ScrapData scrap);
+	public List<ScrapData> getSteamDC();
 
 }

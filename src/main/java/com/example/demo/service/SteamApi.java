@@ -23,21 +23,8 @@ public class SteamApi {
 	private GameDataMapper mapper;
 	@Autowired
 	private ObjectMapper objMapper;
-
-	// 한글, 영어 아닌 제목 제외
-	private static boolean isKoreanOrEnglishOnly(String title) {
-		return title.matches("^[a-zA-Z0-9가-힣\\s\\p{Punct}]+$");
-	}
-
-	// 제목 정규화
-	private static String normalize(String title) {
-		if (title == null) return null;
-	    return title.toLowerCase()
-	                .replaceAll("[^a-z0-9가-힣]", "")
-	                .replaceAll("\\s+", "")
-	                .trim();
-	}
-	
+	@Autowired
+	private Normalize title;
 
 	public void insertSteamApi() {
 		try {
@@ -53,16 +40,19 @@ public class SteamApi {
 			// 3. 필터링 + 정규화
 			List<Long> existingAppIds = mapper.selectAllAppIds(); // DB에 이미 저장된 appid
 			Set<Long> existingAppIdSet = new HashSet<>(existingAppIds); // Set으로 변환
+			Set<String> seenNTitles = new HashSet<>();	// 중복 n_title
 
 			List<Game> filtered = apps.stream()
 			    .filter(app -> app.getSteamAppid() != null) // null 방지
 			    .filter(app -> !existingAppIdSet.contains(app.getSteamAppid())) // 중복 제거
-			    .filter(app -> isKoreanOrEnglishOnly(app.getGTitle()))
+			    .filter(app -> title.isKoreanOrEnglishOnly(app.getGTitle()))
 			    .filter(app -> app.getGTitle() != null && !app.getGTitle().isBlank())
 			    .filter(app -> app.getGTitle().length() >= 2)
-			    .peek(app -> app.setNTitle(normalize(app.getGTitle())))
+			    .peek(app -> app.setNTitle(title.normalize(app.getGTitle())))
 			    .filter(app -> app.getNTitle() != null && !app.getNTitle().isBlank())
+			    .filter(app -> seenNTitles.add(app.getNTitle()))
 			    .collect(Collectors.toList());
+			
 
 			// 4. pk
 			List<Long> seqList = getSequenceValues(filtered.size());
@@ -86,7 +76,6 @@ public class SteamApi {
 			System.err.println("❌ API 호출 오류: " + e.getMessage());
 		} catch (Exception e) {
 			System.err.println("❌ 오류: " + e.getMessage());
-			e.printStackTrace();
 		}
 		
 	}
@@ -95,7 +84,7 @@ public class SteamApi {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public List<Long> getSequenceValues(int count) {
+	private List<Long> getSequenceValues(int count) {
 		return jdbcTemplate.query("SELECT seq_game.nextval FROM dual CONNECT BY LEVEL <= ?", new Object[] { count },
 				(rs, rowNum) -> rs.getLong(1));
 	}

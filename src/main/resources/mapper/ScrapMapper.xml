@@ -9,6 +9,9 @@
 	</delete>
 	<insert id="steamDCInsert" parameterType="scrap">
 		INSERT INTO steam_dc 
-		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{rate},#{link},#{scrapedAt})
+		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{rate},#{link},#{scrapedAt},#{nTitle})
 	</insert>
+	<select id="getSteamDC" resultType="scrap">
+		SELECT * FROM steam_dc
+	</select>
 </mapper>

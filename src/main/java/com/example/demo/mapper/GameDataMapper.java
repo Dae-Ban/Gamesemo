@@ -5,7 +5,11 @@ import java.util.List;
 import com.example.demo.model.Game;
 
 public interface GameDataMapper {
-
+	// 스팀 api
 	public void insertSteamApi(List<Game> batch);
 	public List<Long> selectAllAppIds();
+	public int getGNum(String nTitle);
+	
+	// from 스크랩
+	public void margeSteamDC();
 }

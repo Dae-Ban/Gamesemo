@@ -18,6 +18,8 @@ import com.example.demo.model.ScrapData;
 public class SteamDCScraper {
 	@Autowired
 	private ScrapMapper mapper;
+	@Autowired
+	private Normalize norm;
 
 	public void scrap() {
 		try {
@@ -26,21 +28,23 @@ public class SteamDCScraper {
 			for (int page = 1; page <= 5; page++) {
 
 				Document doc = Jsoup
-						.connect("https://store.steampowered.com/search/?supportedlang=koreana&specials=1&ndl=" + page)
+						.connect("https://store.steampowered.com/search/?supportedlang=koreana&category1=998&specials=1&ndl=1&page=" + page)
 						.userAgent("Mozilla").get();
 				Elements games = doc.select(".search_result_row");
 
 				for (Element game : games.stream().limit(24).toList()) {
 					ScrapData g = new ScrapData();
+					String title = game.select(".title").text();
 					pk++;
 					g.setPk(pk);
-					g.setTitle(game.select(".title").text());
+					g.setTitle(title);
 					g.setRate(game.select(".discount_pct").text().trim());
 					g.setPrice(game.select(".discount_original_price").text().trim());
 					g.setFprice(game.select(".discount_final_price").text().trim());
 					g.setThumb(game.select("img").attr("src"));
 					g.setLink(game.attr("href"));
 					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));
+					g.setNTitle(norm.normalize(title));
 					mapper.steamDCInsert(g);
 				}
 			}
