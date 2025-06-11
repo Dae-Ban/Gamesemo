@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.GameDataMapper">
+	<insert id="insertSteamApi" parameterType="list">
+		INSERT ALL
+		<foreach collection="list" item="app">
+			INTO game (g_num, g_title, n_title, steam_appid)
+			VALUES (#{app.gNum}, #{app.gTitle}, #{app.nTitle}, #{app.steamAppid})
+		</foreach>
+		SELECT * FROM dual
+	</insert>
+<select id="selectAllAppIds" resultType="long">
+    SELECT steam_appid FROM game
+</select>
+
+
+</mapper>

@@ -1,0 +1,103 @@
+package com.example.demo.service;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.example.demo.mapper.GameDataMapper;
+import com.example.demo.model.Game;
+import com.example.demo.model.SteamAppListResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Service
+public class SteamApi {
+	@Autowired
+	private GameDataMapper mapper;
+	@Autowired
+	private ObjectMapper objMapper;
+
+	// 한글, 영어 아닌 제목 제외
+	private static boolean isKoreanOrEnglishOnly(String title) {
+		return title.matches("^[a-zA-Z0-9가-힣\\s\\p{Punct}]+$");
+	}
+
+	// 제목 정규화
+	private static String normalize(String title) {
+		if (title == null) return null;
+	    return title.toLowerCase()
+	                .replaceAll("[^a-z0-9가-힣]", "")
+	                .replaceAll("\\s+", "")
+	                .trim();
+	}
+	
+
+	public void insertSteamApi() {
+		try {
+			// 1. JSON 다운로드
+			String apiUrl = "https://api.steampowered.com/ISteamApps/GetAppList/v2/";
+			RestTemplate restTemplate = new RestTemplate();
+			String json = restTemplate.getForObject(apiUrl, String.class);
+
+			// 2. 파싱
+			SteamAppListResponse response = objMapper.readValue(json, SteamAppListResponse.class);
+			List<Game> apps = response.getApplist().getApps();
+
+			// 3. 필터링 + 정규화
+			List<Long> existingAppIds = mapper.selectAllAppIds(); // DB에 이미 저장된 appid
+			Set<Long> existingAppIdSet = new HashSet<>(existingAppIds); // Set으로 변환
+
+			List<Game> filtered = apps.stream()
+			    .filter(app -> app.getSteamAppid() != null) // null 방지
+			    .filter(app -> !existingAppIdSet.contains(app.getSteamAppid())) // 중복 제거
+			    .filter(app -> isKoreanOrEnglishOnly(app.getGTitle()))
+			    .filter(app -> app.getGTitle() != null && !app.getGTitle().isBlank())
+			    .filter(app -> app.getGTitle().length() >= 2)
+			    .peek(app -> app.setNTitle(normalize(app.getGTitle())))
+			    .filter(app -> app.getNTitle() != null && !app.getNTitle().isBlank())
+			    .collect(Collectors.toList());
+
+			// 4. pk
+			List<Long> seqList = getSequenceValues(filtered.size());
+			AtomicInteger index = new AtomicInteger(0);
+			filtered.forEach(app -> {
+				app.setGNum(seqList.get(index.getAndIncrement()));
+			});
+
+			// 5. 500개 단위로 batch insert
+			for (int i = 0; i < filtered.size(); i += 500) {
+				List<Game> batch = filtered.subList(i, Math.min(i + 500, filtered.size()));
+				mapper.insertSteamApi(batch);
+				System.out.println(i + "개 삽입");
+				Thread.sleep(200);
+			}
+			System.out.println("✅ Steam App 목록 저장 완료 (" + filtered.size() + "건)");
+			System.out.println("💡 기존 게임 수: " + existingAppIdSet.size());
+			System.out.println("📦 삽입 대상 수: " + filtered.size());
+			
+		} catch (IOException e) {
+			System.err.println("❌ API 호출 오류: " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("❌ 오류: " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+
+	// pk 생성
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	public List<Long> getSequenceValues(int count) {
+		return jdbcTemplate.query("SELECT seq_game.nextval FROM dual CONNECT BY LEVEL <= ?", new Object[] { count },
+				(rs, rowNum) -> rs.getLong(1));
+	}
+
+}

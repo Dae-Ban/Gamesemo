@@ -2,16 +2,18 @@ package com.example.demo.model;
 
 import org.apache.ibatis.type.Alias;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
 
 // 게임 VO
-@AllArgsConstructor
-@Getter
+@Data
 @Alias("game")
 public class Game {
-	private int gNum;
+	private long gNum;
+	@JsonProperty("name")
 	private String gTitle;
 	private String nTitle;
+	@JsonProperty("appid")
 	private String steamAppid;
 }
