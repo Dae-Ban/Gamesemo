@@ -10,12 +10,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.example.demo.controller.CommunityController;
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.ScrapData;
 
 @Service
-public class SteamDCScraper implements Scraper {
+public class SteamNewScraper implements Scraper {
+
 	@Autowired
 	private ScrapMapper mapper;
 	@Autowired
@@ -24,29 +25,45 @@ public class SteamDCScraper implements Scraper {
 	@Override
 	public void scrap() {
 		try {
-			mapper.steamDCClean();
+			mapper.steamNewClean();
 			int pk = 0;
 			for (int page = 1; page <= 5; page++) {
 
 				Document doc = Jsoup
-						.connect("https://store.steampowered.com/search/?supportedlang=koreana&category1=998&specials=1&ndl=1&page=" + page)
+						.connect("https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=koreana&category1=998&os=win&ndl=1&page=" + page)
 						.userAgent("Mozilla").get();
 				Elements games = doc.select(".search_result_row");
 
 				for (Element game : games.stream().limit(24).toList()) {
 					ScrapData g = new ScrapData();
 					String title = game.select(".title").text();
+					
 					pk++;
 					g.setPk(pk);
+					
 					g.setTitle(title);
-					g.setRate(game.select(".discount_pct").text().trim());
-					g.setPrice(game.select(".discount_original_price").text().trim());
-					g.setFprice(game.select(".discount_final_price").text().trim());
+					
+					String dcRate = game.select(".discount_pct").text().trim();
+					if(dcRate == null || dcRate == "")
+						g.setRate("0");
+					else
+						g.setRate(dcRate);
+					
+					String fprice = game.select(".discount_final_price").text().trim();
+					if(fprice.equals("Free"))
+						fprice = "0";
+					String price = game.select(".discount_original_price").text().trim();
+					if(price == null ||price == "")
+						g.setPrice(fprice);
+					else
+						g.setPrice(price);
+					g.setFprice(fprice);
+					
 					g.setThumb(game.select("img").attr("src"));
 					g.setLink(game.attr("href"));
 					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));
 					g.setNTitle(norm.normalize(title));
-					mapper.steamDCInsert(g);
+					mapper.steamNewInsert(g);
 				}
 			}
 
@@ -59,6 +76,6 @@ public class SteamDCScraper implements Scraper {
 
 	@Override
 	public String getName() {
-		return "steamdc";
+		return "steamnew";
 	}
 }

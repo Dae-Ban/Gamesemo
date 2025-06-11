@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.ScrapMapper">
+	<!-- steam dc -->
 	<delete id="steamDCClean">
 		DELETE FROM steam_dc
 	</delete>
@@ -13,5 +14,17 @@
 	</insert>
 	<select id="getSteamDC" resultType="scrap">
 		SELECT * FROM steam_dc
+	</select>
+	
+	<!-- steam new -->
+	<delete id="steamNewClean">
+		DELETE FROM steam_new
+	</delete>
+	<insert id="steamNewInsert" parameterType="scrap">
+		INSERT INTO steam_new 
+		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{rate},#{link},#{scrapedAt},#{nTitle})
+	</insert>
+	<select id="getSteamNew" resultType="scrap">
+		SELECT * FROM steam_new
 	</select>
 </mapper>

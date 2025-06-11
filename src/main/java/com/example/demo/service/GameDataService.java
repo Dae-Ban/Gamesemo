@@ -13,4 +13,7 @@ public class GameDataService {
 	public void margeSteamDC() {
 		mapper.margeSteamDC();
 	}
+	public void margeSteamNew() {
+		mapper.margeSteamNew();
+	}
 }
