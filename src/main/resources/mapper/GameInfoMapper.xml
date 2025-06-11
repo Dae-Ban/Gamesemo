@@ -11,9 +11,15 @@
 		FROM (
 		SELECT *
 		FROM GAME_INFO
-		WHERE LOWER(GI_PLATFORM) = LOWER(#{platform})
+		WHERE
+		LOWER(GI_PLATFORM) = LOWER(#{platform})
 		ORDER BY GI_NUM
 		)
-		WHERE ROWNUM &lt;= 10
+		WHERE ROWNUM
+		&lt;= 10
+	</select>
+
+	<select id="selectByGiNum" resultType="com.example.demo.model.GameInfo">
+		SELECT * FROM GAME_INFO WHERE GI_NUM = #{giNum}
 	</select>
 </mapper>

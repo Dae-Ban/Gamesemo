@@ -23,8 +23,8 @@ public class EmailScheduler {
 
 	@Autowired
 	private EmailService emailService;
-	    @Scheduled(fixedDelay = 10000)
-//	    @Scheduled(cron = "0 0 10 * * ?") // 매일 오전 10시
+//	    @Scheduled(fixedDelay = 10000)
+	    @Scheduled(cron = "0 0 10 * * ?") // 매일 오전 10시
 	    public void sendGameSaleEmails() {
 	    	 List<Member> subscribers = memberMapper.selectAllEmailSubscribers();
 //	    	    List<GameInfo> nintendoGames = gameInfoMapper.selectTop10GamesByPlatform("nintendo");

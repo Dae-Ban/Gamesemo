@@ -1,0 +1,80 @@
+@charset "UTF-8";
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #fff;
+  color: #000;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.top-section {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.thumbnail img {
+  width: 300px;
+  height: 200px;
+  background-color: #ccc;
+  object-fit: cover;
+}
+
+.game-info {
+  flex: 1;
+}
+
+.original-price {
+  color: #888;
+  font-size: 14px;
+}
+
+.sale-price {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.description {
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.go-btn {
+  background-color: #666;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.wishlist-btn {
+  border: 2px solid #000;
+  background-color: white;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.reviews {
+  display: flex;
+  gap: 15px;
+}
+
+.review-item {
+  flex: 1;
+  background-color: #ccc;
+  height: 120px;
+  text-align: center;
+  line-height: 120px;
+  font-size: 16px;
+}
