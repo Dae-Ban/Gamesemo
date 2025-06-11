@@ -12,16 +12,17 @@
 <body>
   <div class="login-container">
     <h2>관리자 로그인</h2>
-    <form action="/admin/login" method="post">
+    <form action="<c:url value='/admin/login' />" method="post">
       <div class="form-group">
-        <label for="username">아이디</label>
-        <input type="text" name="admin_id" id="admin_id" placeholder="ID" />
+        <label for="adminId">아이디</label>
+        <input type="text" name="adminId" id="adminId" placeholder="ID" />
       </div>
       <div class="form-group">
-        <label for="password">비밀번호</label>
-        <input type="password" name="admin_pw" id="admin_pw" placeholder="PASSWORD" />
+        <label for="adminPw">비밀번호</label>
+        <input type="password" name="adminPw" id="adminPw" placeholder="PASSWORD" />
       </div>
       <button type="submit" class="login-btn">Log In</button>
     </form>
   </div>
 </body>
+</html>

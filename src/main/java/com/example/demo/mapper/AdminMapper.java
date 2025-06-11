@@ -1,12 +1,10 @@
 package com.example.demo.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.example.demo.model.Admin;
-
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AdminMapper {
-
-	Admin findByUsername(String admin_id);
+    Admin findByUsername(@Param("adminId") String adminId);
 }

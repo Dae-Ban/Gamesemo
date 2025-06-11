@@ -58,7 +58,7 @@ sourceSets {
     main {
         resources {
             srcDirs = ['src/main/resources']
-            include '**/*.properties', '**/*.yml', '**/*.xml'
+            include '**/*.css', '**/*.js', '**/*.png', '**/*.jpg', '**/*.xml', '**/*.properties', '**/*.yml'
         }
     }
 }
