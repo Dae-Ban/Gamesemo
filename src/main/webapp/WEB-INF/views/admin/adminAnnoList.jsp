@@ -43,7 +43,7 @@
   </form>
 
   <!-- 글작성 버튼 -->
-  <div style="text-align: right; margin-bottom: 10px;">
+  <div style="button-align: left; margin-bottom: 10px;">
     <a href="<c:url value='/admin/adminAnno/write' />">
       <button>글 작성</button>
     </a>
