@@ -23,7 +23,7 @@ public class AdminController {
     // 관리자 로그인폼 이동
     @GetMapping("/adminLogin")
     public String loginPage() {
-        return "adminLogin";
+        return "admin/adminLogin";
     }
 
     // 관리자 로그인
@@ -38,7 +38,7 @@ public class AdminController {
             return "redirect:/admin/adminHome";
         }
         model.addAttribute("loginError", "아이디 또는 비밀번호가 올바르지 않습니다.");
-        return "adminLogin";
+        return "admin/adminLogin";
     }
     
     // 로그아웃
@@ -52,7 +52,7 @@ public class AdminController {
     @GetMapping("/adminHome")
     public String home() {
 		 System.out.println("✅ 홈 화면 진입");
-        return "adminHome"; // home.jsp로 이동
+        return "admin/adminHome"; // home.jsp로 이동
     }
 	
 //    // 회원관리 이동

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.AdminAnnoMapper">
+
+  <!-- 목록 조회: 페이징 + 검색 -->
+  <select id="selectAnnoList" resultType="com.example.demo.model.AdminAnno">
+    SELECT * FROM (
+      SELECT A.*, ROWNUM rn
+      FROM (
+        SELECT an_num, an_title, an_content, an_date, an_state
+        FROM ANNOUNCEMENT
+        <where>
+          <if test="type != null and keyword != null and type == 'title'">
+            an_title LIKE '%' || #{keyword} || '%'
+          </if>
+          <if test="type != null and keyword != null and type == 'content'">
+            an_content LIKE '%' || #{keyword} || '%'
+          </if>
+          <if test="type != null and keyword != null and type == 'state'">
+            TO_CHAR(an_state) = #{keyword}
+          </if>
+        </where>
+        ORDER BY an_num DESC
+      ) A
+      WHERE ROWNUM &lt;= #{endRow}
+    )
+    WHERE rn &gt;= #{startRow}
+  </select>
+
+  <!-- 총 개수 (검색 포함) -->
+  <select id="getTotal" resultType="int">
+    SELECT COUNT(*)
+    FROM ANNOUNCEMENT
+    <where>
+      <if test="type == 'title'">
+        an_title LIKE '%' || #{keyword} || '%'
+      </if>
+      <if test="type == 'content'">
+        an_content LIKE '%' || #{keyword} || '%'
+      </if>
+      <if test="type == 'state'">
+        TO_CHAR(an_state) = #{keyword}
+      </if>
+    </where>
+  </select>
+
+  <!-- 상세 조회 -->
+  <select id="getAnnoDetail" resultType="com.example.demo.model.AdminAnno">
+    SELECT an_num, an_title, an_content, an_date, an_state
+    FROM ANNOUNCEMENT
+    WHERE an_num = #{anNum}
+  </select>
+
+
+</mapper>

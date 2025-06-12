@@ -88,10 +88,30 @@
 
 <!-- 📄 페이징 -->
 <div class="paging">
-  <c:forEach var="i" begin="1" end="${total / 10 + (total % 10 > 0 ? 1 : 0)}">
-    <a href="<c:url value='/admin/adminMember?pageNum=${i}&type=${type}&keyword=${keyword}' />"
-       class="${pageNum == i ? 'active' : ''}">${i}</a>
-  </c:forEach>
+  <c:if test="${total > 0}">
+    <a href="?pageNum=1&type=${type}&keyword=${keyword}">&lt;</a>
+
+    <c:if test="${startPage > 1}">
+      <a href="?pageNum=${startPage - 1}&type=${type}&keyword=${keyword}">[이전]</a>
+    </c:if>
+
+    <c:forEach var="i" begin="${startPage}" end="${endPage}">
+      <c:choose>
+        <c:when test="${i == currentPage}">
+          <a class="active">${i}</a>
+        </c:when>
+        <c:otherwise>
+          <a href="?pageNum=${i}&type=${type}&keyword=${keyword}">${i}</a>
+        </c:otherwise>
+      </c:choose>
+    </c:forEach>
+
+    <c:if test="${endPage < pageCount}">
+      <a href="?pageNum=${endPage + 1}&type=${type}&keyword=${keyword}">[다음]</a>
+    </c:if>
+
+    <a href="?pageNum=${pageCount}&type=${type}&keyword=${keyword}">&gt;</a>
+  </c:if>
 </div>
 
 

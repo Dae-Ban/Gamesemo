@@ -21,7 +21,7 @@
       <a href="/admin/adminReport">신고글관리</a>
     </div>
     <div class="menu-box">
-      <a href="/admin/notice">공지사항관리</a>
+      <a href="/admin/adminAnno">공지사항관리</a>
     </div>
      <div class="menu-box">
     <a href="/admin/logout">로그아웃</a>

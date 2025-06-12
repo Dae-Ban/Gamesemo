@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.AdminMember;
+import com.example.demo.page.AdminPagenation;
 import com.example.demo.service.AdminMemberService;
 
 @Controller
@@ -23,20 +24,25 @@ public class AdminMemberController {
     @Autowired
     private AdminMemberService adminMemberService;
 
-    // 회원 목록 출력 + 검색
     @GetMapping("/adminMember")
     public String showMemberList(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                  @RequestParam(name = "type", required = false) String type,
                                  @RequestParam(name = "keyword", required = false) String keyword,
                                  Model model) {
 
-        final int rowPerPage = 10;
-        int total = adminMemberService.getTotal(type, keyword);
-        int startRow = (pageNum - 1) * rowPerPage + 1;
-        int endRow = startRow + rowPerPage - 1;
+        final int pageSize = 10;   // 페이지당 게시물 수
+        final int blockSize = 10;  // 페이징 블럭 크기
 
-        List<AdminMember> memberList = adminMemberService.pagingSearch(type, keyword, startRow, endRow);
-        int no = total - startRow + 1;
+        int total = adminMemberService.getTotal(type, keyword);
+
+        // 페이징 계산 클래스 사용
+        AdminPagenation pagenation = new AdminPagenation(total, pageNum, pageSize, blockSize);
+
+        List<AdminMember> memberList = adminMemberService.pagingSearch(
+            type, keyword, pagenation.getStartRow(), pagenation.getEndRow()
+        );
+
+        int no = total - pagenation.getStartRow() + 1;
 
         model.addAttribute("memberList", memberList);
         model.addAttribute("no", no);
@@ -45,8 +51,15 @@ public class AdminMemberController {
         model.addAttribute("type", type);
         model.addAttribute("keyword", keyword);
 
-        return "adminMember";
+        // 페이징 정보 전달
+        model.addAttribute("pageCount", pagenation.getPageCount());
+        model.addAttribute("startPage", pagenation.getStartPage());
+        model.addAttribute("endPage", pagenation.getEndPage());
+        model.addAttribute("currentPage", pagenation.getCurrentPage());
+
+        return "admin/adminMember";
     }
+
     
     // 회원 상태 업데이트
     @PostMapping("/updateState")
