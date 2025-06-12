@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Wishlist {
 
-	private Long wishlNum;
-	private Long giNum;
+	private Long wishNum;
+	private Long gNum;
 	private String id;
 }
