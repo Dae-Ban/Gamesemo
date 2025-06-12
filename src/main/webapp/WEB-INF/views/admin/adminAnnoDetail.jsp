@@ -35,9 +35,9 @@
 		</table>
 
 		<br> <input type="button" value="수정"
-			onclick="location.href='<c:url value='/admin/adminAnnoUpdate/${anno.anNum}' />'">
+			onclick="location.href='<c:url value='/admin/adminAnno/update/${anno.anNum}' />'">
 		<input type="button" value="삭제"
-			onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='<c:url value='/admin/adminAnnoDelete/${anno.anNum}' />'">
+			onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='<c:url value='/admin/adminAnno/delete/${anno.anNum}' />'">
 		<input type="button" value="목록"
 			onclick="location.href='<c:url value='/admin/adminAnno?pageNum=1' />'">
 	</div>

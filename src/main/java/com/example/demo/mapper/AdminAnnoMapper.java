@@ -21,4 +21,13 @@ public interface AdminAnnoMapper {
 
     // 상세 조회
     AdminAnno getAnnoDetail(@Param("anNum") int anNum);
+
+    // 글 작성
+	void insertAnno(AdminAnno anno);
+
+	// 글 수정
+	int updateAnno(AdminAnno anno);
+	
+	// 글 삭제
+	void deleteAnno(@Param("anNum") int anNum);
 }

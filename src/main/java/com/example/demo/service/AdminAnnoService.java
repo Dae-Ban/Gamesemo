@@ -27,4 +27,22 @@ public class AdminAnnoService {
 	    public AdminAnno getAnnoDetail(int anNum) {
 	        return adminAnnoMapper.getAnnoDetail(anNum);
 	    }
+
+	    // 글 입력
+		public void insertAnno(AdminAnno anno) {
+			 adminAnnoMapper.insertAnno(anno);
+			
+		}
+
+		// 글 수정
+		public Object updateAnno(AdminAnno anno) {
+			return adminAnnoMapper.updateAnno(anno);
+		}
+
+	
+
+		// 글 삭제
+		public void deleteAnno(int anNum) {
+		    adminAnnoMapper.deleteAnno(anNum);
+		}
 }
