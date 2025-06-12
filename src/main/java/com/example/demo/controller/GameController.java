@@ -27,5 +27,6 @@ public class GameController {
 		model.addAttribute("pgn", pgn);
 		model.addAttribute("list", service.getGameList(pgn));
 		return "/game/gameList";
+		
 	}
 }
