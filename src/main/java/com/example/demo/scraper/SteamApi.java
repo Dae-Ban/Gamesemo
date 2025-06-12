@@ -40,18 +40,18 @@ public class SteamApi {
 
 			// 3. 필터링 + 정규화
 			List<Long> existingAppIds = mapper.selectAllAppIds(); // DB에 이미 저장된 appid
-			Set<Long> existingAppIdSet = new HashSet<>(existingAppIds); // Set으로 변환
+			Set<Long> existingAppIdSet = new HashSet<>(existingAppIds); // 중복 steam_appid
 			Set<String> seenNTitles = new HashSet<>();	// 중복 n_title
 
 			List<Game> filtered = apps.stream()
-			    .filter(app -> app.getSteamAppid() != null) // null 방지
-			    .filter(app -> !existingAppIdSet.contains(app.getSteamAppid())) // 중복 제거
-			    .filter(app -> title.isKoreanOrEnglishOnly(app.getGTitle()))
-			    .filter(app -> app.getGTitle() != null && !app.getGTitle().isBlank())
+			    .filter(app -> app.getSteamAppid() != null) // steam_appid null 필터
+			    .filter(app -> !existingAppIdSet.contains(app.getSteamAppid())) // steam_appid 중복 필터
+			    .filter(app -> title.isKoreanOrEnglishOnly(app.getGTitle())) // 한/영/숫자 필터
+			    .filter(app -> app.getGTitle() != null && !app.getGTitle().isBlank()) // g_title null 필터
 			    .filter(app -> app.getGTitle().length() >= 2)
-			    .peek(app -> app.setNTitle(title.normalize(app.getGTitle())))
-			    .filter(app -> app.getNTitle() != null && !app.getNTitle().isBlank())
-			    .filter(app -> seenNTitles.add(app.getNTitle()))
+			    .peek(app -> app.setNTitle(title.normalize(app.getGTitle()))) // n_title set
+			    .filter(app -> app.getNTitle() != null && !app.getNTitle().isBlank()) // n_title null 필터
+			    .filter(app -> seenNTitles.add(app.getNTitle())) // n_title 중복 필터
 			    .collect(Collectors.toList());
 			
 
