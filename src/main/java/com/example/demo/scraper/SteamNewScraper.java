@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.controller.CommunityController;
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.ScrapData;
-import com.example.demo.service.Normalize;
+import com.example.demo.util.Normalize;
 
 @Service
 public class SteamNewScraper implements Scraper {

@@ -12,6 +12,7 @@ import com.example.demo.mapper.GameInfoMapper;
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.ScrapData;
+import com.example.demo.util.Normalize;
 
 @Service
 public class GameInfoService {

@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.example.demo.mapper.GameDataMapper;
 import com.example.demo.model.Game;
 import com.example.demo.model.SteamAppListResponse;
-import com.example.demo.service.Normalize;
+import com.example.demo.util.Normalize;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
