@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.VerifyMapper">
+	<select id="findByToken" resultType="com.example.demo.model.Member">
+        SELECT * FROM MEMBER WHERE TOKEN = #{token}
+    </select>
+    
+    <update id="updateEmailVerified">
+    	UPDATE MEMBER SET EMAIL_VERIFIED = 'y' WHERE TOKEN = #{token}
+    </update>
+    
+    <select id="getTestMember" resultType="com.example.demo.model.Member">
+    	SELECT * FROM MEMBER WHERE NICKNAME = 'TEST'
+    </select>
+    
+    <insert id="insertTestMember" parameterType="com.example.demo.model.Member">
+    INSERT INTO member (
+        id,
+        name,
+        nickname,
+        pw,
+        birth_date,
+        email_id,
+        email_domain,
+        phone,
+        gender,
+        join_date,
+        state,
+        email_ad,
+        email_verified,
+        token
+    ) VALUES (
+        #{id},
+        #{name},
+        #{nickname},
+        #{pw},
+        #{birthDate},
+        #{emailId},
+        #{emailDomain},
+        #{phone},
+        #{gender},
+        #{joinDate},
+        #{state},
+        #{emailAd},
+        #{emailVerified},
+        #{token}
+    )
+</insert>
+</mapper>

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,8 @@ public class EmailService {
             helper.setSubject("오늘의 게임 할인 소식🎮");
             helper.setText(htmlContent, true);
             helper.setFrom("2j1william@gmail.com");
-            helper.addInline("logoImage", new File("src/main/resources/static/images/icons/logo.png"));
-            helper.addInline("emailIcon", new File("src/main/resources/static/images/icons/email.png"));
-            helper.addInline("kakaoIcon", new File("src/main/resources/static/images/icons/kakao.png"));
-            
+            ClassPathResource logoImage = new ClassPathResource("static/images/icons/logo.png");
+            helper.addInline("logoImage", logoImage);
             mailSender.send(message);
             System.out.println("이메일 전송 완료: " + to);
         } catch (Exception e) {
@@ -38,7 +37,6 @@ public class EmailService {
     public void sendVerificationEmail(String to, String token) {
         String subject = "[Gamesamo]이메일 회원인증 요청";
         String url = "http://localhost/member/verify?token=" + token;
-
         String content = ""
                 + "<html>"
                 + "<body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>"
@@ -56,7 +54,7 @@ public class EmailService {
                 + "<h2 style='text-align: center; color: #333;'>이메일 인증</h2>"
                 + "<p style='text-align: center;'>아래 버튼을 클릭하면 인증이 완료됩니다.</p>"
                 + "<div style='text-align: center; margin-top: 30px;'>"
-                + "<a href='" + url + "' style='background-color: #2273e6; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;'>이메일 인증</a>"
+                + "<a href='http://localhost/verify?token="+token+ "' style='background-color: #2273e6; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;'>이메일 인증</a>"
                 + "</div>"
                 + "</div>"
                 + "</body>"
@@ -66,6 +64,9 @@ public class EmailService {
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+//            ClassPathResource logoImage = new ClassPathResource("static/images/logo.png");
+//            helper.addInline("logoImage", logoImage);
+            helper.setFrom("2j1William@gmail.com");
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(content, true);
