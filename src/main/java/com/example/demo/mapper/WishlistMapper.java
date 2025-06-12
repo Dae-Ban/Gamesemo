@@ -10,9 +10,9 @@ import com.example.demo.model.GameInfo;
 @Mapper
 public interface WishlistMapper {
     int countWishlist(@Param("id") String id, @Param("keyword") String keyword);
-    boolean isGameInWishlist(@Param("id") String id, @Param("giNum") Long giNum);
-    int addToWishlist(@Param("id") String id, @Param("giNum") Long giNum);
-    int removeFromWishlist(@Param("id") String id, @Param("giNum") Long giNum);
+    boolean isGameInWishlist(@Param("id") String id, @Param("gNum") Long gNum);
+    int addToWishlist(@Param("id") String id, @Param("gNum") Long gNum);
+    int removeFromWishlist(@Param("id") String id, @Param("gNum") Long gNum);
 
     List<GameInfo> getWishlistPaged(@Param("id") String id,
                                     @Param("order") String order,

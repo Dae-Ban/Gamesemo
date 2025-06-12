@@ -72,7 +72,7 @@
                 <form action="${game.giPlatformUrl}" method="get" target="_blank">
                     <button type="submit" class="buy-btn">구매</button>
                 </form>
-                <button class="delete-btn del-btn" data-ginum="${game.giNum}">삭제</button>
+                <button class="delete-btn del-btn" data-gnum="${game.gNum}">삭제</button>
             </div>
         </div>
     </c:forEach>
@@ -94,13 +94,13 @@
 <script>
   document.querySelectorAll(".del-btn").forEach(btn => {
     btn.addEventListener("click", function () {
-      const giNum = this.dataset.ginum;
+      const gNum = this.dataset.gnum;
       const card = this.closest(".game-card");
 
       fetch("/wishlist/delete", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "giNum=" + giNum
+        body: "gNum=" + gNum
       }).then(res => {
         if (res.ok) {
           card.remove();

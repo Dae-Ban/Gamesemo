@@ -47,22 +47,22 @@ public class WishlistController {
     }
 
     @PostMapping("/add")
-    public String add(@RequestParam Long giNum,
+    public String add(@RequestParam Long gNum,
                       @RequestParam(defaultValue = "1") int page,
                       HttpSession session) {
         String id = (String) session.getAttribute("id");
-        if (id != null && !wishlistMapper.isGameInWishlist(id, giNum)) {
-            wishlistMapper.addToWishlist(id, giNum);
+        if (id != null && !wishlistMapper.isGameInWishlist(id, gNum)) {
+            wishlistMapper.addToWishlist(id, gNum);
         }
         return "redirect:/game?page=" + page;
     }
 
     @PostMapping("/delete")
     @ResponseBody
-    public ResponseEntity<String> delete(@RequestParam Long giNum, HttpSession session) {
+    public ResponseEntity<String> delete(@RequestParam Long gNum, HttpSession session) {
         String id = (String) session.getAttribute("id");
         if (id != null) {
-            wishlistMapper.removeFromWishlist(id, giNum);
+            wishlistMapper.removeFromWishlist(id, gNum);
             return ResponseEntity.ok("삭제 성공");
         }
         return ResponseEntity.badRequest().body("로그인 필요");
