@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.GameMapper">
+	<select id="getGameList" parameterType="pgn" resultType="gameinfo">
+		SELECT * FROM (
+		SELECT a.*, ROWNUM rn
+		FROM (
+		SELECT * FROM game_info
+		ORDER BY gi_num asc) a)
+		WHERE rn BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*) FROM game_info
+	</select>
+</mapper>
