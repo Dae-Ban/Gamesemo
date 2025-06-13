@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="container">
-		<h2 class="title">회원 가입</h2>
+		<h2 class="title">회원가입</h2>
 		<div class="divider"></div>
 
 		<!-- 		<form action="/member/register" method="post"> -->
