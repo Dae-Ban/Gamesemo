@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,10 @@ public class GameService {
 		return mapper.getGameList(pgn);
 	}
 
-	public int getCount() {
-		return mapper.getCount();
+	public int getCount(String giState, String giPlatform) {
+		Map<String, String> filter = new HashMap<>();
+		filter.put("giState", giState);
+		filter.put("giPlatform", giPlatform);
+		return mapper.getCount(filter);
 	}
 }

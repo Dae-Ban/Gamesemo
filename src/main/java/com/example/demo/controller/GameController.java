@@ -18,15 +18,21 @@ public class GameController {
 	private GameService service;
 	
 	@GetMapping("")
-	public String main(Model model) {
-		model.addAttribute("headline", "할인 중인");
+	public String main(@RequestParam(name = "state", defaultValue = "dc") String giState,
+			@RequestParam(name = "platform", defaultValue = "all") String giPlatform, Model model) {
+		model.addAttribute("state", giState);
+		model.addAttribute("platform", giPlatform);
 		return "/game/games";
 	}
 	
 	@GetMapping("/list")
-	public String list(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
-		Pagenation pgn = new Pagenation(service.getCount(), 20, page);
-		System.out.println(pgn.getStartRow());
+	public String list(@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "state", defaultValue = "dc") String giState,
+			@RequestParam(name = "platform", defaultValue = "all") String giPlatform, Model model) {
+		System.out.println("플랫폼" + giPlatform);
+		Pagenation pgn = new Pagenation(service.getCount(giState, giPlatform), 20, page);
+		pgn.setGiState(giState);
+		pgn.setGiPlatform(giPlatform);
 		model.addAttribute("pgn", pgn);
 		model.addAttribute("list", service.getGameList(pgn));
 		return "/game/gameList";

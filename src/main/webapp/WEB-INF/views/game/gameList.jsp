@@ -19,7 +19,7 @@
 		</td>
 		<td class="game-final-price">
 			<c:if test="${game.giFprice != 0}">
-				<fmt:formatNumber value="${game.giFprice }" type="currency" />
+				<b><fmt:formatNumber value="${game.giFprice }" type="currency" /></b>
 			</c:if>
 			<c:if test="${game.giFprice == 0}">무료</c:if>
 		</td>

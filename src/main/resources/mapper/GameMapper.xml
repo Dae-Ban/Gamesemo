@@ -8,10 +8,32 @@
 		SELECT a.*, ROWNUM rn
 		FROM (
 		SELECT * FROM game_info
-		ORDER BY gi_num asc) a)
+		<where>
+			<if test="!giState.equals('free')">
+				gi_state like '%'||#{giState}||'%'
+			</if>
+			<if test="giState.equals('free')">
+				gi_fprice=0
+			</if>
+			<if test="!giPlatform.equals('all')">
+				AND gi_platform=#{giPlatform}
+			</if>
+		</where>
+		ORDER BY gi_num ASC) a)
 		WHERE rn BETWEEN #{startRow} AND #{endRow}
 	</select>
-	<select id="getCount" resultType="int">
+	<select id="getCount" parameterType="Map" resultType="int">
 		SELECT COUNT(*) FROM game_info
+		<where>
+			<if test="!giState.equals('free')">
+				gi_state like '%'||#{giState}||'%'
+			</if>
+			<if test="giState.equals('free')">
+				gi_fprice=0
+			</if>
+			<if test="!giPlatform.equals('all')">
+				AND gi_platform=#{giPlatform}
+			</if>
+		</where>
 	</select>
 </mapper>
