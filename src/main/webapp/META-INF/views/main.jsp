@@ -152,7 +152,7 @@
 </div>
 
   <footer>
-    겜세모팀 ⓒ 2025. All rights reserved.
+     겜세모팀 ⓒ 2025. All rights reserved.
   </footer>
 
   <script src="<c:url value='/js/platform.js'/>"></script>
