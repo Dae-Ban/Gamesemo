@@ -3,49 +3,90 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.VerifyMapper">
-	<select id="findByToken" resultType="com.example.demo.model.Member">
-        SELECT * FROM MEMBER WHERE TOKEN = #{token}
-    </select>
-    
-    <update id="updateEmailVerified">
-    	UPDATE MEMBER SET EMAIL_VERIFIED = 'y' WHERE TOKEN = #{token}
-    </update>
-    
-    <select id="getTestMember" resultType="com.example.demo.model.Member">
-    	SELECT * FROM MEMBER WHERE NICKNAME = 'TEST'
-    </select>
-    
-    <insert id="insertTestMember" parameterType="com.example.demo.model.Member">
-    INSERT INTO member (
-        id,
-        name,
-        nickname,
-        pw,
-        birth_date,
-        email_id,
-        email_domain,
-        phone,
-        gender,
-        join_date,
-        state,
-        email_ad,
-        email_verified,
-        token
-    ) VALUES (
-        #{id},
-        #{name},
-        #{nickname},
-        #{pw},
-        #{birthDate},
-        #{emailId},
-        #{emailDomain},
-        #{phone},
-        #{gender},
-        #{joinDate},
-        #{state},
-        #{emailAd},
-        #{emailVerified},
-        #{token}
-    )
-</insert>
+	<insert id="insertVerification"
+		parameterType="com.example.demo.model.AccountVerification">
+		INSERT INTO ACCOUNT_VERIFICATION (
+		NUM,
+		ID,
+		CODE,
+		TYPE,
+		EXPIRES_AT,
+		VERIFIED,
+		CREATED_AT
+		) VALUES (
+		SEQ_ACCOUNT_VERIFICATION.NEXTVAL,
+		#{id},
+		#{code},
+		#{type},
+		#{expiresAt},
+		'N',
+		SYSTIMESTAMP
+		)
+	</insert>
+
+
+
+	<select id="findByCode" resultType="com.example.demo.model.AccountVerification">
+		SELECT *
+		FROM ACCOUNT_VERIFICATION
+		WHERE CODE = #{code}
+		AND TYPE = 'MEMBER_JOIN'
+	</select>
+
+	<update id="updateEmailVerified">
+		UPDATE MEMBER
+		SET EMAIL_VERIFIED = 'Y'
+		WHERE ID = (
+		SELECT ID
+		FROM ACCOUNT_VERIFICATION
+		WHERE CODE = #{code}
+		AND TYPE
+		=
+		'MEMBER_JOIN'
+		)
+	</update>
+
+	<update id="updateVerificationTable" parameterType="String">
+		UPDATE
+		ACCOUNT_VERIFICATION
+		SET VERIFIED = 'Y', USED_AT = SYSTIMESTAMP
+		WHERE CODE = #{code}
+		AND TYPE =
+		'MEMBER_JOIN'
+	</update>
+
+	<insert id="insertTestMember"
+		parameterType="com.example.demo.model.Member">
+		INSERT INTO member (
+		id,
+		name,
+		nickname,
+		pw,
+		birth_date,
+		email_id,
+		email_domain,
+		phone,
+		gender,
+		join_date,
+		state,
+		email_ad,
+		email_verified
+		) VALUES (
+		#{id},
+		#{name},
+		#{nickname},
+		#{pw},
+		#{birthDate},
+		#{emailId},
+		#{emailDomain},
+		#{phone},
+		#{gender},
+		#{joinDate},
+		#{state},
+		#{emailAd},
+		#{emailVerified}
+		)
+	</insert>
+
+
 </mapper>

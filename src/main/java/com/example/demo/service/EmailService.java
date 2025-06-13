@@ -34,9 +34,9 @@ public class EmailService {
         }
     }
     
-    public void sendVerificationEmail(String to, String token) {
+    public void sendVerificationEmail(String to, String code) {
         String subject = "[Gamesamo]이메일 회원인증 요청";
-        String url = "http://localhost/member/verify?token=" + token;
+        String url = "http://localhost/member/verify?code=" + code;
         String content = ""
                 + "<html>"
                 + "<body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>"
@@ -54,7 +54,7 @@ public class EmailService {
                 + "<h2 style='text-align: center; color: #333;'>이메일 인증</h2>"
                 + "<p style='text-align: center;'>아래 버튼을 클릭하면 인증이 완료됩니다.</p>"
                 + "<div style='text-align: center; margin-top: 30px;'>"
-                + "<a href='http://localhost/verify?token="+token+ "' style='background-color: #2273e6; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;'>이메일 인증</a>"
+                + "<a href='http://localhost/verify?code="+code+ "' style='background-color: #2273e6; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;'>이메일 인증</a>"
                 + "</div>"
                 + "</div>"
                 + "</body>"
