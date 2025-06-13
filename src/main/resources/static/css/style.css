@@ -210,8 +210,8 @@
 }
 
 
-/* 리뷰 상세페이지 */
-.review-detail {
+/* 리뷰게시판 상세페이지 */
+.review-view-wrapper {
     width: 90%;
     max-width: 1000px;
     margin: 30px auto;
@@ -219,118 +219,108 @@
     background: #fff;
     border-radius: 10px;
     font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
     color: #333;
 }
 
-/* 제목 + 추천 상태 */
-.review-detail-header {
+/* 제목 영역 */
+.review-view-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #333;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+    gap: 10px;
 }
 
-.review-title-text {
-    font-size: 22px;
-    font-weight: bold;
+/* 추천/비추천 이모티콘 */
+.recommend-icon {
+    font-size: 20px;
 }
 
-.review-like-status {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* 메타 정보 (작성자, 날짜, 조회수) */
+/* 작성자/날짜/조회수 정보 */
 .review-meta {
-    font-size: 13px;
-    color: #666;
     display: flex;
     gap: 20px;
+    font-size: 13px;
+    color: #666;
     margin-bottom: 20px;
 }
 
 /* 본문 내용 */
 .review-content {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
     min-height: 200px;
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 30px;
-}
-
-/* 신고 버튼 */
-.btn-report {
-    background: #ff4444;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.btn-report:hover {
-    background: #cc0000;
 }
 
 /* 댓글 영역 */
 .comment-section {
+    margin-top: 40px;
+}
+
+.comment-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* 댓글 목록 */
+.comment-list {
     border-top: 1px solid #ddd;
-    padding-top: 20px;
-    margin-top: 30px;
+    margin-top: 10px;
+}
+
+.comment-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* 댓글 작성창 */
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .comment-form textarea {
     width: 100%;
-    min-height: 80px;
-    padding: 8px;
+    padding: 10px;
+    resize: vertical;
     font-size: 14px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
-.comment-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.btn-register {
-    background: #007bff;
+.comment-form button {
+    align-self: flex-end;
+    background-color: #e60023;
     color: white;
+    padding: 6px 14px;
     border: none;
-    padding: 6px 12px;
     border-radius: 4px;
-    font-size: 13px;
     cursor: pointer;
 }
 
-.btn-register:hover {
-    background: #0056b3;
+.comment-form button:hover {
+    background-color: #c4001a;
 }
 
-/* 댓글 리스트 */
-.comment-list {
-    margin-top: 20px;
+/* 신고 버튼 */
+.report-button {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
 }
 
-.comment-item {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
+.report-button:hover {
+    color: red;
+    text-decoration: underline;
 }
-
-.comment-meta {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 5px;
-}
-
-.comment-content {
-    font-size: 14px;
-}
-
 
 
 
