@@ -87,7 +87,7 @@ public class MemberController {
 	    System.out.println("광고 수신: " + member.getEmailAd());
 	    System.out.println("이메일 인증: " + member.getEmailVerified());
 
-	    // ===== 2. 비밀번호 확인 =====
+	    // ===== 2. 비밀번호확인 =====
 	    if (!member.getPw().equals(pwConfirm)) {
 	        model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
 	        return "member/register";

@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-// 이름 :한글 + 영문만 입력
+// 이름:한글 + 영문만 입력
 
 function validateName() {
 	const nameInput = document.getElementById("name").value.trim();

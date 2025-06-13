@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>회원 가입</title>
+<title>회원가입</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/jiseon.css">
 

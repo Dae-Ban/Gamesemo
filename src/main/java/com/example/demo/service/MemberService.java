@@ -10,7 +10,7 @@ import com.example.demo.model.Member;
 
 @Service
 @Transactional
-public class MemberService {
+public class MemberService{
 
     private final PasswordEncoder passwordEncoder;
 

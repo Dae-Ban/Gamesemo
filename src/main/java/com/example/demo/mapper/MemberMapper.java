@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import com.example.demo.model.Member;
 
 @Mapper
-public interface MemberMapper {
+public interface MemberMapper{
 	//아이디 
 	public int countById(@Param("id") String id);
 	

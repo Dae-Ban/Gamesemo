@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.demo.mapper.MemberMapper">
 
-	<!-- 재원님꺼 복사함 -->
+	<!-- 재원님꺼 복사함  -->
 	<select id="selectAllEmailSubscribers"
 		resultType="com.example.demo.model.Member">
 		SELECT * FROM MEMBER WHERE EMAIL_AD = 'Y'
