@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.io.File;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -22,20 +24,14 @@ import com.example.demo.service.ReviewService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
 
 @Controller
-@RequestMapping("/review")
+@RequestMapping("/reviewBoard")
 public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
 
-    // 목록
     @GetMapping("/list")
     public String list(
             @RequestParam(name = "page", defaultValue = "1") int page,
@@ -54,41 +50,37 @@ public class ReviewController {
         model.addAttribute("search", review.getSearch());
         model.addAttribute("keyword", review.getKeyword());
 
-        return "review/reviewList";
+        return "reviewBoard/reviewList";
     }
 
-    // 상세보기
     @GetMapping("/view")
     public String view(@RequestParam("rb_num") int rb_num, Model model) {
         reviewService.updateReadCount(rb_num);
         Review review = reviewService.getReview(rb_num);
         model.addAttribute("review", review);
-        return "review/reviewView";
+        return "reviewBoard/reviewView";
     }
 
-    // 글쓰기 폼
     @GetMapping("/form")
     public String form(Model model) {
         model.addAttribute("review", new Review());
-        return "review/reviewForm";
+        return "reviewBoard/reviewForm";
     }
 
-    // 글 등록
     @PostMapping("/insert")
     public String insert(@ModelAttribute Review review) {
         review.setId("testuser");
         System.out.println("선택된 추천/비추천 값: " + review.getRb_like());
 
         if (review.getRb_like() == null || review.getRb_like().trim().isEmpty()) {
-            return "redirect:/review/form?error=1";
+            return "redirect:/reviewBoard/form?error=1";
         }
 
         reviewService.insert(review);
-        return "redirect:/review/list";
+        return "redirect:/reviewBoard/list";
     }
 
-    // 스마트 에디터 사진 업로드
-    @RequestMapping(value="smarteditorMultiImageUpload")
+    @RequestMapping(value = "smarteditorMultiImageUpload")
     public void smarteditorMultiImageUpload(HttpServletRequest request, HttpServletResponse response){
         try {
             response.setContentType("text/plain; charset=UTF-8");
@@ -134,25 +126,22 @@ public class ReviewController {
         }
     }
 
-    // 글 수정 폼
     @GetMapping("/updateform")
     public String edit(@RequestParam("rb_num") int rb_num, Model model) {
         Review review = reviewService.getReview(rb_num);
         model.addAttribute("review", review);
-        return "review/reviewupdateform";
+        return "reviewBoard/reviewUpdateForm";
     }
 
-    // 글 수정 처리
     @PostMapping("/update")
     public String update(@ModelAttribute Review review) {
         reviewService.update(review);
-        return "redirect:/review/view?rb_num=" + review.getRb_num();
+        return "redirect:/reviewBoard/view?rb_num=" + review.getRb_num();
     }
 
-    // 글 삭제
     @GetMapping("/delete")
     public String delete(@RequestParam("rb_num") int rb_num) {
         reviewService.delete(rb_num);
-        return "redirect:/review/list";
+        return "redirect:/reviewBoard/list";
     }
 }

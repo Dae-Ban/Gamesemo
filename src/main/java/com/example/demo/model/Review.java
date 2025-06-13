@@ -1,24 +1,23 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
-
 import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("review")
+@Alias("reviewBoard")
 public class Review {
 
-    private int rb_num;
-    private String id;
-    private String rb_title;
-    private String rb_content;
-    private int rb_readcount;
-    private Timestamp rb_date;
-    private int rb_state;
-    private String rb_like;
+    private int rb_num;           // 글번호
+    private String id;            // 아이디
+    private String col;           // 닉네임 
+    private String rb_title;      // 제목
+    private int rb_readcount;     // 조회수
+    private Timestamp rb_date;    // 날짜
+    private int rb_state;         // 상태
+    private String rb_like;       // 리뷰 추천
+    private String rb_content;    // 내용 (CLOB)
     
     private String search;
     private String keyword;
-    
 }
