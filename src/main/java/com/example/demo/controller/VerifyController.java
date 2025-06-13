@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -25,8 +26,8 @@ public class VerifyController {
 	@Autowired
 	private EmailService emailService;
 	
-	@RequestMapping("/verify")
-	public String verifyEmail(@RequestParam("code") String code, Model model) {
+	@RequestMapping("/verifyNewMember")
+	public String verifyNewMember(@RequestParam("code") String code, Model model) {
 		int result;
 		AccountVerification verification = verifyService.findByCode(code);
 		
@@ -43,51 +44,101 @@ public class VerifyController {
 		model.addAttribute("result", result);
 		return "verify/verifyResult";
 	}
+	
+	@RequestMapping("/verifyFindId")
+	public String verifyFindId(@RequestParam("code") String code, Model model ) {
+		int result;
+		AccountVerification verification = verifyService.findByCode(code);
+		
+		if (verification == null || "Y".equals(verification.getVerified())) {
+			result = 0;
+			model.addAttribute("result", result);
+		} else if(verification.getExpiresAt().before(new Timestamp (System.currentTimeMillis()))) {
+			result = -1;
+		} else {
+			result = verifyService.updateVerificationTable(code);
+		}
+		
+		
+		model.addAttribute("result", result);
+		return "verify/verifyResult";
+	}
 
-	@RequestMapping("/testVerify")
+	@RequestMapping("/test")
 	public String testVerify() {
+		//회원가입 인증 코드 생성
 		String code = UUID.randomUUID().toString();
 		String emailVerificationLink = code;
 		
-		Member member = new Member();
-		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		member.setId("tester37");
-		member.setName("테스터37");
-		member.setNickname("TEST");
-		member.setPw("1234");
-		member.setBirthDate("19900101");
-		member.setEmailId("2j1william");
-		member.setEmailDomain("gmail.com");
-		member.setPhone("12345");
-		member.setGender("남");
-		member.setJoinDate(ts);
-		member.setState(2);
-		member.setEmailAd("Y");
-		member.setEmailVerified("N");
+		//아이디 or 비밀번호 찾기 코드 생성
+		SecureRandom secureRandom = new SecureRandom();
+		int upperLimit = (int)Math.pow(10, 6); //두번째 파라미터는 자리수
+		String sixDigitCode = Integer.toString(upperLimit);
 		
-		AccountVerification verification = new AccountVerification();
+				  			    // "MEMBER_JOIN"   //1 회원가입인증   
+								// "FIND_PASSWORD" //그외 아이디 or 비밀번호 찾기
+								// "FIND_ID"
+		insertTest(sixDigitCode, "FIND_PASSWORD", 2);
 		
-		verification.setId(member.getId());
-		verification.setCode(code);
-		verification.setType("MEMBER_JOIN");
-		Timestamp expiresAt = Timestamp.valueOf(LocalDateTime.now().plusMinutes(10));
-		verification.setExpiresAt(expiresAt);
-		
-		verifyService.insertTestMember(member);
-		verifyService.insertVerification(verification);
-//		verfifyService.insertVerificationForJoin();
-
-//		String link = "http://localhost/verify?token=" + token;
-		
-//		  = verifyService.findByToken(code);
-
-		emailService.sendVerificationEmail(member.getEmailId() + "@" + member.getEmailDomain(), emailVerificationLink);
-
 		return "verify";
 	}
 	
 	@RequestMapping("member/login")
 	public String login() {
 		return "member/login";
+	}
+	
+	private void insertTest( String code, String type, int select) {
+		if(select == 1) {
+			Member member = new Member();
+			Timestamp ts = new Timestamp(System.currentTimeMillis());
+			member.setId("tester54");
+			member.setName("테스터54");
+			member.setNickname("TEST");
+			member.setPw("1234");
+			member.setBirthDate("19900101");
+			member.setEmailId("2j1william");
+			member.setEmailDomain("gmail.com");
+			member.setPhone("12345");
+			member.setGender("남");
+			member.setJoinDate(ts);
+			member.setState(2);
+			member.setEmailAd("Y");
+			member.setEmailVerified("N");
+			
+			AccountVerification verification = new AccountVerification();
+			
+			verification.setId(member.getId());
+			verification.setCode(code);
+			verification.setType(type);
+			Timestamp expiresAt = Timestamp.valueOf(LocalDateTime.now().plusMinutes(10));
+			verification.setExpiresAt(expiresAt);
+			
+			verifyService.insertTestMember(member);
+			verifyService.insertVerification(verification);
+			
+			emailService.sendVerificationEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
+		}else {
+			
+			AccountVerification verification = new AccountVerification();
+			Member member = verifyService.findIdMember("2j1william","gmail.com"); //member email 값이 추후에 들어가야함
+			
+			verification.setId(member.getId());
+			verification.setCode(code);
+			verification.setType(type);
+			Timestamp expiresAt = Timestamp.valueOf(LocalDateTime.now().plusMinutes(10));
+			verification.setExpiresAt(expiresAt);
+			
+			verifyService.insertTestMember(member);
+			verifyService.insertVerification(verification);
+			
+			emailService.sendVerificationEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
+			
+		}
+		
+		
+		
+		
+
 	}
 }

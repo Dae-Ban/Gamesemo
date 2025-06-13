@@ -1,6 +1,8 @@
 package com.example.demo.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.example.demo.model.AccountVerification;
 import com.example.demo.model.Member;
@@ -20,5 +22,8 @@ public interface VerifyMapper {
 	public void insertVerification(AccountVerification verification);
 
 	public int updateVerificationTable(String code);
+
+	@Select("SELECT * FROM MEMBER WHERE email_id = #{emailId} AND email_domain = #{domain}")
+	public Member findIdMember(@Param("emailId") String emailId, @Param("domain") String domain);
 
 }

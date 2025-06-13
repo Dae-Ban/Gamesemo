@@ -41,6 +41,12 @@ public class VerifyService{
 		return verifyMapper.updateVerificationTable(code);
 	}
 
+
+	public Member findIdMember(String emailId, String domain ) {
+		
+		return verifyMapper.findIdMember(emailId, domain);
+	}
+
 	
 	
 }

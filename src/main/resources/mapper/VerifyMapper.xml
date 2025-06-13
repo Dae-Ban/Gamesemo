@@ -23,15 +23,18 @@
 		SYSTIMESTAMP
 		)
 	</insert>
-
-
-
+	
 	<select id="findByCode" resultType="com.example.demo.model.AccountVerification">
 		SELECT *
 		FROM ACCOUNT_VERIFICATION
 		WHERE CODE = #{code}
 		AND TYPE = 'MEMBER_JOIN'
 	</select>
+
+
+<!-- 	<select id="findIdMember"  parameterType="String"  resultType="com.example.demo.model.Member"> -->
+<!-- 		SELECT * FROM MEMBER WHERE email_id = #{emailId} AND email_domain = #{domain} -->
+<!-- 	</select> -->
 
 	<update id="updateEmailVerified">
 		UPDATE MEMBER
