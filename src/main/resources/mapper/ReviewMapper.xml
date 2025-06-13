@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ReviewMapper">
+
+    <!-- 결과 매핑 -->
+    <resultMap id="reviewResult" type="review">
+        <result property="rb_num" column="rb_num"/>
+        <result property="id" column="id"/>
+        <result property="rb_title" column="rb_title"/>
+        <result property="rb_content" column="rb_content"/>
+        <result property="rb_readcount" column="rb_readcount"/>
+        <result property="rb_date" column="rb_date"/>
+        <result property="rb_state" column="rb_state"/>
+        <result property="rb_like" column="rb_like"/> <!-- ✅ 컬럼명과 DTO에 맞게 수정 -->
+    </resultMap>
+
+    <!-- 총 게시글 수 -->
+    <select id="getCount" parameterType="review" resultType="int">
+        SELECT COUNT(*) FROM review
+        <where>
+            rb_state = 0
+            <choose>
+                <when test="search == 'rb_title'">
+                    AND rb_title LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="search == 'id'">
+                    AND id LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="search == 'all'">
+                    AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%')
+                </when>
+                <when test="search == 'rb_state_recommend'">
+                    AND rb_like = '추천'
+                </when>
+            </choose>
+        </where>
+    </select>
+
+    <!-- 페이징 목록 -->
+    <select id="getPagedList" parameterType="pgn" resultMap="reviewResult">
+        SELECT * FROM (
+            SELECT rownum rnum, a.* FROM (
+                SELECT * FROM review
+                <where>
+                    rb_state = 0
+                    <choose>
+                        <when test="search == 'rb_title'">
+                            AND rb_title LIKE '%' || #{keyword} || '%'
+                        </when>
+                        <when test="search == 'id'">
+                            AND id LIKE '%' || #{keyword} || '%'
+                        </when>
+                        <when test="search == 'all'">
+                            AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%')
+                        </when>
+                        <when test="search == 'rb_state_recommend'">
+                            AND rb_like = '추천'
+                        </when>
+                    </choose>
+                </where>
+                ORDER BY rb_num DESC
+            ) a
+            WHERE rownum &lt;= #{endRow}
+        )
+        WHERE rnum &gt;= #{startRow}
+    </select>
+
+    <!-- 상세보기 -->
+    <select id="getReview" parameterType="int" resultMap="reviewResult">
+        SELECT * FROM review WHERE rb_num = #{rb_num}
+    </select>
+
+    <!-- 조회수 증가 -->
+    <update id="updateReadCount" parameterType="int">
+        UPDATE review SET rb_readcount = rb_readcount + 1 WHERE rb_num = #{rb_num}
+    </update>
+
+    <!-- 글 등록 -->
+    <insert id="insert" parameterType="review">
+        INSERT INTO review (
+            rb_num, id, rb_title, rb_content, rb_readcount, rb_date, rb_state, rb_like
+        )
+        VALUES (
+            review_seq.NEXTVAL, #{id}, #{rb_title}, #{rb_content}, 0, SYSDATE, #{rb_state}, #{rb_like}
+        )
+    </insert>
+
+    <!-- 글 수정 -->
+    <update id="update" parameterType="review">
+        UPDATE review
+        SET rb_title = #{rb_title},
+            rb_content = #{rb_content},
+            rb_like = #{rb_like}
+        WHERE rb_num = #{rb_num}
+    </update>
+
+    <!-- 글 삭제 -->
+    <update id="delete" parameterType="int">
+        UPDATE review SET rb_state = 1 WHERE rb_num = #{rb_num}
+    </update>
+
+</mapper>

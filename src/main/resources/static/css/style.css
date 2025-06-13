@@ -1,5 +1,4 @@
 /* 게시글 목록 */
-
 .review-wrapper {
     width: 90%;
     max-width: 1000px;
@@ -75,7 +74,7 @@
 }
 
 .btn-write {
-    background: #e60023; /* 빨간색 */
+    background: #e60023;
     color: white;
     padding: 8px 16px;
     border: none;
@@ -162,21 +161,10 @@
 }
 
 /* 스마트 에디터 */
-
-.form-row {
-    margin-bottom: 15px;
-}
-
 .flex-row {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.title-input {
-    flex: 1;
-    padding: 8px;
-    font-size: 14px;
 }
 
 .state-select {
@@ -190,9 +178,6 @@
     min-height: 300px;
     border: 1px solid #ccc;
 }
-
-
-/* 스마트에디터 */
 
 .btn-cancel {
     background: #555;
@@ -208,7 +193,6 @@
 .btn-cancel:hover {
     background: #333;
 }
-
 
 /* 리뷰게시판 상세페이지 */
 .review-view-wrapper {
@@ -322,5 +306,10 @@
     text-decoration: underline;
 }
 
-
-
+/* 스마트에디터 본문 이미지 조절 */
+.review-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+}
