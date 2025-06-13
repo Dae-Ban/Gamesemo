@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ReportDTO;
 import com.example.demo.model.Review;
+import com.example.demo.page.AdminPagenation;
 import com.example.demo.model.Community;
 import com.example.demo.service.AdminReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +19,21 @@ public class AdminReportController {
     private AdminReportService adminReportService;
 
     @GetMapping("/adminReport")
-    public String reportList(Model model, @RequestParam(defaultValue = "1") int page) {
+    public String reportList(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
         int limit = 10;
         int startRow = (page - 1) * limit + 1;
         int endRow = page * limit;
 
         List<ReportDTO> list = adminReportService.getPagedReportList(startRow, endRow);
         int total = adminReportService.getTotalReportCount();
-        int totalPage = (int)Math.ceil((double)total / limit);
+
+        AdminPagenation p = new AdminPagenation(total, page, limit, 5);
 
         model.addAttribute("reportList", list);
+        model.addAttribute("p", p); 
         model.addAttribute("page", page);
-        model.addAttribute("totalPage", totalPage);
 
-        return "adminReport";
+        return "/admin/adminReport";
     }
 
     @PostMapping("/processReport")
@@ -51,14 +53,21 @@ public class AdminReportController {
         ReportDTO report = adminReportService.getReportById(rpNum);
         model.addAttribute("report", report);
 
-        if ("Community".equalsIgnoreCase(rpTable)) {
+        if ("community_board".equalsIgnoreCase(rpTable)) {
         	Community community = adminReportService.getCommunityPost(boardNum);
             model.addAttribute("post", community);
-        } else if ("REVIEW".equalsIgnoreCase(rpTable)) {
+        } else if ("review_board".equalsIgnoreCase(rpTable)) {
             Review review = adminReportService.getReviewPost(boardNum);
             model.addAttribute("post", review);
         }
 
-        return "adminReportDetail";
+        return "/admin/adminReportDetail";
+    }
+    
+    // 상태 변환 처리
+    @PostMapping("/cancelReport")
+    public String cancelReport(@RequestParam("rpNum") int rpNum) {
+        adminReportService.cancelReport(rpNum); // 상태 복원
+        return "redirect:/admin/adminReport";
     }
 }

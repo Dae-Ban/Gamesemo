@@ -6,16 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 상세</title>
-<link rel="stylesheet" href="<c:url value='/css/admin.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/adminMember.css' />" />
 </head>
 <body>
-	<div style="text-align: center">
-		<h2>공지사항 상세</h2>
-
-		<table border=1 align="center" width="500">
+	
+		<h2 style="text-align: center">공지사항 상세</h2>
+		<table class="form-table">
 			<tr>
 				<th>제목</th>
-				<td>${anno.anTitle}</td>
+				<td >${anno.anTitle}</td>
 			</tr>
 			<tr>
 				<th>내용</th>
@@ -34,12 +33,13 @@
 			</tr>
 		</table>
 
-		<br> <input type="button" value="수정"
+		<div class="form-buttons">
+		<input type="button" value="수정" class="btn"
 			onclick="location.href='<c:url value='/admin/adminAnno/update/${anno.anNum}' />'">
-		<input type="button" value="삭제"
+		<input type="button" value="삭제" class="btn"
 			onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='<c:url value='/admin/adminAnno/delete/${anno.anNum}' />'">
-		<input type="button" value="목록"
+		<input type="button" value="목록" class="btn"
 			onclick="location.href='<c:url value='/admin/adminAnno?pageNum=1' />'">
-	</div>
+		</div>
 </body>
 </html>

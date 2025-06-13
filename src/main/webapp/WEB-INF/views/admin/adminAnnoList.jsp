@@ -29,9 +29,15 @@
      <div class="menu-box">
     <a href="/admin/logout">로그아웃</a>
     </div>
+    <!-- 글작성 버튼 -->
+  	<div class="menu-box">
+  	<a href="<c:url value='/admin/adminAnno/write'/>">글 작성</a>
+	</div>
+    
   </div>
 
   <!-- 검색 영역 -->
+  <div class="search-container">
   <form method="get" action="<c:url value='/admin/adminAnno' />" class="search-form">
     <select name="type">
       <option value="title" ${param.type == 'title' ? 'selected' : ''}>제목</option>
@@ -41,13 +47,10 @@
     <input type="text" name="keyword" value="${param.keyword}" placeholder="검색어 입력" />
     <button type="submit">검색</button>
   </form>
-
-  <!-- 글작성 버튼 -->
-  <div style="button-align: left; margin-bottom: 10px;">
-    <a href="<c:url value='/admin/adminAnno/write' />">
-      <button>글 작성</button>
-    </a>
   </div>
+  
+ 
+ 
 
   <!-- 목록 테이블 -->
   <table class="member-table">

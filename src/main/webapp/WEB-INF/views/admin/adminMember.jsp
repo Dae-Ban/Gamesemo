@@ -34,6 +34,7 @@
   </div>
   
   <!-- 검색 영역 -->
+  <div class="search-container">
 <form method="get" action="<c:url value='/admin/adminMember' />" class="search-form">
   <select name="type">
     <option value="all" ${param.type == 'all' ? 'selected' : ''}>전체</option>
@@ -45,6 +46,8 @@
   <input type="text" name="keyword" value="${param.keyword}" placeholder="검색어 입력" />
   <button type="submit">검색</button>
 </form>
+</div>
+
 
   <table class="member-table">
     <thead>

@@ -1,13 +1,17 @@
 package com.example.demo.mapper;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.example.demo.model.ReportDTO;
 import com.example.demo.model.Review;
 import com.example.demo.model.Community;
 
 public interface ReportMapper {
     
-	List<ReportDTO> selectPagedReportList(int startRow, int endRow);
+	List<ReportDTO> selectPagedReportList( @Param("startRow") int startRow,
+		    @Param("endRow") int endRow);
     
 	int countReportTotal();
     
@@ -22,4 +26,6 @@ public interface ReportMapper {
 	void blindCommunityPost(int boardNum);
     
 	void blindReviewPost(int boardNum);
+
+	void updateReportStatusToPending(int rpNum);
 }

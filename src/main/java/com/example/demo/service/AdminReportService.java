@@ -24,24 +24,32 @@ public class AdminReportService {
         return reportMapper.countReportTotal();
     }
 
+    // 상세 조회
     public ReportDTO getReportById(int rpNum) {
         return reportMapper.selectReportById(rpNum);
     }
 
+    // 자유게시판 게시글 상세
     public Community getCommunityPost(int boardNum) {
         return reportMapper.selectCommunityPost(boardNum);
     }
 
+    // 리뷰게시판 게시글 상세
     public Review getReviewPost(int boardNum) {
         return reportMapper.selectReviewPost(boardNum);
     }
 
+    // 상태변경 + 자유 게시판 블라인드 + 리뷰게시판 블라인드
     public void processReport(String rpTable, int rpNum, int boardNum) {
         reportMapper.updateReportStatus(rpNum);
-        if ("FREE".equalsIgnoreCase(rpTable)) {
+        if ("community_board".equalsIgnoreCase(rpTable)) {
             reportMapper.blindCommunityPost(boardNum);
-        } else if ("REVIEW".equalsIgnoreCase(rpTable)) {
+        } else if ("review_board".equalsIgnoreCase(rpTable)) {
             reportMapper.blindReviewPost(boardNum);
         }
+    }
+    
+    public void cancelReport(int rpNum) {
+        reportMapper.updateReportStatusToPending(rpNum);
     }
 }
