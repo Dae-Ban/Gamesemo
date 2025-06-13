@@ -53,7 +53,7 @@
 <div class="container">
     <div class="login-box">
         <h2>로그인</h2>
-        <form action="/login" method="post">
+		<form action="/member/login" method="post">
             <input type="text" name="id" placeholder="아이디">
             <input type="password" name="pw" placeholder="비밀번호">
             <label><input type="checkbox" name="rememberMe"> 로그인 상태 유지</label>
