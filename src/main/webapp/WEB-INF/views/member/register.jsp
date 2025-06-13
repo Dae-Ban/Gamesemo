@@ -123,7 +123,7 @@
 			<!-- 이메일 약관 동의 -->
 			<div class="form-group">
 				<label><input type="checkbox" name="emailAd" value="Y">
-					 이메일 광고 수신 동의</label>
+					   이메일 광고 수신 동의</label>
 			</div>
 
 
