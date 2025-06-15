@@ -86,6 +86,8 @@
 					</select>
 
 				</div>
+				<div id="emailCheckResult" class="result-text"
+					style="font-size: 14px; margin-top: 4px;"></div>
 			</div>
 
 
@@ -123,7 +125,7 @@
 			<!-- 이메일 약관 동의 -->
 			<div class="form-group">
 				<label><input type="checkbox" name="emailAd" value="Y">
-					 이메일 광고 수신 동의</label>
+					이메일 광고 수신 동의</label>
 			</div>
 
 
@@ -133,6 +135,6 @@
 	</div>
 
 
-<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
+	<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
 </body>
 </html>

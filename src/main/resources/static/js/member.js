@@ -222,11 +222,8 @@ function handleDomainChange() {
 		customInput.setAttribute("name", "emailDomain"); // input은 서버 전송 대상
 		customInput.style.display = "inline-block";
 		customInput.disabled = false;
+		customInput.value = "";
 		customInput.focus();
-
-		customInput.value = ""; // 기존 값 지우기
-		customInput.focus();    // 커서 자동 포커스
-
 	} else {
 		// 일반 도메인 선택 시
 		select.setAttribute("name", "emailDomain");
@@ -235,25 +232,106 @@ function handleDomainChange() {
 		customInput.disabled = true;
 		customInput.value = "";
 	}
+
+	// 도메인 바뀌면 중복검사 다시 실행
+	checkEmailDuplicate();
 }
 
 // 이메일 아이디 유효성 검사 (영문자+숫자만 허용)
 function validateEmailId(input) {
 	const value = input.value;
 	const msg = document.getElementById("emailIdMessage");
-
 	const regex = /^[a-zA-Z0-9._-]+$/;
 
 	if (!regex.test(value)) {
 		msg.textContent = "❌ 올바른 이메일아이디 형식이 아닙니다. (영문자+숫자만 허용)";
 		msg.style.color = "red";
-		// 특수문자 등 제거
 		input.value = value.replace(/[^a-zA-Z0-9]/g, "");
 	} else {
 		msg.textContent = "";
 	}
+
+	checkEmailDuplicate(); // 유효성 통과 후 중복검사 실행
 }
 
+// ✅ 이메일 중복검사 함수 (실제 fetch 요청 실행)
+function checkEmailDuplicate() {
+	const emailId = document.getElementById("emailId").value.trim();
+	let domain = document.getElementById("emailDomainSelect").value;
+	const customInput = document.getElementById("customEmailDomain");
+
+	if (domain === "custom") {
+		domain = customInput.value.trim();
+	}
+
+	const result = document.getElementById("emailCheckResult");
+
+	// 기본 입력값 없으면 메시지 초기화
+	if (!emailId || !domain) {
+		result.innerText = "";
+		result.style.color = "";
+		return;
+	}
+
+	const fullEmail = `${emailId}@${domain}`;
+	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+	// 이메일 형식이 유효하지 않으면 메시지 숨김
+	if (!emailRegex.test(fullEmail)) {
+		result.innerText = "";
+		result.style.color = "";
+		return;
+	}
+
+	// ✅ 유효한 이메일일 경우 중복검사 fetch 요청
+	fetch("/member/checkEmailDuplicate", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ email: fullEmail })
+	})
+		.then(res => res.json())
+		.then(isDuplicate => {
+			if (isDuplicate) {
+				result.innerText = "❌ 이미 사용 중인 이메일입니다.";
+				result.style.color = "red";
+			} else {
+				result.innerText = "✅ 사용 가능한 이메일입니다.";
+				result.style.color = "green";
+			}
+		})
+		.catch(() => {
+			result.innerText = "서버 오류가 발생했습니다.";
+			result.style.color = "red";
+		});
+}
+
+// ✅ 입력 중 실시간 중복검사 함수 (입력 도중에도 문구 반영되게)
+function checkEmailDuplicateLive() {
+	// 실시간 검사용으로 checkEmailDuplicate() 그대로 사용
+	checkEmailDuplicate();
+}
+
+// ✅ 이벤트 연결
+document.addEventListener("DOMContentLoaded", function() {
+	const emailCheckResult = document.getElementById("emailCheckResult");
+
+	// 이메일 아이디 입력 중 실시간 중복검사 실행
+	document.getElementById("emailId").addEventListener("input", checkEmailDuplicateLive);
+
+	// 이메일 아이디 입력 후 blur 시 유효성 + 중복검사
+	document.getElementById("emailId").addEventListener("blur", function() {
+		validateEmailId(this);
+	});
+
+	// 도메인 선택 시 중복검사
+	document.getElementById("emailDomainSelect").addEventListener("change", handleDomainChange);
+
+	// 직접입력 도메인 입력 중 실시간 중복검사 실행
+	document.getElementById("customEmailDomain").addEventListener("input", checkEmailDuplicateLive);
+
+	// 직접입력 도메인 입력 완료 후 blur 시 중복검사
+	document.getElementById("customEmailDomain").addEventListener("blur", checkEmailDuplicate);
+});
 
 //성별 
 function getGender() {
@@ -439,3 +517,194 @@ function confirmDelete() {
 	// 성공이면 통과
 	return true;
 }
+
+
+// 아이디/ 비번찾기
+function sendIdCode() {
+	const email = document.getElementById("findIdEmail").value.trim();
+	const message = document.getElementById("idMessage");
+
+	if (!email) {
+		message.innerText = "⚠ 이메일을 입력하세요.";
+		message.style.color = "red";
+		return;
+	}
+
+	message.innerText = "⏳ 인증번호를 전송 중입니다...";
+	message.style.color = "gray";
+
+	fetch("/member/sendCodeForId", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ email })
+	})
+		.then(res => res.json())
+		.then(data => {
+
+			console.log("✅ data.id 값:", data.id);
+
+
+			if (data.success) {
+				idAuthCode = data.code;
+				idFound = data.id;
+				message.innerText = "✅ 인증번호가 이메일로 전송되었습니다.";
+				message.style.color = "green";
+			} else {
+				message.innerText = "❌ " + data.message;
+				message.style.color = "red";
+			}
+		})
+		.catch(err => {
+			console.error("전송 오류:", err);
+			message.innerText = "❌ 서버 오류가 발생했습니다.";
+			message.style.color = "red";
+		});
+}
+
+//아이디 찾기
+function checkIdCode() {
+	const code = document.getElementById("findIdCode").value.trim();
+	const result = document.getElementById("idResult");
+
+
+	if (code === String(idAuthCode) && idFound) {
+		//		alert(`✅ 회원님의 아이디는 ${idFound} 입니다.`);
+		//		location.href = "/member/login"; // 로그인 페이지로 이동
+
+		//		result.innerText = "✅ 회원님의 아이디는" + `${idFound}` + "입니다.";
+		//		result.style.color = "green";
+
+		result.innerHTML = `✅ 회원님의 아이디는 <strong>${idFound}</strong> 입니다.
+			<br><br>
+			<a href="/member/login" style="color: black; text-decoration: none;">로그인 페이지로 이동하기</a>`;
+		result.style.color = "green";
+
+
+	} else {
+		result.innerText = "❌ 인증번호가 일치하지 않습니다.";
+		result.style.color = "red";
+	}
+}
+// 비번찾기
+function sendPwCode() {
+	const id = document.getElementById("findPwId").value.trim();
+	const email = document.getElementById("findPwEmail").value.trim();
+	const message = document.getElementById("pwMessage");
+
+	//	if (!id || !email) return alert("아이디와 이메일을 모두 입력하세요.");
+
+	if (!id || !email) {
+		message.innerText = "⚠ 아이디와 이메일을 모두 입력하세요.";
+		message.style.color = "red";
+		return;
+	}
+
+
+	message.innerText = "⏳ 인증번호를 전송 중입니다...";
+	message.style.color = "gray";
+
+
+	fetch("/member/sendCodeForPw", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ id, email })
+	})
+		.then(res => res.json())
+		.then(data => {
+			if (data.success) {
+				message.innerText = "✅ 인증번호가 이메일로 전송되었습니다.";
+				message.style.color = "green";
+				pwAuthCode = data.code;
+			} else {
+				message.innerText = "❌ " + data.message;
+				message.style.color = "red";
+			}
+		})
+		.catch(err => {
+			console.error("비밀번호 인증번호 전송 오류:", err);
+			message.innerText = "❌ 서버 오류가 발생했습니다.";
+			message.style.color = "red";
+		});
+}
+
+
+function verifyCode() {
+	const code = document.getElementById("findPwCode").value.trim();
+	const result = document.getElementById("pwResult");
+
+	if (code === pwAuthCode) {
+		result.innerText = "✅ 인증 성공! 비밀번호를 재설정하세요.";
+		result.style.color = "green";
+		document.getElementById("resetPwSection").style.display = "block";
+		
+		currentUserId = document.getElementById("findPwId").value.trim();
+		
+	} else {
+		result.innerText = "❌ 인증번호가 일치하지 않습니다.";
+		result.style.color = "red";
+	}
+}
+
+function resetPassword() {
+	const userId = document.getElementById("findPwId").value.trim();
+	const newPw = document.getElementById("newPw").value.trim();
+	const confirmPw = document.getElementById("confirmPw").value.trim();
+	const resetResult = document.getElementById("resetResult");
+
+	const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\|[\]{};:'",.<>/?`~]).{8,}$/;
+
+	if (!newPw || !confirmPw) {
+		resetResult.innerText = "비밀번호를 모두 입력해주세요.";
+		resetResult.style.color = "red";
+		return;
+	}
+
+	if (!regex.test(newPw)) {
+		resetResult.innerText = "비밀번호는 8자 이상, 영문+숫자+특수문자를 포함해야 합니다.";
+		resetResult.style.color = "gray";
+		return;
+	}
+
+	if (newPw !== confirmPw) {
+		resetResult.innerText = "비밀번호가 일치하지 않습니다.";
+		resetResult.style.color = "red";
+		return;
+	}
+
+	fetch("/member/resetPassword", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ id: userId, newPassword: newPw })
+	})
+		.then(res => res.json())
+		.then(data => {
+			if (data.success) {
+				resetResult.innerText = "✅ 비밀번호가 변경되었습니다. 로그인 페이지로 이동합니다.";
+				resetResult.style.color = "green";
+				setTimeout(() => location.href = "/member/login", 2500);
+			} else {
+				resetResult.innerText = "❌ 비밀번호 변경에 실패했습니다.";
+				resetResult.style.color = "red";
+			}
+		})
+		.catch(err => {
+			console.error("비밀번호 변경 오류:", err);
+			resetResult.innerText = "❌ 서버 오류가 발생했습니다.";
+			resetResult.style.color = "red";
+		});
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	// 탭 버튼 연결
+	document.getElementById("tabIdBtn")?.addEventListener("click", () => showTab("id"));
+	document.getElementById("tabPwBtn")?.addEventListener("click", () => showTab("pw"));
+
+	// 아이디 인증번호 확인 버튼 연결 
+	const confirmBtn = document.querySelector("button[onclick='checkIdCode()']");
+	if (confirmBtn) {
+		confirmBtn.addEventListener("click", checkIdCode);
+		console.log("✅ 확인 버튼에 checkIdCode() 연결 완료!");
+	} else {
+		console.warn("⚠ 확인 버튼을 찾지 못했습니다.");
+	}
+});

@@ -7,7 +7,7 @@
 	href="${pageContext.request.contextPath}/css/jiseon.css">
 </head>
 <body>
-	<div class="container">
+	<div class= "container">
 		<h2 class="title">회원 탈퇴</h2>
 		<div class="divider"></div>
 

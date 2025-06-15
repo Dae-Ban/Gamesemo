@@ -12,7 +12,7 @@
 
 </head>
 <body>
-	<div class="container">
+	<div class= "container">
 		<h2 class="title">회원 정보 수정</h2>
 		<div class="divider"></div>
 

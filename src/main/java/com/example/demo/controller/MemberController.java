@@ -38,7 +38,7 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
-	
+
 	@Autowired
 	private VerifyService verifyService;
 
@@ -69,133 +69,141 @@ public class MemberController {
 		return exists ? "duplicate" : "ok";
 	}
 
+	// 이메일 중복 확인
+	@PostMapping("/checkEmailDuplicate")
+	@ResponseBody
+	public boolean checkEmailDuplicate(@RequestBody Map<String, String> data) {
+		String email = data.get("email");
+		return memberService.findByEmailForRegister(email) != null;
+	}
+
 	// 회원가입 폼
 	@PostMapping("/register")
 	public String register(Member member, @RequestParam("pwConfirm") String pwConfirm, Model model,
-	                       RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 
-	    // ===== 1. 입력값 출력 =====
-	    System.out.println("===== 회원가입 입력값 확인 =====");
-	    System.out.println("ID: " + member.getId());
-	    System.out.println("이름: " + member.getName());
-	    System.out.println("닉네임: " + member.getNickname());
-	    System.out.println("비밀번호: " + member.getPw());
-	    System.out.println("생일: " + member.getBirthDate());
-	    System.out.println("이메일: " + member.getEmailId() + "@" + member.getEmailDomain());
-	    System.out.println("성별: " + member.getGender());
-	    System.out.println("전화번호: " + member.getPhone());
-	    System.out.println("광고 수신: " + member.getEmailAd());
-	    System.out.println("이메일 인증: " + member.getEmailVerified());
+		// ===== 1. 입력값 출력 =====
+		System.out.println("===== 회원가입 입력값 확인 =====");
+		System.out.println("ID: " + member.getId());
+		System.out.println("이름: " + member.getName());
+		System.out.println("닉네임: " + member.getNickname());
+		System.out.println("비밀번호: " + member.getPw());
+		System.out.println("생일: " + member.getBirthDate());
+		System.out.println("이메일: " + member.getEmailId() + "@" + member.getEmailDomain());
+		System.out.println("성별: " + member.getGender());
+		System.out.println("전화번호: " + member.getPhone());
+		System.out.println("광고 수신: " + member.getEmailAd());
+		System.out.println("이메일 인증: " + member.getEmailVerified());
 
-	    // ===== 2. 비밀번호확인 =====
-	    if (!member.getPw().equals(pwConfirm)) {
-	        model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-	        return "member/register";
-	    }
+		// ===== 2. 비밀번호확인 =====
+		if (!member.getPw().equals(pwConfirm)) {
+			model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+			return "member/register";
+		}
 
-	    // ===== 3. emailVerified 기본값 처리 =====
-	    member.setEmailVerified("N");
-	    
-	    // 정상회원 상태값 명시적 0으로 설정
-	    member.setState(0); // 
-	    System.out.println("state: " + member.getState());
-	    
-	    // ===== 4. 비밀번호 암호화 =====
-	    member.setPw(passwordEncoder.encode(member.getPw()));
+		// ===== 3. emailVerified 기본값 처리 =====
+		member.setEmailVerified("N");
 
-//	토큰 멤버에 저장하지 않고, AccountVerification 테이블에 insert하기로함;;
+		// 정상회원 상태값 명시적 0으로 설정
+		member.setState(0); //
+		System.out.println("state: " + member.getState());
+
+		// ===== 4. 비밀번호 암호화 =====
+		member.setPw(passwordEncoder.encode(member.getPw()));
+
+//	토큰 멤버에 저장하지 않고, AccountVerification 테이블에 insert하기로함
 		// ===== 5. 이메일 인증 토큰 생성 및 기본 상태 설정 =====
 //		String token = UUID.randomUUID().toString();
 //		member.setVerificationToken(token);
 //		member.setEmailVerified("n"); // 이메일 인증 전 상태
 
-	 // ===== 5. 회원가입 처리 =====
-	    boolean result = memberService.registerMember(member);
+		// ===== 5. 회원가입 처리 =====
+		boolean result = memberService.registerMember(member);
 
-	    // ===== 6. 결과 처리 =====
-	    if (result) {
-	        // 인증 토큰 생성 및 객체 생성
-	        String token = UUID.randomUUID().toString();
-	        Timestamp expiresAt = new Timestamp(System.currentTimeMillis() + 10 * 60 * 1000);
+		// ===== 6. 결과 처리 =====
+		if (result) {
+			// 인증 토큰 생성 및 객체 생성
+			String token = UUID.randomUUID().toString();
+			Timestamp expiresAt = new Timestamp(System.currentTimeMillis() + 10 * 60 * 1000);
 
-	        AccountVerification verification = new AccountVerification();
-	        verification.setId(member.getId());
-	        verification.setCode(token);
-	        verification.setType("MEMBER_JOIN");
-	        verification.setExpiresAt(expiresAt);
-	        verification.setVerified('N');
+			AccountVerification verification = new AccountVerification();
+			verification.setId(member.getId());
+			verification.setCode(token);
+			verification.setType("MEMBER_JOIN");
+			verification.setExpiresAt(expiresAt);
+			verification.setVerified('N');
 
-	        // 인증 테이블에 저장
-	        verifyService.insertVerification(verification);
+			// 인증 테이블에 저장
+			verifyService.insertVerification(verification);
 
-	        // 이메일 링크 발송
-	        String link = "http://localhost/verify?code=" + token;
-	        String email = member.getEmailId() + "@" + member.getEmailDomain();
-	        emailService.sendVerificationEmail(email, link);
+			// 이메일 링크 발송
+			String link = "http://localhost/verify?code=" + token;
+			String email = member.getEmailId() + "@" + member.getEmailDomain();
+			emailService.sendVerificationEmail(email, link);
 
-	        System.out.println("Link: " + link);
+			System.out.println("Link: " + link);
 
-	        redirectAttributes.addFlashAttribute("message", "회원가입이 완료되었습니다! 이메일 인증을 완료해주세요.");
-	        return "redirect:/member/login";
-	    } else {
-	        model.addAttribute("error", "회원가입 중 오류가 발생했습니다.");
-	        return "member/register";
-	    }
+			redirectAttributes.addFlashAttribute("message", "회원가입이 완료되었습니다! 이메일 인증을 완료해주세요.");
+			return "redirect:/member/login";
+		} else {
+			model.addAttribute("error", "회원가입 중 오류가 발생했습니다.");
+			return "member/register";
+		}
 	}
 
 //-*******************---------------------------------
 
-//// 임시로 만듦!! login페이지는 영교님.!!!!!!!!!!!!!!
-//// mypage는 민정!!!!!!!!!!!!!!!!!!!!!!! 
-//
-//	// 로그인 페이지로 이동
-//	@GetMapping("/login")
-//	public String loginPage() {
-//		return "member/login"; // /WEB-INF/views/member/login.jsp 를 의미
-//	}
-//
-//	@PostMapping("/login")
-//	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session, Model model,
-//			RedirectAttributes redirectAttributes) {
-//		// 로그인 시 DB에서 사용자 정보 조회
-//		Member member = memberService.login(id, pw);
-//
-//		if (member != null) {
-//			// 로그인 성공 시 세션에 저장
-//			session.setAttribute("loginMember", member);
-//
-//			// 로그인된 회원 정보 콘솔에 출력
-//			System.out.println("로그인된 회원 정보: " + member);
-//
-//			// 로그인 성공 후 성공 메시지 추가 (alert 메시지용)
-//			redirectAttributes.addFlashAttribute("message", "로그인 성공!");
-//
-//			// 로그인 성공 후 마이페이지로 이동
-//			return "redirect:/member/mypage";
-//		} else {
-//			// 로그인 실패 시 에러 메시지 표시
-//			model.addAttribute("error", "로그인 실패");
-//			return "member/login";
-//		}
-//	}
-//
-//	// 마이페이지 !! 임시로...!!!!!!!!!!
-//	@GetMapping("/mypage")
-//	public String myPage(HttpSession session, Model model) {
-//		// 로그인된 사용자 정보 가져오기
-//		Member loginMember = (Member) session.getAttribute("loginMember");
-//
-//		if (loginMember == null) {
-//			// 로그인 안 한 상태면 로그인 페이지로 리다이렉트
-//			return "redirect:/member/login";
-//		}
-//
-//		// 로그인된 사용자 정보 model에 추가
-//		model.addAttribute("member", loginMember);
-//
-//		// 마이페이지 JSP로 이동
-//		return "member/mypage";
-//	}
+// 임시로 만듦!! login페이지는 영교님.!!!!!!!!!!!!!!
+// mypage는 민정!!!!!!!!!!!!!!!!!!!!!!! 
+
+	// 로그인 페이지로 이동
+	@GetMapping("/login")
+	public String loginPage() {
+		return "member/login"; // /WEB-INF/views/member/login.jsp 를 의미
+	}
+
+	@PostMapping("/login")
+	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session, Model model,
+			RedirectAttributes redirectAttributes) {
+		// 로그인 시 DB에서 사용자 정보 조회
+		Member member = memberService.login(id, pw);
+
+		if (member != null) {
+			// 로그인 성공 시 세션에 저장
+			session.setAttribute("loginMember", member);
+
+			// 로그인된 회원 정보 콘솔에 출력
+			System.out.println("로그인된 회원 정보: " + member);
+
+			// 로그인 성공 후 성공 메시지 추가 (alert 메시지용)
+			redirectAttributes.addFlashAttribute("message", "로그인 성공!");
+
+			// 로그인 성공 후 마이페이지로 이동
+			return "redirect:/member/mypage";
+		} else {
+			// 로그인 실패 시 에러 메시지 표시
+			model.addAttribute("error", "로그인 실패");
+			return "member/login";
+		}
+	}
+
+	// 마이페이지 !! 임시로...!!!!!!!!!!
+	@GetMapping("/mypage")
+	public String myPage(HttpSession session, Model model) {
+		// 로그인된 사용자 정보 가져오기
+		Member loginMember = (Member) session.getAttribute("loginMember");
+
+		if (loginMember == null) {
+			// 로그인 안 한 상태면 로그인 페이지로 리다이렉트
+			return "redirect:/member/login";
+		}
+
+		// 로그인된 사용자 정보 model에 추가
+		model.addAttribute("member", loginMember);
+
+		// 마이페이지 JSP로 이동
+		return "member/mypage";
+	}
 
 //--******************--------------------------------    
 
@@ -244,26 +252,6 @@ public class MemberController {
 			return "redirect:/member/update";
 		}
 	}
-
-//******************************
-//	// 가짜로그인 시키기.. 로그인 없이 폼 확인하기위해..
-//	@GetMapping("/fake-login")
-//	public String fakeLogin(HttpSession session) {
-//		Member fakeUser = new Member();
-//		fakeUser.setId("testuser");
-//		fakeUser.setName("testuser");
-//		fakeUser.setNickname("테스트유저");
-//		fakeUser.setEmailId("testuser");
-//		fakeUser.setEmailDomain("gmail.com");
-//		fakeUser.setPhone("01012345678");
-//		fakeUser.setGender("F");
-//		fakeUser.setBirthDate("2000-01-01");
-//
-//		session.setAttribute("loginMember", fakeUser); // 세션에 강제로 로그인 사용자 주입
-//
-//		return "redirect:/member/update"; // 로그인된 상태로 수정 페이지로 이동
-//	}
-// *******************************
 
 	// 비밀번호 변경 폼
 	@GetMapping("/changePassword")
@@ -327,12 +315,119 @@ public class MemberController {
 		return result;
 	}
 
-	// 아이디 비번찾기
+	// 아이디 / 비번찾기
 	@GetMapping("/find")
 	public String find() {
 		return "member/find";
 	}
 
+	// 아이디 찾기 - 이메일 인증번호 전송
+	@PostMapping("/sendCodeForId")
+	@ResponseBody
+	public Map<String, Object> sendCodeForId(@RequestBody Map<String, String> data) {
+		String email = data.get("email");
+		Map<String, Object> result = new HashMap<>();
+
+		if (email == null || !email.contains("@")) {
+			result.put("success", false);
+			result.put("message", "올바른 이메일 형식이 아닙니다.");
+			return result;
+		}
+
+		// ✅ 전체 이메일 한 줄로 검사
+		Member member = memberService.findByEmailForFind(email);
+
+		if (member != null) {
+			// ✅ 6자리 숫자 인증코드 생성
+			System.out.println("🔍 찾은 회원 ID: " + member.getId()); // id나오는지 찍어보기
+
+			String code = String.valueOf((int) (Math.random() * 900000) + 100000);
+			// 아이디 찾기
+			memberService.sendIdAuthCode(email, code);
+
+//	        // MemberService에서 인증코드 전송
+//	        memberService.sendAuthCode(email, code); 
+//	        // 비밀번호 찾기
+//	        memberService.sendPwAuthCode(email, code);
+
+			// ✅ JS에서 받을 인증번호 포함 응답
+			result.put("success", true);
+			result.put("code", code);
+			result.put("id", member.getId());
+
+		} else {
+			result.put("success", false);
+			result.put("message", "가입되지 않은 이메일입니다.");
+		}
+
+		return result;
+	}
+
+	// 비밀번호 찾기
+
+	@PostMapping("/sendCodeForPw")
+	@ResponseBody
+	public Map<String, Object> sendCodeForPw(@RequestBody Map<String, String> data) {
+		String id = data.get("id");
+		String email = data.get("email");
+		
+		Map<String, Object> result = new HashMap<>();
+		Member member = memberService.findByIdAndEmail(id, email);
+		
+		if (member != null) {
+			String code = String.valueOf((int) (Math.random() * 900000) + 100000);
+
+			// ✅ 이메일 문자열 조합
+			String fullEmail = member.getEmailId() + "@" + member.getEmailDomain();
+
+			// ✅ 기존 이메일 전송 메서드 재원님꺼에서 직접 호출
+			emailService.sendFindPwEmail(fullEmail, code);
+
+			result.put("success", true);
+			result.put("code", code);
+		} else {
+			result.put("success", false);
+			result.put("message", "아이디 또는 이메일이 일치하지 않습니다.");
+		}
+		return result;
+	}
+
+	// 비번찾기 - 새비번설정
+	@PostMapping("/resetPassword")
+	@ResponseBody
+	public Map<String, Object> resetPassword(@RequestBody Map<String, String> data) {
+	    String id = data.get("id");
+	    String newPassword = data.get("newPassword");
+
+	    Map<String, Object> result = new HashMap<>();
+
+	    Member member = memberService.findById(id);
+	    if (member == null) {
+	        result.put("success", false);
+	        result.put("message", "회원 정보 없음");
+	        return result;
+	    }
+
+	    // 비밀번호 암호화
+	    String encodedPw = passwordEncoder.encode(newPassword);
+
+	    // Map으로 전달
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("id", id);
+	    paramMap.put("newPw", encodedPw);
+
+	    boolean updated = memberService.updatePasswordForFind(paramMap); // service 메서드도 새로 만들어야 함
+
+	    if (updated) {
+	        result.put("success", true);
+	    } else {
+	        result.put("success", false);
+	        result.put("message", "DB 업데이트 실패");
+	    }
+
+	    return result;
+	}
+	
 	// 탈퇴 폼 GET
 	@GetMapping("/delete")
 	public String deleteForm(HttpSession session, Model model) {
@@ -366,7 +461,6 @@ public class MemberController {
 			return "redirect:/main";
 		}
 
-		
 		// 탈퇴 성공시 세션 끊고 메인으로 이동
 		session.invalidate();
 		return "redirect:/main";

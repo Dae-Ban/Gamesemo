@@ -17,7 +17,7 @@ public class SecurityConfig{
         return new BCryptPasswordEncoder();
     }
     
-    //기본 로그인페이지로 이동하는 거, 강제로 없애기 !
+    //기본 로그인페이지로 이동하는 거, 강제로 없애기 !!
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     	http

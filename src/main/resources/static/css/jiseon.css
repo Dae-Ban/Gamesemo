@@ -159,6 +159,9 @@ input:focus, select:focus {
 .btn-full {
 	width: 100%;
 }
+.btn-full:hover {
+  background-color: #444;
+}
 
 /* ✅ 나란히 정렬할 때: 부모가 flex, 자식이 반반 */
 .button-row {
@@ -172,6 +175,9 @@ input:focus, select:focus {
 
 .btn-half {
   flex: 1;
+}
+.btn-half:hover {
+  background-color: #444;
 }
 
 /* =============================
@@ -263,7 +269,7 @@ input[readonly] {
 }
 
 .btn-small:hover {
-	background-color: #000;
+	background-color: #444;
 }
 
 /* 결과 메시지 */
@@ -293,4 +299,24 @@ input[readonly] {
 	height: 1px;
 	background-color: #ddd;
 	margin: 20px 0;
+}
+
+
+/* 인증번호 전송, 확인, 비밀번호 변경 버튼 슬림 스타일 */
+.btn-slim {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: normal;  /* ✅ 기본 굵기 */
+  border: none;
+  border-radius: 6px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-slim:hover {
+  background-color: #444;
 }

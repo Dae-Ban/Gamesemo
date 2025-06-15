@@ -12,7 +12,7 @@
 <body>
 	<div class="container">
 		<h2>비밀번호 변경</h2>
-		<div class="divider"></div>
+		<div class= "divider"></div>
 
 		<c:if test="${not empty error}">
 			<p class="result-text" style="color: red;">${error}</p>

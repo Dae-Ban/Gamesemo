@@ -1,5 +1,7 @@
 package com.example.demo.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,8 +24,16 @@ public interface MemberMapper{
 
 	public Member selectMemberById(String id);
 
-	public int updatePassword(Member member);
+	public int updatePassword(Member member); //일반 비번 변경
 
 	public int deleteMember(String id);
+
+	public Member selectByEmailForRegister(String email);
+	
+	public Member selectByEmailForFind(String email);
+
+	public Member selectByIdAndEmail(@Param("id") String id,  @Param("email") String email);
+
+	public int updatePasswordForFind(Map<String, Object> paramMap); //비번찾기후 비번변경
 
 }
