@@ -42,6 +42,9 @@ public class GameInfoService {
 		for (GameInfo info : getDirectNewInfo()) {
 			infoMapper.insertGameInfo(info);
 		}
+		for (GameInfo info : getNintendoDCInfo()) {
+			infoMapper.insertGameInfo(info);
+		}
 	}
 
 	private List<GameInfo> getSteamDCInfo() {
@@ -124,7 +127,7 @@ public class GameInfoService {
 			String nTitle = norm.normalize(data.getTitle());
 			// gi.setGiNum() - selectkey
 			gi.setGNum(dataMapper.getGNum(nTitle));
-			gi.setGiPlatform("direct");
+			gi.setGiPlatform("nintendo");
 			gi.setGiTitle(data.getTitle());
 			gi.setGiThumb(data.getThumb());
 			gi.setGiPrice(norm.strToInt(data.getPrice()));
