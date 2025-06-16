@@ -49,7 +49,7 @@ public class EmailService {
 
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			helper.setFrom("2j1William@gmail.com");
+			helper.setFrom("Gamesemo");
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(content, true);
@@ -77,7 +77,7 @@ public class EmailService {
 
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			helper.setFrom("2j1William@gmail.com");
+			helper.setFrom("Gamesemo");
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(content, true);
@@ -90,7 +90,7 @@ public class EmailService {
 
 	public void sendVerificationEmail(String to, String code) {
 		String subject = "[Gamesamo]이메일 회원인증 요청";
-		String url = "http://localhost/verifyCode?code=" + code + "&type=MEMBER_JOIN"; // 올바른 경로와 type 파라미터
+		String url = "http://localhost/verify/verifyCode?code=" + code + "&type=MEMBER_JOIN"; // 올바른 경로와 type 파라미터
 		String content = "" + "<html>"
 				+ "<body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>"
 				+ "<table style='margin: 0 auto; text-align: center'>" + "<tr>" + "<td style='text-align: center;'>"
@@ -108,7 +108,7 @@ public class EmailService {
 
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			helper.setFrom("2j1William@gmail.com");
+			helper.setFrom("Gamesemo");
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(content, true);

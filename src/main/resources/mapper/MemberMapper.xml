@@ -91,6 +91,41 @@
 		WHERE id = #{id}
 		AND state = 0
 	</update>
+	
+	<select id="checkIdExists" parameterType="String" resultType="int">
+		SELECT
+		COUNT(*) FROM member WHERE id = #{id}
+	</select>
+		
+	<select id="findByEmailForRegister" parameterType="string"
+		resultType="com.example.demo.model.Member">
+		SELECT * FROM member WHERE email_id || '@' || email_domain
+		= #{email}
+	</select>
+	
+	<!--회원가입-->
+	<insert id="registerMember"
+		parameterType="com.example.demo.model.Member">
+		INSERT INTO MEMBER (
+		ID, NAME, NICKNAME, PW, BIRTH_DATE,
+		EMAIL_ID, EMAIL_DOMAIN,
+		SOCIAL_PLATFORM, SOCIAL_ID,
+		PHONE,
+		GENDER,
+		EMAIL_AD, EMAIL_VERIFIED,
+		JOIN_DATE, STATE
+		)
+		VALUES (
+		#{id},
+		#{name},
+		#{nickname}, #{pw}, #{birthDate},
+		#{emailId}, #{emailDomain},
+		#{socialPlatform, jdbcType=VARCHAR}, #{socialId, jdbcType=VARCHAR},
+		#{phone}, #{gender},
+		#{emailAd}, #{emailVerified},
+		SYSDATE, #{state}
+		)
+	</insert>
 </mapper>
 
 

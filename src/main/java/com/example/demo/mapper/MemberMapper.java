@@ -10,10 +10,19 @@ import com.example.demo.model.Member;
 @Mapper
 public interface MemberMapper {
 	
-    List<Member> selectAllEmailSubscribers();
 
-	void insertMember(Member member);
+	public List<Member> selectAllEmailSubscribers();
 
-	 Member findByEmail(@Param("email") String email); 
+	public void insertMember(Member member);
+
+	public Member findByEmail(@Param("email") String email);
+
+	public int checkIdExists(String id);
+
+	public int countByNickname(String nickname);
+
+	public Member findByEmailForRegister(String email);
+
+	public boolean registerMember(Member member); 
 	 
 }

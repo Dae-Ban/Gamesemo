@@ -24,7 +24,9 @@ import com.example.demo.service.VerifyService;
 
 import oracle.jdbc.proxy.annotation.Post;
 
+
 @Controller
+@RequestMapping("/verify")
 public class VerifyController {
 
 	@Autowired
@@ -36,48 +38,108 @@ public class VerifyController {
 	@Autowired
 	private MemberService memberService;
 	
-	// 이메일 유효성 검사 // 지선님이 구현한거 사용
-	@PostMapping("/checkEmail")
-	@ResponseBody
-	public Map<String, Boolean> checkEmail(@RequestParam("email") String email) {
 
-		// 회원 이메일 존재여부 member 테이블에서 찾기
-		boolean exists = verifyService.isEmailExist(email);
-		Map<String, Boolean> result = new HashMap<>();
-		result.put("exists", exists);
-
-		return result;
-	}
 //------------------------코드 입력후 작동되는 영역------------------------	
 	//(이메일찾기) 유저가 입력한 코드값과 DB에저장된 코드값이 일치하는지 확인 
-	@GetMapping("/findId")
+	@PostMapping("/verifyCodeForId")
 	@ResponseBody
-	public Map<String, Object> verifyCode(
-	    @RequestParam("code") String code,
+	public Map<String, Object> verifyCodeForId(
 	    @RequestParam("email") String email,
-	    @RequestParam("type") String type) {
+	    @RequestParam("code") String code) {
 
-		Map<String, Object> response = new HashMap<>();
+	    Map<String, Object> response = new HashMap<>();
 
-		AccountVerification verification = verifyService.findByEmailAndType(email, type);
+	    // FIND_ID 고정
+	    String type = "FIND_ID";
 
-		if (verification != null && verification.getCode().equals(code)) {
-			// 일치할 경우 - 아이디도 함께 보내기
-			verifyService.updateVerificationTable(code, type);
-			Member member = memberService.findByEmail(email);
-			response.put("success", true);
-			response.put("userId", member.getId());
-		} else {
-			response.put("success", false);
-		}
-		System.out.println("검증용 입력 코드: " + code);
-		System.out.println("DB에서 가져온 CODE: " + verification.getCode());
-		System.out.println("EMAIL: " + email + ", TYPE: " + type);
-		return response;
+	    AccountVerification verification = verifyService.findByEmailAndType(email, type);
+
+	    if (verification == null) {
+	        response.put("success", false);
+	        response.put("message", "인증 기록이 존재하지 않습니다.");
+	        return response;
+	    }
+
+	    // 유효기간 만료 체크
+	    if (verification.getExpiresAt().before(new Timestamp(System.currentTimeMillis()))) {
+	        response.put("success", false);
+	        response.put("message", "인증 시간이 만료되었습니다.");
+	        return response;
+	    }
+
+	    // 코드 일치 확인
+	    if (!verification.getCode().equals(code)) {
+	        response.put("success", false);
+	        response.put("message", "인증번호가 일치하지 않습니다.");
+	        return response;
+	    }
+
+	    // 인증 성공: VERIFIED, USED_AT 업데이트
+	    verifyService.updateVerificationTable(code, type);
+
+	    Member member = memberService.findByEmail(email);
+	    if (member == null) {
+	        response.put("success", false);
+	        response.put("message", "회원 정보가 존재하지 않습니다.");
+	        return response;
+	    }
+
+	    response.put("success", true);
+	    response.put("userId", member.getId());
+	    return response;
 	}
 	
-	//(회원가입 인증 & 비밀번호 찾기) 사용자가 6자리 코드 입력 또는 인증버튼 눌렀을시 코드
-		@RequestMapping("/verifyCode")
+	@PostMapping("/verifyCodeForPw")
+	@ResponseBody
+	public Map<String, Object> verifyCodeForPw(@RequestParam("code") String code,
+	                                           @RequestParam("email") String email) {
+	    Map<String, Object> result = new HashMap<>();
+
+	    try {
+	        AccountVerification verification = verifyService.findByEmailAndType(email, "FIND_PASSWORD");
+
+	        if (verification == null || !verification.getCode().equals(code)) {
+	            result.put("success", false);
+	            result.put("message", "인증번호가 일치하지 않습니다.");
+	            return result;
+	        }
+
+	        // 만료 시간 확인
+	        if (verification.getExpiresAt().before(new Timestamp(System.currentTimeMillis()))) {
+	            result.put("success", false);
+	            result.put("message", "인증번호가 만료되었습니다.");
+	            return result;
+	        }
+
+	        // 이미 인증된 경우
+	        if ("Y".equals(verification.getVerified())) {
+	            result.put("success", false);
+	            result.put("message", "이미 인증이 완료된 코드입니다.");
+	            return result;
+	        }
+
+	        // ✅ DB 상태 업데이트 (VERIFIED = Y, USED_AT = NOW)
+	        int updated = verifyService.updateVerificationTable(code, "FIND_PASSWORD");
+
+	        if (updated > 0) {
+	            result.put("success", true);
+	            result.put("message", "인증 성공");
+	        } else {
+	            result.put("success", false);
+	            result.put("message", "DB 업데이트 실패");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.put("success", false);
+	        result.put("message", "서버 오류가 발생했습니다.");
+	    }
+
+	    return result;
+	}
+	
+	//새로운 회원 이메일 인증 요청 받는곳
+		@GetMapping("/verifyCode")
 		public String verifyCode(@RequestParam("code") String code, @RequestParam("type") String type, Model model) {
 			int result;
 			AccountVerification verification = verifyService.findByCode(code, type);
@@ -105,200 +167,83 @@ public class VerifyController {
 		
 //---------------------회원가입,아이디찾기,비밀번호찾기 이메일 전송 ------------------------		
 	
-	// 회원가입시 회원인증 이메일 전송
-		@RequestMapping("/sendNewMemberVerify")
-		public String sendNewMemberVerify(@RequestParam("email") String email, Model model) {
-			String uuid_code = UUID.randomUUID().toString();
-			String code = uuid_code;
-			
-		    Member member = memberService.findByEmail(email);
 
-		    if (member == null) {
-		        model.addAttribute("error", "회원 정보가 없습니다.");
-		        return "error"; // 오류 처리 뷰
-		    }
-
-		    AccountVerification verification = new AccountVerification();
-		    verification.setId(member.getId());
-		    verification.setCode(code);
-		    verification.setType("MEMBER_JOIN");
-		    verification.setExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusMinutes(10)));
-
-		    verifyService.insertVerification(verification);
-		    emailService.sendVerificationEmail(email, code);
-
-		    return "redirect:member/login"; 
-		}
 	// 아이디 찾기 인증번호 전송
 	@RequestMapping("/sendFindIdCode")
 	@ResponseBody
-	public void sendFindIdCode(@RequestParam("email") String email) {
-		// 6자리 랜덤 코드 생성
-		SecureRandom secureRandom = new SecureRandom();
-		int sixDigitRan = secureRandom.nextInt(1_000_000);
-		String code = String.format("%06d", sixDigitRan);
+	public Map<String, Object> sendFindIdCode(@RequestParam("email") String email) {
+		  Map<String, Object> result = new HashMap<>();
 
-		// email로 MEMBER 테이블에서 해당 회원찾기
-		AccountVerification verification = new AccountVerification();
-		Member member = verifyService.findIdMember(email);
-		System.out.println("member: " + member);
+		    try {
+		        SecureRandom secureRandom = new SecureRandom();
+		        String code = String.format("%06d", secureRandom.nextInt(1_000_000));
 
-		// Account_Verification 테이블에 insert
-		verification.setId(member.getId());
-		verification.setCode(code);
-		verification.setType("FIND_ID");
-		Timestamp expiresAt = Timestamp.valueOf(LocalDateTime.now().plusMinutes(10));
-		verification.setExpiresAt(expiresAt);
-		verifyService.insertVerification(verification);
+		        Member member = verifyService.findIdMember(email);
+		        if (member == null) {
+		            result.put("success", false);
+		            result.put("message", "존재하지 않는 이메일입니다.");
+		            return result;
+		        }
 
-		// 이메일 전송 서비스(sendFindIdEmail 함수로 이메일주소값 & 코드값)
-		emailService.sendFindIdEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
+		        AccountVerification verification = new AccountVerification();
+		        verification.setId(member.getId());
+		        verification.setCode(code);
+		        verification.setType("FIND_ID");
+		        verification.setExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusMinutes(10)));
+
+		        verifyService.insertVerification(verification);
+		        emailService.sendFindIdEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
+		        
+		        result.put("success", true);
+		        result.put("code", code);
+		        result.put("id", member.getId());
+		        return result;
+
+		    } catch (Exception e) {
+		        result.put("success", false);
+		        result.put("message", "서버 오류가 발생했습니다.");
+		        return result;
+		    }
 	}
 
 	// 비밀번호 찾기 인증번호 전송
-	@RequestMapping("/sendFindPwCode")
+	@PostMapping("/sendFindPwCode")
 	@ResponseBody
-	public void sendFindPwCode(@RequestParam("email") String email) {
-		// 6자리 랜덤 코드 생성
-		SecureRandom secureRandom = new SecureRandom();
-		int sixDigitRan = secureRandom.nextInt(1_000_000);
-		String code = String.format("%06d", sixDigitRan);
+	public Map<String, Object> sendFindPwCode(@RequestParam("email") String email) {
+	    Map<String, Object> result = new HashMap<>();
 
-		// email로 MEMBER 테이블에서 해당 회원찾기
-		AccountVerification verification = new AccountVerification();
-		Member member = verifyService.findIdMember(email);
-		System.out.println("member: " + member);
+	    try {
+	        SecureRandom secureRandom = new SecureRandom();
+	        String code = String.format("%06d", secureRandom.nextInt(1_000_000));
 
-		// Account_Verification 테이블에 insert
-		verification.setId(member.getId());
-		verification.setCode(code);
-		verification.setType("FIND_PASSWORD");
-		Timestamp expiresAt = Timestamp.valueOf(LocalDateTime.now().plusMinutes(10));
-		verification.setExpiresAt(expiresAt);
-		verifyService.insertVerification(verification);
+	        Member member = verifyService.findIdMember(email);
+	        if (member == null) {
+	            result.put("success", false);
+	            result.put("message", "가입된 이메일이 아닙니다.");
+	            return result;
+	        }
 
-		// 이메일 전송 서비스(sendFindPwEmail 함수로 이메일주소값 & 코드값)
-		emailService.sendFindPwEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
+	        AccountVerification verification = new AccountVerification();
+	        verification.setId(member.getId());
+	        verification.setCode(code);
+	        verification.setType("FIND_PASSWORD");
+	        verification.setExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusMinutes(10)));
+
+	        verifyService.insertVerification(verification);
+	        emailService.sendFindPwEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
+
+	        result.put("success", true);
+	        result.put("code", code);
+	        return result;
+
+	    } catch (Exception e) {
+	        result.put("success", false);
+	        result.put("message", "서버 오류가 발생했습니다.");
+	        return result;
+	    }
 	}
 
 }	
 
-//-------------------UI 없었을때 테스트 용도------------------------- 	
-	
-//	@RequestMapping("/verifyNewMember")
-//	public String verifyNewMember(@RequestParam("code") String code, @RequestParam("type") String type, Model model) {
-//		int result;
-//		AccountVerification verification = verifyService.findByCode(code, type);
-//
-//		if (verification == null || "Y".equals(verification.getVerified())) {
-//			result = 0;
-//			model.addAttribute("result", result);
-//		} else if (verification.getExpiresAt().before(new Timestamp(System.currentTimeMillis()))) {
-//			result = -1;
-//		} else {
-//			verifyService.updateVerificationTable(code, type);
-//			result = verifyService.updateEmailVerified(code);
-//		}
-//
-//		model.addAttribute("result", result);
-//		return "verify/verifyResult";
-//	}	
-
-//	@RequestMapping("/test")
-//	public String testVerify() {
-//		//회원가입 인증 코드 생성
-//		String code = UUID.randomUUID().toString();
-//		String emailVerificationLink = code;
-//		
-//		//아이디 or 비밀번호 찾기 코드 생성
-//		SecureRandom secureRandom = new SecureRandom();
-//		int sixDigitRan = secureRandom.nextInt(1_000_000); //두번째 파라미터는 자리수
-//		String sixDigitCode = String.format("%06d",sixDigitRan);
-//		
-//				  			    // "MEMBER_JOIN"   //1 회원가입인증   
-//								// "FIND_PASSWORD" //그외 아이디 or 비밀번호 찾기
-//								// "FIND_ID"
-//		insertTest(sixDigitCode, "FIND_ID", 2);
-//		
-//		return "verify";
-//	}
-
-//	@RequestMapping("member/login")
-//	public String login() {
-//		return "member/login";
-//	}
-//	
-//	@RequestMapping("verify/testForm")
-//	public String testForm() {
-//		return "verify/testForm";
-//	}
-
-//	@RequestMapping("verify/testSubmit")
-//	public String testSubmit(@RequestParam("verifyCode") String code, @RequestParam("verifyType") String type, Model model) {
-//		AccountVerification verification = verifyService.findByCode(code, type);
-//		int result;
-//		if(code.equals(verification.getCode())) {
-//			result = verifyService.updateVerificationTable(code, type);
-//			System.out.println("인증성공!!!!!!!!");
-//			model.addAttribute("result", result);
-//			return "verify/verifySucess";
-//		}else {
-//			result = 0;
-//			System.out.println("인증실패");
-//			return "verify/verifySucess";
-//		}
-//	}
-//	
-
-//	private void insertTest( String code, String type, int select) {
-//		if(select == 1) {
-//			Member member = new Member();
-//			Timestamp ts = new Timestamp(System.currentTimeMillis());
-//			member.setId("tester54");
-//			member.setName("테스터54");
-//			member.setNickname("TEST");
-//			member.setPw("1234");
-//			member.setBirthDate("19900101");
-//			member.setEmailId("2j1william");
-//			member.setEmailDomain("gmail.com");
-//			member.setPhone("12345");
-//			member.setGender("남");
-//			member.setJoinDate(ts);
-//			member.setState(2);
-//			member.setEmailAd("Y");
-//			member.setEmailVerified("N");
-//			
-//			AccountVerification verification = new AccountVerification();
-//			
-//			verification.setId(member.getId());
-//			verification.setCode(code);
-//			verification.setType(type);
-//			Timestamp expiresAt = Timestamp.valueOf(LocalDateTime.now().plusMinutes(10));
-//			verification.setExpiresAt(expiresAt);
-//			
-//			verifyService.insertTestMember(member);
-//			verifyService.insertVerification(verification);
-//			
-//			emailService.sendVerificationEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
-//		}else {
-//			
-//			AccountVerification verification = new AccountVerification();
-//			Member member = verifyService.findIdMember("2j1william","gmail.com"); //member email 값이 추후에 들어가야함
-//			System.out.println("member: "+member);
-//			
-//			verification.setId(member.getId());
-//			verification.setCode(code);
-//			verification.setType(type);
-//			
-//			Timestamp expiresAt = Timestamp.valueOf(LocalDateTime.now().plusMinutes(10));
-//			verification.setExpiresAt(expiresAt);
-//			
-//			verifyService.insertVerification(verification);
-//			
-////			emailService.sendFindIdEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
-//			emailService.sendFindPwEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
-//			
-//		}
-//	}
 
 

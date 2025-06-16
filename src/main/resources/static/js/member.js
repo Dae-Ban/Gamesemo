@@ -531,60 +531,80 @@ function sendIdCode() {
 	message.innerText = "⏳ 인증번호를 전송 중입니다...";
 	message.style.color = "gray";
 
-	fetch("/member/sendCodeForId", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ email })
+	fetch("/verify/sendFindIdCode", {
+	  method: "POST",
+	  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	  body: new URLSearchParams({ email })
 	})
 		.then(res => res.json())
 		.then(data => {
 
 			console.log("✅ data.id 값:", data.id);
 
-
 			if (data.success) {
-				idAuthCode = data.code;
-				idFound = data.id;
-				message.innerText = "✅ 인증번호가 이메일로 전송되었습니다.";
-				message.style.color = "green";
-			} else {
-				message.innerText = "❌ " + data.message;
-				message.style.color = "red";
-			}
-		})
-		.catch(err => {
-			console.error("전송 오류:", err);
-			message.innerText = "❌ 서버 오류가 발생했습니다.";
-			message.style.color = "red";
+			      idAuthCode = data.code;
+			      idFound = data.id;
+			      document.getElementById("idMessage").innerText = "✅ 인증번호가 전송되었습니다.";
+			    } else {
+			      document.getElementById("idMessage").innerText = "❌ " + data.message;
+			    }
+			  })
+			  .catch(err => {
+			    console.error("전송 오류:", err);
+			    document.getElementById("idMessage").innerText = "❌ 서버 오류 발생";
 		});
 }
 
+// 아이디 인증번호 전송
+fetch("/verify/sendFindIdCode", {
+  method: "POST",
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  body: new URLSearchParams({ email })
+})
+
+// 이메일 존재 확인
+fetch("/verify/checkEmail", {
+  method: "POST",
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  body: new URLSearchParams({ email })
+})
+
+// 비밀번호 인증번호 전송
+fetch("/verify/sendFindPwCode", {
+  method: "POST",
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  body: new URLSearchParams({ email })
+})
+
 //아이디 찾기
-function checkIdCode() {
+function checkIdCode() { 
 	const code = document.getElementById("findIdCode").value.trim();
-	const result = document.getElementById("idResult");
+		const email = document.getElementById("findIdEmail").value.trim();
+		const result = document.getElementById("idResult");
 
-
-	if (code === String(idAuthCode) && idFound) {
-		//		alert(`✅ 회원님의 아이디는 ${idFound} 입니다.`);
-		//		location.href = "/member/login"; // 로그인 페이지로 이동
-
-		//		result.innerText = "✅ 회원님의 아이디는" + `${idFound}` + "입니다.";
-		//		result.style.color = "green";
-
-		result.innerHTML = `✅ 회원님의 아이디는 <strong>${idFound}</strong> 입니다.
-			<br><br>
-			<a href="/member/login" style="color: black; text-decoration: none;">로그인 페이지로 이동하기</a>`;
-		result.style.color = "green";
-
-
-	} else {
-		result.innerText = "❌ 인증번호가 일치하지 않습니다.";
-		result.style.color = "red";
-	}
+		fetch("/verify/verifyCodeForId", {
+			method: "POST",
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			body: new URLSearchParams({ email, code })
+		})
+			.then(res => res.json())
+			.then(data => {
+				if (data.success) {
+					result.innerHTML = `✅ 회원님의 아이디는 <strong>${data.userId}</strong> 입니다.<br><br>
+					<a href="/member/login" style="color: black; text-decoration: none;">로그인 페이지로 이동하기</a>`;
+					result.style.color = "green";
+				} else {
+					result.innerText = "❌ 인증번호가 일치하지 않습니다.";
+					result.style.color = "red";
+				}
+			})
+			.catch(() => {
+				result.innerText = "❌ 서버 오류가 발생했습니다.";
+				result.style.color = "red";
+			});
 }
 // 비번찾기
-function sendPwCode() {
+function sendPwCode() { 
 	const id = document.getElementById("findPwId").value.trim();
 	const email = document.getElementById("findPwEmail").value.trim();
 	const message = document.getElementById("pwMessage");
@@ -602,10 +622,10 @@ function sendPwCode() {
 	message.style.color = "gray";
 
 
-	fetch("/member/sendCodeForPw", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ id, email })
+	fetch("/verify/sendFindPwCode", {
+	  method: "POST",
+	  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	  body: new URLSearchParams({ email })
 	})
 		.then(res => res.json())
 		.then(data => {
@@ -627,20 +647,32 @@ function sendPwCode() {
 
 
 function verifyCode() {
+	const email = document.getElementById("findPwEmail").value.trim();
 	const code = document.getElementById("findPwCode").value.trim();
 	const result = document.getElementById("pwResult");
 
-	if (code === pwAuthCode) {
-		result.innerText = "✅ 인증 성공! 비밀번호를 재설정하세요.";
-		result.style.color = "green";
-		document.getElementById("resetPwSection").style.display = "block";
-		
-		currentUserId = document.getElementById("findPwId").value.trim();
-		
-	} else {
-		result.innerText = "❌ 인증번호가 일치하지 않습니다.";
-		result.style.color = "red";
-	}
+	fetch("/verify/verifyCodeForPw", { //DB ACCOUNT_VERIFICATION - VERIFED, USED_AT 업데이트 위해 수정
+		method: "POST",
+		headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		body: new URLSearchParams({ email, code })
+	})
+		.then(res => res.json())
+		.then(data => {
+			if (data.success) {
+				result.innerText = "✅ 인증 성공! 비밀번호를 재설정하세요.";
+				result.style.color = "green";
+				document.getElementById("resetPwSection").style.display = "block";
+
+				currentUserId = document.getElementById("findPwId").value.trim();
+			} else {
+				result.innerText = "❌ 인증번호가 일치하지 않습니다.";
+				result.style.color = "red";
+			}
+		})
+		.catch(() => {
+			result.innerText = "❌ 서버 오류가 발생했습니다.";
+			result.style.color = "red";
+		});
 }
 
 function resetPassword() {
