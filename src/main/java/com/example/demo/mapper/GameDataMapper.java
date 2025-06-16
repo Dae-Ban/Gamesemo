@@ -13,4 +13,5 @@ public interface GameDataMapper {
 	// from 스크랩
 	public void margeSteamDC();
 	public void margeSteamNew();
+	public void margeDirectNew();
 }

@@ -60,5 +60,24 @@
 		thumb)
 		VALUES (seq_game.nextval, s.title, s.n_title, s.thumb)
 	</insert>
+	
+	<insert id="margeDirectNew">
+		MERGE INTO game g
+		USING (SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY n_title ORDER BY title) AS rn
+		FROM direct_new
+		)
+		WHERE rn = 1) s
+		ON (g.n_title = s.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET
+		g.thumb=s.thumb
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title, n_title,
+		thumb)
+		VALUES (seq_game.nextval, s.title, s.n_title, s.thumb)
+	</insert>
 
 </mapper>

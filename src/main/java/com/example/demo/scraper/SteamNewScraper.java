@@ -60,6 +60,12 @@ public class SteamNewScraper implements Scraper {
 						g.setPrice(price);
 					g.setFprice(fprice);
 					
+					// 품절인 경우 가격 정보가 없으면 스킵
+					if ((fprice == null || fprice.isEmpty()) && (price == null || price.isEmpty())) {
+						System.out.println("⛔ 품절 또는 가격 정보 없음: " + title);
+						continue;
+					}
+					
 					g.setThumb(game.select("img").attr("src"));
 					g.setLink(game.attr("href"));
 					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));

@@ -41,8 +41,17 @@ public class SteamDCScraper implements Scraper {
 					g.setPk(pk);
 					g.setTitle(title);
 					g.setRate(game.select(".discount_pct").text().trim());
-					g.setPrice(game.select(".discount_original_price").text().trim());
-					g.setFprice(game.select(".discount_final_price").text().trim());
+					
+					String price = game.select(".discount_original_price").text().trim();
+					String fprice = game.select(".discount_final_price").text().trim();
+					// 가격 정보가 없으면 스킵
+					if ((fprice == null || fprice.isEmpty()) && (price == null || price.isEmpty())) {
+						System.out.println("⛔ 품절 또는 가격 정보 없음: " + title);
+						continue;
+					}
+					g.setPrice(price);
+					g.setFprice(fprice);
+					
 					g.setThumb(game.select("img").attr("src"));
 					g.setLink(game.attr("href"));
 					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));

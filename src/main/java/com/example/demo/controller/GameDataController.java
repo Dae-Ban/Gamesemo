@@ -46,6 +46,12 @@ public class GameDataController {
 		return "steam new marge";
 	}
 	
+	@GetMapping("/margedirectnew")
+	public String margeDirectNew() {
+		data.margeSteamNew();
+		return "direct new marge";
+	}
+	
 	// 주의! 스팀 api 20만여개의 데이터를 DB에 저장하는 메소드
 	@GetMapping("/getsteamapi")
 	public String getSteamApi() {

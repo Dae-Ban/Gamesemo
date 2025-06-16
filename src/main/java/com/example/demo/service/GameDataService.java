@@ -16,4 +16,7 @@ public class GameDataService {
 	public void margeSteamNew() {
 		mapper.margeSteamNew();
 	}
+	public void margeDirectNew() {
+		mapper.margeDirectNew();
+	}
 }
