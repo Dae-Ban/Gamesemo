@@ -58,14 +58,22 @@ $(document).ready(function() {
 
 	// 페이지 진입 직후 화면 높이가 문서 높이보다 같거나 크면 강제 로딩
 	if ($(window).height() >= $(document).height()) {
-		loadMoreGames();
+		tryLoadUntilFill();
 	}
 });
 
-// 상세 페이지 링크
-$(document).on('click', 'tr.game-content', function() {
-	location.href = "/game/" + $(this).attr("id");
-});
+function tryLoadUntilFill() {
+	if (isLoading || isLastPage) return;
+
+	loadMoreGames();
+
+	setTimeout(() => {
+		// 문서 길이가 여전히 짧으면 재시도
+		if ($(window).height() >= $(document).height() && !isLastPage) {
+			tryLoadUntilFill();
+		}
+	}, 500); // 약간의 딜레이 후 재시도
+}
 
 // 무한 스크롤 로딩
 function loadMoreGames() {
@@ -91,6 +99,7 @@ function loadMoreGames() {
 		}
 	});
 }
+
 
 // 렌더링
 function renderGames(data) {
@@ -148,3 +157,8 @@ function renderGames(data) {
 		$table.append($tr);
 	});
 }
+
+// 상세 페이지 링크
+$(document).on('click', 'tr.game-content', function() {
+	location.href = "/game/" + $(this).attr("id");
+});
