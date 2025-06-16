@@ -51,4 +51,16 @@
 	<select id="getNintendoDC" resultType="scrap">
 		SELECT * FROM nintendo_dc
 	</select>
+	
+	<!-- nintendo new -->
+	<delete id="nintendoNewClean">
+		DELETE FROM nintendo_new
+	</delete>
+	<insert id="nintendoNewInsert" parameterType="scrap">
+		INSERT INTO nintendo_new
+		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{link},#{scrapedAt},#{nTitle})
+	</insert>
+	<select id="getNintendoNew" resultType="scrap">
+		SELECT * FROM nintendo_new
+	</select>
 </mapper>
