@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -35,17 +34,16 @@ public class EmailService {
 
 	public void sendFindIdEmail(String to, String code) {
 		String subject = "[Gamesamo]아이디 찾기 인증코드";
-		String content = 
-				"" + "<html>"
+		String content = "" + "<html>"
 				+ "<body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>"
-				+ "<table style='margin: 0 auto; text-align: center'>" + "<tr>"
-				+ "<td style='text-align: center;'>" + "<img src='https://i.imgur.com/VKxL314.png' style='width: 300px; height: 80px;'>" 
-				+ "</td>" + "</tr>"
-			    + "</table>" + "<div style='height: 30px;'></div>"
+				+ "<table style='margin: 0 auto; text-align: center'>" + "<tr>" + "<td style='text-align: center;'>"
+				+ "<img src='https://i.imgur.com/VKxL314.png' style='width: 300px; height: 80px;'>" + "</td>" + "</tr>"
+				+ "</table>" + "<div style='height: 30px;'></div>"
 				+ "<div style='max-width: 500px; margin: auto; background-color: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>"
-				+ "<h2 style='text-align: center; color: #333;'>"+code+"</h2>"
-				+ "<p style='text-align: center;'>10분 이내로 6자리 코드를 입력해 주세요.</p>"
-				+ "</div>" + "</body>" + "</html>";
+				+ "<div style='text-align: center; margin-bottom:10px;'>아이디 찾기 인증코드:</div>"
+				+ "<h2 style='text-align: center; color: #333; background-color: #F7F7F7; width: 180px; margin: 0 auto;\r\n"
+				+ "    border-radius: 10px;\r\n'>" + code + "</h2>"
+				+ "<p style='text-align: center;'>10분 이내로 6자리 코드를 입력해 주세요.</p>" + "</div>" + "</body>" + "</html>";
 
 		MimeMessage message = mailSender.createMimeMessage();
 
@@ -59,22 +57,21 @@ public class EmailService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void sendFindPwEmail(String to, String code) {
 		String subject = "[Gamesamo]비밀번호 찾기 인증 코드";
-		String content = 
-				"" + "<html>"
+		String content = "" + "<html>"
 				+ "<body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>"
-				+ "<table style='margin: 0 auto; text-align: center'>" + "<tr>"
-				+ "<td style='text-align: center;'>" + "<img src='https://i.imgur.com/VKxL314.png' style='width: 300px; height: 80px;'>" 
-				+ "</td>" + "</tr>"
-			    + "</table>" + "<div style='height: 30px;'></div>"
+				+ "<table style='margin: 0 auto; text-align: center'>" + "<tr>" + "<td style='text-align: center;'>"
+				+ "<img src='https://i.imgur.com/VKxL314.png' style='width: 300px; height: 80px;'>" + "</td>" + "</tr>"
+				+ "</table>" + "<div style='height: 30px;'></div>"
 				+ "<div style='max-width: 500px; margin: auto; background-color: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>"
-				+ "<h2 style='text-align: center; color: #333;'>"+code+"</h2>"
-				+ "<p style='text-align: center;'>10분 이내로 6자리 코드를 입력해 주세요.</p>"
-				+ "</div>" + "</body>" + "</html>";
+				+ "<div style='text-align: center; margin-bottom:10px;'>비밀번호 찾기 인증코드:</div>"
+				+ "<h2 style='text-align: center; color: #333; background-color: #F7F7F7; width: 180px; margin: 0 auto;\r\n"
+				+ "    border-radius: 10px;\r\n'>" + code + "</h2>"
+				+ "<p style='text-align: center;'>10분 이내로 6자리 코드를 입력해 주세요.</p>" + "</div>" + "</body>" + "</html>";
 
 		MimeMessage message = mailSender.createMimeMessage();
 
@@ -88,24 +85,22 @@ public class EmailService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void sendVerificationEmail(String to, String code) {
 		String subject = "[Gamesamo]이메일 회원인증 요청";
 		String url = "http://localhost/member/verify?code=" + code;
-		String content = 
-				"" + "<html>"
+		String content = "" + "<html>"
 				+ "<body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>"
-				+ "<table style='margin: 0 auto; text-align: center'>" + "<tr>"
-				+ "<td style='text-align: center;'>" + "<img src='https://i.imgur.com/VKxL314.png' style='width: 300px; height: 80px;'>" 
-				+ "</td>" + "</tr>"
-			    + "</table>" + "<div style='height: 30px;'></div>"
+				+ "<table style='margin: 0 auto; text-align: center'>" + "<tr>" + "<td style='text-align: center;'>"
+				+ "<img src='https://i.imgur.com/VKxL314.png' style='width: 300px; height: 80px;'>" + "</td>" + "</tr>"
+				+ "</table>" + "<div style='height: 30px;'></div>"
 				+ "<div style='max-width: 500px; margin: auto; background-color: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>"
 				+ "<h2 style='text-align: center; color: #333;'>이메일 인증</h2>"
 				+ "<p style='text-align: center;'>아래 버튼을 클릭하면 인증이 완료됩니다.</p>"
 				+ "<div style='text-align: center; margin-top: 30px;'>" + "<a href='http://localhost/verify?code="
-				+ code
+				+ code + "&type='MEMBER_JOIN'"
 				+ "' style='background-color: #000000; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;'>이메일 인증</a>"
 				+ "</div>" + "</div>" + "</body>" + "</html>";
 
@@ -121,9 +116,7 @@ public class EmailService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
 
 }

@@ -1,5 +1,7 @@
 package com.example.demo.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -13,7 +15,7 @@ public interface VerifyMapper {
 
 	public Member getTestMember();
 
-	public AccountVerification findByCode(String code);
+	AccountVerification findByCode(@Param("code") String code, @Param("type") String type);
 
 	public int updateEmailVerified(String token);
 
@@ -21,9 +23,14 @@ public interface VerifyMapper {
 
 	public void insertVerification(AccountVerification verification);
 
-	public int updateVerificationTable(String code);
+	public int updateVerificationTable(@Param("code") String code, @Param("type") String type);
 
-	@Select("SELECT * FROM MEMBER WHERE email_id = #{emailId} AND email_domain = #{domain}")
-	public Member findIdMember(@Param("emailId") String emailId, @Param("domain") String domain);
+	public Member findIdMember(@Param("email")String email);
+
+	public boolean isEmailExist(@Param("email") String email);
+
+	AccountVerification findByEmailAndType(@Param("email") String email, @Param("type") String type);
+
+	public AccountVerification findByIdAndType(Map<String, Object> map);
 
 }
