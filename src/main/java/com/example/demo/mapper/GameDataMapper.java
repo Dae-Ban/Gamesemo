@@ -16,4 +16,5 @@ public interface GameDataMapper {
 	public void margeSteamNew();
 	public void margeDirectNew();
 	public void margeNintendoDC();
+	public void margeNintendoNew();
 }

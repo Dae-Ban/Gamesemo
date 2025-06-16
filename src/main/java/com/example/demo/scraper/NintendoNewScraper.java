@@ -45,7 +45,7 @@ public class NintendoNewScraper implements Scraper {
 					String price = game.select(".old-price .price").text().trim();
 					String fprice = game.select(".special-price .price").text().trim();
 					if(fprice == null || fprice.isEmpty())
-						fprice = game.select(".price-final_price").text().trim();
+						fprice = game.select(".price-final_price .price").text().trim();
 					// 가격 정보가 없으면 스킵
 					if (fprice == null || fprice.isEmpty()) {
 						System.out.println("⛔ 품절 또는 가격 정보 없음: " + title);

@@ -45,6 +45,9 @@ public class GameInfoService {
 		for (GameInfo info : getNintendoDCInfo()) {
 			infoMapper.insertGameInfo(info);
 		}
+		for (GameInfo info : getNintendoNewInfo()) {
+			infoMapper.insertGameInfo(info);
+		}
 	}
 
 	private List<GameInfo> getSteamDCInfo() {
@@ -107,11 +110,8 @@ public class GameInfoService {
 
 			int dc_rate = norm.strToInt(data.getRate());
 			gi.setGiRate(dc_rate);
-			if (dc_rate > 0)
-				gi.setGiState("newdc");
-			else
-				gi.setGiState("new");
-
+			
+			gi.setGiState("new");
 			gi.setGiLink(data.getLink());
 			gi.setGiDate(data.getScrapedAt());
 			giList.add(gi);
@@ -142,6 +142,37 @@ public class GameInfoService {
 			}
 			
 			gi.setGiState("dc");
+			gi.setGiLink(data.getLink());
+			gi.setGiDate(data.getScrapedAt());
+			giList.add(gi);
+		}
+		return giList;
+	}
+	
+	private List<GameInfo> getNintendoNewInfo() {
+		List<ScrapData> nintendoNew = scraped.getNintendoNew();
+		List<GameInfo> giList = new ArrayList<>();
+		for (ScrapData data : nintendoNew) {
+			GameInfo gi = new GameInfo();
+			String nTitle = norm.normalize(data.getTitle());
+			// gi.setGiNum() - selectkey
+			gi.setGNum(dataMapper.getGNum(nTitle));
+			gi.setGiPlatform("nintendo");
+			gi.setGiTitle(data.getTitle());
+			gi.setGiThumb(data.getThumb());
+			gi.setGiPrice(norm.strToInt(data.getPrice()));
+			gi.setGiFprice(norm.strToInt(data.getFprice()));
+			
+			if (gi.getGiPrice() > 0) {
+				double rate = (1 - ((double) gi.getGiFprice() / gi.getGiPrice())) * 100;
+				gi.setGiRate((int) Math.round(rate));
+			} else {
+				gi.setGiRate(0);
+				gi.setGiFprice(0);
+			}
+			
+			
+			gi.setGiState("new");
 			gi.setGiLink(data.getLink());
 			gi.setGiDate(data.getScrapedAt());
 			giList.add(gi);
