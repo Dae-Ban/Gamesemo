@@ -75,7 +75,7 @@
 			<p id="resetResult" class="result-text"></p>
 		</div>
 	</div>
-	<!-- 비번 탭 안넘어가서 ... js 같이 씀  -->
+	<!--  비번 탭 안넘어가서 ... js 같이 씀  -->
 	<script>
 let idAuthCode = null;
 let idFound = null;

@@ -1,6 +1,6 @@
 
 
-/* 회원가입 아이디 유효성 + 중복 검사 */
+/*회원가입 아이디 유효성 + 중복 검사 */
 
 function checkId() {
 	const id = document.getElementById("id").value.trim();
