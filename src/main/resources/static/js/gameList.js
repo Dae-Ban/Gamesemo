@@ -8,7 +8,7 @@ function loadGames({
 	onComplete = null,
 	onEmpty = null,
 	onError = null
-}) {
+}) { 
 	$.ajax({
 		url: url + amount,
 		method: 'GET',
