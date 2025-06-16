@@ -101,7 +101,7 @@ function showTab(tab) {
     pwBtn.classList.add("active");
     pwTab.querySelector("input")?.focus();
   }
-}
+ }
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("tabIdBtn")?.addEventListener("click", () => showTab("id"));
