@@ -132,14 +132,14 @@ function renderGames(data) {
 		// 기본가
 		const ogPriceCell = $("<td>").addClass("game-og-price");
 		if (game.giRate != 0) {
-			ogPriceCell.text(formatter.format(game.giPrice));
+			ogPriceCell.text("₩ " + formatter.format(game.giPrice));
 		}
 		$tr.append(ogPriceCell);
 
 		// 최종가
 		const finalPriceCell = $("<td>").addClass("game-final-price");
 		if (game.giFprice != 0) {
-			finalPriceCell.append($("<b>").text(formatter.format(game.giFprice)));
+			finalPriceCell.append($("<b>").text("₩ " + formatter.format(game.giFprice)));
 		} else {
 			finalPriceCell.text("무료");
 		}
