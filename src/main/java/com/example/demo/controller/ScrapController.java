@@ -24,7 +24,7 @@ public class ScrapController {
             .collect(Collectors.toMap(Scraper::getName, Function.identity()));
     }
 	
-    // /steamdc, /steamnew
+    // /steamdc, /steamnew, /directnew
     @GetMapping("/{target}")
     public ResponseEntity<String> scrap(@PathVariable("target") String target) {
         Scraper scraper = scraperMap.get(target);

@@ -13,5 +13,9 @@ public interface ScrapMapper {
 	public void steamNewClean();
 	public void steamNewInsert(ScrapData scrap);
 	public List<ScrapData> getSteamNew();
+	
+	public void directNewClean();
+	public void directNewInsert(ScrapData scrap);
+	public List<ScrapData> getdirectNew();
 
 }

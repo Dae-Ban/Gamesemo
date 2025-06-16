@@ -23,4 +23,9 @@ public class Normalize {
 	public int strToInt(String str) {
 		return Integer.parseInt(str.replaceAll("[^0-9]", ""));
 	}
+	
+	// [태그] 제거
+	public String noTag(String rawTitle) {
+		return rawTitle.replaceAll("\\[.*?\\]\\s*", "").trim();
+	}
 }

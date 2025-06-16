@@ -27,4 +27,16 @@
 	<select id="getSteamNew" resultType="scrap">
 		SELECT * FROM steam_new
 	</select>
+	
+	<!-- direct new -->
+	<delete id="directNewClean">
+		DELETE FROM direct_new
+	</delete>
+	<insert id="directNewInsert" parameterType="scrap">
+		INSERT INTO direct_new
+		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{rate},#{link},#{scrapedAt},#{nTitle})
+	</insert>
+	<select id="getdirectNew" resultType="scrap">
+		SELECT * FROM direct_new
+	</select>
 </mapper>
