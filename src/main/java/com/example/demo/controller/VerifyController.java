@@ -118,7 +118,7 @@ public class VerifyController {
 	            return result;
 	        }
 
-	        // ✅ DB 상태 업데이트 (VERIFIED = Y, USED_AT = NOW)
+	        //DB 상태 업데이트 (VERIFIED = Y, USED_AT = NOW)
 	        int updated = verifyService.updateVerificationTable(code, "FIND_PASSWORD");
 
 	        if (updated > 0) {
