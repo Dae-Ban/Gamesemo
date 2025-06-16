@@ -90,7 +90,7 @@ public class EmailService {
 
 	public void sendVerificationEmail(String to, String code) {
 		String subject = "[Gamesamo]이메일 회원인증 요청";
-		String url = "http://localhost/member/verify?code=" + code;
+		String url = "http://localhost/verifyCode?code=" + code + "&type=MEMBER_JOIN"; // 올바른 경로와 type 파라미터
 		String content = "" + "<html>"
 				+ "<body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>"
 				+ "<table style='margin: 0 auto; text-align: center'>" + "<tr>" + "<td style='text-align: center;'>"
@@ -99,8 +99,8 @@ public class EmailService {
 				+ "<div style='max-width: 500px; margin: auto; background-color: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>"
 				+ "<h2 style='text-align: center; color: #333;'>이메일 인증</h2>"
 				+ "<p style='text-align: center;'>아래 버튼을 클릭하면 인증이 완료됩니다.</p>"
-				+ "<div style='text-align: center; margin-top: 30px;'>" + "<a href='http://localhost/verify?code="
-				+ code + "&type='MEMBER_JOIN'"
+				+ "<div style='text-align: center; margin-top: 30px;'>" + "<a href='"
+				+ url 
 				+ "' style='background-color: #000000; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;'>이메일 인증</a>"
 				+ "</div>" + "</div>" + "</body>" + "</html>";
 

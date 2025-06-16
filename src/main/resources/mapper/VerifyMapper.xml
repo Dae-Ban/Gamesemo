@@ -46,14 +46,12 @@
 		)
 	</update>
 
-	<!-- <update id="updateVerificationTable" parameterType="String"> -->
-	<!-- UPDATE -->
-	<!-- ACCOUNT_VERIFICATION -->
-	<!-- SET VERIFIED = 'Y', USED_AT = SYSTIMESTAMP -->
-	<!-- WHERE CODE = #{code} -->
-	<!-- AND TYPE = -->
-	<!-- 'MEMBER_JOIN' -->
-	<!-- </update> -->
+	<update id="updateMemberTable" parameterType="String">
+		UPDATE
+		MEMBER
+		SET EMAIL_VERIFIED = 'Y'
+		WHERE id = #{id}
+	</update>
 
 	<update id="updateVerificationTable" parameterType="map">
 		UPDATE
@@ -114,33 +112,39 @@
 		#{email}
 	</select>
 
-<!-- 사용안함 -->
-<!-- 	<select id="findByIdAndType" resultType="AccountVerification"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM ( -->
-<!-- 		SELECT * -->
-<!-- 		FROM ACCOUNT_VERIFICATION -->
-<!-- 		WHERE id = #{id} AND type = #{type} -->
-<!-- 		ORDER BY -->
-<!-- 		created_at DESC -->
-<!-- 		) -->
-<!-- 		WHERE ROWNUM = 1 -->
-<!-- 	</select> -->
-	
+	<!-- 사용안함 -->
+	<!-- <select id="findByIdAndType" resultType="AccountVerification"> -->
+	<!-- SELECT * -->
+	<!-- FROM ( -->
+	<!-- SELECT * -->
+	<!-- FROM ACCOUNT_VERIFICATION -->
+	<!-- WHERE id = #{id} AND type = #{type} -->
+	<!-- ORDER BY -->
+	<!-- created_at DESC -->
+	<!-- ) -->
+	<!-- WHERE ROWNUM = 1 -->
+	<!-- </select> -->
+
 	<select id="findByEmailAndType"
 		resultType="com.example.demo.model.AccountVerification">
 		SELECT *
 		FROM (
 		SELECT av.*
 		FROM ACCOUNT_VERIFICATION av
-		JOIN MEMBER m ON av.id = m.id
-		WHERE (m.email_id || '@' || m.email_domain) = #{email}
+		JOIN
+		MEMBER m ON av.id = m.id
+		WHERE (m.email_id || '@' || m.email_domain) =
+		#{email}
 		AND av.type =
 		#{type}
 		ORDER BY av.created_at DESC
 		)
-		WHERE ROWNUM = 1
+		WHERE ROWNUM =
+		1
 	</select>
+
+
+
 
 
 

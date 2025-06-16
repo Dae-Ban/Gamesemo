@@ -58,6 +58,14 @@ public class VerifyService{
 		return verifyMapper.findByEmailAndType(email, type);
 	}
 
+	public Member findIdMember(String email, String domain) {
+		return verifyMapper.findIdMember(email, domain);
+	}
+
+	public void updateMemberTable(String id) {
+		verifyMapper.updateMemberTable(id);
+	}
+
 	
 	
 }

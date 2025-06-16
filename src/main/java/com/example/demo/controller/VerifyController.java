@@ -5,11 +5,13 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +21,8 @@ import com.example.demo.model.Member;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.VerifyService;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 public class VerifyController {
@@ -32,18 +36,18 @@ public class VerifyController {
 	@Autowired
 	private MemberService memberService;
 	
-//	// 이메일 유효성 검사 // 지선님이 구현한거 사용
-//	@RequestMapping("/checkEmail")
-//	@ResponseBody
-//	public Map<String, Boolean> checkEmail(@RequestParam("email") String email) {
-//
-//		// 회원 이메일 존재여부 member 테이블에서 찾기
-//		boolean exists = verifyService.isEmailExist(email);
-//		Map<String, Boolean> result = new HashMap<>();
-//		result.put("exists", exists);
-//
-//		return result;
-//	}
+	// 이메일 유효성 검사 // 지선님이 구현한거 사용
+	@PostMapping("/checkEmail")
+	@ResponseBody
+	public Map<String, Boolean> checkEmail(@RequestParam("email") String email) {
+
+		// 회원 이메일 존재여부 member 테이블에서 찾기
+		boolean exists = verifyService.isEmailExist(email);
+		Map<String, Boolean> result = new HashMap<>();
+		result.put("exists", exists);
+
+		return result;
+	}
 //------------------------코드 입력후 작동되는 영역------------------------	
 	//(이메일찾기) 유저가 입력한 코드값과 DB에저장된 코드값이 일치하는지 확인 
 	@GetMapping("/findId")
@@ -87,6 +91,7 @@ public class VerifyController {
 				// 인증 성공 -> ACCOUNT_VERIFICATION 테이블 인증성공 여부 & 인증시간 UPDATE
 			} else {
 				result = verifyService.updateVerificationTable(code, type);
+						 verifyService.updateMemberTable(verification.getId());
 			}
 
 			// 결과 값 VIEW 페이지로 넘겨주기
@@ -100,32 +105,30 @@ public class VerifyController {
 		
 //---------------------회원가입,아이디찾기,비밀번호찾기 이메일 전송 ------------------------		
 	
-		// 회원가입시 회원인증 이메일 전송
-	@RequestMapping("/sendNewMemberVerify")
-	@ResponseBody
-	public void sendNewMemberVerify(@RequestParam("email") String email) {
-		// 6자리 랜덤 코드 생성
-		SecureRandom secureRandom = new SecureRandom();
-		int sixDigitRan = secureRandom.nextInt(1_000_000);
-		String code = String.format("%06d", sixDigitRan);
+	// 회원가입시 회원인증 이메일 전송
+		@RequestMapping("/sendNewMemberVerify")
+		public String sendNewMemberVerify(@RequestParam("email") String email, Model model) {
+			String uuid_code = UUID.randomUUID().toString();
+			String code = uuid_code;
+			
+		    Member member = memberService.findByEmail(email);
 
-		// email로 MEMBER 테이블에서 해당 회원찾기
-		AccountVerification verification = new AccountVerification();
-		Member member = verifyService.findIdMember(email);
-		System.out.println("member: " + member);
+		    if (member == null) {
+		        model.addAttribute("error", "회원 정보가 없습니다.");
+		        return "error"; // 오류 처리 뷰
+		    }
 
-		// Account_Verification 테이블에 insert
-		verification.setId(member.getId());
-		verification.setCode(code);
-		verification.setType("MEMBER_JOIN");
-		Timestamp expiresAt = Timestamp.valueOf(LocalDateTime.now().plusMinutes(10));
-		verification.setExpiresAt(expiresAt);
-		verifyService.insertVerification(verification);
+		    AccountVerification verification = new AccountVerification();
+		    verification.setId(member.getId());
+		    verification.setCode(code);
+		    verification.setType("MEMBER_JOIN");
+		    verification.setExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusMinutes(10)));
 
-		// 이메일 전송 서비스(sendVerificationEmail 함수로 이메일주소값 & 코드값)
-		emailService.sendVerificationEmail(member.getEmailId() + "@" + member.getEmailDomain(), code);
-	}
+		    verifyService.insertVerification(verification);
+		    emailService.sendVerificationEmail(email, code);
 
+		    return "redirect:member/login"; 
+		}
 	// 아이디 찾기 인증번호 전송
 	@RequestMapping("/sendFindIdCode")
 	@ResponseBody

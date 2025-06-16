@@ -17,7 +17,7 @@
 		<!-- 		<form action="/member/register" method="post"> -->
 		<form action="${pageContext.request.contextPath}/registerMember" method="post"
 			onsubmit="return validateForm();">
-
+			<input type="hidden" name="verify_type" value="MEMBER_JOIN"> 
 			<!-- ID -->
 			<div class="form-group">
 				<label for="id">ID</label> <input type="text" name="id" id="id"

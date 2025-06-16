@@ -33,4 +33,8 @@ public interface VerifyMapper {
 
 	public AccountVerification findByIdAndType(Map<String, Object> map);
 
+	public Member findIdMember(String email, String domain);
+
+	public void updateMemberTable(String id);
+
 }
