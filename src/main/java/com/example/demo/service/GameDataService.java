@@ -19,4 +19,7 @@ public class GameDataService {
 	public void margeDirectNew() {
 		mapper.margeDirectNew();
 	}
+	public void margeNintendoDC() {
+		mapper.margeNintendoDC();
+	}
 }

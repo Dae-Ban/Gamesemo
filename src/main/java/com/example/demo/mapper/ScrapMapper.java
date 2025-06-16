@@ -17,5 +17,8 @@ public interface ScrapMapper {
 	public void directNewClean();
 	public void directNewInsert(ScrapData scrap);
 	public List<ScrapData> getDirectNew();
-
+	
+	public void nintendoDCClean();
+	public void nintendoDCInsert(ScrapData scrap);
+	public List<ScrapData> getNintendoDC();
 }

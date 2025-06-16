@@ -39,4 +39,16 @@
 	<select id="getDirectNew" resultType="scrap">
 		SELECT * FROM direct_new
 	</select>
+	
+	<!-- nintendo dc -->
+	<delete id="nintendoDCClean">
+		DELETE FROM nintendo_dc
+	</delete>
+	<insert id="nintendoDCInsert" parameterType="scrap">
+		INSERT INTO nintendo_dc
+		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{link},#{scrapedAt},#{nTitle})
+	</insert>
+	<select id="getnintendoDC" resultType="scrap">
+		SELECT * FROM nintendo_dc
+	</select>
 </mapper>

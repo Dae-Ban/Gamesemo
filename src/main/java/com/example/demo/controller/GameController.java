@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.model.GameInfo;
 import com.example.demo.model.Pagenation;
 import com.example.demo.service.GameService;
 
@@ -25,17 +29,16 @@ public class GameController {
 		return "/game/games";
 	}
 	
-	@GetMapping("/list")
-	public String list(@RequestParam(name = "page", defaultValue = "1") int page,
+	@ResponseBody
+	@GetMapping("/list/{amount}")
+	public List<GameInfo> list(@PathVariable("amount") int amount,
+			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "state", defaultValue = "dc") String giState,
-			@RequestParam(name = "platform", defaultValue = "all") String giPlatform, Model model) {
-		System.out.println("플랫폼" + giPlatform);
-		Pagenation pgn = new Pagenation(service.getCount(giState, giPlatform), 20, page);
+			@RequestParam(name = "platform", defaultValue = "all") String giPlatform) {
+		Pagenation pgn = new Pagenation(service.getCount(giState, giPlatform), amount, page);
 		pgn.setGiState(giState);
 		pgn.setGiPlatform(giPlatform);
-		model.addAttribute("pgn", pgn);
-		model.addAttribute("list", service.getGameList(pgn));
-		return "/game/gameList";
+		return service.getGameList(pgn);
 	}
 	
 	@GetMapping("/{gNum}")

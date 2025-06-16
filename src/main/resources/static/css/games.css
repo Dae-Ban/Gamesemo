@@ -163,6 +163,11 @@ td.game-thumb {
 	width: 200px;
 }
 
+td.game-platform > img {
+	width: 40px;
+	height: 40px;
+}
+
 td.game-title {
   white-space: nowrap;
   overflow: hidden;

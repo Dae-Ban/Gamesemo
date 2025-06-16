@@ -14,64 +14,52 @@ import org.springframework.stereotype.Service;
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.ScrapData;
 import com.example.demo.util.Normalize;
+
 @Service
-public class DirectNewScraper implements Scraper {
+public class NintendoDCScraper implements Scraper {
 	@Autowired
 	private ScrapMapper mapper;
 	@Autowired
 	private Normalize norm;
-
+	
 	@Override
 	public void scrap() {
 		try {
-			mapper.directNewClean();
+			mapper.nintendoDCClean();
 			int pk = 0;
 			for (int page = 1; page <= 5; page++) {
 
 				Document doc = Jsoup
-						.connect("https://directg.net/game/game.html?sort=opendate&search_goods_kind=1&page=" + page)
+						.connect("https://store.nintendo.co.kr/digital/sale?p=" + page)
 						.userAgent("Mozilla").get();
-				Elements games = doc.select(".spacer");
+				Elements games = doc.select("div.product-item-info");
 
-				for (Element game : games.stream().limit(20).toList()) {
+				for (Element game : games.stream().limit(24).toList()) {
 					ScrapData g = new ScrapData();
-					String title = game.select(".vm-product-descr-container-1 h2").text();
-					title = norm.noTag(title);
+					String title = game.select("strong.product-item-name").text();
 					pk++;
 					g.setPk(pk);
 					g.setTitle(title);
-
-					String dcRate = game.select(".vm-product-descr-container-1 span.label-danger").text().trim();
-					if (dcRate == null || dcRate.isEmpty())
-						g.setRate("0");
-					else
-						g.setRate(dcRate);
-
-					String fprice = game.select("div.PricesalesPrice > span.PricesalesPrice").text().trim();
-					String price = game.select("div.PricebasePrice > span.PricebasePrice").text().trim();
-
-					// 품절인 경우 가격 정보가 없으면 스킵
+					
+					
+					String price = game.select(".old-price .price").text().trim();
+					String fprice = game.select(".special-price .price").text().trim();
+					// 가격 정보가 없으면 스킵
 					if ((fprice == null || fprice.isEmpty()) && (price == null || price.isEmpty())) {
 						System.out.println("⛔ 품절 또는 가격 정보 없음: " + title);
 						continue;
 					}
-
-					if (fprice.equals("무료")) fprice = "0";
-					if (price == null || price.isEmpty())
-						g.setPrice(fprice);
-					else
-						g.setPrice(price);
-
+					g.setPrice(price);
 					g.setFprice(fprice);
-
-					g.setThumb(game.select(".vm-product-media-container img").attr("src"));
-					g.setLink(game.select(".vm-product-media-container a").attr("href"));
+					
+					//g.setRate(price/fprice*100);
+					
+					g.setThumb(game.select("img.product-image-photo").attr("src"));
+					g.setLink(game.select("a.product-item-link").attr("href"));
 					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));
 					g.setNTitle(norm.normalize(title));
-
-					mapper.directNewInsert(g);
+					mapper.nintendoDCInsert(g);
 				}
-
 			}
 
 			System.out.println("✅ 게임 데이터 저장 완료");
@@ -83,7 +71,7 @@ public class DirectNewScraper implements Scraper {
 
 	@Override
 	public String getName() {
-		return "directnew";
+		return "nintendodc";
 	}
 
 }

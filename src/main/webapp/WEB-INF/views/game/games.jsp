@@ -7,6 +7,7 @@
 <title>${headline } 게임</title>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/games.css">
+<script type="text/javascript" src="/js/gameList.js"></script>
 <script type="text/javascript" src="/js/games.js"></script>
 <script type="text/javascript" src="/js/gameSearch.js"></script>
 </head>

@@ -1,3 +1,5 @@
+<%-- js 렌더링을  시각화  한 것 --%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -6,6 +8,7 @@
 <c:forEach var="game" items="${list }">
 	<tr id="${game.giNum }" class="game-content">
 		<td class="game-thumb"><img src="${game.giThumb }" alt="${game.giTitle}" loading="lazy"></td>
+		<td class="game-platform"><img src="/images/icon/${game.giPlatform }.png" alt="${game.giPlatform}"></td>
 		<td class="game-title">${game.giTitle }</td>
 		<td class="game-dc">
 			<c:if test="${game.giRate != 0}">
