@@ -39,6 +39,9 @@ public class GameInfoService {
 		for(GameInfo info : getSteamNewInfo()) {
 			infoMapper.insertGameInfo(info);
 		}
+		for(GameInfo info : getDirectNewInfo()) {
+			infoMapper.insertGameInfo(info);
+		}
 	}
 
 	private List<GameInfo> getSteamDCInfo() {
@@ -79,6 +82,34 @@ public class GameInfoService {
 			gi.setGiRate(norm.strToInt(data.getRate()));
 			gi.setGiLink(data.getLink());
 			gi.setGiState("new");
+			gi.setGiDate(data.getScrapedAt());
+			giList.add(gi);
+		}
+		return giList;
+	}
+	
+	private List<GameInfo> getDirectNewInfo() {
+		List<ScrapData> directNew = scraped.getDirectNew();
+		List<GameInfo> giList = new ArrayList<>();
+		for (ScrapData data : directNew) {
+			GameInfo gi = new GameInfo();
+			String nTitle = norm.normalize(data.getTitle());
+			//gi.setGiNum() - selectkey 
+			gi.setGNum(dataMapper.getGNum(nTitle));
+			gi.setGiPlatform("direct");
+			gi.setGiTitle(data.getTitle());
+			gi.setGiThumb(data.getThumb());
+			gi.setGiPrice(norm.strToInt(data.getPrice()));
+			gi.setGiFprice(norm.strToInt(data.getFprice()));
+			
+			int dc_rate = norm.strToInt(data.getRate());
+			gi.setGiRate(dc_rate);
+			if(dc_rate > 0)
+				gi.setGiState("newdc");
+			else
+				gi.setGiState("new");
+			
+			gi.setGiLink(data.getLink());
 			gi.setGiDate(data.getScrapedAt());
 			giList.add(gi);
 		}

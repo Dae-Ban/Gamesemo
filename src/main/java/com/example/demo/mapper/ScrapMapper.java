@@ -16,6 +16,6 @@ public interface ScrapMapper {
 	
 	public void directNewClean();
 	public void directNewInsert(ScrapData scrap);
-	public List<ScrapData> getdirectNew();
+	public List<ScrapData> getDirectNew();
 
 }

@@ -14,4 +14,5 @@ public interface GameDataMapper {
 	public void margeSteamDC();
 	public void margeSteamNew();
 	public void margeDirectNew();
+	public void margeSteamApi(List<Game> filtered);
 }

@@ -48,7 +48,7 @@ public class GameDataController {
 	
 	@GetMapping("/margedirectnew")
 	public String margeDirectNew() {
-		data.margeSteamNew();
+		data.margeDirectNew();
 		return "direct new marge";
 	}
 	
@@ -63,5 +63,11 @@ public class GameDataController {
 			System.out.println("🔥 getSteamApi() 실행됨");
 		}
 		return "스팀 api 삽입";
+	}
+	
+	@GetMapping("/margesteamapi")
+	public String margeSteamApi() {
+		steamApi.margeSteamApi();
+		return "스팀 api 갱신";
 	}
 }

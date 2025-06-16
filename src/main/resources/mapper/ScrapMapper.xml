@@ -36,7 +36,7 @@
 		INSERT INTO direct_new
 		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{rate},#{link},#{scrapedAt},#{nTitle})
 	</insert>
-	<select id="getdirectNew" resultType="scrap">
+	<select id="getDirectNew" resultType="scrap">
 		SELECT * FROM direct_new
 	</select>
 </mapper>
