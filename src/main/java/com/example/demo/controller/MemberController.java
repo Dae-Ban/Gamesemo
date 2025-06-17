@@ -28,7 +28,7 @@ public class MemberController {
         return "member/login";
     }
 
-    @PostMapping("/member/login")
+    @PostMapping("")
     public String login(@RequestParam String id,
                         @RequestParam String pw,
                         @RequestParam(required = false)
