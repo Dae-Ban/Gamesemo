@@ -19,9 +19,9 @@ public class WishlistController {
     private final WishlistMapper wishlistMapper;
 
     @GetMapping("")
-    public String viewWishlist(@RequestParam(value = "keyword", required = false) String keyword,
-                               @RequestParam(value = "order", defaultValue = "recent") String order,
-                               @RequestParam(value = "page", defaultValue = "1") int page,
+    public String viewWishlist(@RequestParam(name = "keyword", required = false) String keyword,
+                               @RequestParam(name = "order", defaultValue = "recent") String order,
+                               @RequestParam(name = "page", defaultValue = "1") int page,
                                HttpSession session, Model model) {
 
         String id = (String) session.getAttribute("id");
@@ -47,8 +47,8 @@ public class WishlistController {
     }
 
     @PostMapping("/add")
-    public String add(@RequestParam Long gNum,
-                      @RequestParam(defaultValue = "1") int page,
+    public String add(@RequestParam(name ="gNum") Long gNum,
+                      @RequestParam(name = "page", defaultValue = "1") int page,
                       HttpSession session) {
         String id = (String) session.getAttribute("id");
         if (id != null && !wishlistMapper.isGameInWishlist(id, gNum)) {
@@ -59,7 +59,7 @@ public class WishlistController {
 
     @PostMapping("/delete")
     @ResponseBody
-    public ResponseEntity<String> delete(@RequestParam Long gNum, HttpSession session) {
+    public ResponseEntity<String> delete(@RequestParam (name="gNum") Long gNum, HttpSession session) {
         String id = (String) session.getAttribute("id");
         if (id != null) {
             wishlistMapper.removeFromWishlist(id, gNum);

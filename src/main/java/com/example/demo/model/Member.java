@@ -2,9 +2,12 @@ package com.example.demo.model;
 
 import java.sql.Timestamp;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Data;
 
 @Data
+@Alias("member")
 public class Member {
     private String id;                 // ID (PK)
     private String name;              // 이름

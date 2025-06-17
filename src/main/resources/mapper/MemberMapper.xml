@@ -3,24 +3,12 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.MemberMapper">
-    <select id="findByIdAndPw" resultType="Member">
+    <select id="findByIdAndPw" parameterType="member" resultType="member">
         SELECT *
-        FROM member
-        WHERE id = #{id} AND pw = #{pw}
+        FROM MEMBER
+        WHERE ID = #{id} AND PW = #{pw}
     </select>
-       <select id="findBySocialIdAndPlatform" resultType="com.example.demo.model.Member">
-        SELECT * FROM member WHERE social_id = #{socialId} AND social_platform = #{platform}
+       <select id="findBySocialIdAndPlatform" resultType="member">
+        SELECT * FROM MEMBER WHERE SOCIAL_ID = #{socialId} AND SOCIAL_PLATFORM = #{platform}
     </select>
-
-    <insert id="insert" parameterType="com.example.demo.model.Member">
-        INSERT INTO member (
-            id, name, nickname, pw, birth_date, email_id, email_domain,
-            social_platform, social_id, phone, gender, join_date,
-            state, email_ad, email_verified
-        ) VALUES (
-            #{id}, #{name}, #{nickname}, #{pw}, #{birthDate}, #{emailId}, #{emailDomain},
-            #{socialPlatform}, #{socialId}, #{phone}, #{gender}, SYSDATE,
-            #{state}, #{emailAd}, #{emailVerified}
-        )
-    </insert>
 </mapper>	

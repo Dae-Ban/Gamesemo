@@ -4,7 +4,7 @@ import com.example.demo.model.Member;
 
 public interface MemberService {
 
-	Member login(String id, String pw);
+	Member login(Member login);
 
 	Member findBySocialIdAndPlatform(String socialId, String platform);
 

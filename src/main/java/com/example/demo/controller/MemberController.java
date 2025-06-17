@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,32 +19,32 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/member")
 public class MemberController {
 
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("")
+    @GetMapping("/login")
     public String loginform() {
         return "member/login";
     }
 
-    @PostMapping("")
-    public String login(@RequestParam String id,
-                        @RequestParam String pw,
-                        @RequestParam(required = false)
+    @PostMapping("/login")
+    public String login(@ModelAttribute Member login,
+                        @RequestParam(name="rememberMe", required = false)
     					String rememberMe,
                         Model model,
                         HttpSession session,
                         HttpServletResponse response) {
-
-        Member member = memberService.login(id, pw);
-
+        System.out.println("입력 ID: " + login.getId());
+        System.out.println("입력 PW: " + login.getPw());
+        Member member = memberService.login(login);
+        System.out.println("DB에서 찾은 Member: " + member);
         if (member != null) {
             session.setAttribute("loginMember", member);
             if(rememberMe != null) {
-            	Cookie cookie = new Cookie("rememberId",id);
+            	Cookie cookie = new Cookie("rememberId",member.getId());
             	cookie.setMaxAge(60 * 60 * 24 * 3);
             	cookie.setPath("/");
             	response.addCookie(cookie);

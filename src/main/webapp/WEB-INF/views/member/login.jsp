@@ -21,6 +21,9 @@
 <div class="container">
     <div class="login-box">
         <h2>로그인</h2>
+		<c:if test="${not empty error}">
+    		<div style="color:red;">${error}</div>
+		</c:if>
 		<form action="/member/login" method="post">
             <input type="text" name="id" placeholder="아이디">
             <input type="password" name="pw" placeholder="비밀번호">
@@ -34,11 +37,11 @@
 
         <div class="sns-buttons">
             <a href="/oauth2/authorization/google">
-            <img src="/icons/google.png" alt="Google"></a>
+            <img src="/images/icons/google.png" alt="Google"></a>
             <a href="/oauth2/authorization/naver">
-            <img src="/icons/naver.png" alt="Naver"></a>
+            <img src="/images/icons/naver.png" alt="Naver"></a>
             <a href="/oauth2/authorization/kakao">
-            <img src="/icons/kakao.png" alt="Kakao"></a>
+            <img src="/images/icons/kakao.png" alt="Kakao"></a>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">

@@ -94,6 +94,8 @@
 <script>
   document.querySelectorAll(".del-btn").forEach(btn => {
     btn.addEventListener("click", function () {
+      if (!confirm("정말 삭제하시겠습니까?")) return;
+
       const gNum = this.dataset.gnum;
       const card = this.closest(".game-card");
 
@@ -101,13 +103,17 @@
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "gNum=" + gNum
-      }).then(res => {
-        if (res.ok) {
+      })
+      .then(res => res.text())
+      .then(msg => {
+        if (msg === "삭제 성공") {
           card.remove();
+          alert("삭제되었습니다.");
         } else {
-          alert("삭제 실패");
+          alert("로그인 필요");
         }
-      });
+      })
+      .catch(() => alert("삭제 중 오류가 발생했습니다."));
     });
   });
 </script>

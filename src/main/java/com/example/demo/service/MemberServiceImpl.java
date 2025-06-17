@@ -13,8 +13,8 @@ public class MemberServiceImpl implements MemberService{
 	private MemberMapper memberMapper;
 	
 	@Override
-    public Member login(String id, String pw) {
-		return memberMapper.findByIdAndPw(id, pw);
+    public Member login(Member login) {
+		return memberMapper.findByIdAndPw(login);
     }
 
 	@Override
