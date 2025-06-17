@@ -64,6 +64,12 @@ public class GameDataController {
 		return "nintendo new marge";
 	}
 	
+	@GetMapping("/margeplanetnew")
+	public String margePlanetNew() {
+		data.margePlanetNew();
+		return "planet new marge";
+	}
+	
 	// 주의! 스팀 api 20만여개의 데이터를 DB에 저장하는 메소드
 	@GetMapping("/getsteamapi")
 	public String getSteamApi() {
