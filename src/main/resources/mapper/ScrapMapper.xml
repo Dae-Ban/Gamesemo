@@ -63,4 +63,16 @@
 	<select id="getNintendoNew" resultType="scrap">
 		SELECT * FROM nintendo_new
 	</select>
+	
+	<!-- planet new -->
+	<delete id="planetNewClean">
+		DELETE FROM planet_new
+	</delete>
+	<insert id="planetNewInsert" parameterType="scrap">
+		INSERT INTO planet_new
+		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{rate},#{link},#{scrapedAt},#{nTitle})
+	</insert>
+	<select id="getPlanetNew" resultType="scrap">
+		SELECT * FROM planet_new
+	</select>
 </mapper>
