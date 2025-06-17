@@ -10,9 +10,11 @@ import com.example.demo.model.Pagenation;
 
 @Mapper
 public interface GameMapper {
-
+	// 게임 목록
 	public List<GameInfo> getGameList(Pagenation pgn);
+	// 전체 개수
 	public int getCount(Map<String, String> filter);
-
+	// 검색
+	public List<GameInfo> search(String keyword);
 
 }

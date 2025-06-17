@@ -44,6 +44,16 @@ public class GameController {
 		return service.getGameList(pgn);
 	}
 	
+	@ResponseBody
+	@GetMapping("/search")
+	public List<GameInfo> search(@RequestParam("keyword") String keyword, Model model) {
+//		if(keyword == null || keyword.isEmpty())
+//			return "redirect:/game";
+//		model.addAttribute("gi", service.search(keyword));
+//		return "/game/gameSearch";
+		return service.search(keyword);
+	}
+	
 	@GetMapping("/{gNum}")
 	public String details(@PathVariable("gNum") int gNum, @RequestParam(name = "page", defaultValue = "1") String page) {
 		return "/game/details";

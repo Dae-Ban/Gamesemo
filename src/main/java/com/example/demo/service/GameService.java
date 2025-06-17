@@ -26,4 +26,8 @@ public class GameService {
 		filter.put("giPlatform", giPlatform);
 		return mapper.getCount(filter);
 	}
+
+	public List<GameInfo> search(String keyword) {
+		return mapper.search(keyword);
+	}
 }
