@@ -106,7 +106,7 @@ function renderGames(data) {
 	const $table = $("table.game-contents");
 
 	data.forEach(game => {
-		const $tr = $("<tr>").addClass("game-content").attr("id", game.giNum);
+		const $tr = $("<tr>").addClass("game-content").attr("id", game.gNum);
 
 		// 썸네일
 		$tr.append(
