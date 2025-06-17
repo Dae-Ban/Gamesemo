@@ -28,4 +28,7 @@ public class GameDataService {
 	public void margePlanetNew() {
 		mapper.margePlanetNew();
 	}
+	public void margeSteamTop() {
+		mapper.margeSteamTop();
+	}
 }

@@ -12,6 +12,7 @@ public interface GameDataMapper {
 	public int getGNum(String nTitle);
 	
 	// from 스크랩
+	public void margeSteamTop();
 	public void margeSteamDC();
 	public void margeSteamNew();
 	public void margeDirectNew();

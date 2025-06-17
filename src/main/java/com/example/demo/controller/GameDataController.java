@@ -46,6 +46,12 @@ public class GameDataController {
 		return "steam new marge";
 	}
 	
+	@GetMapping("/margesteamtop")
+	public String margeSteamTop() {
+		data.margeSteamTop();
+		return "steam new marge";
+	}
+	
 	@GetMapping("/margedirectnew")
 	public String margeDirectNew() {
 		data.margeDirectNew();

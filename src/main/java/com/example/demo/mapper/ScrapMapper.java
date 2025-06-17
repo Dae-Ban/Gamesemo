@@ -14,6 +14,10 @@ public interface ScrapMapper {
 	public void steamNewInsert(ScrapData scrap);
 	public List<ScrapData> getSteamNew();
 	
+	public void steamTopClean();
+	public void steamTopInsert(ScrapData scrap);
+	public List<ScrapData> getSteamTop();
+	
 	public void directNewClean();
 	public void directNewInsert(ScrapData scrap);
 	public List<ScrapData> getDirectNew();
@@ -29,4 +33,5 @@ public interface ScrapMapper {
 	public void planetNewClean();
 	public void planetNewInsert(ScrapData scrap);
 	public List<ScrapData> getPlanetNew();
+	
 }

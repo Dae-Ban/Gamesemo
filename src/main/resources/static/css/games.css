@@ -171,7 +171,14 @@ tr.game-content:hover {
 }
 
 td.game-thumb {
-	width: 200px;
+	width: 240px;
+}
+
+.game-thumb > img {
+	width: 231px;
+    height: 87px;
+    object-fit: cover;
+    display: block;
 }
 
 td.game-platform > img {

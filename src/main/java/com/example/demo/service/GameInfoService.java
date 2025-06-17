@@ -36,6 +36,9 @@ public class GameInfoService {
 	public void insertGameInfo() {
 		// 모두 삭제
 		infoMapper.gameInfoClean();
+		for (GameInfo info : getSteamTopInfo()) {
+			infoMapper.insertGameInfo(info);
+		}
 		for (GameInfo info : getSteamDCInfo()) {
 			infoMapper.insertGameInfo(info);
 		}
@@ -66,7 +69,10 @@ public class GameInfoService {
 			gi.setGNum(dataMapper.getGNum(nTitle));
 			gi.setGiPlatform("steam");
 			gi.setGiTitle(data.getTitle());
-			gi.setGiThumb(data.getThumb());
+			
+			String thumb = data.getThumb().replace("capsule_sm_120", "capsule_231x87");
+			gi.setGiThumb(thumb);
+			
 			gi.setGiPrice(norm.strToInt(data.getPrice()));
 			gi.setGiFprice(norm.strToInt(data.getFprice()));
 			gi.setGiRate(norm.strToInt(data.getRate()));
@@ -88,12 +94,47 @@ public class GameInfoService {
 			gi.setGNum(dataMapper.getGNum(nTitle));
 			gi.setGiPlatform("steam");
 			gi.setGiTitle(data.getTitle());
-			gi.setGiThumb(data.getThumb());
+			
+			String thumb = data.getThumb().replace("capsule_sm_120", "capsule_231x87");
+			gi.setGiThumb(thumb);
+			
 			gi.setGiPrice(norm.strToInt(data.getPrice()));
 			gi.setGiFprice(norm.strToInt(data.getFprice()));
 			gi.setGiRate(norm.strToInt(data.getRate()));
 			gi.setGiLink(data.getLink());
 			gi.setGiState("new");
+			gi.setGiDate(data.getScrapedAt());
+			giList.add(gi);
+		}
+		return giList;
+	}
+	
+	private List<GameInfo> getSteamTopInfo() {
+		List<ScrapData> steamTop = scraped.getSteamTop();
+		List<GameInfo> giList = new ArrayList<>();
+		for (ScrapData data : steamTop) {
+			GameInfo gi = new GameInfo();
+			String nTitle = norm.normalize(data.getTitle());
+			// gi.setGiNum() - selectkey
+			gi.setGNum(dataMapper.getGNum(nTitle));
+			gi.setGiPlatform("steam");
+			gi.setGiTitle(data.getTitle());
+			
+			String thumb = data.getThumb().replace("capsule_sm_120", "capsule_231x87");
+			gi.setGiThumb(thumb);
+			
+			gi.setGiPrice(norm.strToInt(data.getPrice()));
+			gi.setGiFprice(norm.strToInt(data.getFprice()));
+			
+			int dc_rate = norm.strToInt(data.getRate());
+			gi.setGiRate(dc_rate);
+			
+			if(dc_rate > 0)
+				gi.setGiState("dc");
+			else
+				gi.setGiState("top");
+			
+			gi.setGiLink(data.getLink());
 			gi.setGiDate(data.getScrapedAt());
 			giList.add(gi);
 		}
