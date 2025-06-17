@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Member;
@@ -16,12 +17,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/login")
 public class MemberController {
 
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("/login")
+    @GetMapping("")
     public String loginform() {
         return "member/login";
     }
