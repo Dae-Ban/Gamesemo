@@ -4,48 +4,16 @@
 <head>
     <title>로그인</title>
     <style>
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .login-box {
-            width: 100%;
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 30px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-        .login-box h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+        .login-box { width: 100%; max-width: 400px; margin: 100px auto; padding: 30px; 
+			border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
+        .login-box h2 { text-align: center; margin-bottom: 20px; }
         .login-box input[type="text"],
-        .login-box input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-        .login-box input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: royalblue;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .login-box .sns-buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .login-box .sns-buttons img {
-            width: 32px;
-            height: 32px;
-            cursor: pointer;
-        }
+        .login-box input[type="password"] { width: 100%; padding: 10px; margin-bottom: 15px; }
+        .login-box input[type="submit"] { width: 100%; padding: 10px; background-color: royalblue; 
+        	color: white; border: none; cursor: pointer; }
+        .login-box .sns-buttons { margin-top: 20px; display: flex; justify-content: space-between; }
+        .login-box .sns-buttons img { width: 32px; height: 32px; cursor: pointer; }
     </style>
 </head>
 <body>
