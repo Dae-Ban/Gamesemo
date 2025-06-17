@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.ScrapData;
+import com.example.demo.util.KSTTime;
 import com.example.demo.util.Normalize;
 @Service
 public class DirectNewScraper implements Scraper {
@@ -66,7 +67,7 @@ public class DirectNewScraper implements Scraper {
 
 					g.setThumb(game.select(".vm-product-media-container img").attr("src"));
 					g.setLink(game.select(".vm-product-media-container a").attr("href"));
-					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));
+					g.setScrapedAt(KSTTime.nowTimestamp());
 					g.setNTitle(norm.normalize(title));
 
 					mapper.directNewInsert(g);

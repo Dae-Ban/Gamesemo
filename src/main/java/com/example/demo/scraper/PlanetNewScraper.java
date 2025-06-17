@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.ScrapData;
+import com.example.demo.util.KSTTime;
 import com.example.demo.util.Normalize;
 
 @Service
@@ -63,7 +64,7 @@ public class PlanetNewScraper implements Scraper {
 					
 					g.setThumb(game.select("a.stretched-link > img").attr("src"));
 					g.setLink("https://us.gamesplanet.com" + game.select("h4 > a.stretched-link").attr("href"));
-					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));
+					g.setScrapedAt(KSTTime.nowTimestamp());
 					g.setNTitle(norm.normalize(title));
 					mapper.planetNewInsert(g);
 				}

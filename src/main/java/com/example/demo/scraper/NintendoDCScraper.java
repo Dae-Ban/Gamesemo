@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.ScrapData;
+import com.example.demo.util.KSTTime;
 import com.example.demo.util.Normalize;
 
 @Service
@@ -56,7 +57,7 @@ public class NintendoDCScraper implements Scraper {
 					
 					g.setThumb(game.select("img.product-image-photo").attr("src"));
 					g.setLink(game.select("a.product-item-link").attr("href"));
-					g.setScrapedAt(Timestamp.valueOf(LocalDateTime.now()));
+					g.setScrapedAt(KSTTime.nowTimestamp());
 					g.setNTitle(norm.normalize(title));
 					mapper.nintendoDCInsert(g);
 				}
