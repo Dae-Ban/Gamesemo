@@ -10,6 +10,7 @@ window.currentPage = 1;	// 페이지 기본값
 const params = new URLSearchParams(window.location.search);
 const state = params.get("state");
 const platform = params.get("platform");
+const sort = params.get("sort") || "rateDesc";
 
 $(window).on('scroll', function() {
 	if (isLoading || isLastPage) return;
@@ -48,12 +49,24 @@ $(document).ready(function() {
 		$(`input[name='platform'][value='${platform}']`).prop("checked", true);
 		$("h2 span").text(headPlatform[platform]);
 	}
+	if (sort) {
+	    $("#sortOption").val(sort);
+	}
 
 	// 라디오 버튼 클릭으로 이동
 	$("input[type='radio']").change(function() {
 		const filterState = $(":radio[name='state']:checked").val();
 		const filterPlatform = $(":radio[name='platform']:checked").val();
-		location.href = "/game?state=" + filterState + "&platform=" + filterPlatform;
+		const currentSort = $("#sortOption").val();
+		location.href = "/game?state=" + filterState + "&platform=" + filterPlatform + "&sort=" + currentSort;
+	});
+	
+	// 셀렉트 옵션 클릭으로 이동
+	$("#sortOption").change(function() {
+		const filterState = $(":radio[name='state']:checked").val();
+		const filterPlatform = $(":radio[name='platform']:checked").val();
+		const selectedSort = $(this).val();
+		location.href = "/game?state=" + filterState + "&platform=" + filterPlatform + "&sort=" + selectedSort;
 	});
 
 	// 페이지 진입 직후 화면 높이가 문서 높이보다 같거나 크면 강제 로딩
@@ -88,6 +101,7 @@ function loadMoreGames() {
 		amount: 20,	// 데이터 개수 20개
 		state: state,
 		platform: platform,
+		sort: sort,
 		onSuccess: renderGames,	// 요청 성공 후 렌더링
 		onComplete: () => isLoading = false,
 		onEmpty: () => {

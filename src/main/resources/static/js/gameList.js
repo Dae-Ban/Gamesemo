@@ -3,6 +3,7 @@ function loadGames({
 	amount = 20,	// 데이터 개수(20은 그냥 기본값)
 	state = "",		//필터1 할인/신규
 	platform = "",	//필터2 플랫폼
+	sort = "",	//정렬
 	url = "/game/list/",	// 요청 주소
 	onSuccess = null,  // 데이터를 넘길 콜백
 	onComplete = null,
@@ -15,7 +16,8 @@ function loadGames({
 		data: {
 			page,
 			state,
-			platform
+			platform,
+			sort
 		},
 		success: function(data) {
 			if ($.trim(data)) {

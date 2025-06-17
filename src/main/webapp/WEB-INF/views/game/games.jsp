@@ -38,6 +38,14 @@
 						<input type="text" id="keyword" placeholder="게임 검색" />
 						<button type="submit">검색</button>
 					</div>
+					
+					<div id="sorting">
+						<select id="sortOption">
+							 <option value="rateDesc">높은 할인율</option>
+							 <option value="priceAsc">낮은 가격</option>
+							 <option value="priceDesc">높은 가격</option>
+						</select>
+					</div>
 	
 					<!-- 카테고리 -->
 					<div class="filter-group">

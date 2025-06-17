@@ -35,7 +35,7 @@ header {
 	top: 30px;
 	width: 250px;
 	padding: 20px;
-	height: 550px;
+	height: 590px;
 	overflow-y: auto;
 	border-radius: 5px;
 	border: none;
@@ -119,6 +119,17 @@ input[type="text"] {
 
 input[type="text"]:focus {
 	outline: 3px solid #e50914;
+}
+
+#sorting{
+	margin-bottom: 10px;
+}
+
+select{
+	color: white;
+	background: rgba(0, 0, 0, 0.7);
+	border: 1px solid #e50914;
+	border-radius: 5px;
 }
 
 .loading-wrap {
