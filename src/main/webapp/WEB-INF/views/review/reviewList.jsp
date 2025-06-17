@@ -16,12 +16,11 @@
     <h2 class="review-title">🎮 리뷰 게시판</h2>
 
     <!-- 검색 폼 -->
-    <form method="get" action="list" class="search-form">
+    <form method="get" action="${pageContext.request.contextPath}/review/list" class="search-form">
         <select name="search">
-            <option value="rb_title" ${search == 'rb_title' ? 'selected' : ''}>제목</option>
-            <option value="id" ${search == 'id' ? 'selected' : ''}>작성자</option>
-            <option value="all" ${search == 'all' ? 'selected' : ''}>제목+내용</option>
-            <option value="rb_state_recommend" ${search == 'rb_state_recommend' ? 'selected' : ''}>추천</option>
+            <option value="rb_title" <c:if test="${search == 'rb_title'}">selected</c:if>>제목</option>
+            <option value="id" <c:if test="${search == 'id'}">selected</c:if>>작성자</option>
+            <option value="rb_state_recommend" <c:if test="${search == 'rb_state_recommend'}">selected</c:if>>추천</option>
         </select>
         <input type="text" name="keyword" value="${keyword}" placeholder="검색어를 입력하세요">
         <button type="submit" class="btn-search">검색</button>
@@ -43,16 +42,17 @@
             <c:forEach var="review" items="${reviewList}">
                 <tr>
                     <td>${review.rb_num}</td>
-                    <!-- 추천/비추천 표시 수정 -->
                     <td>
                         <c:choose>
-                            <c:when test="${review.rb_like eq '추천'}">👍&nbsp;추천</c:when>
-                            <c:when test="${review.rb_like eq '비추천'}">👎비추천</c:when>
+                            <c:when test="${review.rb_like eq '추천'}">👍 추천</c:when>
+                            <c:when test="${review.rb_like eq '비추천'}">👎 비추천</c:when>
                             <c:otherwise>-</c:otherwise>
                         </c:choose>
                     </td>
                     <td class="center">
-                        <a href="view?rb_num=${review.rb_num}">${review.rb_title}</a>
+                        <a href="${pageContext.request.contextPath}/review/view?rb_num=${review.rb_num}">
+                            ${review.rb_title}
+                        </a>
                     </td>
                     <td>${review.id}</td>
                     <td><fmt:formatDate value="${review.rb_date}" pattern="yyyy-MM-dd" /></td>
@@ -74,7 +74,7 @@
                     <span class="page current">[${i}]</span>
                 </c:when>
                 <c:otherwise>
-                    <a href="list?page=${i}&search=${search}&keyword=${keyword}" class="page">[${i}]</a>
+                    <a href="${pageContext.request.contextPath}/review/list?page=${i}&search=${search}&keyword=${keyword}" class="page">[${i}]</a>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
@@ -82,7 +82,7 @@
 
     <!-- 글쓰기 버튼 -->
     <div class="write-button">
-        <a href="form" class="btn-write">글작성</a>
+        <a href="${pageContext.request.contextPath}/review/form" class="btn-write">글작성</a>
     </div>
 
 </div>

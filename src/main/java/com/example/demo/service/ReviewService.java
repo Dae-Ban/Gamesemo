@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.mapper.ReviewMapper;
 import com.example.demo.model.Pagenation;
 import com.example.demo.model.Review;
+import com.example.demo.model.ReviewReply;
 
 @Service
 public class ReviewService {
@@ -42,4 +43,28 @@ public class ReviewService {
     public void delete(int rb_num) {
         reviewMapper.delete(rb_num);
     }
+
+    // 댓글 등록
+    public int insertReply(ReviewReply reply) {
+    	return reviewMapper.insertReply(reply);
+    }
+
+    // 댓글 목록 가져오기
+    public List<ReviewReply> getReplyList(int rb_num) {
+        return reviewMapper.getReplyList(rb_num);
+    }
+
+    // 댓글 삭제
+    public void deleteReply(int rbr_num) {
+        reviewMapper.deleteReply(rbr_num);
+    }
+    //댓글 수정
+//    public ReviewReply getReply(int rbr_num) {
+//        return reviewMapper.getReply(rbr_num);
+//    }
+
+	public int replyupdate(ReviewReply reply) {
+		return reviewMapper.replyupdate(reply);
+	}
+
 }

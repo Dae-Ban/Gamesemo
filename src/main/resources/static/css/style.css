@@ -313,3 +313,51 @@
     display: block;
     margin: 10px auto;
 }
+
+/* 리뷰 상세페이지 수정본 */
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.review-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+.recommend-icon {
+    margin-left: 10px;
+}
+.review-meta {
+    text-align: right;
+    font-size: 14px;
+    color: gray;
+}
+.review-content img {
+    max-width: 100%;
+    margin: 20px 0;
+}
+.review-comments {
+    margin-top: 40px;
+}
+#commentForm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.comment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.comment-table th, .comment-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.report-btn {
+    text-align: right;
+    margin-top: 10px;
+}
+

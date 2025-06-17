@@ -10,7 +10,6 @@ public class Review {
 
     private int rb_num;           // 글번호
     private String id;            // 아이디
-    private String col;           // 닉네임 
     private String rb_title;      // 제목
     private int rb_readcount;     // 조회수
     private Timestamp rb_date;    // 날짜
