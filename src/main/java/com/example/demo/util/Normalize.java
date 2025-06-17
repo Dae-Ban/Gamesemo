@@ -21,7 +21,19 @@ public class Normalize {
 	}
 	
 	public int strToInt(String str) {
-		return Integer.parseInt(str.replaceAll("[^0-9]", ""));
+		try {
+			return Integer.parseInt(str.replaceAll("[^0-9]", ""));
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	public double strToDouble(String str) {
+		try {
+			return Double.parseDouble(str.replaceAll("[^0-9.]", ""));
+		} catch (Exception e) {
+			return 0.00;
+		}
 	}
 	
 	// [태그] 제거

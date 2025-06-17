@@ -12,6 +12,7 @@ import com.example.demo.mapper.GameInfoMapper;
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.ScrapData;
+import com.example.demo.util.CurrencyExchange;
 import com.example.demo.util.Normalize;
 
 @Service
@@ -24,6 +25,8 @@ public class GameInfoService {
 	private ScrapMapper scraped;
 	@Autowired
 	private Normalize norm;
+	@Autowired
+	private CurrencyExchange ex;
 
 	public List<GameInfo> gameInfoList() {
 		return infoMapper.gameInfoList();
@@ -46,6 +49,9 @@ public class GameInfoService {
 			infoMapper.insertGameInfo(info);
 		}
 		for (GameInfo info : getNintendoNewInfo()) {
+			infoMapper.insertGameInfo(info);
+		}
+		for (GameInfo info : getPlanetNewInfo()) {
 			infoMapper.insertGameInfo(info);
 		}
 	}
@@ -111,7 +117,10 @@ public class GameInfoService {
 			int dc_rate = norm.strToInt(data.getRate());
 			gi.setGiRate(dc_rate);
 			
-			gi.setGiState("new");
+			if(dc_rate > 0)
+				gi.setGiState("newdc");
+			else
+				gi.setGiState("new");
 			gi.setGiLink(data.getLink());
 			gi.setGiDate(data.getScrapedAt());
 			giList.add(gi);
@@ -174,6 +183,38 @@ public class GameInfoService {
 			
 			gi.setGiState("new");
 			gi.setGiLink(data.getLink());
+			gi.setGiDate(data.getScrapedAt());
+			giList.add(gi);
+		}
+		return giList;
+	}
+	
+	private List<GameInfo> getPlanetNewInfo() {
+		List<ScrapData> planetNew = scraped.getPlanetNew();
+		List<GameInfo> giList = new ArrayList<>();
+		double exRate = ex.usdToKrwRate();
+		for (ScrapData data : planetNew) {
+			GameInfo gi = new GameInfo();
+			String nTitle = norm.normalize(data.getTitle());
+			// gi.setGiNum() - selectkey
+			gi.setGNum(dataMapper.getGNum(nTitle));
+			gi.setGiPlatform("planet");
+			gi.setGiTitle(data.getTitle());
+			gi.setGiThumb(data.getThumb());
+			
+			int price = (int) Math.round(norm.strToDouble(data.getPrice()) * exRate);
+			int fprice = (int) Math.round(norm.strToDouble(data.getFprice()) * exRate);
+			gi.setGiPrice(price);
+			gi.setGiFprice(fprice);
+			
+			gi.setGiRate(norm.strToInt(data.getRate()));
+			gi.setGiLink(data.getLink());
+			
+			if(gi.getGiRate() > 0)
+				gi.setGiState("newdc");
+			else
+				gi.setGiState("new");
+			
 			gi.setGiDate(data.getScrapedAt());
 			giList.add(gi);
 		}
