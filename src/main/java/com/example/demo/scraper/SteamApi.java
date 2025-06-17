@@ -130,9 +130,10 @@ public class SteamApi {
 	            List<Long> seqList = getSequenceValues(filtered.size());
 	            AtomicInteger index = new AtomicInteger(0);
 	            filtered.forEach(app -> app.setGNum(seqList.get(index.getAndIncrement())));
-
-	            mapper.margeSteamApi(filtered); // 전체 insert (100개 이하)
 	        }
+	        
+	        for(Game g : filtered)
+	        	mapper.margeSteamApi(g);
 
 	        System.out.println("✅ Steam App 목록 저장 완료 (" + filtered.size() + "건)");
 	        System.out.println("💡 기존 게임 수: " + existingAppIdSet.size());

@@ -7,7 +7,7 @@ import com.example.demo.model.Game;
 public interface GameDataMapper {
 	// 스팀 api
 	public void insertSteamApi(List<Game> batch);
-	public void margeSteamApi(List<Game> filtered);
+	public void margeSteamApi(Game steamApi);
 	public List<Long> selectAllAppIds();
 	public int getGNum(String nTitle);
 	
