@@ -49,7 +49,15 @@
 	<select id="search" parameterType="String" resultType="gameinfo">
 		SELECT *
 		FROM (
-		  SELECT g.*,gi.gi_platform, gi.gi_price, gi.gi_fprice, gi.gi_rate, gi.gi_state, gi.gi_link,
+		  SELECT g.g_num,
+		  		 g.g_title AS gi_title,
+		  		 gi.gi_num,
+		  		 gi.gi_platform,
+		  		 gi.gi_price,
+		  		 gi.gi_fprice, gi.gi_rate,
+		  		 gi.gi_state, 
+		  		 gi.gi_link,
+		  		 gi.gi_thumb,
 		         ROW_NUMBER() OVER (
 		             ORDER BY 
 		               CASE WHEN gi.gi_state IS NOT NULL THEN 0 ELSE 1 END,

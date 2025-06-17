@@ -10,6 +10,7 @@
 <script type="text/javascript" src="/js/gameList.js"></script>
 <script type="text/javascript" src="/js/games.js"></script>
 <script type="text/javascript" src="/js/gameSearch.js"></script>
+<script type="text/javascript" src="/js/scrollUp.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -85,6 +86,7 @@
 						</label>
 					</div>
 				</form>
+				<button id="scrollToTopBtn">▲ 맨 위로</button>
 			</aside>
 			
 		</div>

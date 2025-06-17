@@ -35,7 +35,7 @@ header {
 	top: 30px;
 	width: 250px;
 	padding: 20px;
-	height: 590px;
+	height: 630px;
 	overflow-y: auto;
 	border-radius: 5px;
 	border: none;
@@ -106,6 +106,7 @@ button {
 
 button:hover {
 	cursor: pointer;
+	opacity: 0.85;
 }
 
 button:active {
@@ -130,6 +131,13 @@ select{
 	background: rgba(0, 0, 0, 0.7);
 	border: 1px solid #e50914;
 	border-radius: 5px;
+}
+
+#scrollToTopBtn {
+	width: 100%;
+	padding: 10px;
+	font-weight: bold;
+	transition: opacity 0.3s;
 }
 
 .loading-wrap {
