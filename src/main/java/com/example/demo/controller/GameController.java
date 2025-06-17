@@ -34,10 +34,12 @@ public class GameController {
 	public List<GameInfo> list(@PathVariable("amount") int amount,
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "state", defaultValue = "dc") String giState,
-			@RequestParam(name = "platform", defaultValue = "all") String giPlatform) {
+			@RequestParam(name = "platform", defaultValue = "all") String giPlatform,
+			@RequestParam(name = "sort", defaultValue = "rateDesc") String sort) {
 		Pagenation pgn = new Pagenation(service.getCount(giState, giPlatform), amount, page);
 		pgn.setGiState(giState);
 		pgn.setGiPlatform(giPlatform);
+		pgn.setSort(sort);
 		return service.getGameList(pgn);
 	}
 	

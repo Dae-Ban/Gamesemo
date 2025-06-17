@@ -5,23 +5,32 @@
 <mapper namespace="com.example.demo.mapper.GameMapper">
 	<select id="getGameList" parameterType="pgn" resultType="gameinfo">
 		SELECT * FROM (
-		SELECT a.*, ROWNUM rn
-		FROM (
-		SELECT * FROM game_info
-		<where>
-			<if test="!giState.equals('free')">
-				gi_state like '%'||#{giState}||'%'
-			</if>
-			<if test="giState.equals('free')">
-				gi_fprice=0
-			</if>
-			<if test="!giPlatform.equals('all')">
-				AND gi_platform=#{giPlatform}
-			</if>
-		</where>
-		ORDER BY gi_num ASC) a)
+			SELECT a.*, ROWNUM rn
+			FROM (
+				SELECT * FROM game_info
+				<where>
+					<if test="!giState.equals('free')">
+						gi_state like '%'||#{giState}||'%'
+					</if>
+					<if test="giState.equals('free')">
+						gi_fprice = 0
+					</if>
+					<if test="!giPlatform.equals('all')">
+						AND gi_platform = #{giPlatform}
+					</if>
+				</where>
+				ORDER BY
+				<choose>
+					<when test="sort == 'priceAsc'">gi_fprice ASC</when>
+					<when test="sort == 'priceDesc'">gi_fprice DESC</when>
+					<when test="sort == 'rateDesc'">gi_rate DESC</when>
+					<otherwise>gi_num ASC</otherwise>
+				</choose>
+			) a
+		)
 		WHERE rn BETWEEN #{startRow} AND #{endRow}
 	</select>
+
 	<select id="getCount" parameterType="Map" resultType="int">
 		SELECT COUNT(*) FROM game_info
 		<where>

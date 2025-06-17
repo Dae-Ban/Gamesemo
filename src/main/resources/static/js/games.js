@@ -104,9 +104,9 @@ function loadMoreGames() {
 // 렌더링
 function renderGames(data) {
 	const $table = $("table.game-contents");
-
+	console.log(data);
 	data.forEach(game => {
-		const $tr = $("<tr>").addClass("game-content").attr("id", game.gNum);
+		const $tr = $("<tr>").addClass("game-content").attr("id", game.gnum);
 
 		// 썸네일
 		$tr.append(
