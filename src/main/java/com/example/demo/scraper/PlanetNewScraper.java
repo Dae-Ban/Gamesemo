@@ -55,7 +55,7 @@ public class PlanetNewScraper implements Scraper {
 					g.setPrice(price);
 					g.setFprice(fprice);
 					
-					String rate = game.select(".prices price_saving").text().trim();
+					String rate = game.select(".prices .price_saving").text().trim();
 					if(rate == null || rate.isEmpty())
 						g.setRate("0");
 					else
