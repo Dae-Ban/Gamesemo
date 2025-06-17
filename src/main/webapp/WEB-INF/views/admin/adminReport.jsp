@@ -26,7 +26,7 @@
     </div>
   </div>
 
-<table class="form-table">
+<table class="member-table">
     <tr>
       <th>번호</th>
       <th>신고자</th>

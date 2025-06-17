@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.GameMapper">
+
+  <select id="getGameList" parameterType="pgn" resultType="gameinfo">
+    SELECT * FROM (
+      SELECT a.*, ROWNUM rn
+      FROM (
+        SELECT * FROM game_info
+        <where>
+          <if test="!giState.equals('free')">
+            gi_state like '%' || #{giState} || '%'
+          </if>
+          <if test="giState.equals('free')">
+            gi_fprice = 0
+          </if>
+          <if test="giPlatform != null and giPlatform != '' and giPlatform != 'all'">
+            AND LOWER(gi_platform) = LOWER(#{giPlatform})
+          </if>
+        </where>
+        ORDER BY gi_num ASC
+      ) a
+    )
+    WHERE rn BETWEEN #{startRow} AND #{endRow}
+  </select>
+
+  <select id="getCount" parameterType="Map" resultType="int">
+    SELECT COUNT(*) FROM game_info
+    <where>
+      <if test="!giState.equals('free')">
+        gi_state like '%' || #{giState} || '%'
+      </if>
+      <if test="giState.equals('free')">
+        gi_fprice = 0
+      </if>
+      <if test="giPlatform != null and giPlatform != '' and giPlatform != 'all'">
+        AND LOWER(gi_platform) = LOWER(#{giPlatform})
+      </if>
+    </where>
+  </select>
+
+</mapper>
