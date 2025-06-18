@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import com.example.demo.mapper.GameMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.Pagenation;
+import com.example.demo.util.Normalize;
 
 @Service
 public class GameService {
 	@Autowired
 	private GameMapper mapper;
+	@Autowired
+	private Normalize norm;
 
 	public List<GameInfo> getGameList(Pagenation pgn) {
 		return mapper.getGameList(pgn);
@@ -28,6 +31,6 @@ public class GameService {
 	}
 
 	public List<GameInfo> search(String keyword) {
-		return mapper.search(keyword);
+		return mapper.search(norm.normalize(keyword));
 	}
 }
