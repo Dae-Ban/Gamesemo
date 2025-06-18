@@ -43,12 +43,17 @@ public class MemberController {
         System.out.println("DB에서 찾은 Member: " + member);
         if (member != null) {
             session.setAttribute("loginMember", member);
+            session.setAttribute("id", member.getId());
             if(rememberMe != null) {
             	Cookie cookie = new Cookie("rememberId",member.getId());
             	cookie.setMaxAge(60 * 60 * 24 * 3);
             	cookie.setPath("/");
-            	response.addCookie(cookie);
-            	
+            	response.addCookie(cookie);	
+            }
+            String redirect = (String) session.getAttribute("redirectAfterLogin");
+            if (redirect != null) {
+                session.removeAttribute("redirectAfterLogin");
+                return "redirect:" + redirect;
             }
             return "redirect:/"; // 로그인 성공 시 메인 페이지로 이동
         } else {

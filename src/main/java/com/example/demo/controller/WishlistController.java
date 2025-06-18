@@ -25,7 +25,10 @@ public class WishlistController {
                                HttpSession session, Model model) {
 
         String id = (String) session.getAttribute("id");
-        if (id == null) return "redirect:/login";
+        if (id == null) {
+            session.setAttribute("redirectAfterLogin", "/wishlist");
+            return "redirect:/member/login";
+        }
 
         int pageSize = 5;
         int offset = (page - 1) * pageSize;
@@ -51,6 +54,10 @@ public class WishlistController {
                       @RequestParam(name = "page", defaultValue = "1") int page,
                       HttpSession session) {
         String id = (String) session.getAttribute("id");
+        if (id == null) {
+            session.setAttribute("redirectAfterLogin", "/wishlist");
+            return "redirect:/member/login";
+        }
         if (id != null && !wishlistMapper.isGameInWishlist(id, gNum)) {
             wishlistMapper.addToWishlist(id, gNum);
         }
