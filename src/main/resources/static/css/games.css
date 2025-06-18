@@ -133,7 +133,7 @@ select{
 	border-radius: 5px;
 }
 
-#scrollToTopBtn {
+.btn-wide {
 	width: 100%;
 	padding: 10px;
 	font-weight: bold;
@@ -257,4 +257,9 @@ span.game-title{
 img.no-thumb {
 	width: 55px;
 	height: 55px;
+}
+
+button svg {
+  vertical-align: middle;
+  margin-right: 6px;
 }

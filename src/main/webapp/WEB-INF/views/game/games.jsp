@@ -86,7 +86,7 @@
 						</label>
 					</div>
 				</form>
-				<button id="scrollToTopBtn">▲ 맨 위로</button>
+				<button id="scrollToTopBtn" class="btn-wide">▲ 맨 위로</button>
 			</aside>
 			
 		</div>
