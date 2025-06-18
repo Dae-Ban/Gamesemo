@@ -19,8 +19,10 @@
 		<div class="content-wrap">
 			<main class="result-wrap">
 				<table class="game-contents"></table>
-				<h2 style="margin-top: 50px;"><img src="/images/icons/steam.png"> 스팀에서 더 보기</h2>
-				<hr>
+				<div id="steam-more" style="margin-top: 50px;">
+					<h2><img src="/images/icons/steam.png"> 스팀에서 더 보기</h2>
+					<hr>
+				</div>
 				<div class="game-grid"></div>
 			</main>
 

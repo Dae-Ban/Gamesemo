@@ -218,7 +218,7 @@ td.game-final-price {
 }
 
 /* 검색페이지 */
-div.game-content {
+.game-grid .game-content {
 	display: flex;
 	align-items: center;
 	text-align: center;
@@ -228,6 +228,7 @@ div.game-content {
 	border-radius: 5px;
 	padding: 10px;
 	height: 170px;
+	max-width: 200px;
 }
 
 div.game-grid {
