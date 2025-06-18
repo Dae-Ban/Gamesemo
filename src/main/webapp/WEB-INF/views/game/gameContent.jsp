@@ -122,7 +122,7 @@
 	padding: 0 40px; /* 버튼 공간 확보 */
 	box-sizing: border-box;
 }
-
+//
 .video-slider-wrapper .swiper {
 	/* 슬라이더 전체 너비 차지 */
 	width: 100%;

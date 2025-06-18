@@ -42,7 +42,7 @@ public class GameController {
 
 	    // 4) 유튜브 리뷰 영상 
 	    
-
+	    //
 	    List<YouTubeVideo> reviewVideos;
 	    
 	    if (true) { // 테스트용 조건문: 항상 더미 데이터 사용
