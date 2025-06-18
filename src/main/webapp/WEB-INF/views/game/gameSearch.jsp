@@ -25,10 +25,10 @@
 			</main>
 
 			<aside class="sidebar" style="height: 150px;">
-				<form id="filterForm">
+				<form id="filterForm" method="get" action="/game/search">
 					<!-- 검색창 -->
 					<div class="search-box">
-						<input type="text" id="keyword" placeholder="게임 검색" />
+						<input type="text" id="keyword" name="keyword" placeholder="게임 검색" />
 						<button type="submit">검색</button>
 					</div>
 				</form>
