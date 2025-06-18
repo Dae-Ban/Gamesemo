@@ -10,27 +10,28 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
+public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.disable())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/member/update").permitAll()
-                .anyRequest().permitAll()
+                .requestMatchers("/", "/member/login", "/css/**", "/js/**", "/images/**", "/icons/**").permitAll()
+                .anyRequest().authenticated()
             )
-            .formLogin(form -> form.disable())
-            .oauth2Login(oauth2 -> oauth2
-                .loginPage("/member/login")
+            .formLogin(form -> form.disable()) //
+            .logout(logout -> logout
+                .logoutUrl("/member/logout")
+                .logoutSuccessUrl("/member/login")
+                .permitAll()
             );
 
         return http.build();
     }
-
 }

@@ -18,7 +18,7 @@
         SELECT g.*, ROWNUM rn FROM (
             SELECT g.* 
             FROM wishlist w
-            JOIN game_info g ON w.g_num = g.g_num
+            left JOIN game_info g ON w.g_num = g.g_num
             WHERE w.id = #{id}
             ORDER BY
                 <choose>
@@ -32,27 +32,21 @@
     WHERE rn &gt; #{offset}
 </select>
 
-<select id="searchWishlistPaged" resultType="com.example.demo.model.GameInfo">
-    SELECT * 
-    FROM (
-        SELECT inner_query.*, ROWNUM rn
-        FROM (
+   <select id="searchWishlistPaged" resultType="com.example.demo.model.GameInfo">
+    SELECT * FROM (
+        SELECT g.*, ROWNUM rn FROM (
             SELECT g.*
             FROM wishlist w
-            LEFT OUTER JOIN game_info g 
-              ON w.g_num = g.g_num
-              AND (
-                (LOWER(g.gi_title) LIKE '%' || LOWER(#{keyword}) || '%'
-                OR LOWER(g.gi_platform) LIKE '%' || LOWER(#{keyword}) || '%')
-                OR #{keyword} IS NULL OR #{keyword} = ''
-              )
+            LEFT OUTER JOIN game_info g ON w.g_num = g.g_num
             WHERE w.id = #{id}
-            <choose>
-                <when test="order == 'title'"> ORDER BY g.gi_title ASC </when>
-                <when test="order == 'price'"> ORDER BY g.gi_fprice ASC </when>
-                <otherwise> ORDER BY w.w_num DESC </otherwise>
-            </choose>
-        ) inner_query
+              AND (LOWER(g.gi_title) LIKE LOWER(#{keyword})
+                   OR LOWER(g.gi_platform) LIKE LOWER(#{keyword}))
+            ORDER BY
+                <choose>
+                    <when test="order == 'title'"> g.gi_title ASC </when>
+                    <when test="order == 'price'"> g.gi_fprice ASC </when>
+                </choose>
+        ) g
         WHERE ROWNUM &lt;= #{offset} + #{limit}
     )
     WHERE rn &gt; #{offset}
