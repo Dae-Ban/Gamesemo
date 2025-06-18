@@ -10,8 +10,8 @@ const fallbackImg = "/images/icons/noThumb.png";
 
 // 검색 필터
 const params = new URLSearchParams(window.location.search);
-const state = params.get("state");
-const platform = params.get("platform");
+const state = params.get("state") || "dc";
+const platform = params.get("platform") || "all";
 const sort = params.get("sort") || "rateDesc";
 
 $(window).on('scroll', function() {

@@ -7,7 +7,7 @@ onload = function doSearch() {
 	getSearchResult({
 		keyword,
 		onSuccess: showResult,	//렌더링
-		//		onComplete: () => {},
+//		onComplete: () => {},
 		onEmpty: () => {
 			$('.result-wrap').append('<p>검색 결과가 없습니다.</p>');
 		},

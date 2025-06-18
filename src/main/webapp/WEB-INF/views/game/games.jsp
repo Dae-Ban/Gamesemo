@@ -9,7 +9,6 @@
 <link rel="stylesheet" type="text/css" href="/css/games.css">
 <script type="text/javascript" src="/js/gameList.js"></script>
 <script type="text/javascript" src="/js/games.js"></script>
-<script type="text/javascript" src="/js/gameSearch.js"></script>
 <script type="text/javascript" src="/js/scrollUp.js"></script>
 </head>
 <body>
@@ -33,10 +32,10 @@
 			
 			
 			<aside class="sidebar">
-				<form id="filterForm">
+				<form id="filterForm" method="get" action="/game/search">
 					<!-- 검색창 -->
 					<div class="search-box">
-						<input type="text" id="keyword" placeholder="게임 검색" />
+						<input type="text" id="keyword" name="keyword" placeholder="게임 검색" />
 						<button type="submit">검색</button>
 					</div>
 					
