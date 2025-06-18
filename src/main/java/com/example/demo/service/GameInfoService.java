@@ -33,29 +33,29 @@ public class GameInfoService {
 	}
 
 	@Transactional
-	public void insertGameInfo() {
+	public void scrapMarge() {
 		// 모두 삭제
-		infoMapper.gameInfoClean();
+		infoMapper.scrapMargeClean();
 		for (GameInfo info : getSteamTopInfo()) {
-			infoMapper.insertGameInfo(info);
+			infoMapper.scrapMarge(info);
 		}
 		for (GameInfo info : getSteamDCInfo()) {
-			infoMapper.insertGameInfo(info);
+			infoMapper.scrapMarge(info);
 		}
 		for (GameInfo info : getSteamNewInfo()) {
-			infoMapper.insertGameInfo(info);
+			infoMapper.scrapMarge(info);
 		}
 		for (GameInfo info : getDirectNewInfo()) {
-			infoMapper.insertGameInfo(info);
+			infoMapper.scrapMarge(info);
 		}
 		for (GameInfo info : getNintendoDCInfo()) {
-			infoMapper.insertGameInfo(info);
+			infoMapper.scrapMarge(info);
 		}
 		for (GameInfo info : getNintendoNewInfo()) {
-			infoMapper.insertGameInfo(info);
+			infoMapper.scrapMarge(info);
 		}
 		for (GameInfo info : getPlanetNewInfo()) {
-			infoMapper.insertGameInfo(info);
+			infoMapper.scrapMarge(info);
 		}
 	}
 
@@ -261,4 +261,9 @@ public class GameInfoService {
 		}
 		return giList;
 	}
+
+	public void updateGameInfo() {
+		infoMapper.updateGameInfo();
+	}
+
 }

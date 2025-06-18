@@ -19,4 +19,7 @@ public interface GameDataMapper {
 	public void margeNintendoDC();
 	public void margeNintendoNew();
 	public void margePlanetNew();
+	
+	public void scrapMargeClean();
+	public void scrapMarge();
 }

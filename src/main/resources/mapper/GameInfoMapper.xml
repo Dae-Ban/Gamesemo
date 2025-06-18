@@ -5,54 +5,93 @@
 
 <mapper namespace="com.example.demo.mapper.GameInfoMapper">
 
-	<delete id="gameInfoClean">
-		DELETE FROM game_info
-	</delete>
+	<insert id="updateGameInfo">
+		MERGE INTO game_info gi
+		USING scrap_marge ms
+		ON (gi.gi_title = ms.gi_title AND gi.gi_platform = ms.gi_platform)
+		WHEN MATCHED THEN
+		UPDATE SET
+		gi.gi_thumb = ms.gi_thumb,
+		gi.gi_price = ms.gi_price,
+		gi.gi_fprice = ms.gi_fprice,
+		gi.gi_rate = ms.gi_rate,
+		gi.gi_link = ms.gi_link,
+		gi.gi_state = ms.gi_state,
+		gi.gi_date = systimestamp
+		WHEN NOT MATCHED THEN
+		INSERT (
+		gi_num, g_num, gi_platform, gi_title, gi_thumb,
+		gi_price, gi_fprice,
+		gi_rate, gi_link, gi_state, gi_date
+		)
+		VALUES (
+		seq_game_info.nextval, ms.g_num, ms.gi_platform, ms.gi_title,
+		ms.gi_thumb,
+		ms.gi_price, ms.gi_fprice, ms.gi_rate, ms.gi_link,
+		ms.gi_state, systimestamp
+		)
+	</insert>
 
-	<insert id="insertGameInfo" parameterType="gameinfo">
-		MERGE INTO game_info t
+
+	<select id="gameInfoList" resultType="gameinfo">
+		SELECT * FROM game_info
+		ORDER BY gi_num ASC
+	</select>
+
+	<delete id="scrapMargeClean">
+		DELETE FROM scrap_marge
+	</delete>
+	<insert id="scrapMarge" parameterType="gameinfo">
+		MERGE INTO scrap_marge t
 		USING (
 		SELECT
 		#{gNum} AS g_num,
 		#{giPlatform} AS gi_platform,
-		#{giTitle} AS gi_title,
+		#{giTitle}
+		AS gi_title,
 		#{giThumb} AS gi_thumb,
 		#{giPrice} AS gi_price,
-		#{giFprice} AS gi_fprice,
+		#{giFprice}
+		AS gi_fprice,
 		#{giRate} AS gi_rate,
 		#{giLink} AS gi_link,
-		#{giState} AS gi_state,
+		#{giState} AS
+		gi_state,
 		#{giDate} AS gi_date
 		FROM DUAL
 		) d
-		ON (t.g_num = d.g_num AND t.gi_platform = d.gi_platform)
+		ON (t.g_num = d.g_num AND
+		t.gi_platform = d.gi_platform)
 		WHEN MATCHED THEN
 		UPDATE SET
-		t.gi_title = d.gi_title,
+		t.gi_title =
+		d.gi_title,
 		t.gi_thumb = d.gi_thumb,
 		t.gi_price = d.gi_price,
 		t.gi_fprice = d.gi_fprice,
 		t.gi_rate = d.gi_rate,
 		t.gi_link = d.gi_link,
 		t.gi_state = CASE
-		WHEN t.gi_state = 'dc' AND d.gi_state = 'new' THEN 'newdc'
+		WHEN t.gi_state = 'dc' AND d.gi_state = 'new' THEN
+		'newdc'
 		WHEN t.gi_state IS NULL THEN d.gi_state
 		ELSE t.gi_state
 		END,
 		t.gi_date = d.gi_date
 		WHEN NOT MATCHED THEN
 		INSERT (
-		gi_num, g_num, gi_platform, gi_title, gi_thumb,
-		gi_price, gi_fprice, gi_rate, gi_link, gi_state, gi_date
+		g_num,
+		gi_platform,
+		gi_title, gi_thumb,
+		gi_price, gi_fprice, gi_rate, gi_link,
+		gi_state,
+		gi_date
 		)
 		VALUES (
-		seq_game_info.NEXTVAL, d.g_num, d.gi_platform, d.gi_title, d.gi_thumb,
-		d.gi_price, d.gi_fprice, d.gi_rate, d.gi_link, d.gi_state, d.gi_date
+		d.g_num,
+		d.gi_platform, d.gi_title, d.gi_thumb,
+		d.gi_price, d.gi_fprice,
+		d.gi_rate, d.gi_link, d.gi_state, d.gi_date
 		)
 	</insert>
-
-	<select id="gameInfoList" resultType="gameinfo">
-		SELECT * FROM game_info
-		ORDER BY gi_num ASC
-	</select>
 </mapper>

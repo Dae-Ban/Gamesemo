@@ -87,4 +87,5 @@
 	<select id="getPlanetNew" resultType="scrap">
 		SELECT * FROM planet_new
 	</select>
+	
 </mapper>

@@ -187,5 +187,4 @@
 		VALUES (seq_game.nextval, n.title, n.n_title, n.thumb)
 	</insert>
 
-
 </mapper>

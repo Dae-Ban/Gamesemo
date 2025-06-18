@@ -8,9 +8,12 @@ import com.example.demo.model.GameInfo;
 
 @Mapper
 public interface GameInfoMapper {
+	
+	public void scrapMargeClean();
+	public void scrapMarge(GameInfo gameinfo);
 
 	public void gameInfoClean();
-	public void insertGameInfo(GameInfo gameinfo);
+	public void updateGameInfo();
 	public List<GameInfo> gameInfoList();
 
 }

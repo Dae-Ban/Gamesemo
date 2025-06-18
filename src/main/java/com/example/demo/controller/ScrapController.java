@@ -34,4 +34,5 @@ public class ScrapController {
         scraper.scrap();
         return ResponseEntity.ok(target + " 스크랩 완료");
     }
+    
 }

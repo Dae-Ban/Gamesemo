@@ -27,10 +27,15 @@ public class GameDataController {
 	public List<GameInfo> gameInfoList(){
 		return service.gameInfoList();
 	}
+	
+    @GetMapping("/scrapmarge")
+    public void scrapMarge() {
+    	service.scrapMarge();
+    }
 
 	@GetMapping("/gameinfoupdate")
 	public String updateGameInfo() {
-		service.insertGameInfo();
+		service.updateGameInfo();
 		return "game_info 업데이트";
 	}
 

@@ -29,7 +29,7 @@ public class SteamTopScraper implements Scraper {
 		try {
 			mapper.steamTopClean();
 			int pk = 0;
-			for (int page = 1; page <= 10; page++) {
+			for (int page = 1; page <= 5; page++) {
 
 				Document doc = Jsoup.connect(
 						"https://store.steampowered.com/search/?category1=998&supportedlang=koreana&filter=topsellers&ndl=1&page="
@@ -76,11 +76,6 @@ public class SteamTopScraper implements Scraper {
 						continue;
 					else
 						mapper.steamTopInsert(g);
-				}
-				try {
-					Thread.sleep(200);
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 
