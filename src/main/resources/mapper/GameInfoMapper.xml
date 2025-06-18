@@ -19,7 +19,21 @@
 		&lt;= 10
 	</select>
 
-	<select id="selectByGiNum" resultType="com.example.demo.model.GameInfo">
-		SELECT * FROM GAME_INFO WHERE GI_NUM = #{giNum}
+	<select id="getGameInfo" parameterType="map"
+		resultType="com.example.demo.model.GameInfo">
+		SELECT *
+		FROM GAME_INFO
+		WHERE G_NUM = #{gnum}
+		AND GI_STATE =
+		#{state}
 	</select>
+
+	<select id="getGameInfosByGnum" parameterType="String"
+		resultType="com.example.demo.model.GameInfo">
+		SELECT *
+		FROM GAME_INFO
+		WHERE G_NUM = #{gnum}
+		ORDER BY GI_STATE, GI_DATE DESC
+	</select>
+
 </mapper>

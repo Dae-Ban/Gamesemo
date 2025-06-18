@@ -126,6 +126,11 @@
 		SYSDATE, #{state}
 		)
 	</insert>
+	
+	<!-- 모달 로그인 -->
+	<select id="modalLogin" parameterType="map" resultType="com.example.demo.model.Member">
+		SELECT * FROM MEMBER WHERE ID = #{id} AND PW = #{pw}
+	</select>
 </mapper>
 
 

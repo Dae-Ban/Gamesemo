@@ -36,6 +36,10 @@ public class MemberService {
 		return memberMapper.registerMember(member);
 	}
 
+	public Member modalLogin(String id, String pw) {
+		return memberMapper.modalLogin(id,pw);
+	}
+
 
 	
 	

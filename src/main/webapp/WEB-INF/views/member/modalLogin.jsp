@@ -4,7 +4,7 @@
 <head>
     <title>로그인</title>
     <style>
-        .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+        .login-container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
         .login-box { width: 100%; max-width: 400px; margin: 100px auto; padding: 30px; 
 			border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
         .login-box h2 { text-align: center; margin-bottom: 20px; }
@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="login-container">
     <div class="login-box">
         <h2>로그인</h2>
 		<c:if test="${not empty error}">

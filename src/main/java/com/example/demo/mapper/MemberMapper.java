@@ -23,6 +23,9 @@ public interface MemberMapper {
 
 	public Member findByEmailForRegister(String email);
 
-	public boolean registerMember(Member member); 
+	public boolean registerMember(Member member);
+
+	public Member modalLogin(@Param("id")String id, @Param("pw") String pw);
+
 	 
 }
