@@ -164,12 +164,12 @@ table.game-contents {
 	width: 100%;
 }
 
-.game-content > td {
+tr.game-content > td {
 	border-bottom: 1px solid #e0e0e0;
 	padding: 10px;
 }
 
-tr.game-content:hover {
+.game-content:hover {
   background-color: rgba(229, 9, 20, 0.2);
   cursor: pointer;
 }
@@ -185,6 +185,13 @@ td.game-thumb {
 .game-thumb > img {
 	width: 231px;
     height: 87px;
+    object-fit: cover;
+    display: block;
+}
+
+.no-thumb > img {
+	width: 80px;
+    height: 80px;
     object-fit: cover;
     display: block;
 }
@@ -215,4 +222,33 @@ td.game-og-price {
 
 td.game-final-price {
 	color: #e50914;
+}
+
+/* 검색페이지 */
+div.game-content {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	flex-direction: column;
+	gap: 8px;
+	border: 1px solid #e0e0e0;
+	border-radius: 5px;
+	padding: 10px;
+	height: 170px;
+}
+
+div.game-grid {
+	margin-top: 50px;
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+span.game-title{
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 180px;
 }

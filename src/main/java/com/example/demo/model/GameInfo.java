@@ -22,4 +22,5 @@ public class GameInfo {
     private String giLink;       // 게임 링크 URL
     private String giState;      // 상태 (예: 활성, 비활성)
     private Timestamp giDate;    // 등록일
+    private String steamAppid;
 }
