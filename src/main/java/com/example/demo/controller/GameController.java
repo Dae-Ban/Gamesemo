@@ -26,7 +26,7 @@ public class GameController {
 	
 	@Autowired
 	private YouTubeUtil youTubeUtil;
-	
+	//
 	@GetMapping("/gameContent")
 	public String gameContent(@RequestParam("gnum") String gnum,HttpSession session, Model model) {
 		  // 1) 같은 G_NUM 으로 모든 플랫폼 정보 조회

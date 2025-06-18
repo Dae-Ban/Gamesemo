@@ -112,7 +112,7 @@
 .video-nav.next {
 	right: 8px;
 }
-
+//
 /* gameContent.css 에 추가 또는 수정 */
 .video-slider-wrapper {
 	position: relative;
