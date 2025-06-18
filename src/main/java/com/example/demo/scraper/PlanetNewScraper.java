@@ -66,7 +66,11 @@ public class PlanetNewScraper implements Scraper {
 					g.setLink("https://us.gamesplanet.com" + game.select("h4 > a.stretched-link").attr("href"));
 					g.setScrapedAt(KSTTime.nowTimestamp());
 					g.setNTitle(norm.normalize(title));
-					mapper.planetNewInsert(g);
+					
+					if(g.getNTitle() == null || g.getNTitle().isEmpty())
+						continue;
+					else
+						mapper.planetNewInsert(g);
 				}
 			}
 

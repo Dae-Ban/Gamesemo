@@ -29,49 +29,58 @@ public class SteamTopScraper implements Scraper {
 		try {
 			mapper.steamTopClean();
 			int pk = 0;
-			for (int page = 1; page <= 6; page++) {
+			for (int page = 1; page <= 10; page++) {
 
-				Document doc = Jsoup
-						.connect("https://store.steampowered.com/search/?category1=998&supportedlang=koreana&filter=topsellers&ndl=1&page=" + page)
+				Document doc = Jsoup.connect(
+						"https://store.steampowered.com/search/?category1=998&supportedlang=koreana&filter=topsellers&ndl=1&page="
+								+ page)
 						.userAgent("Mozilla").get();
 				Elements games = doc.select(".search_result_row");
 
 				for (Element game : games.stream().limit(25).toList()) {
 					ScrapData g = new ScrapData();
 					String title = game.select(".title").text();
-					
+
 					pk++;
 					g.setPk(pk);
-					
+
 					g.setTitle(title);
-					
+
 					String dcRate = game.select(".discount_pct").text().trim();
-					if(dcRate == null || dcRate == "")
+					if (dcRate == null || dcRate == "")
 						g.setRate("0");
 					else
 						g.setRate(dcRate);
-					
+
 					String fprice = game.select(".discount_final_price").text().trim();
-					if(fprice.equals("Free"))
+					if (fprice.equals("Free"))
 						fprice = "0";
 					String price = game.select(".discount_original_price").text().trim();
-					if(price == null ||price == "")
+					if (price == null || price == "")
 						g.setPrice(fprice);
 					else
 						g.setPrice(price);
 					g.setFprice(fprice);
-					
+
 					// 품절인 경우 가격 정보가 없으면 스킵
 					if ((fprice == null || fprice.isEmpty()) && (price == null || price.isEmpty())) {
 						System.out.println("⛔ 품절 또는 가격 정보 없음: " + title);
 						continue;
 					}
-					
+
 					g.setThumb(game.select("img").attr("src"));
 					g.setLink(game.attr("href"));
 					g.setScrapedAt(KSTTime.nowTimestamp());
 					g.setNTitle(norm.normalize(title));
-					mapper.steamTopInsert(g);
+					if(g.getNTitle() == null || g.getNTitle().isEmpty())
+						continue;
+					else
+						mapper.steamTopInsert(g);
+				}
+				try {
+					Thread.sleep(200);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 

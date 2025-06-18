@@ -59,7 +59,11 @@ public class NintendoDCScraper implements Scraper {
 					g.setLink(game.select("a.product-item-link").attr("href"));
 					g.setScrapedAt(KSTTime.nowTimestamp());
 					g.setNTitle(norm.normalize(title));
-					mapper.nintendoDCInsert(g);
+					
+					if(g.getNTitle() == null || g.getNTitle().isEmpty())
+						continue;
+					else
+						mapper.nintendoDCInsert(g);
 				}
 			}
 

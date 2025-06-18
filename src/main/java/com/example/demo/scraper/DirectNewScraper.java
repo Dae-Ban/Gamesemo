@@ -70,7 +70,10 @@ public class DirectNewScraper implements Scraper {
 					g.setScrapedAt(KSTTime.nowTimestamp());
 					g.setNTitle(norm.normalize(title));
 
-					mapper.directNewInsert(g);
+					if(g.getNTitle() == null || g.getNTitle().isEmpty())
+						continue;
+					else
+						mapper.directNewInsert(g);
 				}
 
 			}

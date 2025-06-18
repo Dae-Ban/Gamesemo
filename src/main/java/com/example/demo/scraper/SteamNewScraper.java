@@ -71,7 +71,11 @@ public class SteamNewScraper implements Scraper {
 					g.setLink(game.attr("href"));
 					g.setScrapedAt(KSTTime.nowTimestamp());
 					g.setNTitle(norm.normalize(title));
-					mapper.steamNewInsert(g);
+					
+					if(g.getNTitle() == null || g.getNTitle().isEmpty())
+						continue;
+					else
+						mapper.steamNewInsert(g);
 				}
 			}
 
