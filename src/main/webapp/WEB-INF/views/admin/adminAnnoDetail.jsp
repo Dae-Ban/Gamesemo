@@ -11,6 +11,7 @@
 <body>
 	
 		<h2 style="text-align: center">공지사항 상세</h2>
+		<div class="form-container">
 		<table class="form-table">
 			<tr>
 				<th>제목</th>
@@ -41,5 +42,6 @@
 		<input type="button" value="목록" class="btn"
 			onclick="location.href='<c:url value='/admin/adminAnno?pageNum=1' />'">
 		</div>
+	</div>
 </body>
 </html>

@@ -28,4 +28,8 @@ public interface ReportMapper {
 	void blindReviewPost(int boardNum);
 
 	void updateReportStatusToPending(int rpNum);
+	
+	void unblindCommunityPost(int boardNum);
+
+	void unblindReviewPost(int boardNum);
 }

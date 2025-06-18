@@ -5,19 +5,28 @@ body {
   background-color: #fff;
 }
 
+/* 공통 컨테이너 (양쪽 너비)*/
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 /* 헤더 */
 header {
-  background-color: black;
-  color: white;
-  padding: 10px 40px;
+  position: relative; /* 기준점이 되어줌 */
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 10px 40px;
+  background-color: black;
+  color: white;
 }
 
 .logo {
   display: flex;
   align-items: center;
+  margin-left: 40px; /* ← 원하는 만큼 숫자 조정 가능 */
 }
 
 .logo img {
@@ -35,7 +44,9 @@ nav a {
 .search-login {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
+  margin-left: auto; /* 오른쪽 정렬 유지 */
+
 }
 
 /* 검색 박스 */
@@ -55,6 +66,7 @@ nav a {
   outline: none;
   padding: 5px;
   background: transparent;
+  margin-right: 10px;
 }
 
 .search-btn {
@@ -77,6 +89,7 @@ nav a {
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .platform-buttons {
@@ -113,8 +126,9 @@ nav a {
   margin-bottom: 10px;
 }
 
-.game-header h3 {
-  font-size: 18px;
+.game-header h2 {
+  font-size: 30px;      /* ✅ 크기 키우기 (기본 18~20px보다 큼) */
+  font-weight: 700;     /* ✅ 훨씬 더 굵게 */
   margin: 0;
 }
 
@@ -231,25 +245,55 @@ footer {
 }
 
 /* 캐러셀 버튼 */
-.carousel-control.left,
-.carousel-control.right {
-  background-image: none;
-  color: black;
+/* 슬라이드 전체 영역 */
+#myCarousel {
+  width: 80%;
+  margin: 30px auto;
 }
 
-.carousel-caption h3,
-.carousel-caption p {
-  color: #fff;
-  text-shadow: 1px 1px 3px #000;
+/* 슬라이드 액자 프레임: 고정 비율 + 정중앙 정렬 */
+.carousel-frame {
+  width: 1000px;
+  height: 500px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* 이미지가 프레임을 꽉 채우면서 비율 유지 */
+.carousel-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 캐러셀 이전/다음 버튼의 그라데이션 배경 제거 */
+.carousel-control.left,
+.carousel-control.right {
+  background-image: none !important;
+  background-color: transparent;
+  color: black;
+  opacity: 0.8;
+}
+
+.carousel-caption h3 {
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 /* 기본 메뉴 스타일 */
 .simple-nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: 20px;
-  align-items: center;
+  gap: 30px;
   font-weight: bold;
-  padding: 10px 20px;
+  align-items: center;
 }
 
 .simple-nav a {
@@ -263,6 +307,8 @@ footer {
 .simple-nav a:hover {
   color: red;
 }
+
+
 
 /* 커뮤니티 드롭다운 (hover 방식) */
 .dropdown {
@@ -303,6 +349,7 @@ footer {
 .profile-dropdown {
   position: relative;
   display: inline-block;
+  margin-right: 10px;
 }
 
 .profile-icon {

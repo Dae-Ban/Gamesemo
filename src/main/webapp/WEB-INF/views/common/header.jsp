@@ -17,16 +17,17 @@
 <body>
 
 <header>
+  <!-- 왼쪽: 로고 -->
   <div class="logo">
     <img src="<c:url value='/images/logo1.png' />" alt="겜세모 로고" />
     <strong>겜세모</strong>
   </div>
 
+  <!-- 가운데: 메뉴 -->
   <nav class="simple-nav">
-    <a href="#">홈</a>
+    <a href="<c:url value='/main' />">홈</a>
     <a href="#">게임 목록</a>
 
-    <!-- 커뮤니티 드롭다운 -->
     <div class="dropdown">
       <a href="#" class="dropdown-toggle">커뮤니티</a>
       <div class="dropdown-menu">
@@ -38,22 +39,19 @@
     <a href="#">공지사항</a>
   </nav>
 
+  <!-- 오른쪽: 검색 + 로그인 + 프로필 묶음 -->
   <div class="search-login">
     <div class="search-box">
-      <input type="text" placeholder="검색어를 입력하세요" />
-      <select>
-        <option>전체</option>
-        <option>게임</option>
-        <option>게시판</option>
-      </select>
-      <button class="search-btn">
-        <img src="<c:url value='/images/icons/search-icon.png'/>" alt="검색" />
-      </button>
+      <form action="<c:url value='/game/search' />" method="get" style="display: flex; gap: 5px;">
+        <input type="text" name="keyword" placeholder="게임 이름을 입력하세요" required />
+        <button type="submit" class="search-btn">
+          <img src="<c:url value='/images/icons/search-icon.png'/>" alt="검색" />
+        </button>
+      </form>
     </div>
 
     <button class="login-btn">로그인</button>
 
-    <!-- 마이페이지 드롭다운 -->
     <div class="profile-dropdown" id="profileDropdown">
       <img src="<c:url value='/images/icons/profile-icon.png'/>" alt="프로필" class="profile-icon" />
       <div class="profile-menu">

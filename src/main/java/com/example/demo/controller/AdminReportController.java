@@ -46,17 +46,17 @@ public class AdminReportController {
 
     @GetMapping("/reportDetail")
     public String reportDetail(@RequestParam("rpNum") int rpNum,
-                                @RequestParam("rpTable") String rpTable,
-                                @RequestParam("boardNum") int boardNum,
-                                Model model) {
-
+                               Model model) {
         ReportDTO report = adminReportService.getReportById(rpNum);
         model.addAttribute("report", report);
 
-        if ("community_board".equalsIgnoreCase(rpTable)) {
-        	Community community = adminReportService.getCommunityPost(boardNum);
+        String table = report.getRpTable();
+        int boardNum = report.getBoardNum(); // DTO에서 직접 꺼냄
+
+        if ("community_board".equalsIgnoreCase(table)) {
+            Community community = adminReportService.getCommunityPost(boardNum);
             model.addAttribute("post", community);
-        } else if ("review_board".equalsIgnoreCase(rpTable)) {
+        } else if ("review_board".equalsIgnoreCase(table)) {
             Review review = adminReportService.getReviewPost(boardNum);
             model.addAttribute("post", review);
         }

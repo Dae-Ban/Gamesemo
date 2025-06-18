@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<h2 style="text-align: center;">신고글 목록</h2>
+<h1 style="text-align: center;">신고글 목록</h1>
 
 <div class="menu-container">
     <div class="menu-box">

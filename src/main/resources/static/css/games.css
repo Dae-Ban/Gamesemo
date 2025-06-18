@@ -1,0 +1,266 @@
+
+@charset "UTF-8";
+.container {
+	max-width: 1300px;
+	margin: 0 auto;
+	padding: 0 16px;
+}
+
+h2 em {
+	font-style: normal;
+	color: #e50914;
+}
+
+h2 img {
+	width: 40px;
+	height: 40px;
+}
+
+.content-wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+main {
+	flex: 1;
+	margin-right: 20px;
+}
+
+header {
+	margin-bottom: 20px;
+}
+
+.sidebar {
+	position: sticky;
+	top: 30px;
+	width: 250px;
+	padding: 20px;
+	height: 630px;
+	overflow-y: auto;
+	border-radius: 5px;
+	border: none;
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.6);
+	transition: box-shadow 0.3s ease, background-color 0.3s ease;
+	backdrop-filter: blur(4px);
+}
+
+.search-box {
+	margin-bottom: 20px;
+}
+
+.search-box input {
+	width: 70%;
+	padding: 6px;
+}
+
+.search-box button {
+	padding: 6px 10px;
+}
+
+.filter-group {
+	margin-bottom: 10px;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+}
+
+input[type="radio"] {
+	appearance: none;
+	-webkit-appearance: none;
+	background-color: black;
+	border: 3px solid #e50914;
+	border-radius: 50%;
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+}
+
+input[type="radio"]:checked::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #e50914;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+}
+
+label {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 18px;
+}
+
+button {
+	color: white;
+	background: #e50914;
+	border-radius: 5px;
+}
+
+button:hover {
+	cursor: pointer;
+	opacity: 0.85;
+}
+
+button:active {
+	background: rgba(229, 9, 20, 0.8);
+}
+
+input[type="text"] {
+	border: 1px solid #e50914;
+	border-radius: 5px;
+}
+
+input[type="text"]:focus {
+	outline: 3px solid #e50914;
+}
+
+#sorting{
+	margin-bottom: 10px;
+}
+
+select{
+	color: white;
+	background: rgba(0, 0, 0, 0.7);
+	border: 1px solid #e50914;
+	border-radius: 5px;
+}
+
+.btn-wide {
+	width: 100%;
+	padding: 10px;
+	font-weight: bold;
+	transition: opacity 0.3s;
+}
+
+.loading-wrap {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+.loading-spinner {
+	width: 80px;
+	height: 80px;
+	animation: rotate 1s linear infinite;
+/* 	transform-origin: 200px 200px; */
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+table.game-contents {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+tr.game-content > td {
+	border-bottom: 1px solid #e0e0e0;
+	padding: 10px;
+}
+
+.game-content:hover {
+  background-color: rgba(229, 9, 20, 0.2);
+  cursor: pointer;
+}
+
+.game-content > td{
+	height: 70px;
+}
+
+td.game-thumb {
+	width: 240px;
+}
+
+.game-thumb > img {
+	width: 231px;
+    height: 87px;
+    object-fit: cover;
+    display: block;
+}
+
+td.game-platform > img {
+	width: 40px;
+	height: 40px;
+}
+
+td.game-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  display: table-cell;
+}
+
+td.game-dc > span {
+	background-color: #e50914;
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+td.game-og-price {
+	text-decoration: line-through;
+}
+
+td.game-final-price {
+	color: #e50914;
+}
+
+/* 검색페이지 */
+div.game-content {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	flex-direction: column;
+	gap: 8px;
+	border: 1px solid #e0e0e0;
+	border-radius: 5px;
+	padding: 10px;
+	height: 170px;
+}
+
+div.game-grid {
+	margin-top: 50px;
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+span.game-title{
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 180px;
+}
+
+.grid-thumb > img {
+	width: 120px;
+    height: 45px;
+    object-fit: cover;
+    display: block;
+    margin: 15px;
+}
+
+img.no-thumb {
+	width: 55px;
+	height: 55px;
+}
+
+button svg {
+  vertical-align: middle;
+  margin-right: 6px;
+}

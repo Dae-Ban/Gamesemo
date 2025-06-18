@@ -1,4 +1,3 @@
-
 package com.example.demo.service;
 
 import java.util.HashMap;
@@ -26,5 +25,9 @@ public class GameService {
 		filter.put("giState", giState);
 		filter.put("giPlatform", giPlatform);
 		return mapper.getCount(filter);
+	}
+
+	public List<GameInfo> search(String keyword) {
+		return mapper.search(keyword);
 	}
 }

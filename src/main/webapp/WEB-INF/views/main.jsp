@@ -6,6 +6,8 @@
 <!-- 헤더 영역 -->
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
+
+<div class="container">
 <!-- Carousel Section -->
 <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: 80%; margin: 30px auto;">
   <ol class="carousel-indicators">
@@ -15,18 +17,32 @@
   </ol>
   <div class="carousel-inner">
     <div class="item active">
-      <img src="<c:url value='/images/thumbnails/mario.jpg' />" alt="mario" style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
+      <a href="/game/list">
+        <div class="carousel-frame">
+          <img src="https://store.nintendo.co.kr/media/wysiwyg/mario_kart_world_1.jpg" alt="Mario" />
+        </div>
+      </a>
       <div class="carousel-caption"><h3>Mario</h3></div>
     </div>
     <div class="item">
-      <img src="<c:url value='/images/thumbnails/zelda.jpg' />" alt="zelda" style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
+      <a href="/game/list">
+        <div class="carousel-frame">
+           <img src="https://store.nintendo.co.kr/media/wysiwyg/tears_of_the_kingdom__.jpg" alt="Zelda" />
+        </div>
+      </a>
       <div class="carousel-caption"><h3>Zelda</h3></div>
     </div>
     <div class="item">
-      <img src="<c:url value='/images/thumbnails/FANTASY.jpg' />" alt="FANTASY" style="width:1000px; height:500px; object-fit:cover; display:block; margin:0 auto;">
-      <div class="carousel-caption"><h3>FANTASY</h3></div>
+      <a href="/game/list">
+        <div class="carousel-frame">
+          <img src="https://store.nintendo.co.kr/media/wysiwyg/welcome_tour_1.jpg" alt="welcome" />
+        </div>
+      </a>
+      <div class="carousel-caption"><h3>Welcome</h3></div>
     </div>
   </div>
+
+  <!-- Carousel Controls -->
   <a class="left carousel-control" href="#myCarousel" data-slide="prev">
     <span class="glyphicon glyphicon-chevron-left"></span>
     <span class="sr-only">Previous</span>
@@ -63,6 +79,7 @@
   </div>
 </div>
 
+</div>
 <!-- 푸터 영역 -->
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
