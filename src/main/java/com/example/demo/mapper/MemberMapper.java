@@ -27,5 +27,7 @@ public interface MemberMapper {
 
 	public Member modalLogin(@Param("id")String id, @Param("pw") String pw);
 
-	 
+	public Member findBySocialIdAndPlatform(String socialId, String platform);
+
+	public Member login(String id);
 }

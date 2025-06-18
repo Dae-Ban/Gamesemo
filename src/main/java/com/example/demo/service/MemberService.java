@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.MemberMapper;
@@ -8,6 +9,8 @@ import com.example.demo.model.Member;
 
 @Service
 public class MemberService {
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	MemberMapper memberMapper;
@@ -39,6 +42,21 @@ public class MemberService {
 	public Member modalLogin(String id, String pw) {
 		return memberMapper.modalLogin(id,pw);
 	}
+	
+	//영교님 꺼
+	public Member login(Member login) {
+//		return memberMapper.login(login);
+		Member dbMember = memberMapper.login(login.getId());
+		if(dbMember != null && passwordEncoder.matches(login.getPw(), dbMember.getPw())) {
+			return dbMember;
+		}
+		return null;
+	}
+
+	public Member findBySocialIdAndPlatform(String socialId, String platform) {
+		return memberMapper.findBySocialIdAndPlatform(socialId, platform);
+	}
+	
 
 
 	
