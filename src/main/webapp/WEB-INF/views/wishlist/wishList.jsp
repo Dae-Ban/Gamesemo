@@ -40,7 +40,7 @@
             <input type="text" name="keyword" placeholder="Search" value="${keyword}">
             <select name="order">
                 <option value="recent" ${order == 'recent' ? 'selected' : ''}>최신순</option>
-                <option value="name" ${order == 'name' ? 'selected' : ''}>이름순</option>
+                <option value="title" ${order == 'name' ? 'selected' : ''}>이름순</option>
                 <option value="price" ${order == 'price' ? 'selected' : ''}>가격순</option>
             </select>
             <button type="submit">검색</button>
@@ -50,29 +50,27 @@
     <c:forEach var="game" items="${wishlist}">
         <div class="game-card">
             <div class="game-image">
-                <img src="${game.giImageUrl}" alt="${game.giTitle}" />
+                <img src="${game.giThumb}" alt="${game.giTitle}" />
             </div>
             <div class="game-details">
                 <div class="title-row">
                     <strong class="title">${game.giTitle}</strong>
-                    <span class="genre">${game.giPart}</span>
                 </div>
                 <div class="meta-row">
-                    출시일 : ${game.giDate} <br>
                     플랫폼 : ${game.giPlatform}
                 </div>
             </div>
             <div class="price-box">
                 <span class="origin">₩${game.giPrice}</span>
                 <span class="arrow">→</span>
-                <span class="sale">₩${game.giSprice}</span>
+                <span class="sale">₩${game.giFprice}</span>
                 <span class="rate">${game.giRate}%</span>
             </div>
             <div class="button-box">
-                <form action="${game.giPlatformUrl}" method="get" target="_blank">
+                <form action="${game.giLink}" method="get" target="_blank">
                     <button type="submit" class="buy-btn">구매</button>
                 </form>
-                <button class="delete-btn del-btn" data-gnum="${game.gNum}">삭제</button>
+                <button class="delete-btn del-btn" data-giNum="${game.giNum}">삭제</button>
             </div>
         </div>
     </c:forEach>
@@ -96,13 +94,13 @@
     btn.addEventListener("click", function () {
       if (!confirm("정말 삭제하시겠습니까?")) return;
 
-      const gNum = this.dataset.gnum;
+      const giNum = this.dataset.ginum;
       const card = this.closest(".game-card");
 
       fetch("/wishlist/delete", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "gNum=" + gNum
+        body: "giNum=" + giNum
       })
       .then(res => res.text())
       .then(msg => {

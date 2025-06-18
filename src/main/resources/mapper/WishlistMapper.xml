@@ -23,7 +23,7 @@
             ORDER BY
                 <choose>
                     <when test="order == 'name'"> g.gi_title ASC </when>
-                    <when test="order == 'price'"> g.gi_sprice ASC </when>
+                    <when test="order == 'price'"> g.gi_fprice ASC </when>
                     <otherwise> g.gi_date DESC </otherwise>
                 </choose>
         ) g
@@ -32,26 +32,32 @@
     WHERE rn &gt; #{offset}
 </select>
 
-   <select id="searchWishlistPaged" resultType="com.example.demo.model.GameInfo">
-    SELECT * FROM (
-        SELECT g.*, ROWNUM rn FROM (
+<select id="searchWishlistPaged" resultType="com.example.demo.model.GameInfo">
+    SELECT * 
+    FROM (
+        SELECT inner_query.*, ROWNUM rn
+        FROM (
             SELECT g.*
             FROM wishlist w
-            JOIN game_info g ON w.g_num = g.g_num
+            LEFT OUTER JOIN game_info g 
+              ON w.g_num = g.g_num
+              AND (
+                (LOWER(g.gi_title) LIKE '%' || LOWER(#{keyword}) || '%'
+                OR LOWER(g.gi_platform) LIKE '%' || LOWER(#{keyword}) || '%')
+                OR #{keyword} IS NULL OR #{keyword} = ''
+              )
             WHERE w.id = #{id}
-              AND (LOWER(g.gi_title) LIKE LOWER(#{keyword})
-                   OR LOWER(g.gi_platform) LIKE LOWER(#{keyword}))
-            ORDER BY
-                <choose>
-                    <when test="order == 'name'"> g.gi_title ASC </when>
-                    <when test="order == 'price'"> g.gi_sprice ASC </when>
-                    <otherwise> g.gi_date DESC </otherwise>
-                </choose>
-        ) g
+            <choose>
+                <when test="order == 'title'"> ORDER BY g.gi_title ASC </when>
+                <when test="order == 'price'"> ORDER BY g.gi_fprice ASC </when>
+                <otherwise> ORDER BY w.w_num DESC </otherwise>
+            </choose>
+        ) inner_query
         WHERE ROWNUM &lt;= #{offset} + #{limit}
     )
     WHERE rn &gt; #{offset}
 </select>
+
 
     <insert id="addToWishlist">
         INSERT INTO wishlist (wishl_num, g_num, id)
