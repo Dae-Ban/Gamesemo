@@ -6,6 +6,8 @@ const formatter = new Intl.NumberFormat("ko-KR");
 
 window.currentPage = 1;	// 페이지 기본값
 
+const fallbackImg = "/images/icons/noThumb.png";
+
 // 검색 필터
 const params = new URLSearchParams(window.location.search);
 const state = params.get("state");
@@ -50,7 +52,7 @@ $(document).ready(function() {
 		$("h2 span").text(headPlatform[platform]);
 	}
 	if (sort) {
-	    $("#sortOption").val(sort);
+		$("#sortOption").val(sort);
 	}
 
 	// 라디오 버튼 클릭으로 이동
@@ -60,7 +62,7 @@ $(document).ready(function() {
 		const currentSort = $("#sortOption").val();
 		location.href = "/game?state=" + filterState + "&platform=" + filterPlatform + "&sort=" + currentSort;
 	});
-	
+
 	// 셀렉트 옵션 클릭으로 이동
 	$("#sortOption").change(function() {
 		const filterState = $(":radio[name='state']:checked").val();
@@ -129,21 +131,25 @@ function renderGames(data) {
 					alt: game.giTitle,
 					loading: "lazy"
 				})
+					.on("error", function() {
+						this.onerror = null;
+						$(this).attr("src", fallbackImg).addClass("no-thumb")
+					})
 			)
 		);
-		
+
 		// 플랫폼
 		$tr.append(
-					$("<td>").addClass("game-platform").append(
-						$("<img>").attr({
-							src: `/images/icons/${game.giPlatform}.png`,
-							alt: game.giPlatform
-						})
-					)
-				);
+			$("<td>").addClass("game-platform").append(
+				$("<img>").attr({
+					src: `/images/icons/${game.giPlatform}.png`,
+					alt: game.giPlatform
+				})
+			)
+		);
 
 		$tr.append($("<td>").addClass("game-title").text(game.giTitle));
-		
+
 		// 할인율
 		const dcCell = $("<td>").addClass("game-dc");
 		if (game.giRate != 0) {

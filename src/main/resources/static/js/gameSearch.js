@@ -1,6 +1,7 @@
 const formatter = new Intl.NumberFormat("ko-KR");
 const params = new URLSearchParams(window.location.search);
 const keyword = params.get("keyword");
+const fallbackImg = "/images/icons/noThumb.png";
 
 onload = function doSearch() {
 	getSearchResult({
@@ -61,6 +62,10 @@ function renderGameTable(data) {
 					alt: game.giTitle,
 					loading: "lazy"
 				})
+					.on("error", function() {
+						this.onerror = null;
+						$(this).attr("src", fallbackImg).addClass("no-thumb")
+					})
 			)
 		);
 
@@ -106,14 +111,34 @@ function renderGameTable(data) {
 function renderGameGrid(data) {
 	const $grid = $("div.game-grid");
 	data.forEach(game => {
-		const $item = $("<div>").addClass("game-content").attr("id", game.gnum);
+		const $item = $("<div>").addClass("game-content").attr("id", game.steamAppid);
+
 		$item.append(
-					$("<span>").addClass("no-thumb").append(
-						$("<img>").attr("src", "/images/icons/noThumb.png")
+			$("<span>").addClass("grid-thumb").append(
+				$("<img>")
+					.attr("src", `https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/${game.steamAppid}/capsule_sm_120.jpg`)
+					.attr("loading", "lazy")
+					.on("error", function() {
+						this.onerror = null;
+						$(this).attr("src", fallbackImg).addClass("no-thumb")
+					})
 			)
-		);
+		); 
+
 		$item.append($("<span>").addClass("game-title").text(game.giTitle));
-		
+	
 		$grid.append($item);
 	});
 }
+
+$(function() {
+	// 상세 페이지 링크
+	$(document).on('click', 'tr.game-content', function() {
+		location.href = "/game/" + $(this).attr("id");
+	});
+
+	// 스팀에서 더보기
+	$(document).on('click', 'div.game-content', function() {
+		location.href = "https://store.steampowered.com/app/" + $(this).attr("id");
+	});
+});

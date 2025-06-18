@@ -58,6 +58,7 @@
 		  		 gi.gi_state, 
 		  		 gi.gi_link,
 		  		 gi.gi_thumb,
+		  		 g.steam_appid,
 		         ROW_NUMBER() OVER (
 		             ORDER BY 
 		               CASE WHEN gi.gi_state IS NOT NULL THEN 0 ELSE 1 END,
