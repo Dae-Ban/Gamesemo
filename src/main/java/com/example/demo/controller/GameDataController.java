@@ -1,13 +1,10 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.model.GameInfo;
 import com.example.demo.scraper.SteamApi;
 import com.example.demo.service.GameDataService;
 import com.example.demo.service.GameInfoService;
@@ -23,16 +20,13 @@ public class GameDataController {
 	@Autowired
 	private SteamApi steamApi;
 	
-	@GetMapping("/gameinfos")
-	public List<GameInfo> gameInfoList(){
-		return service.gameInfoList();
-	}
-	
+	// 스크랩한 모든 데이터를 marge
     @GetMapping("/scrapmarge")
     public void scrapMarge() {
     	service.scrapMarge();
     }
 
+    // 스크랩한 정보를 marge한 쪽으로부터 game_info 업데이트
 	@GetMapping("/gameinfoupdate")
 	public String updateGameInfo() {
 		service.updateGameInfo();
@@ -73,6 +67,12 @@ public class GameDataController {
 	public String margeNintendoNew() {
 		data.margeNintendoNew();
 		return "nintendo new marge";
+	}
+	
+	@GetMapping("/margenintendoexp")
+	public String margeNintendoExp() {
+		data.margeNintendoExp();
+		return "nintendo exp marge";
 	}
 	
 	@GetMapping("/margeplanetnew")

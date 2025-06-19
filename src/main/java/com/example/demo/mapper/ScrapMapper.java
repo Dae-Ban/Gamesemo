@@ -30,6 +30,10 @@ public interface ScrapMapper {
 	public void nintendoNewInsert(ScrapData scrap);
 	public List<ScrapData> getNintendoNew();
 	
+	public void nintendoExpClean();
+	public void nintendoExpInsert(ScrapData scrap);
+	public List<ScrapData> getNintendoExp();
+	
 	public void planetNewClean();
 	public void planetNewInsert(ScrapData scrap);
 	public List<ScrapData> getPlanetNew();

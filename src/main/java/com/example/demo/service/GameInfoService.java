@@ -36,9 +36,15 @@ public class GameInfoService {
 	public void scrapMarge() {
 		// 모두 삭제
 		infoMapper.scrapMargeClean();
+		
+		// 이 둘을 먼저 실행
 		for (GameInfo info : getSteamTopInfo()) {
 			infoMapper.scrapMarge(info);
 		}
+		for (GameInfo info : getNintendoExpInfo()) {
+			infoMapper.scrapMarge(info);
+		}
+		
 		for (GameInfo info : getSteamDCInfo()) {
 			infoMapper.scrapMarge(info);
 		}
@@ -221,8 +227,42 @@ public class GameInfoService {
 				gi.setGiFprice(0);
 			}
 			
-			
 			gi.setGiState("new");
+			gi.setGiLink(data.getLink());
+			gi.setGiDate(data.getScrapedAt());
+			giList.add(gi);
+		}
+		return giList;
+	}
+	
+	private List<GameInfo> getNintendoExpInfo() {
+		List<ScrapData> nintendoExp = scraped.getNintendoExp();
+		List<GameInfo> giList = new ArrayList<>();
+		for (ScrapData data : nintendoExp) {
+			GameInfo gi = new GameInfo();
+			String nTitle = norm.normalize(data.getTitle());
+			// gi.setGiNum() - selectkey
+			gi.setGNum(dataMapper.getGNum(nTitle));
+			gi.setGiPlatform("nintendo");
+			gi.setGiTitle(data.getTitle());
+			gi.setGiThumb(data.getThumb());
+			gi.setGiPrice(norm.strToInt(data.getPrice()));
+			gi.setGiFprice(norm.strToInt(data.getFprice()));
+			
+			if (gi.getGiPrice() > 0) {
+				double rate = (1 - ((double) gi.getGiFprice() / gi.getGiPrice())) * 100;
+				gi.setGiRate((int) Math.round(rate));
+			} else {
+				gi.setGiRate(0);
+				gi.setGiFprice(0);
+			}
+			
+			if(gi.getGiRate() > 0) {
+				gi.setGiState("dc");
+			} else {
+				gi.setGiState("top");
+			}
+			
 			gi.setGiLink(data.getLink());
 			gi.setGiDate(data.getScrapedAt());
 			giList.add(gi);

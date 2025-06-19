@@ -25,6 +25,9 @@ public class GameDataService {
 	public void margeNintendoNew() {
 		mapper.margeNintendoNew();
 	}
+	public void margeNintendoExp() {
+		mapper.margeNintendoExp();
+	}
 	public void margePlanetNew() {
 		mapper.margePlanetNew();
 	}

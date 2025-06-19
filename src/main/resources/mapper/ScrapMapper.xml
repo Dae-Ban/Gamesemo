@@ -76,6 +76,18 @@
 		SELECT * FROM nintendo_new
 	</select>
 	
+	<!-- nintendo exp -->
+	<delete id="nintendoExpClean">
+		DELETE FROM nintendo_exp
+	</delete>
+	<insert id="nintendoExpInsert" parameterType="scrap">
+		INSERT INTO nintendo_exp
+		VALUES(#{pk},#{title},#{thumb},#{price},#{fprice},#{link},#{scrapedAt},#{nTitle})
+	</insert>
+	<select id="getNintendoExp" resultType="scrap">
+		SELECT * FROM nintendo_exp
+	</select>
+	
 	<!-- planet new -->
 	<delete id="planetNewClean">
 		DELETE FROM planet_new
