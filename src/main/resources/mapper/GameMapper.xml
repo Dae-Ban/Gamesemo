@@ -3,30 +3,32 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.GameMapper">
-	<select id="getGameList" parameterType="pgn" resultType="gameinfo">
+	<select id="getGameList" parameterType="pgn"
+		resultType="gameinfo">
 		SELECT * FROM (
-			SELECT a.*, ROWNUM rn
-			FROM (
-				SELECT * FROM game_info
-				<where>
-					<if test="!giState.equals('free')">
-						gi_state like '%'||#{giState}||'%'
-					</if>
-					<if test="giState.equals('free')">
-						gi_fprice = 0
-					</if>
-					<if test="!giPlatform.equals('all')">
-						AND gi_platform = #{giPlatform}
-					</if>
-				</where>
-				ORDER BY
-				<choose>
-					<when test="sort == 'priceAsc'">gi_fprice ASC</when>
-					<when test="sort == 'priceDesc'">gi_fprice DESC</when>
-					<when test="sort == 'rateDesc'">gi_rate DESC</when>
-					<otherwise>gi_num ASC</otherwise>
-				</choose>
-			) a
+		SELECT a.*, ROWNUM rn
+		FROM (
+		SELECT * FROM game_info
+		<where>
+			<if test="!giState.equals('free')">
+				gi_state like '%'||#{giState}||'%'
+			</if>
+			<if test="giState.equals('free')">
+				gi_fprice = 0
+			</if>
+			<if test="!giPlatform.equals('all')">
+				AND gi_platform = #{giPlatform}
+			</if>
+			AND gi_date >= SYSTIMESTAMP - INTERVAL '1' DAY
+		</where>
+		ORDER BY
+		<choose>
+			<when test="sort == 'priceAsc'">gi_fprice ASC</when>
+			<when test="sort == 'priceDesc'">gi_fprice DESC</when>
+			<when test="sort == 'rateDesc'">gi_rate DESC</when>
+			<otherwise>gi_num ASC</otherwise>
+		</choose>
+		) a
 		)
 		WHERE rn BETWEEN #{startRow} AND #{endRow}
 	</select>
@@ -45,32 +47,35 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="search" parameterType="String" resultType="gameinfo">
 		SELECT *
 		FROM (
-		  SELECT g.g_num,
-		  		 g.g_title AS gi_title,
-		  		 gi.gi_num,
-		  		 gi.gi_platform,
-		  		 gi.gi_price,
-		  		 gi.gi_fprice, gi.gi_rate,
-		  		 gi.gi_state, 
-		  		 gi.gi_link,
-		  		 gi.gi_thumb,
-		  		 g.steam_appid,
-		         ROW_NUMBER() OVER (
-		             ORDER BY 
-		               CASE WHEN gi.gi_state IS NOT NULL THEN 0 ELSE 1 END,
-		               g.score DESC
-		         ) AS rn
-		  FROM (
-		    SELECT g.*, SCORE(1) AS score
-		    FROM game g
-		    WHERE CONTAINS(n_title, '%'||#{search}||'%', 1) > 0
-		  ) g
-		  LEFT JOIN game_info gi ON g.g_num = gi.g_num
+		SELECT g.g_num,
+		g.g_title AS gi_title,
+		gi.gi_num,
+		gi.gi_platform,
+		gi.gi_price,
+		gi.gi_fprice, gi.gi_rate,
+		gi.gi_state,
+		gi.gi_link,
+		gi.gi_thumb,
+		g.steam_appid,
+		ROW_NUMBER() OVER (
+		ORDER BY
+		CASE WHEN gi.gi_state IS NOT NULL THEN 0 ELSE 1 END,
+		g.score DESC
+		) AS rn
+		FROM (
+		SELECT g.*, SCORE(1) AS score
+		FROM game g
+		WHERE CONTAINS(n_title, '%'||#{search}||'%', 1) > 0
+		) g
+		LEFT JOIN game_info gi
+		ON g.g_num = gi.g_num
+		AND gi.gi_date >= SYSTIMESTAMP - INTERVAL '1' DAY
 		)
 		WHERE rn BETWEEN 1 AND 30
 	</select>
+
 </mapper>
