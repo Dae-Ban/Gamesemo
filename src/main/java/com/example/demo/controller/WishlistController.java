@@ -1,19 +1,27 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.model.GameInfo;
 import com.example.demo.model.Member;
 import com.example.demo.model.Wishlist;
+import com.example.demo.service.GameInfoService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.WishlistService;
 
+import ch.qos.logback.classic.spi.PlatformInfo;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -25,6 +33,9 @@ public class WishlistController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private GameInfoService gameInfoService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -59,5 +70,7 @@ public class WishlistController {
 		}
 		return "fail";
 	}
+	
+	
 
 }

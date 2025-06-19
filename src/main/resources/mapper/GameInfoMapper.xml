@@ -4,11 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.GameInfoMapper">
-	
-	<select id="selectTop10GamesByPlatform"
-		resultType="gameinfo">
+
+	<select id="selectTop10GamesByPlatform" resultType="gameinfo">
 		SELECT *
-		FROM (
+		FROM
+		(
 		SELECT *
 		FROM GAME_INFO
 		WHERE
@@ -63,8 +63,25 @@
 		SELECT *
 		FROM GAME_INFO
 		WHERE G_NUM = #{gnum}
-		ORDER BY GI_FPRICE ASC
+		ORDER BY
+		GI_FPRICE ASC
 		FETCH FIRST 1 ROWS ONLY
 	</select>
 
+	<select id="getByGame" parameterType="int"
+		resultType="com.example.demo.model.GameInfo">
+		SELECT
+		G_NUM,
+		GI_PLATFORM,
+		GI_PRICE,
+		GI_FPRICE,
+		GI_RATE,
+		GI_LINK,
+		GI_DATE,
+		GI_THUMB,
+		GI_TITLE
+		FROM GAME_INFO
+		WHERE G_NUM = #{gnum}
+		ORDER BY GI_DATE DESC
+	</select>
 </mapper>

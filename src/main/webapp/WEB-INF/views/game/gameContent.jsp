@@ -251,23 +251,30 @@ body {
 	display: block;
 }
 
-#review-swiper .swiper-button-prev, #review-swiper .swiper-button-next {
+#review-swiper {
+	overflow: hidden !important; /* visible 강제 해제 */
+}
+
+/* 2) 네비 버튼 위치 조정 */
+.video-nav {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
-	width: 30px;
-	height: 30px;
+	font-size: 2rem;
+	cursor: pointer;
 	color: #888;
 	z-index: 10;
-	opacity: 1;
+	user-select: none;
 }
 
-#review-swiper .swiper-button-prev {
-	left: -50px; /* 슬라이더 바깥으로 20px 빠져나오게 */
+.video-nav.prev {
+	left: 0; /* 왼쪽 꼭대기 */
+	margin-left: -40px; /* .video-slider 패딩만큼 빼주면 깔끔 */
 }
 
-#review-swiper .swiper-button-next {
-	right: -50px; /* 슬라이더 바깥으로 20px 빠져나오게 */
+.video-nav.next {
+	right: 0;
+	margin-right: -40px;
 }
 </style>
 </head>
@@ -318,20 +325,18 @@ body {
 				<div class="wishlist-container">
 					<c:choose>
 						<c:when test="${not empty loginUser}">
-							<!-- 로그인 되어 있으면 직접 addToWishlist 호출 -->
 							<c:choose>
 								<c:when test="${wishlisted}">
-									<button class="wishlist-btn-full" disabled>✔️ 이미 추가됨</button>
+									<button class="wishlist-btn-full"  onclick="showWishlistToast('이미 위시리스트에 추가되었습니다.')">✔️ 위시리스트에
+										추가됨</button>
 								</c:when>
 								<c:otherwise>
-									<!-- 수정: handleWishlistClick이 아닌 addToWishlist -->
 									<button class="wishlist-btn-full"
 										onclick="addToWishlist(${game.GNum})">위시리스트 추가</button>
 								</c:otherwise>
 							</c:choose>
 						</c:when>
 						<c:otherwise>
-							<!-- 비로그인 시에만 handleWishlistClick 호출 -->
 							<button class="wishlist-btn-full"
 								onclick="handleWishlistClick(${game.GNum})">위시리스트 추가</button>
 						</c:otherwise>
@@ -343,19 +348,21 @@ body {
 		<div class="video-section">
 			<h2>리뷰 영상</h2>
 			<div class="video-slider">
+				<!-- 커스텀 네비 버튼 -->
+				<div class="video-nav prev" id="review-prev">‹</div>
+
 				<div class="swiper" id="review-swiper">
 					<div class="swiper-wrapper">
 						<c:forEach var="v" items="${reviewVideos}">
 							<div class="swiper-slide">
 								<iframe src="https://www.youtube.com/embed/${v.videoId}"
-									allowfullscreen> </iframe>
+									allowfullscreen></iframe>
 							</div>
 						</c:forEach>
 					</div>
-					<!-- Swiper 기본 prev/next 버튼 -->
-					<div class="swiper-button-prev"></div>
-					<div class="swiper-button-next"></div>
 				</div>
+
+				<div class="video-nav next" id="review-next">›</div>
 			</div>
 		</div>
 		<!-- 모달 로그인 영역 -->
@@ -400,15 +407,20 @@ body {
 	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 	<script>
 $(function() {
-	   new Swiper('#review-swiper', {
-	      slidesPerView: 5,      // ← 5개씩 보여주기
- 				spaceBetween : 20,
- 				navigation : {
- 					nextEl : '#review-next',
- 					prevEl : '#review-prev'
- 				}
- 			});
- 		});
+	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+	<script>
+	  $(function() {
+	    new Swiper('#review-swiper', {
+	      slidesPerView: 4,       // 한 번에 4개 보이기
+	      slidesPerGroup: 4,      // 한 번에 4개씩 이동
+	      spaceBetween: 20,       // 슬라이드 간격
+	      navigation: {
+	        nextEl: '#review-next',
+	        prevEl: '#review-prev',
+	      },
+	      loop: false
+	    });
+	  });
  		function showLoginModal() {
  			const redirectUrl = window.location.pathname
  					+ window.location.search;

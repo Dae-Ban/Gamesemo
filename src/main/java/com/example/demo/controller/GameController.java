@@ -51,13 +51,13 @@ public class GameController {
 	    Member loginUser = (Member) session.getAttribute("loginUser");
 	    boolean wishlisted = false;
 	    if (loginUser != null) {
-	        wishlisted = wishlistService.exists(gnum, loginUser.getId());
+	        wishlisted = wishlistService.wishlistExists(gnum, loginUser.getId());
 	    }
 
 	    // 4) 유튜브 리뷰 영상 
 	    List<YouTubeVideo> reviewVideos;
 	    
-	    if (true) { // 테스트용 조건문: 항상 더미 데이터 사용
+	    if (false) { // 테스트용 조건문: 항상 더미 데이터 사용
 	        reviewVideos = List.of(
 	            new YouTubeVideo("test1", "1", "relevance"),
 	            new YouTubeVideo("test2", "2", "relevance"),
@@ -69,6 +69,7 @@ public class GameController {
 	    	reviewVideos = youtubeVideoService.getOrFetchReviewVideos(gnum, game.getGiTitle() + " 리뷰");
 	    }
 	    // 5) 모델에 담기
+	    model.addAttribute("wishlisted", wishlisted);
 	    model.addAttribute("platformList", platformList);
 	    model.addAttribute("game", game);
 	    model.addAttribute("loginUser", loginUser);

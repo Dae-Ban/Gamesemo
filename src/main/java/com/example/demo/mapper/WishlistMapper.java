@@ -10,6 +10,6 @@ public interface WishlistMapper {
 
 	int addWishlist(Wishlist wishlist);
 
-	Integer countByUserAndGame(@Param("gNum") int gnum, @Param("id") String id);
+	int wishlistExists(@Param("gNum") int gnum, @Param("id") String id);
 
 }

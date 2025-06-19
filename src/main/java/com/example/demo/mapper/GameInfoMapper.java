@@ -11,6 +11,7 @@ import com.example.demo.model.YouTubeVideo;
 @Mapper
 public interface GameInfoMapper {
 
+
 	List<GameInfo> selectTop10GamesByPlatform(String platform);
 
 	GameInfo getGameInfo(@Param("gnum") String gnum, @Param("state") String state);
@@ -22,4 +23,6 @@ public interface GameInfoMapper {
 	List<GameInfo> getPlatorms(int gnum);
 
 	List<YouTubeVideo> getReviewVideos(int gnum);
+
+	List<GameInfo> getByGame(int gnum);
 }

@@ -14,16 +14,17 @@ public class WishlistService {
 	
 
 	public int addWishlist(Wishlist wishlist) {
-		if (exists(wishlist.getGNum(), wishlist.getId())) {
+		if (wishlistExists(wishlist.getGNum(), wishlist.getId())) {
             return 0;
         }
         return wishlistMapper.addWishlist(wishlist); 
     }
 	
-	/** true if this user already wishlisted this game */
-    public boolean exists(int gnum, String userId) {
-        return wishlistMapper.countByUserAndGame(gnum, userId) > 0;
+    public boolean wishlistExists(int gnum, String userId) {
+        return wishlistMapper.wishlistExists(gnum, userId) > 0;
     }
+
+
 
 	
 }

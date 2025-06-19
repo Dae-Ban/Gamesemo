@@ -32,6 +32,10 @@ public class GameInfoService {
 		return gameInfoMapper.getPlatorms(gnum);
 	}
 
+	public List<GameInfo> getByGame(int gnum) {
+		return gameInfoMapper.getByGame(gnum);
+	}
+
 	
 
 }

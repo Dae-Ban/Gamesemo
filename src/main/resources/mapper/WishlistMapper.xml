@@ -11,9 +11,12 @@
 		(SEQ_WISHLIST.NEXTVAL, #{gNum}, #{id})
 	</insert>
 
-	<select id="countByUserAndGame" resultType="int">
-		SELECT COALESCE(COUNT(*), 0)
+
+	<select id="wishlistExists" parameterType="map" resultType="int">
+		SELECT
+		CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
 		FROM WISHLIST
-		WHERE G_NUM = #{gNum} AND ID = #{id}
+		WHERE G_NUM = #{gNum}
+		AND ID = #{id}
 	</select>
 </mapper>
