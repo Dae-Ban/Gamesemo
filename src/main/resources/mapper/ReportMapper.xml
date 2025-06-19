@@ -88,7 +88,7 @@
   
   <!-- 자유게시판 블라인드 해제 -->
   <update id="unblindCommunityPost">
-  UPDATE COMMUNITY_BOARD SET RB_STATE = 0 WHERE RB_NUM = #{boardNum}
+  UPDATE COMMUNITY_BOARD SET CB_STATE = 0 WHERE CB_NUM = #{boardNum}
   </update>
 
   <!-- ✅ 리뷰게시판 블라인드 처리 -->

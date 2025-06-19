@@ -26,17 +26,17 @@
   <!-- 가운데: 메뉴 -->
   <nav class="simple-nav">
     <a href="<c:url value='/main' />">홈</a>
-    <a href="#">게임 목록</a>
+    <a href="<c:url value='/game' />">게임 목록</a>
 
     <div class="dropdown">
       <a href="#" class="dropdown-toggle">커뮤니티</a>
       <div class="dropdown-menu">
-        <a href="#">자유게시판</a>
-        <a href="#">리뷰게시판</a>
+        <a href="<c:url value='/community/list' />">자유게시판</a>
+        <a href="<c:url value='/review/list' />">리뷰게시판</a>
       </div>
     </div>
 
-    <a href="#">공지사항</a>
+    <a href="<c:url value='/announcement' />">공지사항</a>
   </nav>
 
   <!-- 오른쪽: 검색 + 로그인 + 프로필 묶음 -->
@@ -50,8 +50,18 @@
       </form>
     </div>
 
-    <button class="login-btn">로그인</button>
+      <!-- ✅ 로그인 안 된 경우: 로그인 버튼 -->
+  <c:if test="${empty sessionScope.loginMember}">
+    <a href="/member/login" class="login-btn">로그인</a>
+  </c:if>
 
+  <!-- ✅ 로그인 된 경우: 로그아웃 버튼 -->
+  <c:if test="${not empty sessionScope.loginMember}">
+    <a href="<c:url value='/member/logout' />" class="login-btn">로그아웃</a>
+  </c:if>
+
+  <!-- 마이페이지 드롭다운은 로그인된 경우에만 보여주고 싶다면 여기도 감싸기 -->
+  <c:if test="${not empty sessionScope.loginMember}">
     <div class="profile-dropdown" id="profileDropdown">
       <img src="<c:url value='/images/icons/profile-icon.png'/>" alt="프로필" class="profile-icon" />
       <div class="profile-menu">
@@ -59,5 +69,6 @@
         <a href="/wishlist">위시리스트</a>
       </div>
     </div>
-  </div>
+  </c:if>
+</div>
 </header>

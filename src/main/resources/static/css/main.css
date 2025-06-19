@@ -14,6 +14,8 @@ body {
 
 /* 헤더 */
 header {
+  z-index: 1000;
+  overflow: visible; /* ✅ 추가 */
   position: relative; /* 기준점이 되어줌 */
   display: flex;
   align-items: center;
@@ -93,13 +95,17 @@ nav a {
 }
 
 .platform-buttons {
-  text-align: center;
-  
-  margin-top: 40px;  /* ✅ 플랫폼 버튼과 간격 벌리기 */
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  gap: 20px;                /* 버튼 사이 간격 */
+  margin-top: 40px;
+  flex-wrap: wrap;          /* 줄바꿈 허용 (옵션) */
 }
 
 .platform-btn {
-  margin: 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* 아이콘과 텍스트 사이 간격 */
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -107,6 +113,11 @@ nav a {
   color: white;
   cursor: pointer;
   font-weight: bold;
+}
+
+.platform-icon {
+  width: 25px;   /* 원하는 크기로 조절 */
+  height: 25px;
 }
 
 .platform-btn.active {
@@ -130,6 +141,13 @@ nav a {
   font-size: 30px;      /* ✅ 크기 키우기 (기본 18~20px보다 큼) */
   font-weight: 700;     /* ✅ 훨씬 더 굵게 */
   margin: 0;
+}
+
+.game-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px; /* ✅ 여기 추가 */
 }
 
 .inline-more-link {
@@ -255,7 +273,7 @@ footer {
 .carousel-frame {
   width: 1000px;
   height: 500px;
-  overflow: hidden;
+  overflow: visible; /* ✅ 드롭다운 겹침 방지 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -316,14 +334,13 @@ footer {
 }
 
 .dropdown > .dropdown-menu {
-  display: none;
   position: absolute;
   top: 100%;
   left: 0;
   background: white;
   border: 1px solid #ccc;
   padding: 10px;
-  z-index: 1000;
+  z-index: 9999; /* 기존보다 더 높게 */
   min-width: 120px;
   white-space: nowrap;
   border-radius: 6px;

@@ -54,11 +54,22 @@
 </div>
 
 <div class="platform-buttons">
-  <button class="platform-btn active" data-platform="steam">Steam</button>
-  <button class="platform-btn" data-platform="xbox">Xbox</button>
-  <button class="platform-btn" data-platform="ps">PlayStation</button>
-  <button class="platform-btn" data-platform="nintendo">Nintendo</button>
-  <button class="platform-btn" data-platform="direct">Direct</button> <%-- ✅ 추가된 버튼 --%>
+  <button class="platform-btn" data-platform="steam">
+  <img src="<c:url value='/images/icons/steam-black.png' />" alt="steam" class="platform-icon" />
+  Steam
+   </button>
+  <button class="platform-btn" data-platform="nintendo">
+  <img src="<c:url value='/images/icons/nintendo-black.png' />" alt="nintendo" class="platform-icon" />
+  Nintendo
+   </button>
+   <button class="platform-btn" data-platform="planet">
+  <img src="<c:url value='/images/icons/planet-black.png' />" alt="planet" class="platform-icon" />
+  Planet
+   </button>
+  <button class="platform-btn" data-platform="direct">
+  <img src="<c:url value='/images/icons/direct-black.png' />" alt="Direct" class="platform-icon" />
+  Direct
+</button>
 </div>
 
 <div class="game-section">
