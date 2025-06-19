@@ -22,7 +22,7 @@
             WHERE w.id = #{id}
             ORDER BY
                 <choose>
-                    <when test="order == 'name'"> g.gi_title ASC </when>
+                    <when test="order == 'title'"> g.gi_title ASC </when>
                     <when test="order == 'price'"> g.gi_fprice ASC </when>
                     <otherwise> g.gi_date DESC </otherwise>
                 </choose>

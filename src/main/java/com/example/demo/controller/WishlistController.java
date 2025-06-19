@@ -64,14 +64,18 @@ public class WishlistController {
         return "redirect:/game?page=" + page;
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     @ResponseBody
-    public ResponseEntity<String> delete(@RequestParam (name="giNum") Long giNum, HttpSession session) {
-        String id = (String) session.getAttribute("id");
+    public ResponseEntity<String> delete(@RequestParam Long giNum, HttpSession session) {
+        String id = getLoginId(session);
         if (id != null) {
             wishlistMapper.removeFromWishlist(id, giNum);
             return ResponseEntity.ok("삭제 성공");
         }
         return ResponseEntity.badRequest().body("로그인 필요");
+    }
+
+    private String getLoginId(HttpSession session) {
+        return (String) session.getAttribute("id");
     }
 }

@@ -39,8 +39,7 @@
         <form method="get" action="/wishlist">
             <input type="text" name="keyword" placeholder="Search" value="${keyword}">
             <select name="order">
-                <option value="recent" ${order == 'recent' ? 'selected' : ''}>최신순</option>
-                <option value="title" ${order == 'name' ? 'selected' : ''}>이름순</option>
+                <option value="title" ${order == 'title' ? 'selected' : ''}>이름순</option>
                 <option value="price" ${order == 'price' ? 'selected' : ''}>가격순</option>
             </select>
             <button type="submit">검색</button>
@@ -98,7 +97,7 @@
       const card = this.closest(".game-card");
 
       fetch("/wishlist/delete", {
-        method: "POST",
+        method: "DELETE",
         credentials: "same-origin",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "giNum=" + giNum
