@@ -31,7 +31,7 @@ public class ReviewController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("test1"); 	// 테스트용 기본값
+            loginMember.setId("minjung1");    // 테스트용 기본값
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -77,6 +77,7 @@ public class ReviewController {
     @PostMapping("/insert")
     public String insert(@ModelAttribute Review review, HttpSession session) {
         Member member = (Member) session.getAttribute("loginMember");
+//      review.setId(member.getId());
         review.setId("test1");
         review.setRb_state(0);
 
@@ -173,7 +174,7 @@ public class ReviewController {
         Member loginMember = ensureLoginSession(session);
         report.setId(loginMember.getId());
         report.setRpDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        report.setRpStatus("대기");
+        report.setRpStatus("PENDING");
 
         if (reportService.existsByUserAndTarget(report)) {
             ra.addFlashAttribute("msg", "이미 신고한 게시글입니다.");
@@ -181,6 +182,11 @@ public class ReviewController {
         }
 
         reportService.insertReport(report);
+        
+        // 게시글 상태를 RESOLVED로 변경
+        reviewService.updateBoardState(report.getBoardNum(), 1);
+        report.setRpStatus("RESOLVED");
+        
         return "redirect:/review/view?rb_num=" + report.getBoardNum();
     }
 
@@ -191,7 +197,7 @@ public class ReviewController {
     @PostMapping("/reply/insert")
     public String insertReply(@ModelAttribute ReviewReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
-        reply.setId("test1");
+        reply.setId("minjung1");
 
         int result = reviewService.insertReply(reply);
         if(result==1) System.out.println("댓글 작성 성공");
@@ -214,11 +220,11 @@ public class ReviewController {
     @GetMapping("/reply/update")
     public String replyupdate(@ModelAttribute ReviewReply reply, RedirectAttributes ra) {
         
-    	int result = reviewService.replyupdate(reply);
-    	if(result == 1) System.out.println("댓글 수정 성공");
-    	
-    	 ra.addAttribute("rb_num", reply.getRb_num());
-    	 
+       int result = reviewService.replyupdate(reply);
+       if(result == 1) System.out.println("댓글 수정 성공");
+       
+        ra.addAttribute("rb_num", reply.getRb_num());
+        
          return "redirect:/review/view";
     }
 

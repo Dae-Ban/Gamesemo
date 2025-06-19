@@ -3,6 +3,7 @@ package com.example.demo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.demo.model.Pagenation;
 import com.example.demo.model.Review;
@@ -24,5 +25,9 @@ public interface ReviewMapper {
     List<ReviewReply> getReplyList(int rb_num);   // 댓글 목록 조회
     void deleteReply(int rbr_num);                // 댓글 삭제 추가
 	int replyupdate(ReviewReply reply);
+	
+	//신고 상태 0,1
+	void updateBoardState(@Param("rb_num") int rb_num, @Param("state") int state);
+
 	
 }

@@ -26,7 +26,7 @@
         <result property="rbr_state" column="RBR_STATE"/>
     </resultMap>
 
-    <!-- 총 게시글 수 -->
+   <!--  총 게시글 수 -->
     <select id="getCount" parameterType="com.example.demo.model.Review" resultType="int">
         SELECT COUNT(*) FROM REVIEW_BOARD
         <where>
@@ -47,7 +47,9 @@
             </choose>
         </where>
     </select>
-
+    
+    
+    
     <!-- 페이징 목록 -->
     <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="reviewResult">
         SELECT * FROM (
@@ -76,6 +78,39 @@
         )
         WHERE rnum &gt;= #{startRow}
     </select>
+    
+    
+    
+
+<!--     페이징 목록 -->
+<!--     <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="reviewResult"> -->
+<!--         SELECT * FROM ( -->
+<!--             SELECT rownum rnum, a.* FROM ( -->
+<!--                 SELECT * FROM REVIEW_BOARD -->
+<!--                 <where> -->
+<!--                     rb_state = 0 -->
+<!--                     <choose> -->
+<!--                         <when test="search == 'rb_title'"> -->
+<!--                             AND rb_title LIKE '%' || #{keyword} || '%' -->
+<!--                         </when> -->
+<!--                         <when test="search == 'id'"> -->
+<!--                             AND id LIKE '%' || #{keyword} || '%' -->
+<!--                         </when> -->
+<!--                         <when test="search == 'all'"> -->
+<!--                             AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%') -->
+<!--                         </when> -->
+<!--                         <when test="search == 'rb_state_recommend'"> -->
+<!--                             AND rb_like = '추천' -->
+<!--                         </when> -->
+<!--                     </choose> -->
+<!--                 </where> -->
+<!--                 ORDER BY rb_num DESC -->
+<!--             ) a -->
+<!--             WHERE rownum &lt;= #{endRow} -->
+<!--         ) -->
+<!--         WHERE rnum &gt;= #{startRow} -->
+<!--     </select> -->
+
 
     <!-- 상세보기 -->
     <select id="getReview" parameterType="int" resultMap="reviewResult">
@@ -157,5 +192,15 @@
         WHERE rbr_num = #{rbr_num}
     </delete>
     
+    <!-- 신고 상태값 0,1 -->
+    <update id="updateBoardState">
+    UPDATE REVIEW_BOARD
+    SET rb_state = #{state}
+    WHERE rb_num = #{rb_num}
+	</update>
+    
+    
 
 </mapper>
+
+
