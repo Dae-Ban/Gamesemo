@@ -9,24 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.merger.GameDataMerger;
 import com.example.demo.scraper.Scraper;
 import com.example.demo.scraper.SteamApi;
-import com.example.demo.service.GameDataService;
 import com.example.demo.service.GameInfoService;
 
 @Component
 public class GameDataScheduler {
 	private final Map<String, Scraper> scraperMap;
+	private final Map<String, GameDataMerger> mergerMap;
 	@Autowired
 	private GameInfoService info;
 	@Autowired
-	private GameDataService data;
-	@Autowired
 	private SteamApi steamApi;
 
-	private GameDataScheduler(List<Scraper> scrapers) {
-		// 이름으로 Scraper 매핑
+	private GameDataScheduler(List<Scraper> scrapers, List<GameDataMerger> mergers) {
 		this.scraperMap = scrapers.stream().collect(Collectors.toMap(Scraper::getName, Function.identity()));
+		this.mergerMap = mergers.stream().collect(Collectors.toMap(GameDataMerger::getName, Function.identity()));
 	}
 
 	// /steamdc, /steamnew, /directnew, /nintendodc...
@@ -39,18 +38,15 @@ public class GameDataScheduler {
 	
 	private void margeIntoGame() {
 		steamApi.margeSteamApi();
-		data.margeSteamTop();
-		data.margeSteamDC();
-		data.margeSteamNew();
-		data.margeNintendoExp();
-		data.margeNintendoDC();
-		data.margeNintendoNew();
-		data.margeDirectNew();
-		data.margePlanetNew();
+		mergerMap.forEach((name, merger) -> {
+			System.out.println(name + " game에 병합 시작");
+			merger.merge();
+		});
 	}
 	
 	@Scheduled(cron = "0 0 4 * * *")
 	public void run() {
+		System.out.println("🔥 DB갱신 시작");
 		scrap();
 		margeIntoGame();
 		info.scrapMarge();

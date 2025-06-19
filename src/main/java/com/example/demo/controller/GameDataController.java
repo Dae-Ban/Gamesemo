@@ -1,12 +1,19 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.merger.GameDataMerger;
 import com.example.demo.scraper.SteamApi;
-import com.example.demo.service.GameDataService;
 import com.example.demo.service.GameInfoService;
 
 @RestController
@@ -16,78 +23,50 @@ public class GameDataController {
 	@Autowired
 	private GameInfoService service;
 	@Autowired
-	private GameDataService data;
-	@Autowired
 	private SteamApi steamApi;
-	
-	// 스크랩한 모든 데이터를 marge
-    @GetMapping("/scrapmarge")
-    public void scrapMarge() {
-    	service.scrapMarge();
-    }
 
-    // 스크랩한 정보를 marge한 쪽으로부터 game_info 업데이트
+	private final Map<String, GameDataMerger> mergerMap;
+
+	public GameDataController(List<GameDataMerger> mergers) {
+		// 이름으로 Scraper 매핑
+		this.mergerMap = mergers.stream().collect(Collectors.toMap(GameDataMerger::getName, Function.identity()));
+	}
+
+	@GetMapping("/marge" + "{target}")
+	public ResponseEntity<String> margeIntoGame(@PathVariable("target") String target) {
+		GameDataMerger merger = mergerMap.get(target);
+		if (merger == null) {
+			return ResponseEntity.badRequest().body("잘못된 merger 이름: " + target);
+		}
+		try {
+			merger.merge();
+			return ResponseEntity.ok(target + " merge 완료");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body("❌ 병합 실패: " + e.getMessage());
+		}
+	}
+
+	// 스크랩한 모든 데이터를 marge
+	@GetMapping("/scrapmarge")
+	public void scrapMarge() {
+		service.scrapMarge();
+	}
+
+	// 스크랩한 정보를 marge한 쪽으로부터 game_info 업데이트
 	@GetMapping("/gameinfoupdate")
 	public String updateGameInfo() {
 		service.updateGameInfo();
 		return "game_info 업데이트";
 	}
 
-	//스팀 api 갱신
+	// 스팀 api 갱신
 	@GetMapping("/margesteamapi")
 	public String margeSteamApi() {
 		steamApi.margeSteamApi();
 		return "스팀 api 갱신";
 	}
-	
-	@GetMapping("/margesteamdc")
-	public String margeSteamDC() {
-		data.margeSteamDC();
-		return "steam dc marge";
-	}
-	
-	@GetMapping("/margesteamnew")
-	public String margeSteamNew() {
-		data.margeSteamNew();
-		return "steam new marge";
-	}
-	
-	@GetMapping("/margesteamtop")
-	public String margeSteamTop() {
-		data.margeSteamTop();
-		return "steam new marge";
-	}
-	
-	@GetMapping("/margedirectnew")
-	public String margeDirectNew() {
-		data.margeDirectNew();
-		return "direct new marge";
-	}
-	
-	@GetMapping("/margenintendodc")
-	public String margeNintendoDC() {
-		data.margeNintendoDC();
-		return "nintendo dc marge";
-	}
-	
-	@GetMapping("/margenintendonew")
-	public String margeNintendoNew() {
-		data.margeNintendoNew();
-		return "nintendo new marge";
-	}
-	
-	@GetMapping("/margenintendoexp")
-	public String margeNintendoExp() {
-		data.margeNintendoExp();
-		return "nintendo exp marge";
-	}
-	
-	@GetMapping("/margeplanetnew")
-	public String margePlanetNew() {
-		data.margePlanetNew();
-		return "planet new marge";
-	}
-	
+
 	// 주의! 스팀 api 20만여개의 데이터를 DB에 저장하는 메소드
 	// DB 초기화 후에만 사용할 것
 	@GetMapping("/getsteamapi")
@@ -101,5 +80,5 @@ public class GameDataController {
 		}
 		return "스팀 api 삽입";
 	}
-	
+
 }
