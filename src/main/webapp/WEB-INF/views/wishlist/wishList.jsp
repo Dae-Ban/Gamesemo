@@ -69,7 +69,7 @@
                 <form action="${game.giLink}" method="get" target="_blank">
                     <button type="submit" class="buy-btn">구매</button>
                 </form>
-			<button class="delete-btn del-btn" data-gi-num="${game.giNum}">삭제</button>
+			<button class="delete-btn del-btn" data-g-num="${game.gNum}">삭제</button>
             </div>
         </div>
     </c:forEach>
@@ -93,14 +93,14 @@
     btn.addEventListener("click", function () {
       if (!confirm("정말 삭제하시겠습니까?")) return;
 
-      const giNum = this.dataset.giNum;
+      const gNum = this.dataset.gNum;
       const card = this.closest(".game-card");
 
       fetch("/wishlist/delete", {
-        method: "DELETE",
+        method: "POST",
         credentials: "same-origin",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "giNum=" + giNum
+        body: "gNum=" + gNum
       })
       .then(res => res.text())
       .then(msg => {
