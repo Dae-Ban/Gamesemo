@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/jiseon.css">
+	href="${pageContext.request.contextPath}/css/member.css">
 
 
 </head>
@@ -15,7 +15,7 @@
 		<div class="divider"></div>
 
 		<!-- 		<form action="/member/register" method="post"> -->
-		<form action="/member/register" method="post"
+		<form id="registerForm" action="/member/register" method="post"
 			onsubmit="return validateForm();">
 
 			<!-- ID -->
@@ -90,6 +90,11 @@
 					style="font-size: 14px; margin-top: 4px;"></div>
 			</div>
 
+			<!-- 생년월일 -->
+			<div class="form-group">
+				<label for="birth">생년월일</label> <input type="date" name="birthDate"
+					id="birth" required >
+			</div>
 
 			<!-- 성별 -->
 			<div class="form-group">
@@ -100,13 +105,6 @@
 						여자</label>
 				</div>
 			</div>
-
-			<!-- 생년월일 -->
-			<div class="form-group">
-				<label for="birth">생년월일</label> <input type="date" name="birthDate"
-					id="birth" required>
-			</div>
-
 
 
 			<!-- 선호 장르 -->
@@ -121,9 +119,9 @@
 						type="checkbox" name="genre" value="adventure">어드벤처</label>
 				</div>
 			</div>
-
+			
 			<!-- 이메일 약관 동의 -->
-			<div class="form-group">
+			<div class="form-group" style="align-items: center;">
 				<label><input type="checkbox" name="emailAd" value="Y">
 					이메일 광고 수신 동의</label>
 			</div>

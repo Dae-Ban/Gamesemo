@@ -5,9 +5,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>비밀번호 변경하기</title>
+<title> 비밀번호 변경하기 </title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/jiseon.css">
+	href="${pageContext.request.contextPath}/css/member.css">
 </head>
 <body>
 	<div class="container">

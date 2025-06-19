@@ -4,16 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>회원 정보 수정</title>
+<title>회원정보 수정</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/jiseon.css">
+	href="${pageContext.request.contextPath}/css/member.css">
 
-<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
 
 </head>
 <body>
-	<div class= "container">
-		<h2 class="title">회원 정보 수정</h2>
+	<div class="container">
+		<h2 class="title">회원정보 수정</h2>
 		<div class="divider"></div>
 
 		<!-- 수정 성공/실패 메시지 alert -->
@@ -24,7 +23,8 @@
 		</c:if>
 
 
-		<form action="/member/update" method="post">
+		<form action="/member/update" method="post"
+			onsubmit="return validateForm();">
 
 			<!-- 아아디 -->
 			<div class="form-group">
@@ -35,6 +35,8 @@
 			<div class="form-group">
 				<label for="name">이름</label> <input type="text" name="name"
 					id="name" value="${member.name}">
+				<div id="nameCheckResult" class="result-text"
+					style="font-size: 14px; margin-top: 4px;"></div>
 			</div>
 
 			<div class="form-group">
@@ -45,7 +47,7 @@
 			</div>
 			<div class="form-group">
 				<label>휴대폰 번호</label> <input type="tel" id="phone" name="phone"
-					value="${member.phone}">
+					maxlength="11" value="${member.phone}">
 				<div id="phoneCheckResult" class="result-text"
 					style="font-size: 14px; margin-top: 4px;"></div>
 			</div>
@@ -105,7 +107,11 @@
 
 			<div class="form-group button-row">
 				<button type="submit" class="btn btn-half">수정하기</button>
-				<button type="button" class="btn btn-half" onclick="location.href='/member/mypage'">취소</button>
+				<button type="button" class="btn btn-half"
+					onclick="location.href='/member/mypage'">취소</button>
 			</div>
+		</form>
+	</div>
+	<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
 </body>
 </html>

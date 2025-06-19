@@ -52,6 +52,12 @@ function validateName() {
 		nameResult.innerText = "";
 		return;
 	}
+	
+	if (nameInput.length < 2) {
+			nameResult.textContent = "이름은 2글자 이상 입력해주세요.";
+			nameResult.style.color = "gray";
+			return;
+		}
 
 	if (!nameRegex.test(nameInput)) {
 		nameResult.innerText = "❌ 이름은 한글 또는 영문만 입력 가능합니다.";
@@ -60,6 +66,13 @@ function validateName() {
 		nameResult.innerText = "";
 	}
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+	const nameInput = document.getElementById("name");
+	if (nameInput) {
+		nameInput.addEventListener("input", validateName);
+	}
+});
 
 /* 회원가입 닉네임 유효성 + 중복 검사 */
 
@@ -93,13 +106,6 @@ function checkNickname() {
 			}
 		});
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-	const nicknameInput = document.getElementById("nickname");
-	if (nicknameInput) {
-		nicknameInput.addEventListener("input", checkNickname);
-	}
-});
 
 
 // 페이지 로딩 시 이벤트 바인딩
@@ -168,20 +174,24 @@ function checkPhone() {
 	phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '');
 	const phone = phoneInput.value;
 
-	const regex = /^010\d{8}$/; // 정확히 010으로 시작 + 숫자 8개 → 총 11자리
-
-	// 11자리가 되기 전엔 검사하지 않음
-	if (phone.length < 11) {
-		resultBox.textContent = ""; // 메시지 숨김
+	//  먼저 010으로 시작하지 않는 경우 검사
+	if (phone && !phone.startsWith("010")) {
+		resultBox.textContent = "❌ 010으로 시작하는 번호만 입력 가능합니다.";
+		resultBox.style.color = "red";
 		return;
 	}
 
+	//  11자리가 되기 전엔 안내문구만
+	if (phone.length < 11) {
+		resultBox.textContent = "휴대폰 번호는 11자리여야 합니다.";
+		resultBox.style.color = "gray";
+		return;
+	}
+
+	//  010으로 시작 + 11자리 정확히 입력된 경우만 통과
+	const regex = /^010\d{8}$/;
 	if (!regex.test(phone)) {
-		if (/[^0-9]/.test(phone)) {
-			resultBox.textContent = "❌ 숫자만 입력하세요. (예: 01012345678)";
-		} else {
-			resultBox.textContent = "❌ 올바른 휴대폰번호를 입력해주세요.";
-		}
+		resultBox.textContent = "❌ 올바른 휴대폰번호를 입력해주세요.";
 		resultBox.style.color = "red";
 	} else {
 		resultBox.textContent = "✅ 올바른 휴대폰 번호입니다.";
@@ -196,36 +206,20 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-function handleDomainChange() {
-	const domainSelect = document.getElementById("emailDomainSelect");
-	const customInput = document.getElementById("emailDomain");
-
-	if (domainSelect.value === "custom") {
-		customInput.style.display = "inline-block";
-		customInput.disabled = false;
-		customInput.placeholder = "직접입력";
-	} else {
-		customInput.style.display = "none";
-		customInput.disabled = true;
-		customInput.value = domainSelect.value;
-	}
-}
 
 // 이메일 도메인 선택 핸들링 (직접입력일 때 input창 보여주고 name 제어)
 function handleDomainChange() {
 	const select = document.getElementById("emailDomainSelect");
-	const customInput = document.getElementById("customEmailDomain");
+	const customInput = document.getElementById("customEmailDomain"); // customEmailDomain만 쓰기로
 
 	if (select.value === "custom") {
-		// 직접입력 선택 시
-		select.removeAttribute("name"); // select는 서버 전송 제외
-		customInput.setAttribute("name", "emailDomain"); // input은 서버 전송 대상
+		select.removeAttribute("name");
+		customInput.setAttribute("name", "emailDomain");
 		customInput.style.display = "inline-block";
 		customInput.disabled = false;
 		customInput.value = "";
 		customInput.focus();
 	} else {
-		// 일반 도메인 선택 시
 		select.setAttribute("name", "emailDomain");
 		customInput.removeAttribute("name");
 		customInput.style.display = "none";
@@ -233,9 +227,9 @@ function handleDomainChange() {
 		customInput.value = "";
 	}
 
-	// 도메인 바뀌면 중복검사 다시 실행
-	checkEmailDuplicate();
+	checkEmailDuplicate(); // 도메인 바뀌면 중복검사 다시
 }
+
 
 // 이메일 아이디 유효성 검사 (영문자+숫자만 허용)
 function validateEmailId(input) {
@@ -378,7 +372,6 @@ function validateForm() {
 	// ✅ 장르 선택은 필수가 아니므로 검사 생략
 	return true; // 통과 시 제출 허용
 }
-
 
 
 // ** 비밀번호 변경
@@ -568,11 +561,6 @@ function checkIdCode() {
 
 
 	if (code === String(idAuthCode) && idFound) {
-		//		alert(`✅ 회원님의 아이디는 ${idFound} 입니다.`);
-		//		location.href = "/member/login"; // 로그인 페이지로 이동
-
-		//		result.innerText = "✅ 회원님의 아이디는" + `${idFound}` + "입니다.";
-		//		result.style.color = "green";
 
 		result.innerHTML = `✅ 회원님의 아이디는 <strong>${idFound}</strong> 입니다.
 			<br><br>
@@ -591,7 +579,6 @@ function sendPwCode() {
 	const email = document.getElementById("findPwEmail").value.trim();
 	const message = document.getElementById("pwMessage");
 
-	//	if (!id || !email) return alert("아이디와 이메일을 모두 입력하세요.");
 
 	if (!id || !email) {
 		message.innerText = "⚠ 아이디와 이메일을 모두 입력하세요.";
@@ -636,9 +623,9 @@ function verifyCode() {
 		result.innerText = "✅ 인증 성공! 비밀번호를 재설정하세요.";
 		result.style.color = "green";
 		document.getElementById("resetPwSection").style.display = "block";
-		
+
 		currentUserId = document.getElementById("findPwId").value.trim();
-		
+
 	} else {
 		result.innerText = "❌ 인증번호가 일치하지 않습니다.";
 		result.style.color = "red";
@@ -708,3 +695,37 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.warn("⚠ 확인 버튼을 찾지 못했습니다.");
 	}
 });
+
+//회원정보수정 적용 안 돼서 추가..
+
+function validateUpdateForm() {
+	const name = document.getElementById("name")?.value.trim();
+	const nickname = document.getElementById("nickname")?.value.trim();
+	const phone = document.getElementById("phone")?.value.trim();
+	const emailId = document.getElementById("emailId")?.value.trim();
+	const emailDomain = document.getElementById("emailDomainSelect")?.value === "custom"
+		? document.getElementById("customEmailDomain")?.value.trim()
+		: document.getElementById("emailDomainSelect")?.value;
+	const birth = document.getElementById("birth")?.value.trim();
+	const agree = document.querySelector("input[name='agreeUpdate']");
+
+	if (!name || !nickname || !phone || !emailId || !emailDomain || !birth) {
+		alert("모든 항목을 빠짐없이 입력해주세요.");
+		return false;
+	}
+
+	if (!agree.checked) {
+		alert("정보 수정 동의는 필수입니다.");
+		return false;
+	}
+
+	// 전화번호 010 시작 + 11자리 검사
+	if (!/^010\d{8}$/.test(phone)) {
+		alert("올바른 휴대폰 번호를 입력해주세요. (예: 01012345678)");
+		return false;
+	}
+
+	return true;
+}
+
+
