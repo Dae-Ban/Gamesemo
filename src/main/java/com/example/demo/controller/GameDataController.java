@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.merger.GameDataMerger;
 import com.example.demo.scraper.SteamApi;
 import com.example.demo.service.GameInfoService;
+import com.example.demo.task.GameDataTask;
 
 @RestController
 @RequestMapping("/gamedata")
 public class GameDataController {
 
+	@Autowired
+	private GameDataTask task;
 	@Autowired
 	private GameInfoService service;
 	@Autowired
@@ -28,8 +31,13 @@ public class GameDataController {
 	private final Map<String, GameDataMerger> mergerMap;
 
 	public GameDataController(List<GameDataMerger> mergers) {
-		// 이름으로 Scraper 매핑
 		this.mergerMap = mergers.stream().collect(Collectors.toMap(GameDataMerger::getName, Function.identity()));
+	}
+	
+	@GetMapping("/master")
+	public String updateDB() {
+		task.run();
+		return "DB 업데이트";
 	}
 
 	@GetMapping("/marge" + "{target}")

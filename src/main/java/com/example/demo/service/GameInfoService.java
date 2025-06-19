@@ -28,10 +28,6 @@ public class GameInfoService {
 	@Autowired
 	private CurrencyExchange ex;
 
-	public List<GameInfo> gameInfoList() {
-		return infoMapper.gameInfoList();
-	}
-
 	@Transactional
 	public void scrapMarge() {
 		// 모두 삭제
