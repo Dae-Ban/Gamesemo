@@ -75,7 +75,7 @@
 		ON g.g_num = gi.g_num
 		AND gi.gi_date >= SYSTIMESTAMP - INTERVAL '1' DAY
 		)
-		WHERE rn BETWEEN 1 AND 30
+		WHERE rn BETWEEN 1 AND 50
 	</select>
 
 </mapper>
