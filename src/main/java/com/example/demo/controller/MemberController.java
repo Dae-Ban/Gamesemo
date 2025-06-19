@@ -41,7 +41,6 @@ public class MemberController {
         Member member = memberService.login(login);
         System.out.println("DB에서 찾은 Member: " + member);
         if (member != null) {
-            session.setAttribute("loginMember", member);
             session.setAttribute("id", member.getId());
             if(rememberMe != null) {
             	Cookie cookie = new Cookie("rememberId",member.getId());
