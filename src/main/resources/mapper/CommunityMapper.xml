@@ -26,21 +26,47 @@
         <result property="cbr_state" column="CBR_STATE"/>
     </resultMap>
 
-   <!--  총 게시글 수 -->
-    <select id="getCount" parameterType="com.example.demo.model.Community" resultType="int">
-        SELECT COUNT(*) FROM COMMUNITY_BOARD
-        <where>
-            cb_state = 0
-            <choose>
-                <when test="search == 'cb_title'">
-                    AND cb_title LIKE '%' || #{keyword} || '%'
-                </when>
-                <when test="search == 'id'">
-                    AND id LIKE '%' || #{keyword} || '%'
-                </when>
-                <when test="search == 'all'">
-                    AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
-                </when>
+
+
+ <!--  총 게시글 수 -->
+     <select id="getCount" parameterType="com.example.demo.model.Community" resultType="int">
+    SELECT COUNT(*) FROM COMMUNITY_BOARD
+    <where>
+        cb_state != 2
+        <choose>
+            <when test="search == 'cb_title'">
+                AND cb_title LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="search == 'id'">
+                AND id LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="search == 'all'">
+                AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
+            </when>
+            <when test="search == 'cb_state_recommend'">
+                AND cb_like = '추천'
+            </when>
+        </choose>
+    </where>
+</select>
+            
+     
+
+  
+<!--     <select id="getCount" parameterType="com.example.demo.model.Community" resultType="int"> -->
+<!--         SELECT COUNT(*) FROM COMMUNITY_BOARD -->
+<!--         <where> -->
+<!--             cb_state = 0 -->
+<!--             <choose> -->
+<!--                 <when test="search == 'cb_title'"> -->
+<!--                     AND cb_title LIKE '%' || #{keyword} || '%' -->
+<!--                 </when> -->
+<!--                 <when test="search == 'id'"> -->
+<!--                     AND id LIKE '%' || #{keyword} || '%' -->
+<!--                 </when> -->
+<!--                 <when test="search == 'all'"> -->
+<!--                     AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%') -->
+<!--                 </when> -->
                 
                 
                 
@@ -50,40 +76,67 @@
                                     
                                                 
 <!--                 </when> -->   
-            </choose>
-        </where>
-    </select>
+       
     
     
     
-    <!-- 페이징 목록 -->
-    <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="communityResult">
-        SELECT * FROM (
-            SELECT rownum rnum, a.* FROM (
-                SELECT * FROM COMMUNITY_BOARD
-                <where>
-                    cb_state = 0
-                    <choose>
-                        <when test="search == 'cb_title'">
-                            AND cb_title LIKE '%' || #{keyword} || '%'
-                        </when>
-                        <when test="search == 'id'">
-                            AND id LIKE '%' || #{keyword} || '%'
-                        </when>
-                        <when test="search == 'all'">
-                            AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
-                        </when>
-<!--                         <when test="search == 'cb_state_recommend'"> -->
-                          
+     <!-- 페이징 목록 -->
+   <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="communityResult">
+    SELECT * FROM (
+        SELECT rownum rnum, a.* FROM (
+            SELECT * FROM COMMUNITY_BOARD
+            <where>
+                cb_state != 2
+                <choose>
+                    <when test="search == 'cb_title'">
+                        AND cb_title LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="search == 'id'">
+                        AND id LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="search == 'all'">
+                        AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
+                    </when>
+                    <when test="search == 'cb_state_recommend'">
+                        AND cb_like = '추천'
+                    </when>
+                </choose>
+            </where>
+            ORDER BY cb_num DESC
+        ) a
+        WHERE rownum &lt;= #{endRow}
+    )
+    WHERE rnum &gt;= #{startRow}
+</select>
+
+    
+    
+  
+<!--     <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="communityResult"> -->
+<!--         SELECT * FROM ( -->
+<!--             SELECT rownum rnum, a.* FROM ( -->
+<!--                 SELECT * FROM COMMUNITY_BOARD -->
+<!--                 <where> -->
+<!--                     cb_state = 0 -->
+<!--                     <choose> -->
+<!--                         <when test="search == 'cb_title'"> -->
+<!--                             AND cb_title LIKE '%' || #{keyword} || '%' -->
 <!--                         </when> -->
-                    </choose>
-                </where>
-                ORDER BY cb_num DESC
-            ) a
-            WHERE rownum &lt;= #{endRow}
-        )
-        WHERE rnum &gt;= #{startRow}
-    </select>
+<!--                         <when test="search == 'id'"> -->
+<!--                             AND id LIKE '%' || #{keyword} || '%' -->
+<!--                         </when> -->
+<!--                         <when test="search == 'all'"> -->
+<!--                             AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%') -->
+<!--                         </when> -->
+
+<!--                     </choose> -->
+<!--                 </where> -->
+<!--                 ORDER BY cb_num DESC -->
+<!--             ) a -->
+<!--             WHERE rownum &lt;= #{endRow} -->
+<!--         ) -->
+<!--         WHERE rnum &gt;= #{startRow} -->
+<!--     </select> -->
     
     
     
@@ -153,7 +206,7 @@
     <!-- 글 삭제 (논리삭제) -->
     <update id="delete" parameterType="int">
         UPDATE COMMUNITY_BOARD
-        SET cb_state = 1
+        SET cb_state = 2
         WHERE cb_num = #{cb_num}
     </update>
 

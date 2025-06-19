@@ -65,6 +65,9 @@ public class ReportController {
 
         reportService.insertReport(report);
         
+        ra.addFlashAttribute("msg", "신고가 접수되었습니다.");
+
+        
         if(report.getRp_table().equals("REVIEW_BOARD")) {
         	return "redirect:/review/view?rb_num=" + report.getBoard_num();        	
         }else {

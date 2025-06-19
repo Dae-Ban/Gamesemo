@@ -49,11 +49,27 @@
                             <c:otherwise>-</c:otherwise>
                         </c:choose>
                     </td>
-                    <td class="center">
-                        <a href="${pageContext.request.contextPath}/review/view?rb_num=${review.rb_num}">
-                            ${review.rb_title}
-                        </a>
-                    </td>
+                    
+                    
+                   <td class="center">
+    <c:choose>
+        <c:when test="${review.rb_state == 1}">
+            <span style="color: red;">🚨 신고 처리된 게시글입니다</span>
+        </c:when>
+        <c:when test="${review.rb_state == 2}">
+            <span style="color: gray;">🗑️ 삭제된 게시글입니다</span>
+        </c:when>
+        <c:otherwise>
+            <a href="${pageContext.request.contextPath}/review/view?rb_num=${review.rb_num}">
+                ${review.rb_title}
+            </a>
+        </c:otherwise>
+    </c:choose>
+</td>
+
+
+
+                                     
                     <td>${review.id}</td>
                     <td><fmt:formatDate value="${review.rb_date}" pattern="yyyy-MM-dd" /></td>
                     <td>${review.rb_readcount}</td>

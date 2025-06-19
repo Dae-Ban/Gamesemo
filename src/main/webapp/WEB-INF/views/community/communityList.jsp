@@ -20,7 +20,7 @@
         <select name="search">
             <option value="cb_title" <c:if test="${search == 'cb_title'}">selected</c:if>>제목</option>
             <option value="id" <c:if test="${search == 'id'}">selected</c:if>>작성자</option>
-            <option value="cb_state_recommend" <c:if test="${search == 'cb_state_recommend'}">selected</c:if>>글추천</option>
+           
         </select>
         <input type="text" name="keyword" value="${keyword}" placeholder="검색어를 입력하세요">
         <button type="submit" class="btn-search">검색</button>
@@ -48,11 +48,24 @@
 <%--                             <c:otherwise>-</c:otherwise> --%>
 <%--                         </c:choose> --%>
 <!--                     </td> -->
-                    <td class="center">
-                        <a href="${pageContext.request.contextPath}/community/view?cb_num=${community.cb_num}">
-                            ${community.cb_title}
-                        </a>
-                    </td>
+
+<td class="center">
+    <c:choose>
+        <c:when test="${community.cb_state == 1}">
+            <span style="color:red;">🚫 신고 처리된 게시글입니다.</span>
+        </c:when>
+        <c:otherwise>
+            <a href="${pageContext.request.contextPath}/community/view?cb_num=${community.cb_num}">
+                ${community.cb_title}
+            </a>
+        </c:otherwise>
+    </c:choose>
+</td>
+
+                    
+                    
+                    
+                    
                     <td>${community.id}</td>
                     <td><fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /></td>
                     <td>${community.cb_readcount}</td>
