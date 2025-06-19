@@ -33,6 +33,13 @@ public class GameDataController {
 		return "game_info 업데이트";
 	}
 
+	//스팀 api 갱신
+	@GetMapping("/margesteamapi")
+	public String margeSteamApi() {
+		steamApi.margeSteamApi();
+		return "스팀 api 갱신";
+	}
+	
 	@GetMapping("/margesteamdc")
 	public String margeSteamDC() {
 		data.margeSteamDC();
@@ -82,6 +89,7 @@ public class GameDataController {
 	}
 	
 	// 주의! 스팀 api 20만여개의 데이터를 DB에 저장하는 메소드
+	// DB 초기화 후에만 사용할 것
 	@GetMapping("/getsteamapi")
 	public String getSteamApi() {
 		try {
@@ -94,9 +102,4 @@ public class GameDataController {
 		return "스팀 api 삽입";
 	}
 	
-	@GetMapping("/margesteamapi")
-	public String margeSteamApi() {
-		steamApi.margeSteamApi();
-		return "스팀 api 갱신";
-	}
 }
