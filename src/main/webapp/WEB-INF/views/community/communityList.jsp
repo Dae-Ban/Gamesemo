@@ -20,7 +20,6 @@
         <select name="search">
             <option value="cb_title" <c:if test="${search == 'cb_title'}">selected</c:if>>제목</option>
             <option value="id" <c:if test="${search == 'id'}">selected</c:if>>작성자</option>
-           
         </select>
         <input type="text" name="keyword" value="${keyword}" placeholder="검색어를 입력하세요">
         <button type="submit" class="btn-search">검색</button>
@@ -38,48 +37,55 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="community" items="${communityList}">
+
+        <!-- 추천 글 상단 고정 -->
+        <c:if test="${not empty topList}">
+            <c:forEach var="top" items="${topList}" varStatus="vs">
                 <tr>
-                    <td>${community.cb_num}</td>
-<!--                     <td> -->
-<%--                         <c:choose> --%>
-<%--                             <c:when test="${community.cb_like eq '추천'}">👍 추천</c:when> --%>
-<%--                             <c:when test="${community.cb_like eq '비추천'}">👎 비추천</c:when> --%>
-<%--                             <c:otherwise>-</c:otherwise> --%>
-<%--                         </c:choose> --%>
-<!--                     </td> -->
-
-<td class="center">
-    <c:choose>
-        <c:when test="${community.cb_state == 1}">
-            <span style="color:red;">🚫 신고 처리된 게시글입니다.</span>
-        </c:when>
-        <c:otherwise>
-            <a href="${pageContext.request.contextPath}/community/view?cb_num=${community.cb_num}">
-                ${community.cb_title}
-            </a>
-        </c:otherwise>
-    </c:choose>
-</td>
-
-                    
-                    
-                    
-                    
-                    <td>${community.id}</td>
-                    <td><fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /></td>
-                    <td>${community.cb_readcount}</td>
+                    <td>${vs.index + 1}위 🔥</td>
+                    <td class="center">
+                        <a href="${pageContext.request.contextPath}/community/view?cb_num=${top.cb_num}">
+                            ${top.cb_title}
+                        </a>
+                    </td>
+                    <td>${top.id}</td>
+                    <td><fmt:formatDate value="${top.cb_date}" pattern="yyyy-MM-dd" /></td>
+                    <td>${top.cb_readcount}</td>
                 </tr>
             </c:forEach>
+        </c:if>
 
-            <c:if test="${empty communityList}">
-                <tr><td colspan="6" class="center">등록된 리뷰가 없습니다.</td></tr>
-            </c:if>
+        <!-- 일반 글 -->
+        <c:forEach var="community" items="${communityList}">
+            <tr>
+                <td>${community.cb_num}</td>
+                <td class="center">
+                    <c:choose>
+                        <c:when test="${community.cb_state == 1}">
+                            <span style="color:red;">🚫 신고 처리된 게시글입니다.</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/community/view?cb_num=${community.cb_num}">
+                                ${community.cb_title}
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>${community.id}</td>
+                <td><fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /></td>
+                <td>${community.cb_readcount}</td>
+            </tr>
+        </c:forEach>
+
+        <c:if test="${empty communityList}">
+            <tr><td colspan="5" class="center">등록된 글이 없습니다.</td></tr>
+        </c:if>
+
         </tbody>
     </table>
 
     <!-- 페이징 -->
-    <div class="pagination">
+    <div class="pagenation">
         <c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
             <c:choose>
                 <c:when test="${i == pgn.currentPage}">
@@ -98,6 +104,5 @@
     </div>
 
 </div>
-
 </body>
 </html>

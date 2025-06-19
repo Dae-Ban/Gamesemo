@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.example.demo.model.Pagenation;
 import com.example.demo.model.Community;
+import com.example.demo.model.CommunityLike;
 import com.example.demo.model.CommunityReply;
 
 @Mapper
@@ -25,5 +26,16 @@ public interface CommunityMapper {
     List<CommunityReply> getReplyList(int cb_num);   // 댓글 목록 조회
     void deleteReply(int cbr_num);                // 댓글 삭제 추가
 	int replyupdate(CommunityReply reply);
+	
+	// 글추천수대로 4개 출력
+	List<Community> getTopRecommended();
+	
+	//글 추천하기 
+	CommunityLike checkAlreadyLiked(CommunityLike like);
+	int insertLike(CommunityLike like);
+	int getLikeCount(int cb_num);
+
+
+
 	
 }

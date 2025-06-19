@@ -39,7 +39,8 @@
          	<br>글번호: ${community.cb_num}<br>
             조회수: ${community.cb_readcount}<br>
             날짜: <fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /><br>
-            작성자: ${community.id}
+            작성자: ${community.id}<br>
+            👍 추천 수: ${likeCount}
         </div>
     </div>
 
@@ -87,6 +88,15 @@
            style="margin: 0 5px; padding: 8px 14px; background-color: #666; color: white; text-decoration: none;">글목록</a>
     </div>
     </c:if>
+    
+    <!-- 글 추천하기 -->
+    <c:if test="${not empty sessionScope.loginMember}">
+    <form action="${pageContext.request.contextPath}/community/like" method="post" style="margin-top: 10px;">
+        <input type="hidden" name="cb_num" value="${community.cb_num}" />
+        <button type="submit">👍 추천하기</button>
+    </form>
+</c:if>
+    
     
     <!-- 댓글 영역 (cb_state != 1일 때만 보임) -->
     <c:if test="${community.cb_state != 1}">

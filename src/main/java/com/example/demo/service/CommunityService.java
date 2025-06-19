@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.mapper.CommunityMapper;
 import com.example.demo.model.Pagenation;
 import com.example.demo.model.Community;
+import com.example.demo.model.CommunityLike;
 import com.example.demo.model.CommunityReply;
 
 @Service
@@ -63,5 +64,22 @@ public class CommunityService {
 	public int replyupdate(CommunityReply reply) {
 		return communityMapper.replyupdate(reply);
 	}
+	
+	public List<Community> getTopRecommended() {
+	    return communityMapper.getTopRecommended();
+	}
+	
+	public boolean insertLike(CommunityLike like) {
+	    CommunityLike existing = communityMapper.checkAlreadyLiked(like);
+	    if (existing == null) {
+	        return communityMapper.insertLike(like) == 1;
+	    }
+	    return false;
+	}
+	
+	public int getLikeCount(int cb_num) {
+	    return communityMapper.getLikeCount(cb_num);
+	}
+
 	
 }

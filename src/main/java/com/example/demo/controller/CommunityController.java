@@ -50,6 +50,10 @@ public class CommunityController {
         model.addAttribute("pgn", pgn);
         model.addAttribute("search", community.getSearch());
         model.addAttribute("keyword", community.getKeyword());
+        
+        List<Community> topList = communityService.getTopRecommended();
+        model.addAttribute("topList", topList);
+
 
         return "community/communityList";
     }
@@ -61,9 +65,13 @@ public class CommunityController {
         communityService.updateReadCount(cb_num);
         Community community = communityService.getCommunity(cb_num);
         List<CommunityReply> replylist = communityService.getReplyList(cb_num);
+        
+        int likeCount = communityService.getLikeCount(cb_num);
 
         model.addAttribute("community", community);
         model.addAttribute("replylist", replylist);
+        model.addAttribute("likeCount", likeCount);
+        
         return "community/communityView";
     }
 
@@ -159,8 +167,26 @@ public class CommunityController {
         }
     }
 
+    @PostMapping("/like")
+    public String like(@RequestParam("cb_num") int cb_num, HttpSession session, RedirectAttributes ra) {
+        Member loginMember = ensureLoginSession(session);
+        CommunityLike like = new CommunityLike();
+        like.setId(loginMember.getId());
+        like.setCb_num(cb_num);
+
+        boolean isFirst = communityService.insertLike(like);
+        if (isFirst) {
+            ra.addFlashAttribute("msg", "추천 완료!");
+        } else {
+            ra.addFlashAttribute("msg", "이미 추천한 글입니다.");
+        }
+
+        ra.addAttribute("cb_num", cb_num);
+        return "redirect:/community/view";
+    }
+
     // ---------------------------------------------
-    // 아래부터 댓글 관련 메서드 (추가된 부분)
+    // 아래부터 댓글 관련 메서드
     // ---------------------------------------------
 
     @PostMapping("/reply/insert")

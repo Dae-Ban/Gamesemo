@@ -28,6 +28,8 @@
 
 
 
+
+
  <!--  총 게시글 수 -->
      <select id="getCount" parameterType="com.example.demo.model.Community" resultType="int">
     SELECT COUNT(*) FROM COMMUNITY_BOARD
@@ -42,9 +44,6 @@
             </when>
             <when test="search == 'all'">
                 AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
-            </when>
-            <when test="search == 'cb_state_recommend'">
-                AND cb_like = '추천'
             </when>
         </choose>
     </where>
@@ -97,9 +96,7 @@
                     <when test="search == 'all'">
                         AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
                     </when>
-                    <when test="search == 'cb_state_recommend'">
-                        AND cb_like = '추천'
-                    </when>
+                    
                 </choose>
             </where>
             ORDER BY cb_num DESC
@@ -250,6 +247,40 @@
         WHERE cbr_num = #{cbr_num}
     </delete>
     
+    <!-- 글 추천 4개 리스트 뽑기 -->
+    <select id="getTopRecommended" resultMap="communityResult">
+    SELECT *
+    FROM (
+        SELECT cb.*
+        FROM (
+            SELECT cb.cb_num, cb.id, cb.cb_title, cb.cb_content, cb.cb_readcount, cb.cb_date, cb.cb_state,
+                   COUNT(cl.cb_num) AS like_count
+            FROM COMMUNITY_BOARD cb
+            LEFT JOIN CB_LIKE cl ON cb.cb_num = cl.cb_num
+            WHERE cb.cb_state = 0
+            GROUP BY cb.cb_num, cb.id, cb.cb_title, cb.cb_content, cb.cb_readcount, cb.cb_date, cb.cb_state
+            ORDER BY like_count DESC
+        ) cb
+    )
+    WHERE ROWNUM &lt;= 4
+</select>
+
+	<!-- 글 추천하기 -->
+<select id="checkAlreadyLiked" parameterType="communityLike" resultType="communityLike">
+    SELECT * FROM CB_LIKE WHERE id = #{id} AND cb_num = #{cb_num}
+</select>
+
+<insert id="insertLike" parameterType="communityLike">
+    INSERT INTO CB_LIKE(pk, id, cb_num)
+    VALUES(cb_like_seq.NEXTVAL, #{id}, #{cb_num})
+</insert>
+
+<select id="getLikeCount" parameterType="int" resultType="int">
+    SELECT COUNT(*) FROM CB_LIKE WHERE cb_num = #{cb_num}
+</select>
+
+
+  
 </mapper>
 
 
