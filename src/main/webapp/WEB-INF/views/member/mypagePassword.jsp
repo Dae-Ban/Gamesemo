@@ -19,7 +19,11 @@
 		String uri = request.getRequestURI();
 		%>
 		<div class="mypage-sidebar">
-			<h1 class="mypage-title">마이페이지</h1>
+			<h1 class="mypage-title">
+				<a href="${pageContext.request.contextPath}/member/mypage"
+					style="text-decoration: none; color: inherit;">마이페이지</a>
+			</h1>
+
 			<div class="mypage-divider"></div>
 
 			<div
