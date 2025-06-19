@@ -24,8 +24,8 @@ public class ReportService {
     public boolean existsByUserAndTarget(Report report) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", report.getId());
-        map.put("rpTable", report.getRpTable());
-        map.put("boardNum", report.getBoardNum());
+        map.put("rp_table", report.getRp_table());
+        map.put("board_num", report.getBoard_num());
 
         return reportMapper.checkDuplicateReport(map) > 0;
     }

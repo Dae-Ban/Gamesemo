@@ -26,8 +26,5 @@ public interface ReviewMapper {
     void deleteReply(int rbr_num);                // 댓글 삭제 추가
 	int replyupdate(ReviewReply reply);
 	
-	//신고 상태 0,1
-	void updateBoardState(@Param("rb_num") int rb_num, @Param("state") int state);
-
-	
+		
 }

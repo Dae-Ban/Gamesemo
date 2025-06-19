@@ -78,7 +78,7 @@ public class ReviewController {
     public String insert(@ModelAttribute Review review, HttpSession session) {
         Member member = (Member) session.getAttribute("loginMember");
 //      review.setId(member.getId());
-        review.setId("test1");
+        review.setId("minjung1");
         review.setRb_state(0);
 
         reviewService.insert(review);
@@ -157,37 +157,6 @@ public class ReviewController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @GetMapping("/report/form")
-    public String reportForm(@RequestParam("rp_table") String rpTable,
-                             @RequestParam("board_num") int boardNum,
-                             Model model, HttpSession session) {
-        ensureLoginSession(session);
-        model.addAttribute("rp_table", rpTable);
-        model.addAttribute("board_num", boardNum);
-        return "report/reportForm";
-    }
-
-    @PostMapping("/report/insert")
-    public String insertReport(@ModelAttribute Report report, HttpSession session, RedirectAttributes ra) {
-        Member loginMember = ensureLoginSession(session);
-        report.setId(loginMember.getId());
-        report.setRpDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        report.setRpStatus("PENDING");
-
-        if (reportService.existsByUserAndTarget(report)) {
-            ra.addFlashAttribute("msg", "이미 신고한 게시글입니다.");
-            return "redirect:/review/view?rb_num=" + report.getBoardNum();
-        }
-
-        reportService.insertReport(report);
-        
-        // 게시글 상태를 RESOLVED로 변경
-        reviewService.updateBoardState(report.getBoardNum(), 1);
-        report.setRpStatus("RESOLVED");
-        
-        return "redirect:/review/view?rb_num=" + report.getBoardNum();
     }
 
     // ---------------------------------------------

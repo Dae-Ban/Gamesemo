@@ -67,11 +67,4 @@ public class ReviewService {
 		return reviewMapper.replyupdate(reply);
 	}
 	
-	// 게시글 상태 변경 (신고 상태 1로 변경)
-	public void updateBoardState(int rb_num, int state) {
-	    reviewMapper.updateBoardState(rb_num, state);
-	}
-
-
-
 }

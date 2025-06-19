@@ -18,11 +18,11 @@
         ) VALUES (
             REPORT_SEQ.NEXTVAL, 
             #{id},
-            #{rpReason},
-            #{rpDate},
-            #{rpTable},
-            #{boardNum},
-            #{rpStatus}
+            #{rp_reason},
+            #{rp_date},
+            #{rp_table},
+            #{board_num},
+            #{rp_status}
         )
     </insert>
 
@@ -31,8 +31,8 @@
         SELECT COUNT(*)
         FROM REPORT
         WHERE ID = #{id}
-          AND RP_TABLE = #{rpTable}
-          AND BOARD_NUM = #{boardNum}
+          AND RP_TABLE = #{rp_table}
+          AND BOARD_NUM = #{board_num}
     </select>
 
 

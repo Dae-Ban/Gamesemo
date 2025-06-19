@@ -20,7 +20,7 @@
         <select name="search">
             <option value="cb_title" <c:if test="${search == 'cb_title'}">selected</c:if>>제목</option>
             <option value="id" <c:if test="${search == 'id'}">selected</c:if>>작성자</option>
-            <option value="cb_state_recommend" <c:if test="${search == 'cb_state_recommend'}">selected</c:if>>추천</option>
+            <option value="cb_state_recommend" <c:if test="${search == 'cb_state_recommend'}">selected</c:if>>글추천</option>
         </select>
         <input type="text" name="keyword" value="${keyword}" placeholder="검색어를 입력하세요">
         <button type="submit" class="btn-search">검색</button>
@@ -31,7 +31,6 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>추천/비</th>
                 <th>제목</th>
                 <th>글쓴이</th>
                 <th>작성일</th>

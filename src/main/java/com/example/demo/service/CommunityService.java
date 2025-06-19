@@ -64,11 +64,4 @@ public class CommunityService {
 		return communityMapper.replyupdate(reply);
 	}
 	
-	// 게시글 상태 변경 (신고 상태 1로 변경)
-	public void updateBoardState(int cb_num, int state) {
-	    communityMapper.updateBoardState(cb_num, state);
-	}
-
-
-
 }

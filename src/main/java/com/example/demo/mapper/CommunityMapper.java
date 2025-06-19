@@ -26,8 +26,4 @@ public interface CommunityMapper {
     void deleteReply(int cbr_num);                // 댓글 삭제 추가
 	int replyupdate(CommunityReply reply);
 	
-	//신고 상태 0,1
-	void updateBoardState(@Param("cb_num") int cb_num, @Param("state") int state);
-
-	
 }

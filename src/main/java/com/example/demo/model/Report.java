@@ -6,12 +6,12 @@ import lombok.Data;
 
 @Data
 public class Report {
-    private int rpNum;
+    private int rp_num;
     private String id;
-    private String rpReason;
-    private Timestamp rpDate;
-    private String rpTable;
-    private int boardNum;
-    private String rpStatus;
+    private String rp_reason;
+    private Timestamp rp_date;
+    private String rp_table;
+    private int board_num;
+    private String rp_status;
     
 }

@@ -153,7 +153,7 @@
 
     <!-- 신고하기 -->
     <div style="text-align: right; margin-top: 10px;">
-        <a href="${pageContext.request.contextPath}/review/report/form?rp_table=REVIEW_BOARD&board_num=${review.rb_num}"
+        <a href="${pageContext.request.contextPath}/rcreport/report/form?rp_table=REVIEW_BOARD&board_num=${review.rb_num}"
            style="color: red; text-decoration: none;">🚨 신고하기</a>
     </div>
 </div>

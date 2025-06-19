@@ -197,15 +197,6 @@
         WHERE cbr_num = #{cbr_num}
     </delete>
     
-    <!-- 신고 상태값 0,1 -->
-    <update id="updateBoardState">
-    UPDATE COMMUNITY_BOARD
-    SET cb_state = #{state}
-    WHERE cb_num = #{cb_num}
-	</update>
-    
-    
-
 </mapper>
 
 

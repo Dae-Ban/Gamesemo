@@ -159,37 +159,6 @@ public class CommunityController {
         }
     }
 
-    @GetMapping("/report/form")
-    public String reportForm(@RequestParam("rp_table") String rpTable,
-                             @RequestParam("board_num") int boardNum,
-                             Model model, HttpSession session) {
-        ensureLoginSession(session);
-        model.addAttribute("rp_table", rpTable);
-        model.addAttribute("board_num", boardNum);
-        return "report/reportForm";
-    }
-
-    @PostMapping("/report/insert")
-    public String insertReport(@ModelAttribute Report report, HttpSession session, RedirectAttributes ra) {
-        Member loginMember = ensureLoginSession(session);
-        report.setId(loginMember.getId());
-        report.setRpDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        report.setRpStatus("PENDING");
-
-        if (reportService.existsByUserAndTarget(report)) {
-            ra.addFlashAttribute("msg", "이미 신고한 게시글입니다.");
-            return "redirect:/community/view?cb_num=" + report.getBoardNum();
-        }
-
-        reportService.insertReport(report);
-        
-        // 게시글 상태를 RESOLVED로 변경
-        communityService.updateBoardState(report.getBoardNum(), 1);
-        report.setRpStatus("RESOLVED");
-        
-        return "redirect:/community/view?cb_num=" + report.getBoardNum();
-    }
-
     // ---------------------------------------------
     // 아래부터 댓글 관련 메서드 (추가된 부분)
     // ---------------------------------------------
