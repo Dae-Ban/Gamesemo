@@ -1,145 +1,157 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>${game.giTitle}–상세정보</title>
-
 <!-- Swiper CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
-/* === 게임 정보 영역 복구 === */
-.detail-header {
-	display: flex;
-	align-items: flex-start;
-	gap: 32px;
-	margin: 40px;
-}
-
-.detail-header .thumb img {
-	width: 300px;
-	border-radius: 8px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.detail-header .info {
-	flex: 1;
-}
-
-.detail-header .info h1 {
-	margin: 0 0 16px;
-	font-size: 2rem;
-	border-bottom: 2px solid #ddd;
-	padding-bottom: 8px;
-}
-
-.price-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-bottom: 16px;
-}
-
-.price-table th, .price-table td {
-	padding: 8px 12px;
-	text-align: left;
-}
-
-.price-table th {
-	border-bottom: 2px solid #ccc;
-}
-
-.price-table .discounted {
-	font-weight: bold;
-	color: #000;
-}
-
-.price-table .original {
-	text-decoration: line-through;
-	color: #888;
-	margin-left: 8px;
-}
-
-.btn-group .btn {
-	display: inline-block;
-	margin-right: 12px;
-	padding: 8px 16px;
-	border-radius: 4px;
-	text-decoration: none;
-	font-size: 0.9rem;
-}
-
-.btn.primary {
-	background: #555;
-	color: #fff;
-}
-
-.btn.secondary {
-	border: 1px solid #555;
-	color: #555;
-}
-
-/* === 5개짜리 동영상 슬라이더 === */
-.video-slider-wrapper {
-	position: relative;
-	width: 100%;
-	max-width: 1000px; /* 5*200px 영상 너비 + 여백 */
-	margin: 40px auto;
-	padding: 0 40px; /* 버튼을 위해 여백 확보 */
-}
-
-.video-nav {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	font-size: 2rem;
-	width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-	cursor: pointer;
-	user-select: none;
-	z-index: 10;
+/* === 전체 레이아웃 === */
+body {
+	margin: 0;
+	font-family: 'Noto Sans KR', sans-serif;
+	background: #fff;
 	color: #333;
 }
 
-.video-nav.prev {
-	left: 8px;
-}
-
-.video-nav.next {
-	right: 8px;
-}
-//
-/* gameContent.css 에 추가 또는 수정 */
-.video-slider-wrapper {
-	position: relative;
-	width: 100%;
-	max-width: 100%; /* 페이지 레이아웃에 맞게 */
-	margin: 40px auto;
-	padding: 0 40px; /* 버튼 공간 확보 */
+.container {
+	max-width: 1200px;
+	margin: 5% auto;
+	padding: 40px;
 	box-sizing: border-box;
 }
-//
-.video-slider-wrapper .swiper {
-	/* 슬라이더 전체 너비 차지 */
-	width: 100%;
-}
-
-.video-slider-wrapper .swiper-slide {
-	/* 슬라이드 하나당 flex 설정 없이 Swiper에 맡김 */
+/* === 상세 헤더 === */
+.detail-header {
 	display: flex;
-	justify-content: center;
+	gap: 40px;
 	align-items: center;
 }
 
-/* iframe 은 슬라이드 너비 100% */
-.video-slider-wrapper .swiper-slide iframe {
+.thumb img {
+	width: 600px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+	flex: 1;
+}
+
+.info h1 {
+	margin-bottom: 16px;
+	font-size: 2.5rem;
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 8px;
+}
+/* === 가격 카드 === */
+.platform-card {
+	display: flex;
+	align-items: center;
+	padding: 16px;
+	border-radius: 8px;
+	margin-bottom: 16px;
+	background-color: #f9f9f9;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+	transition: box-shadow 0.2s;
+}
+
+.platform-card:hover {
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.discount-tag {
+	background: #E50914;
+	color: #fff;
+	font-size: 0.9rem;
+	font-weight: bold;
+	padding: 4px 10px;
+	border-radius: 6px;
+	text-align: center;
+}
+
+.price-info {
+	display: flex;
+	flex-direction: column;
+	margin-left: 16px;
+	gap: 4px;
+}
+
+.original {
+	font-size: 0.9rem;
+	text-decoration: line-through;
+	opacity: 0.7;
+}
+
+.discounted {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.btn {
+	display: inline-block;
+	margin-left: auto;
+	padding: 8px 16px;
+	border-radius: 20px;
+	font-size: 0.9rem;
+	font-weight: 500;
+	text-decoration: none;
+	color: #333;
+	border: 1px solid #ccc;
+	transition: background 0.2s, border-color 0.2s;
+}
+
+.btn:hover {
+	background: #eaeaea;
+	border-color: #bbb;
+}
+/* === 위시리스트 버튼 === */
+.wishlist-container {
+	text-align: center;
+	margin: 24px 0;
+}
+
+.wishlist-btn-full {
 	width: 100%;
-	height: auto;
-	aspect-ratio: 16/9; /* 비율 유지 */
+	max-width: 400px;
+	padding: 14px 0;
+	background: #E50914;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: bold;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.wishlist-btn-full:hover {
+	background: #b00710;
+}
+/* === 리뷰 영상 슬라이더 === */
+.video-section {
+	margin-top: 60px;
+}
+
+.video-section h2 {
+	margin-bottom: 16px;
+	font-size: 1.8rem;
+	border-bottom: 2px solid #ddd;
+}
+
+.video-slider {
+	position: relative;
+	padding: 0 40px;
+}
+
+.video-slider, #review-swiper {
+	overflow: visible !important;
 }
 
 .video-nav {
@@ -147,50 +159,37 @@
 	top: 50%;
 	transform: translateY(-50%);
 	font-size: 2rem;
-	width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
 	cursor: pointer;
-	user-select: none;
+	color: #888;
 	z-index: 10;
-	color: #333;
 }
 
 .video-nav.prev {
-	left: 8px;
+	left: 0;
 }
 
 .video-nav.next {
-	right: 8px;
+	right: 0;
 }
 
-#login-toast {
-	position: fixed;
-	bottom: 40px;
-	left: 50%;
-	transform: translateX(-50%);
-	background: rgba(0, 0, 0, 0.75);
-	color: #fff;
-	padding: 10px 16px;
-	border-radius: 4px;
-	font-size: 0.9rem;
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity 0.4s ease-in-out;
-	z-index: 9999;
+.swiper {
+	width: 100%;
+}
+
+.swiper-slide iframe {
+	width: 100%;
+	aspect-ratio: 16/9;
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .login-container {
 	display: none;
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
 	justify-content: center;
 	align-items: center;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
 	z-index: 1000;
 }
 
@@ -219,7 +218,7 @@
 .login-box input[type="submit"] {
 	width: 100%;
 	padding: 10px;
-	background-color: royalblue;
+	background: royalblue;
 	color: white;
 	border: none;
 	cursor: pointer;
@@ -237,174 +236,243 @@
 	cursor: pointer;
 }
 
-#close-button {
-	width: 14px;
-	height: 14px;
-	cursor: pointer
-}
-
 .close {
 	position: absolute;
 	top: 12px;
 	right: 12px;
-	z-index: 10;
-}
-
-#wishlist-btn {
-	background-color: #E50914;
-}
-
-.wishlist-btn-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.wishlist-btn {
-	background-color: #E50914;
-	color: white;
-	font-weight: bold;
-	padding: 6px 10px;
-	border: 2px solid black;
-	border-radius: 4px;
+	width: 15px;
+	height: 15px;
 	cursor: pointer;
-	transition: all 0.2s ease-in-out;
 }
 
-.wishlist-btn:hover {
-	background-color: black;
-	color: #E50914;
-	border-color: #E50914;
+.close img {
+	width: 100%;
+	height: 100%;
+	display: block;
 }
 
-.discounted {
-	font-weight: bold;
-	color: #000;
-	font-size: 1rem;
-}
-
-.original {
-	text-decoration: line-through;
+#review-swiper .swiper-button-prev, #review-swiper .swiper-button-next {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 30px;
+	height: 30px;
 	color: #888;
-	font-size: 0.9rem;
+	z-index: 10;
+	opacity: 1;
+}
+
+#review-swiper .swiper-button-prev {
+	left: -50px; /* 슬라이더 바깥으로 20px 빠져나오게 */
+}
+
+#review-swiper .swiper-button-next {
+	right: -50px; /* 슬라이더 바깥으로 20px 빠져나오게 */
 }
 </style>
 </head>
 <body>
-	<!-- 상단 게임 정보 -->
-	<!-- … 상단 게임 정보 영역 … -->
-	<div class="detail-header">
-		<div class="thumb">
-			<img src="${game.giThumb}" alt="${game.giTitle} 썸네일" />
-		</div>
-		<div class="info">
-			<h1>${game.giTitle}</h1>
-			<table class="price-table">
-				<thead>
-					<tr>
-						<th>플랫폼</th>
-						<th>할인가</th>
-						<th>정가</th>
-						<th>링크</th>
-						<th>위시리스트</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="p" items="${platformList}">
-						<tr>
-							<td>${p.giPlatform}</td>
-							<td class="discounted">${p.giFprice}원</td>
-							<td class="original">${p.giPrice}원</td>
-							<!-- 링크 컬럼 -->
-							<td><a href="${p.giLink}" target="_blank"
-								style="color: #007bff; text-decoration: none;"> 바로가기 </a></td>
-							<!-- 위시리스트 컬럼 -->
-							<td>
-								<div class="price-box">
-									<div class="wishlist-btn-container">
-										<c:choose>
-											<c:when test="${not empty loginUser}">
-												<button class="wishlist-btn"
-													onclick="addToWishlist(${p.giNum})">+위시리스트</button>
-											</c:when>
-											<c:otherwise>
-												<button class="wishlist-btn"
-													onclick="handleWishlistClick(${p.giNum})">+위시리스트</button>
-											</c:otherwise>
-										</c:choose>
-									</div>
-								</div>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-
-		</div>
-	</div>
-
-	<!-- 리뷰 영상 6개 슬라이더 -->
-	<h2 style="margin-left: 40px;">리뷰 영상</h2>
-	<div class="video-slider-wrapper">
-		<div class="video-nav prev" id="review-prev">‹</div>
-		<div class="swiper" id="review-swiper">
-			<div class="swiper-wrapper">
-				<c:forEach var="v" items="${reviewVideos}">
-					<div class="swiper-slide">
-						<iframe src="https://www.youtube.com/embed/${v.videoId}"
-							frameborder="0" allowfullscreen> </iframe>
+	<div class="container">
+		<div class="detail-header">
+			<div class="thumb">
+				<img src="${game.giThumb}" alt="${game.giTitle} 썸네일" />
+			</div>
+			<div class="info">
+				<h1>${game.giTitle}</h1>
+				<c:forEach var="p" items="${platformList}">
+					<div class="platform-card">
+						<div class="discount-tag">${p.giRate}%</div>
+						<div class="price-info">
+							<div class="original">
+								<fmt:formatNumber value="${p.giPrice}" type="number"
+									groupingUsed="true" maxFractionDigits="0" />
+								원
+							</div>
+							<div class="discounted">
+								<fmt:formatNumber value="${p.giFprice}" type="number"
+									groupingUsed="true" maxFractionDigits="0" />
+								원
+							</div>
+						</div>
+						<c:choose>
+							<c:when test="${p.giPlatform == 'steam'}">
+								<a href="${p.giLink}" target="_blank" class="btn">Steam</a>
+							</c:when>
+							<c:when test="${p.giPlatform == 'direct'}">
+								<a href="${p.giLink}" target="_blank" class="btn">Direct
+									Games</a>
+							</c:when>
+							<c:when test="${p.giPlatform == 'planet'}">
+								<a href="${p.giLink}" target="_blank" class="btn">Games
+									Planet</a>
+							</c:when>
+							<c:when test="${p.giPlatform == 'nintendo'}">
+								<a href="${p.giLink}" target="_blank" class="btn">Nintendo</a>
+							</c:when>
+							<c:otherwise>
+								<a href="${p.giLink}" target="_blank" class="btn">구매하러가기</a>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</c:forEach>
+				<div class="wishlist-container">
+					<c:choose>
+						<c:when test="${not empty loginUser}">
+							<!-- 로그인 되어 있으면 직접 addToWishlist 호출 -->
+							<c:choose>
+								<c:when test="${wishlisted}">
+									<button class="wishlist-btn-full" disabled>✔️ 이미 추가됨</button>
+								</c:when>
+								<c:otherwise>
+									<!-- 수정: handleWishlistClick이 아닌 addToWishlist -->
+									<button class="wishlist-btn-full"
+										onclick="addToWishlist(${game.GNum})">위시리스트 추가</button>
+								</c:otherwise>
+							</c:choose>
+						</c:when>
+						<c:otherwise>
+							<!-- 비로그인 시에만 handleWishlistClick 호출 -->
+							<button class="wishlist-btn-full"
+								onclick="handleWishlistClick(${game.GNum})">위시리스트 추가</button>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
 		</div>
-		<div class="video-nav next" id="review-next">›</div>
-	</div>
-
-	<!-- 모달 로그인 영역 -->
-	<div class="login-container">
-
-		<div class="login-box">
-			<div class="close">
-				<img src="/images/icons/close-button.png" id="close-button">
+		<!-- 리뷰 영상 슬라이더 -->
+		<div class="video-section">
+			<h2>리뷰 영상</h2>
+			<div class="video-slider">
+				<div class="swiper" id="review-swiper">
+					<div class="swiper-wrapper">
+						<c:forEach var="v" items="${reviewVideos}">
+							<div class="swiper-slide">
+								<iframe src="https://www.youtube.com/embed/${v.videoId}"
+									allowfullscreen> </iframe>
+							</div>
+						</c:forEach>
+					</div>
+					<!-- Swiper 기본 prev/next 버튼 -->
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+				</div>
 			</div>
-			<h2>로그인</h2>
-			<c:if test="${not empty error}">
-				<div style="color: red;">${error}</div>
-			</c:if>
-			<form action="/member/login" method="post">
-				<input type="text" name="id" placeholder="아이디"> <input
-					type="password" name="pw" placeholder="비밀번호"> <label><input
-					type="checkbox" name="rememberMe"> 로그인 상태 유지</label> <input
-					type="submit" value="Log In">
-			</form>
+		</div>
+		<!-- 모달 로그인 영역 -->
+		<div class="login-container" id="loginModal">
+			<div class="login-box">
+				<div class="close">
+					<img src="/images/icons/close-button.png" id="close-button"
+						onclick="hideLoginModal()" alt="닫기" />
+				</div>
+				<h2>로그인</h2>
+				<c:if test="${not empty error}">
+					<div style="color: red;">${error}</div>
+				</c:if>
+				<form id="ajaxLoginForm">
+					<input type="text" name="id" placeholder="아이디" required /> <input
+						type="password" name="pw" placeholder="비밀번호" required /> <label><input
+						type="checkbox" name="rememberMe" /> 로그인 상태 유지</label> <input
+						type="submit" value="Log In" />
+				</form>
 
-			<div style="text-align: right;">
-				<a href="/member/find">아이디/비밀번호를 잊으셨나요?</a>
-			</div>
-
-			<div class="sns-buttons">
-				<a href="/oauth2/authorization/google"> <img
-					src="/images/icons/google.png" alt="Google"></a> <a
-					href="/oauth2/authorization/naver"> <img
-					src="/images/icons/naver.png" alt="Naver"></a> <a
-					href="/oauth2/authorization/kakao"> <img
-					src="/images/icons/kakao.png" alt="Kakao"></a>
-			</div>
-
-			<div style="text-align: center; margin-top: 20px;">
-				아직 계정이 없다면 <a href="/member/register">회원가입</a>
+				<div style="text-align: right;">
+					<a href="/member/find">아이디/비밀번호를 잊으셨나요?</a>
+				</div>
+				<div class="sns-buttons">
+					<a href="/oauth2/authorization/google"><img
+						src="/images/icons/google.png" alt="Google" /></a> <a
+						href="/oauth2/authorization/naver"><img
+						src="/images/icons/naver.png" alt="Naver" /></a> <a
+						href="/oauth2/authorization/kakao"><img
+						src="/images/icons/kakao.png" alt="Kakao" /></a>
+				</div>
+				<div style="text-align: center; margin-top: 20px;">
+					아직 계정이 없다면 <a href="/member/register">회원가입</a>
+				</div>
 			</div>
 		</div>
 	</div>
+	<div id="wishlist-toast"
+		style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 12px 24px; border-radius: 24px; opacity: 0; transition: opacity 0.3s ease; z-index: 9999; font-weight: bold; font-size: 0.95rem;">위시리스트에
+		추가되었습니다!</div>
 	<!-- Swiper JS -->
 	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-
-
-	<div id="login-toast">로그인을 먼저 해주세요</div>
 	<script>
-		window.isLoggedIn = ${not empty loginUser ? 'true' : 'false'};
-	</script>
-	<script src="${pageContext.request.contextPath}/js/gameContent.js"
-		defer></script>
+$(function() {
+	   new Swiper('#review-swiper', {
+	      slidesPerView: 5,      // ← 5개씩 보여주기
+ 				spaceBetween : 20,
+ 				navigation : {
+ 					nextEl : '#review-next',
+ 					prevEl : '#review-prev'
+ 				}
+ 			});
+ 		});
+ 		function showLoginModal() {
+ 			const redirectUrl = window.location.pathname
+ 					+ window.location.search;
+ 			sessionStorage.setItem("redirectAfterLogin", redirectUrl);  
+ 			$("#loginModal").css("display", "flex");
+ 		}
+
+ 		function hideLoginModal() {
+ 			$('#loginModal').hide();
+ 		}
+
+ 		function handleWishlistClick(gameNum) {
+ 			 sessionStorage.setItem("redirectAfterLogin",
+ 				    window.location.pathname + window.location.search);
+ 				  document.getElementById("loginModal").style.display = "flex";
+ 			}
+
+		
+ 		$(document).on("submit", "#ajaxLoginForm", function (e) {
+ 			  e.preventDefault();
+ 			  const id = $(this).find("input[name='id']").val();
+ 			  const pw = $(this).find("input[name='pw']").val();
+
+ 			 $.post("/wishlist/ajaxLogin", { id, pw }, function (res) {
+ 				  if (res === "success") {
+ 				    const path = sessionStorage.getItem("redirectAfterLogin") || "/";
+ 				    // origin 은 프로토콜+호스트+포트를 포함합니다.
+ 				    window.location.href = window.location.origin + path;
+ 				  } else {
+ 				    alert("로그인 실패. 아이디와 비밀번호를 확인하세요.");
+ 				  }
+ 				});
+ 			});
+ 		function showWishlistToast(message) {
+ 		    const toast = document.getElementById('wishlist-toast');
+ 		    toast.textContent = message || "위시리스트에 추가되었습니다!";
+ 		    toast.style.opacity = '1';
+
+ 		    clearTimeout(toast.hideTimeout);
+ 		    toast.hideTimeout = setTimeout(() => {
+ 		      toast.style.opacity = '0';
+ 		    }, 2000);
+ 		  }
+
+ 		function addToWishlist(gnum) {
+ 			  $.ajax({
+ 			    url: "/wishlist/add",
+ 			    type: "POST",
+ 			    data: { gnum },
+ 			    success: function(response) {
+ 			      if (response === "success") {
+ 			        showWishlistToast("위시리스트에 추가되었습니다!");
+ 			        location.reload();
+ 			      } else if (response === "already_exists") {
+ 			        showWishlistToast("이미 위시리스트에 추가되었습니다.");
+ 			      } else if (response === "not_logged_in") {
+ 			        // 로그인 여부 재확인
+ 			        handleWishlistClick(gnum);
+ 			      }
+ 			    }
+ 			  });
+ 			}
+ 		  
+</script>
+
 </body>
 </html>

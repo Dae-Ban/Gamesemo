@@ -30,4 +30,6 @@ public interface MemberMapper {
 	public Member findBySocialIdAndPlatform(String socialId, String platform);
 
 	public Member login(String id);
+
+	public Member findById(@Param("id")String id);
 }

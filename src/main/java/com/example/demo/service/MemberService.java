@@ -39,15 +39,17 @@ public class MemberService {
 		return memberMapper.registerMember(member);
 	}
 
-	public Member modalLogin(String id, String pw) {
-		return memberMapper.modalLogin(id,pw);
-	}
-	
 	//영교님 꺼
 	public Member login(Member login) {
-//		return memberMapper.login(login);
 		Member dbMember = memberMapper.login(login.getId());
 		if(dbMember != null && passwordEncoder.matches(login.getPw(), dbMember.getPw())) {
+			return dbMember;
+		}
+		return null;
+	}
+	public Member modalLogin(String id, String pw) {
+		Member dbMember = memberMapper.modalLogin(id,pw);
+		if(dbMember != null && passwordEncoder.matches(pw, dbMember.getPw())) {
 			return dbMember;
 		}
 		return null;
@@ -55,6 +57,10 @@ public class MemberService {
 
 	public Member findBySocialIdAndPlatform(String socialId, String platform) {
 		return memberMapper.findBySocialIdAndPlatform(socialId, platform);
+	}
+
+	public Member findById(String id) {
+		return memberMapper.findById(id);
 	}
 	
 

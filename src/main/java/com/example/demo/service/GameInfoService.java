@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.GameInfoMapper;
 import com.example.demo.model.GameInfo;
+import com.example.demo.model.YouTubeVideo;
 
 @Service
 public class GameInfoService {
@@ -18,8 +19,19 @@ public class GameInfoService {
 		return gameInfoMapper.getGameInfo(gnum, state);
 	}
 
-	public List<GameInfo> getGameInfosByGnum(String gnum) {
+	public List<GameInfo> getGameInfosByGnum(int gnum) {
+		System.out.println("sssssssssssssssssssssssssssssssssssssssssssss");
 		return gameInfoMapper.getGameInfosByGnum(gnum);
 	}
+
+	public GameInfo getGameById(int gnum) {
+		return gameInfoMapper.getGameById(gnum);
+	}
+
+	public List<GameInfo> getPlatforms(int gnum) {
+		return gameInfoMapper.getPlatorms(gnum);
+	}
+
+	
 
 }

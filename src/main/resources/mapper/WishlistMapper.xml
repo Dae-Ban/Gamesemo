@@ -4,12 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.WishlistMapper">
-	<insert id="insertWishlist"
+	<insert id="addWishlist"
 		parameterType="com.example.demo.model.Wishlist">
 		INSERT INTO WISHLIST (WISH_NUM, G_NUM, ID)
-		VALUES (WISHLIST_SEQ.NEXTVAL, #{gNum}, #{id})
+		VALUES
+		(SEQ_WISHLIST.NEXTVAL, #{gNum}, #{id})
 	</insert>
-	
-	
 
+	<select id="countByUserAndGame" resultType="int">
+		SELECT COALESCE(COUNT(*), 0)
+		FROM WISHLIST
+		WHERE G_NUM = #{gNum} AND ID = #{id}
+	</select>
 </mapper>

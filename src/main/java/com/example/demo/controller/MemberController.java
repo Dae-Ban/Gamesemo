@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +51,7 @@ public class MemberController {
 	// 회원가입 화면
 	@GetMapping("/register")
 	public String register() {
-		return "register";
+		return "/member/register";
 	}
 
 	@GetMapping("/login")
@@ -58,7 +59,7 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	//영교님 부분
+//	영교님 부분
     @PostMapping("/login")
     public String login(@ModelAttribute Member login,
                         @RequestParam(name="rememberMe", required = false)
@@ -162,7 +163,7 @@ public class MemberController {
 		System.out.println("state: " + member.getState());
 
 		// ===== 4. 비밀번호 암호화 =====
-		member.setPw(passwordEncoder.encode(member.getPw()));
+//		member.setPw(passwordEncoder.encode(member.getPw()));
 
 		// ===== 5. 회원가입 처리 =====
 		boolean result = memberService.registerMember(member);
