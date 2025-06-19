@@ -19,19 +19,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/member/login", "/css/**", "/js/**", "/images/**", "/icons/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form.disable()) //
-            .logout(logout -> logout
-                .logoutUrl("/member/logout")
-                .logoutSuccessUrl("/member/login")
-                .permitAll()
-            );
+    	http
+    		.cors(cors -> cors.disable())              // CORS 방지
+    		.csrf(csrf -> csrf.disable())              // CSRF 방지
+    		.authorizeHttpRequests(auth -> auth
+    			.requestMatchers("/member/update").permitAll() // 로그인 없이 접근 허용
+    			.anyRequest().permitAll()              // 나머지도 임시로 허용
+    		)
+    		.formLogin(form -> form.disable())      //기본 로그인 페이지 제거
 
-        return http.build();
+    		.logout(logout -> logout
+            .logoutUrl("/member/logout")
+            .logoutSuccessUrl("/member/login")
+            .permitAll()
+        );
+    	
+    	return http.build();
     }
 }
