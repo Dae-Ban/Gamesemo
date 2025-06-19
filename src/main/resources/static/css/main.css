@@ -84,7 +84,7 @@ nav a {
 
 /* 로그인 버튼 */
 .login-btn {
-  background-color: red;
+  background-color: #e50914;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -92,12 +92,20 @@ nav a {
   font-weight: bold;
   cursor: pointer;
   margin-right: 10px;
+  text-decoration: none;
+  transition: background-color 0.3s ease; /* 부드럽게 변화 */
+}
+
+.login-btn:hover {
+  background-color: #b20710;
+  color: white;
+  text-decoration: none;
 }
 
 .platform-buttons {
   display: flex;
   justify-content: center; /* 가운데 정렬 */
-  gap: 20px;                /* 버튼 사이 간격 */
+  gap: 40px;                /* 버튼 사이 간격 */
   margin-top: 40px;
   flex-wrap: wrap;          /* 줄바꿈 허용 (옵션) */
 }
@@ -116,8 +124,8 @@ nav a {
 }
 
 .platform-icon {
-  width: 25px;   /* 원하는 크기로 조절 */
-  height: 25px;
+  width: 22px;   /* 원하는 크기로 조절 */
+  height: 22px;
 }
 
 .platform-btn.active {

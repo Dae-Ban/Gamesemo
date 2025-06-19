@@ -17,28 +17,28 @@
   </ol>
   <div class="carousel-inner">
     <div class="item active">
-      <a href="/game/list">
+      <a href="<c:url value='/game' />">
         <div class="carousel-frame">
           <img src="https://store.nintendo.co.kr/media/wysiwyg/mario_kart_world_1.jpg" alt="Mario" />
         </div>
       </a>
-      <div class="carousel-caption"><h3>Mario</h3></div>
+      <div class="carousel-caption"></div>
     </div>
     <div class="item">
-      <a href="/game/list">
+      <a href="<c:url value='/game' />">
         <div class="carousel-frame">
            <img src="https://store.nintendo.co.kr/media/wysiwyg/tears_of_the_kingdom__.jpg" alt="Zelda" />
         </div>
       </a>
-      <div class="carousel-caption"><h3>Zelda</h3></div>
+      <div class="carousel-caption"></div>
     </div>
     <div class="item">
-      <a href="/game/list">
+      <a href="<c:url value='/game' />">
         <div class="carousel-frame">
-          <img src="https://store.nintendo.co.kr/media/wysiwyg/welcome_tour_1.jpg" alt="welcome" />
+          <img src="https://store.nintendo.co.kr/media/catalog/product/cache/3be328691086628caca32d01ffcc430a/5/a/5ae3a9bf04ffc3f70e08ac6192aa751951823cbbe4ecd03978531079c4ce1a94.jpg" alt="welcome" />
         </div>
       </a>
-      <div class="carousel-caption"><h3>Welcome</h3></div>
+      <div class="carousel-caption"></div>
     </div>
   </div>
 
@@ -54,7 +54,7 @@
 </div>
 
 <div class="platform-buttons">
-  <button class="platform-btn" data-platform="steam">
+  <button class="platform-btn active" data-platform="steam">
   <img src="<c:url value='/images/icons/steam-black.png' />" alt="steam" class="platform-icon" />
   Steam
    </button>

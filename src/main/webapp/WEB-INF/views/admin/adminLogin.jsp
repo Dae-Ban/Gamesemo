@@ -23,11 +23,13 @@
 			</div>
 			<button type="submit" class="login-btn">Log In</button>
 		</form>
-	</div>
+	
 
 	<c:if test="${not empty loginError}">
 		<p class="error">${loginError}</p>
 	</c:if>
+	
+	</div>
 
 </body>
 </html>

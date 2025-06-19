@@ -20,7 +20,6 @@
   <!-- 왼쪽: 로고 -->
   <div class="logo">
     <img src="<c:url value='/images/logo1.png' />" alt="겜세모 로고" />
-    <strong>겜세모</strong>
   </div>
 
   <!-- 가운데: 메뉴 -->
@@ -65,7 +64,7 @@
     <div class="profile-dropdown" id="profileDropdown">
       <img src="<c:url value='/images/icons/profile-icon.png'/>" alt="프로필" class="profile-icon" />
       <div class="profile-menu">
-        <a href="/mypage">마이페이지</a>
+        <a href="/member/mypage">마이페이지</a>
         <a href="/wishlist">위시리스트</a>
       </div>
     </div>

@@ -89,23 +89,36 @@
 
 <!-- 페이징 -->
 <div class="pagination" style="text-align:center; margin-top: 20px;">
-  <c:if test="${p.startPage > 1}">
-    <a href="?page=${p.startPage - 1}">&lt;</a>
-  </c:if>
+  <c:if test="${p.pageCount > 0}">
+    
+    <!-- 처음 페이지로 이동 -->
+    <a href="?page=1">&lt;</a>
 
-  <c:forEach var="i" begin="${p.startPage}" end="${p.endPage}">
-    <c:choose>
-      <c:when test="${i == p.currentPage}">
-        <button class="page-btn current">${i}</button>
-      </c:when>
-      <c:otherwise>
-        <a href="?page=${i}" class="page-btn">${i}</a>
-      </c:otherwise>
-    </c:choose>
-  </c:forEach>
+    <!-- 이전 블럭으로 이동 -->
+    <c:if test="${p.startPage > 1}">
+      <a href="?page=${p.startPage - 1}">[이전]</a>
+    </c:if>
 
-  <c:if test="${p.endPage < p.pageCount}">
-    <a href="?page=${p.endPage + 1}">&gt;</a>
+    <!-- 페이지 번호 출력 -->
+    <c:forEach var="i" begin="${p.startPage}" end="${p.endPage}">
+      <c:choose>
+        <c:when test="${i == p.currentPage}">
+          <button class="page-btn current">${i}</button>
+        </c:when>
+        <c:otherwise>
+          <a href="?page=${i}" class="page-btn">${i}</a>
+        </c:otherwise>
+      </c:choose>
+    </c:forEach>
+
+    <!-- 다음 블럭으로 이동 -->
+    <c:if test="${p.endPage < p.pageCount}">
+      <a href="?page=${p.endPage + 1}">[다음]</a>
+    </c:if>
+
+    <!-- 마지막 페이지로 이동 -->
+    <a href="?page=${p.pageCount}">&gt;</a>
+
   </c:if>
 </div>
 
