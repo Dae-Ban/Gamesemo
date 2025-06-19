@@ -107,7 +107,7 @@
 			</div>
 
 
-			<!-- 선호 장르 -->
+			<!-- 선호장르 -->
 			<div class="form-group">
 				<label>선호 장르 (복수 선택가능)</label>
 				<div class="checkbox-group">
