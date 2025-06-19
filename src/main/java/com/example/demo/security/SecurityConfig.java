@@ -27,7 +27,7 @@ public class SecurityConfig{
     			.requestMatchers("/member/update").permitAll() // 로그인 없이 접근 허용
     			.anyRequest().permitAll()              // 나머지도 임시로 허용
     		)
-    		.formLogin(form -> form.disable())       //기본 로그인 페이지 제거
+    		.formLogin(form -> form.disable())      //기본 로그인 페이지 제거
 
     		// 이부분 추가 영교님. 
     		.logout(logout -> logout

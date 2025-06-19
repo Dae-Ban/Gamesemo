@@ -30,7 +30,7 @@ public class MemberService {
 		return memberMapper.countById(id) > 0;
 	}
 
-	// 닉네임 중복 확인
+	// 닉네임 중복확인
 	public boolean checkNicknameExists(String nickname) {
 		return memberMapper.countByNickname(nickname) > 0;
 	}

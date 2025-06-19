@@ -121,7 +121,7 @@
 		WHERE id = #{id}
 	</update>
 
-	<!-- 비번찾기에서 비번 번경 -->
+	<!-- 비번찾기에서 비번번경 -->
 	<update id="updatePasswordForFind" parameterType="map">
 		UPDATE member
 		SET pw = #{newPw}

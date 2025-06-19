@@ -473,14 +473,14 @@ public class MemberController {
 			return "redirect:/member/delete";
 		}
 
-		// 탈퇴 처리
+		// 탈퇴처리
 		boolean result = memberService.deleteMember(loginMember.getId());
 		if (!result) {
 			redirectAttributes.addFlashAttribute("error", "회원 탈퇴에 실패했습니다.");
 			return "redirect:/main";
 		}
 
-		// 탈퇴 성공시 세션 끊고 메인으로 이동
+		// 탈퇴 성공시 세션 끊고 메인으로 이동하기
 		session.invalidate();
 		return "redirect:/main";
 	}

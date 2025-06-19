@@ -55,7 +55,7 @@
 </head>
 <body>
 
-	<!--  가입완료 창 띄우기.. -->
+	<!-- 가입완료 창 띄우기.. -->
 	<c:if test="${not empty message}">
 		<script>
 			alert("${message}");

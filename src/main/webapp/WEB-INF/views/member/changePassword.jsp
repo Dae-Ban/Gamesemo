@@ -32,7 +32,7 @@
 					value="${loginMember.id}" readonly>
 			</div>
 
-			<!-- 현재 비밀번호 -->
+			<!--현재 비밀번호 -->
 			<div class="form-group">
 				<label>현재 비밀번호</label> <input type="password" id="currentPassword"
 					name="currentPassword" required oninput="checkCurrentPassword()">

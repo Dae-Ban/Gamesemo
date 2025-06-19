@@ -32,7 +32,7 @@
 		</script>
 	</c:if>
 
-	<!-- ✅마이페이지 wrapper 안에 타이틀 포함 -->
+	<!-- ✅ 마이페이지 wrapper 안에 타이틀 포함 -->
 	<div class="mypage-wrapper">
 
 		<!-- ✅ 사이드바 -->

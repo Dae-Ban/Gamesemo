@@ -686,7 +686,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.getElementById("tabIdBtn")?.addEventListener("click", () => showTab("id"));
 	document.getElementById("tabPwBtn")?.addEventListener("click", () => showTab("pw"));
 
-	// 아이디 인증번호 확인 버튼 연결 
+	// 아이디 인증번호 확인 버튼연결 
 	const confirmBtn = document.querySelector("button[onclick='checkIdCode()']");
 	if (confirmBtn) {
 		confirmBtn.addEventListener("click", checkIdCode);

@@ -34,7 +34,7 @@ public interface MemberMapper {
 	
 	public Member selectByIdAndEmail(@Param("id") String id, @Param("email") String email);
 
-	public int updatePasswordForFind(Map<String, Object> paramMap); // 비번찾기후 비번변경
+	public int updatePasswordForFind(Map<String, Object> paramMap); // 비번찾기 후 비번변경
 
 	// 이메일인증 : 재원님꺼 추가
 

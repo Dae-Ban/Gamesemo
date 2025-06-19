@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- ✅ 마이페이지 헤더 추가 -->
+  <!--✅ 마이페이지 헤더 추가 -->
   <div class="mypage-header">
     <h1 class="mypage-title">마이페이지</h1>
     <div class="divider"></div>

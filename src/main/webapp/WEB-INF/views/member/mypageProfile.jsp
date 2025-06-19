@@ -21,7 +21,7 @@
 	<!-- ✅ 마이페이지 wrapper 안에 타이틀 포함 -->
 	<div class="mypage-wrapper">
 
-		<!-- ✅사이드바 -->
+		<!-- ✅ 사이드바 -->
 		<% String uri = request.getRequestURI(); %>
 		<div class="mypage-sidebar">
 			<h1 class="mypage-title">마이페이지</h1>
