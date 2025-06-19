@@ -66,10 +66,10 @@ public class WishlistController {
 
     @DeleteMapping("/delete")
     @ResponseBody
-    public ResponseEntity<String> delete(@RequestParam Long giNum, HttpSession session) {
+    public ResponseEntity<String> delete(@RequestParam (name="gNum") Long gNum, HttpSession session) {
         String id = getLoginId(session);
         if (id != null) {
-            wishlistMapper.removeFromWishlist(id, giNum);
+            wishlistMapper.removeFromWishlist(id, gNum);
             return ResponseEntity.ok("삭제 성공");
         }
         return ResponseEntity.badRequest().body("로그인 필요");

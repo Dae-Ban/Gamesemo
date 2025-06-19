@@ -69,7 +69,7 @@
                 <form action="${game.giLink}" method="get" target="_blank">
                     <button type="submit" class="buy-btn">구매</button>
                 </form>
-			<button class="delete-btn del-btn" data-g-num="${game.gNum}">삭제</button>
+			<button class="delete-btn del-btn" data-g-num="${game.GNum}">삭제</button>
             </div>
         </div>
     </c:forEach>
@@ -97,7 +97,7 @@
       const card = this.closest(".game-card");
 
       fetch("/wishlist/delete", {
-        method: "POST",
+        method: "delete",
         credentials: "same-origin",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "gNum=" + gNum
