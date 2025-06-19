@@ -11,6 +11,12 @@
 </head>
 <body>
 
+	<!-- 회원탈퇴 페이지의 맨 위나 body 안에 삽입 -->
+	<c:if test="${not empty error}">
+		<script>
+			alert("${error}");
+		</script>
+	</c:if>
 
 	<!-- ✅ 마이페이지 wrapper 안에 타이틀 포함 -->
 	<div class="mypage-wrapper">
@@ -52,7 +58,8 @@
 			<div class="divider"></div>
 
 			<form action="/member/delete" method="post"
-				onsubmit="return confirmDelete();">
+				onsubmit="return validateDeleteForm();">
+
 				<div class="form-group">
 					<label>ID</label> <input type="text" name="id"
 						value="${loginMember.id}" readonly>
@@ -64,7 +71,8 @@
 
 				<div class="form-group">
 					<label>비밀번호 확인</label> <input type="password" name="pwConfirm"
-						required>
+						oninput="checkDeletePwMatch()">
+
 				</div>
 				<!-- 자바스크립트 결과 메시지 표시 -->
 				<p id="pwMatchMsg" class="result-text"></p>

@@ -46,12 +46,13 @@
 			</div>
 			<p id="pwMessage" class="result-text"></p>
 
-			<div class="form-group">
-				<label for="findPwCode">인증번호</label> <input type="text"
+			<div class="form-group" id="pwCodeGroup" style="display: none;">
+				<label for="findPwCode" >인증번호</label> 
+				<input type="text"
 					id="findPwCode" placeholder="인증번호 입력">
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" id="pwVerifyBtn" style="display: none;">
 				<button class="btn-slim" onclick="verifyCode()">확인</button>
 			</div>
 			<p id="pwResult" class="result-text"></p>

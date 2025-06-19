@@ -55,7 +55,7 @@
 </head>
 <body>
 
-	<!-- 가입완료 창 띄우기.. -->
+	<!--  가입완료 창 띄우기.. -->
 	<c:if test="${not empty message}">
 		<script>
 			alert("${message}");
@@ -73,7 +73,7 @@
 				<input type="text" name="id" placeholder="아이디"> <input
 					type="password" name="pw" placeholder="비밀번호"> <label><input
 					type="checkbox" name="rememberMe"> 로그인 상태 유지</label> <input
-					type="submit" value="Log In">
+					type="submit" name="login" value="Log In">
 			</form>
 
 			<div style="text-align: right;">

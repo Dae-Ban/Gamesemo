@@ -8,14 +8,14 @@
 </head>
 <body>
 
-  <!--✅ 마이페이지 헤더 추가 -->
-  <div class="mypage-header">
-    <h1 class="mypage-title">마이페이지</h1>
-    <div class="divider"></div>
-  </div>
-  
-  
-	<div class= "container">
+	<!--✅ 마이페이지 헤더 추가 -->
+	<div class="mypage-header">
+		<h1 class="mypage-title">마이페이지</h1>
+		<div class="divider"></div>
+	</div>
+
+
+	<div class="container">
 		<h2 class="title">회원 탈퇴</h2>
 		<div class="divider"></div>
 
@@ -32,11 +32,12 @@
 
 			<div class="form-group">
 				<label>비밀번호 확인</label> <input type="password" name="pwConfirm"
-					required>
+					required oninput="checkPwMatch()">
+
 			</div>
 			<!-- 자바스크립트 결과 메시지 표시 -->
 			<p id="pwMatchMsg" class="result-text"></p>
-			
+
 			<div class="form-group button-row">
 				<button type="submit" class="btn btn-half">탈퇴하기</button>
 				<button type="button" class="btn btn-half"

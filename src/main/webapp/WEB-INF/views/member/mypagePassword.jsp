@@ -51,18 +51,15 @@
 			<h2>비밀번호 변경</h2>
 			<div class="divider"></div>
 
-			<c:if test="${not empty error}">
-				<p class="result-text" style="color: red;">${error}</p>
-			</c:if>
-
+		
 			<c:if test="${not empty success}">
 				<p class="result-text" style="color: green;">${success}</p>
 			</c:if>
-
+			
 
 			<form id="passwordForm"
 				action="${pageContext.request.contextPath}/member/changePassword"
-				method="post">
+				method="post" onsubmit="return validatePasswordForm()" >
 				<!-- 회원 ID -->
 				<div class="form-group">
 					<label>회원 ID</label> <input type="text" name="id"
@@ -81,6 +78,7 @@
 					<label>새 비밀번호</label> <input type="password" id="newPw"
 						name="newPassword" required disabled oninput="checkNewPwValid()">
 					<p id="newPwMsg" class="result-text"></p>
+
 					<!-- ✅ 새 비밀번호 유효성 메시지 -->
 				</div>
 
@@ -89,6 +87,10 @@
 					<label>새 비밀번호 확인</label> <input type="password" id="confirmPw"
 						name="confirmPassword" required disabled oninput="checkPwMatch()">
 					<p id="pwMatchMsg" class="result-text"></p>
+					
+					<c:if test="${not empty error}">
+						<c:out value="${error}" />
+					</c:if>
 					<!-- ✅ 비밀번호 일치 여부 메시지 -->
 				</div>
 

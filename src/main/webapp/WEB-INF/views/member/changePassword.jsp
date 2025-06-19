@@ -26,7 +26,7 @@
 		<form
 			action="${pageContext.request.contextPath}/member/changePassword"
 			method="post">
-			<!-- 회원 ID -->
+			<!-- 회원ID -->
 			<div class="form-group">
 				<label>회원 ID</label> <input type="text" name="id"
 					value="${loginMember.id}" readonly>

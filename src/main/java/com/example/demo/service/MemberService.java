@@ -25,7 +25,7 @@ public class MemberService {
 		this.emailService = emailService;
 	}
 
-	// 아이디 중복 확인
+	// 아이디 중복확인
 	public boolean checkIdExists(String id) {
 		return memberMapper.countById(id) > 0;
 	}

@@ -14,7 +14,7 @@
 </head>
 <body>
 
-	<!-- ✅ 메시지 알림 -->
+	<!-- ✅메시지 알림 -->
 	<c:if
 		test="${not empty message or not empty success or not empty error}">
 		<script>

@@ -15,7 +15,7 @@
 		<h2 class="title">회원정보 수정</h2>
 		<div class="divider"></div>
 
-		<!-- 수정 성공/실패 메시지 alert -->
+		<!-- 수정 성공/ 실패 메시지 alert -->
 		<c:if test="${not empty message}">
 			<script>
 				alert("${message}");

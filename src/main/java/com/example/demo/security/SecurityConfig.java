@@ -29,7 +29,7 @@ public class SecurityConfig{
     		)
     		.formLogin(form -> form.disable())      //기본 로그인 페이지 제거
 
-    		// 이부분 추가 영교님. 
+    		// 이부분 추가 영교님.
     		.logout(logout -> logout
             .logoutUrl("/member/logout")
             .logoutSuccessUrl("/member/login")

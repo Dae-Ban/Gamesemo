@@ -57,7 +57,6 @@ public class MemberController {
 	public String register() {
 		return "member/register";
 	}
-
 	// 아이디 중복 확인
 	@ResponseBody
 	@GetMapping("/check-id")
@@ -436,7 +435,7 @@ public class MemberController {
 		paramMap.put("newPw", encodedPw);
 
 		boolean updated = memberService.updatePasswordForFind(paramMap); // service 메서드도 새로 만들어야 함
-
+		
 		if (updated) {
 			result.put("success", true);
 		} else {
@@ -464,26 +463,26 @@ public class MemberController {
 		// 비밀번호 일치 확인
 		if (!pw.equals(pwConfirm)) {
 			redirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
-			return "redirect:/member/delete";
+			return "redirect:/member/mypageDelete";
 		}
 
 		// 실제 비밀번호 비교 (암호화된 비밀번호와 비교)
 		if (!passwordEncoder.matches(pw, loginMember.getPw())) {
 			redirectAttributes.addFlashAttribute("error", "비밀번호가 올바르지 않습니다.");
-			return "redirect:/member/delete";
+			return "redirect:/member/mypageDelete";
 		}
 
 		// 탈퇴처리
 		boolean result = memberService.deleteMember(loginMember.getId());
 		if (!result) {
 			redirectAttributes.addFlashAttribute("error", "회원 탈퇴에 실패했습니다.");
-			return "redirect:/main";
+			return "redirect:/member/mypage";
 		}
 
 		// 탈퇴 성공시 세션 끊고 메인으로 이동하기
 		session.invalidate();
 		return "redirect:/main";
-	}
+	} 
 
 	// 로그아웃
 	@GetMapping("/member/logout")

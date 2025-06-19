@@ -1,6 +1,6 @@
 
 
-/*회원가입 아이디 유효성 + 중복 검사 */
+/*회원가입 아이디 유효성 + 중복 검사*/
 
 function checkId() {
 	const id = document.getElementById("id").value.trim();
@@ -52,12 +52,12 @@ function validateName() {
 		nameResult.innerText = "";
 		return;
 	}
-	
+
 	if (nameInput.length < 2) {
-			nameResult.textContent = "이름은 2글자 이상 입력해주세요.";
-			nameResult.style.color = "gray";
-			return;
-		}
+		nameResult.textContent = "이름은 2글자 이상 입력해주세요.";
+		nameResult.style.color = "gray";
+		return;
+	}
 
 	if (!nameRegex.test(nameInput)) {
 		nameResult.innerText = "❌ 이름은 한글 또는 영문만 입력 가능합니다.";
@@ -360,18 +360,63 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// 📌 필수 약관 동의 체크 여부 
+// 양식 조건 맞지 않으면 alert창 띄우기 
 function validateForm() {
+	const id = document.getElementById("id")?.value.trim();
+	const pw = document.getElementById("pw")?.value.trim();
+	const name = document.getElementById("name")?.value.trim();
+	const idCheckResult = document.getElementById("idCheckResult")?.textContent;
 	const emailAd = document.querySelector('input[name="emailAd"]');
-	if (!emailAd.checked) {
+
+	// 1️⃣ 필수값 입력 확인
+	if (!id || !pw || !name) {
+		alert("아이디, 비밀번호, 이름을 모두 입력해주세요.");
+		return false;
+	}
+
+	// 2️⃣ 아이디 유효성 검사
+	const idRegex = /^[a-zA-Z0-9]{4,}$/;
+	if (!idRegex.test(id)) {
+		alert("아이디는 영문 또는 숫자 4자 이상이어야 합니다.");
+		return false;
+	}
+
+	// 3️⃣ 아이디 중복 결과 확인
+	if (idCheckResult?.includes("❌")) {
+		alert("아이디 중복 확인이 필요합니다.");
+		return false;
+	}
+
+	// 4️⃣ 이름 유효성 검사
+	const nameRegex = /^[가-힣a-zA-Z]+$/;
+	if (!nameRegex.test(name)) {
+		alert("이름은 한글 또는 영문만 입력 가능합니다.");
+		return false;
+	}
+
+	// 5️⃣ 비밀번호 유효성 검사
+	const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+])[A-Za-z\d!@#$%^&*()\-_=+]{8,}$/;
+	if (!pwRegex.test(pw)) {
+		alert("비밀번호는 8자 이상, 영문과 숫자, 특수문자를 모두 포함해야 합니다.");
+		return false;
+	}
+	// ✅ 휴대폰 번호 길이 체크 예시
+	if (phone.length < 10 || phone.length > 11) {
+		alert("📱 휴대폰 번호를 올바르게 입력해주세요.");
+		return false;
+	}
+
+	// 7️⃣ 이메일 광고 수신 동의 체크
+	if (!emailAd?.checked) {
 		alert("이메일 광고 수신 동의는 필수입니다.");
 		emailAd.focus();
 		return false;
 	}
 
-	// ✅ 장르 선택은 필수가 아니므로 검사 생략
-	return true; // 통과 시 제출 허용
+	// ✅ 모든 검사 통과
+	return true;
 }
+
 
 
 // ** 비밀번호 변경
@@ -478,9 +523,37 @@ function checkPwMatch() {
 	}
 }
 
+// ✅ 폼 제출 시 최종 검사
+function validatePasswordForm() {
+	const currentPwResult = document.getElementById("currentPwResult").textContent;
+	const newPw = document.getElementById("newPw").value;
+	const confirmPw = document.getElementById("confirmPw").value;
+	const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\|[\]{};:'",.<>/?`~]).{8,}$/;
 
-// 회원탈퇴
-function confirmDelete() {
+	// ✅ 현재 비밀번호 불일치 시 차단
+	if (!currentPwResult.includes("일치합니다")) {
+		alert("현재 비밀번호가 일치하지 않습니다.");
+		return false;
+	}
+
+	// ✅ 새 비밀번호 유효성 검사
+	if (!regex.test(newPw)) {
+		alert("비밀번호는 8자 이상, 영문+숫자+특수문자를 포함해야 합니다.");
+		return false;
+	}
+
+	// ✅ 새 비밀번호 확인 일치 검사
+	if (newPw !== confirmPw) {
+		alert("비밀번호가 일치하지 않습니다.");
+		return false;
+	}
+
+	return true; // 최종 통과 시 제출 허용
+}
+
+
+// 회원탈퇴 검사 (onsubmit 전용)
+function validateDeleteForm() {
 	const pw = document.getElementsByName("pw")[0].value;
 	const pwConfirm = document.getElementsByName("pwConfirm")[0].value;
 
@@ -509,6 +582,27 @@ function confirmDelete() {
 
 	// 성공이면 통과
 	return true;
+}
+
+// 실시간 입력 체크용 
+
+function checkDeletePwMatch() {
+	const pw = document.getElementsByName("pw")[0].value;
+	const pwConfirm = document.getElementsByName("pwConfirm")[0].value;
+	const msg = document.getElementById("pwMatchMsg");
+
+	// 입력 중이면 메시지 초기화
+	if (!pwConfirm) {
+		msg.innerText = "";
+		return;
+	}
+
+	if (pw !== pwConfirm) {
+		msg.innerText = "❌ 비밀번호가 일치하지 않습니다.";
+		msg.style.color = "red";
+	} else {
+		msg.innerText = "";
+	}
 }
 
 
@@ -564,7 +658,9 @@ function checkIdCode() {
 
 		result.innerHTML = `✅ 회원님의 아이디는 <strong>${idFound}</strong> 입니다.
 			<br><br>
-			<a href="/member/login" style="color: black; text-decoration: none;">로그인 페이지로 이동하기</a>`;
+			<h3 style ="text-align: center;">
+			<a href="/member/login" style="color: black; text-decoration: none;">
+			로그인 페이지로 이동하기</a> </h3> `;
 		result.style.color = "green";
 
 
@@ -602,6 +698,10 @@ function sendPwCode() {
 				message.innerText = "✅ 인증번호가 이메일로 전송되었습니다.";
 				message.style.color = "green";
 				pwAuthCode = data.code;
+
+				// 인증번호 입력 창 나옴
+				document.getElementById("pwCodeGroup").style.display = "block";
+				document.getElementById("pwVerifyBtn").style.display = "block";
 			} else {
 				message.innerText = "❌ " + data.message;
 				message.style.color = "red";
@@ -696,7 +796,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-//회원정보수정 적용 안 돼서 추가..
+//회원정보수정 적용 안 돼서 추가함..
 
 function validateUpdateForm() {
 	const name = document.getElementById("name")?.value.trim();
@@ -714,18 +814,37 @@ function validateUpdateForm() {
 		return false;
 	}
 
-	if (!agree.checked) {
+	// ✅ 이름 검사 (한글 또는 영문만)
+	const nameRegex = /^[가-힣a-zA-Z]+$/;
+	if (!nameRegex.test(name)) {
+		alert("이름은 한글 또는 영문만 입력 가능합니다.");
+		return false;
+	}
+
+	// ✅ 닉네임 검사 (2~10자)
+	if (nickname.length < 2 || nickname.length > 10) {
+		alert("닉네임은 2자 이상 10자 이하로 입력해주세요.");
+		return false;
+	}
+
+	// ✅ 필수 항목 누락 확인
+	if (!phone || !emailId || !emailDomain || !birth) {
+		alert("모든 항목을 빠짐없이 입력해주세요.");
+		return false;
+	}
+
+	// ✅ 전화번호 형식 확인
+	if (!/^010\d{8}$/.test(phone)) {
+		alert("휴대폰 번호는 010으로 시작하는 11자리 숫자여야 합니다.");
+		return false;
+	}
+
+	// ✅ 동의 여부
+	if (!agree?.checked) {
 		alert("정보 수정 동의는 필수입니다.");
 		return false;
 	}
 
-	// 전화번호 010 시작 + 11자리 검사
-	if (!/^010\d{8}$/.test(phone)) {
-		alert("올바른 휴대폰 번호를 입력해주세요. (예: 01012345678)");
-		return false;
-	}
-
-	return true;
+	return true; // 모든 조건 통과 시 제출 허용
 }
-
 

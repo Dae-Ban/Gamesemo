@@ -20,7 +20,7 @@ body {
 }
 
 /* =============================
-📌 제목 / 구분선
+📌  제목 / 구분선
 ============================= */
 .title {
 	font-size: 26px;
@@ -343,7 +343,13 @@ input[readonly] {
 	min-width: 90px;
 }
 
+#pwCodeGroup label {
+	margin-bottom: 10px;
+}
+
 .input-row span {
 	width: 16px;
 	text-align: center;
 }
+
+
