@@ -18,7 +18,11 @@ public class OAuthController {
 
     @GetMapping("/oauth2/success")
     public String oauth2Success(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        String id = oAuth2User.getAttribute("id").toString();
+    	String id;
+    	if(oAuth2User.getAttribute("id") == null)
+    		id = oAuth2User.getAttribute("sub").toString();
+    	else
+    		id = oAuth2User.getAttribute("id").toString();
         session.setAttribute("id", id);
 
         return "redirect:/";

@@ -27,21 +27,19 @@ public class SecurityConfig {
             .cors(cors -> cors.disable())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/member/update", "/member/login").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/member/update", "/", "/member/login", "/css/**", "/js/**", "/images/**", "/icons/**").permitAll()
+                .anyRequest().permitAll()
             )
             .formLogin(form -> form.disable())
             .logout(logout -> logout
                 .logoutUrl("/member/logout")
                 .logoutSuccessUrl("/member/login")
                 .permitAll()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .loginPage("/member/login")
+                .defaultSuccessUrl("/oauth2/success", true)
             );
-
-        // OAuth2 설정 (명시적 방식)
-//        http.apply(new OAuth2LoginConfigurer<HttpSecurity>()
-//            .loginPage("/member/login") // 로그인 페이지 직접 지정
-//            .defaultSuccessUrl("/oauth2/success", true)
-//        );
 
         return http.build();
     }
