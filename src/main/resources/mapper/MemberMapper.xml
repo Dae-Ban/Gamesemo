@@ -11,4 +11,12 @@
        <select id="findBySocialIdAndPlatform" resultType="member">
         SELECT * FROM MEMBER WHERE SOCIAL_ID = #{socialId} AND SOCIAL_PLATFORM = #{platform}
     </select>
+   
+    <insert id="insert" parameterType="member">
+    INSERT INTO MEMBER 
+        (ID, NAME, NICKNAME, PW, BIRTH_DATE, EMAIL_ID, EMAIL_DOMAIN, SOCIAL_PLATFORM, SOCIAL_ID, PHONE, GENDER, JOIN_DATE, STATE, EMAIL_AD, EMAIL_VERIFIED)
+    VALUES 
+        (#{id}, #{name}, #{nickname}, #{pw, jdbcType=VARCHAR}, #{birthDate}, #{emailId}, #{emailDomain}, #{socialPlatform}, #{socialId}, #{phone}, #{gender}, SYSDATE, #{state}, #{emailAd}, #{emailVerified})
+</insert>
+
 </mapper>	

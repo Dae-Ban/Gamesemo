@@ -27,6 +27,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
+    	
         OAuth2User oAuth2User = super.loadUser(request);
 
         String platform = request.getClientRegistration().getRegistrationId();
@@ -35,9 +36,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String socialId = null;
         String name = null;
         String email = null;
-
+        
         if ("google".equals(platform)) {
-            // ✅ 구글은 id 대신 sub!
             socialId = attributes.get("sub").toString();
             name = (String) attributes.get("name");
             email = (String) attributes.get("email");
@@ -47,6 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             name = (String) attributes.get("name");
             email = (String) attributes.get("email");
         } else if ("kakao".equals(platform)) {
+        	System.out.println("카카오");
             attributes = (Map<String, Object>) attributes.get("kakao_account");
             Map<String, Object> profile = (Map<String, Object>) attributes.get("profile");
             socialId = attributes.get("id").toString();
@@ -66,21 +67,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Member member = memberService.findBySocialIdAndPlatform(socialId, platform);
         if (member == null) {
             member = new Member();
-            member.setId(UUID.randomUUID().toString());
+            String shortUUID = UUID.randomUUID().toString().substring(0, 30);
+            member.setId(shortUUID);
             member.setName(name);
             member.setNickname(name);
             member.setSocialPlatform(platform);
             member.setSocialId(socialId);
             member.setEmailId(emailId);
             member.setEmailDomain(emailDomain);
+            member.setPw("SOCIAL");
+            member.setBirthDate("1970-01-01");
+            member.setPhone("000-0000-0000");
+            member.setGender("N");
+            member.setEmailAd("N");
             member.setState(1);
             member.setEmailVerified("Y");
-            memberService.insertMember(member);
         }
 
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
-        // ✅ key는 socialId로 할 수도 있고, 그냥 name으로도 할 수 있음.
         return new DefaultOAuth2User(authorities, attributes, "name");
     }
 }
