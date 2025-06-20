@@ -15,7 +15,7 @@
 					)
 			$.ajax({
 				url: "/gamedata/master/update",
-				method: "GET",
+				method: "POST",
 				success: function(result) {
 					if(result){
 						$(".loading-wrap").html("<p>✅ 업데이트 완료</p>")

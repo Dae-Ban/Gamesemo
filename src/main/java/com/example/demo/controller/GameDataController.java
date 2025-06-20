@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,7 +41,7 @@ public class GameDataController {
 		return new ModelAndView("game/gamedataMaster");
 	}
 	
-	@GetMapping("/master/update")
+	@PostMapping("/master/update")
 	public boolean updateDB() {
 		try {
 			task.run();
