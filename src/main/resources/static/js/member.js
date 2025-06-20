@@ -604,7 +604,7 @@ function checkIdCode() {
 				result.style.color = "red";
 			});
 }
-// 재원 - 아이디 찾기 코드 유효성 검사 (끝)
+// 재원 - 아이디 찾기 코드 유효성 검사 (끝).
  
 // 비번찾기
 function sendPwCode() { 
