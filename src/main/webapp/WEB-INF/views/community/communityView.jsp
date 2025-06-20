@@ -30,7 +30,17 @@
     			return false;
     		}			
 		}   
+		
 		</script>
+		
+		
+		<script>
+		//신고 유효성 검사
+    function alertLogin() {
+        alert("로그인 후 이용 가능합니다.");
+    }
+</script>
+		
 </head>
 <body>
 
@@ -174,15 +184,23 @@
         </c:if>
     </div>
     </c:if>
+    
+    <!-- 로그인 여부에 따라 신고하기 -->
+<c:choose>
+    <c:when test="${empty sessionScope.loginMember}">
+        <div style="text-align: right; margin-top: 10px;">
+            <a href="javascript:alertLogin();" style="color: red; text-decoration: none;">🚨 신고하기</a>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div style="text-align: right; margin-top: 10px;">
+            <a href="${pageContext.request.contextPath}/rcreport/report/form?rp_table=REVIEW_BOARD&board_num=${review.rb_num}"
+               style="color: red; text-decoration: none;">🚨 신고하기</a>
+        	</div>
+    				</c:otherwise>
+				</c:choose>
+    
+			</div>
 
-    <!-- 신고하기 버튼 (cb_state != 1일 때만 보임) -->
-    <c:if test="${community.cb_state != 1}">
-    <div style="text-align: right; margin-top: 10px;">
-        <a href="${pageContext.request.contextPath}/rcreport/report/form?rp_table=COMMUNITY_BOARD&board_num=${community.cb_num}"
-           style="color: red; text-decoration: none;">🚨 신고하기</a>
-    </div>
-    </c:if>
-</div>
-
-</body>
-</html>
+		</body>
+	</html>
