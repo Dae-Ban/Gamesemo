@@ -136,7 +136,7 @@ public class MemberController {
 
 //*******************---------------------------------
 
-// login페이지 : 영교님
+// login, logout : 영교님꺼 재원님 수정 
 
 	// 영교님 부분
 	@GetMapping("/login")
@@ -184,6 +184,17 @@ public class MemberController {
 	public String modalLogin() {
 		return "member/modalLogin";
 	}
+	
+	// 추가함 25.06.20 (영교님꺼)
+	 @GetMapping("/logout")
+	    public String logout(HttpSession session, HttpServletResponse response) {
+	    	session.invalidate();
+	        Cookie cookie = new Cookie("rememberId", null);
+	        cookie.setMaxAge(0);
+	        cookie.setPath("/");
+	        response.addCookie(cookie);
+	    	return "redirect:/login";
+    }
 
 //******************--------------------------------    
 
@@ -484,12 +495,12 @@ public class MemberController {
 		return "redirect:/main";
 	} 
 
-	// 로그아웃
-	@GetMapping("/member/logout")
-	public String logout(HttpSession session) {
-		session.invalidate(); // 세션 종료
-		return "redirect:/member/main"; // 로그인 페이지로 이동 (또는 홈)
-	}
+//	// 로그아웃
+//	@GetMapping("/member/logout")
+//	public String logout(HttpSession session) {
+//		session.invalidate(); // 세션 종료
+//		return "redirect:/member/main"; // 로그인 페이지로 이동 (또는 홈)
+//	}
 
 	// 메인페이지
 	@GetMapping("/main")

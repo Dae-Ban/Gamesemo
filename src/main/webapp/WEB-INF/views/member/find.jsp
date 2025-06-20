@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>아이디/ 비밀번호 찾기</title>
+<title>아이디/비밀번호 찾기</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/member.css">
 </head>

@@ -347,9 +347,22 @@ input[readonly] {
 	margin-bottom: 10px;
 }
 
+
+/*회원가입 로딩시.. 스피너 추가 */
 .input-row span {
 	width: 16px;
 	text-align: center;
 }
 
 
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    animation: rotate 1s linear infinite;
+    margin-top: 80px;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

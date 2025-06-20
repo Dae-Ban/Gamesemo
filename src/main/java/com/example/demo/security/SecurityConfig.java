@@ -34,7 +34,13 @@ public class SecurityConfig{
             .logoutUrl("/member/logout")
             .logoutSuccessUrl("/member/login")
             .permitAll()
-        );
+    				)
+    	
+    		.oauth2Login(oauth2 -> oauth2
+    		.loginPage("/member/login")
+            .defaultSuccessUrl("/oauth2/success")
+    		);
+            
     	
     	return http.build();
     }

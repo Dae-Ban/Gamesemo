@@ -50,11 +50,21 @@ public interface MemberMapper {
 
 	
 	// 로그인 : 영교님꺼 추가
+//
+//	public Member modalLogin(@Param("id")String id, @Param("pw") String pw);
+//
+//	public Member findBySocialIdAndPlatform(String socialId, String platform);
+//
+//	public Member login(String id);
 
-	public Member modalLogin(@Param("id")String id, @Param("pw") String pw);
+	//수정함 
+	// 일반 로그인 (정상)
+	public Member modalLogin(@Param("id") String id, @Param("pw") String pw);
 
-	public Member findBySocialIdAndPlatform(String socialId, String platform);
+	// 소셜 로그인 (❗수정 필요 → 아래처럼)
+	public Member findBySocialIdAndPlatform(@Param("socialId") String socialId,
+	                                        @Param("platform") String platform);
 
+	// ID로 회원 조회 (정상)
 	public Member login(String id);
-
 }

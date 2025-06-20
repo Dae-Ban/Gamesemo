@@ -360,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// 양식 조건 맞지 않으면 alert창 띄우기 
+// 회원가입시 양식 조건 맞지 않으면 alert창 띄우기 
 function validateForm() {
 	const id = document.getElementById("id")?.value.trim();
 	const pw = document.getElementById("pw")?.value.trim();
@@ -368,55 +368,60 @@ function validateForm() {
 	const idCheckResult = document.getElementById("idCheckResult")?.textContent;
 	const emailAd = document.querySelector('input[name="emailAd"]');
 
-	// 1️⃣ 필수값 입력 확인
+	// 1️ 필수값 입력 확인
 	if (!id || !pw || !name) {
 		alert("아이디, 비밀번호, 이름을 모두 입력해주세요.");
 		return false;
 	}
 
-	// 2️⃣ 아이디 유효성 검사
+	// 2️ 아이디 유효성 검사
 	const idRegex = /^[a-zA-Z0-9]{4,}$/;
 	if (!idRegex.test(id)) {
 		alert("아이디는 영문 또는 숫자 4자 이상이어야 합니다.");
 		return false;
 	}
 
-	// 3️⃣ 아이디 중복 결과 확인
+	// 3️ 아이디 중복 결과 확인
 	if (idCheckResult?.includes("❌")) {
 		alert("아이디 중복 확인이 필요합니다.");
 		return false;
 	}
 
-	// 4️⃣ 이름 유효성 검사
+	// 4️ 이름 유효성 검사
 	const nameRegex = /^[가-힣a-zA-Z]+$/;
 	if (!nameRegex.test(name)) {
 		alert("이름은 한글 또는 영문만 입력 가능합니다.");
 		return false;
 	}
 
-	// 5️⃣ 비밀번호 유효성 검사
+	// 5️ 비밀번호 유효성 검사
 	const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+])[A-Za-z\d!@#$%^&*()\-_=+]{8,}$/;
 	if (!pwRegex.test(pw)) {
 		alert("비밀번호는 8자 이상, 영문과 숫자, 특수문자를 모두 포함해야 합니다.");
 		return false;
 	}
-	// ✅ 휴대폰 번호 길이 체크 예시
+	// 6 휴대폰 번호 길이 체크 예시
 	if (phone.length < 10 || phone.length > 11) {
 		alert("📱 휴대폰 번호를 올바르게 입력해주세요.");
 		return false;
 	}
 
-	// 7️⃣ 이메일 광고 수신 동의 체크
+	// 7️ 이메일 광고 수신 동의 체크
 	if (!emailAd?.checked) {
 		alert("이메일 광고 수신 동의는 필수입니다.");
 		emailAd.focus();
 		return false;
 	}
+	
+	// 실패 시 버튼 복구 처리 추가!!
+		document.getElementById("registerBtn").disabled = false;
+		document.getElementById("registerForm").style.display = "block";
+		document.getElementById("registerOverlay").style.display = "none";
 
+				
 	// ✅ 모든 검사 통과
 	return true;
 }
-
 
 
 // ** 비밀번호 변경
@@ -848,3 +853,5 @@ function validateUpdateForm() {
 	return true; // 모든 조건 통과 시 제출 허용
 }
 
+
+//회원가입 중 스피너
