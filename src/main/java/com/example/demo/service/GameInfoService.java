@@ -146,6 +146,7 @@ public class GameInfoService {
 	private List<GameInfo> getDirectNewInfo() {
 		List<ScrapData> directNew = scraped.getDirectNew();
 		List<GameInfo> giList = new ArrayList<>();
+		String baseUrl = "https://directg.net/game/";
 		for (ScrapData data : directNew) {
 			GameInfo gi = new GameInfo();
 			String nTitle = norm.normalize(data.getTitle());
@@ -164,7 +165,10 @@ public class GameInfoService {
 				gi.setGiState("newdc");
 			else
 				gi.setGiState("new");
-			gi.setGiLink(data.getLink());
+			
+			String link = baseUrl + data.getLink().replaceFirst("^\\./", "");
+			gi.setGiLink(link);
+			
 			gi.setGiDate(data.getScrapedAt());
 			giList.add(gi);
 		}
