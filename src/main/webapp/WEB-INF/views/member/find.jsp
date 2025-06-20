@@ -25,7 +25,7 @@
 
 			<div class="input-inline">
 				<input type="text" id="findIdCode" placeholder="인증번호 입력">
-				<button class="btn-small" onclick="checkIdCode()">확인</button><!--여기수정-->
+				<button class="btn-small" onclick="checkIdCode()">확인</button><!--여기수정.-->
 			</div>
 			<p id="idResult" class="result-text"></p>
 		</div>
@@ -52,7 +52,7 @@
 			</div>
 
 			<div class="form-group">
-				<button class="btn-slim" onclick="verifyCode()">확인</button><!--여기수정-->
+				<button class="btn-slim" onclick="verifyCode()">확인</button><!--여기수정.-->
 			</div>
 			<p id="pwResult" class="result-text"></p>
 		</div>
