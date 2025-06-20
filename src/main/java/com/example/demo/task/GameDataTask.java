@@ -35,7 +35,7 @@ public class GameDataTask {
 		});
 	}
 	
-	private void margeIntoGame() {
+	private void mergeIntoGame() {
 		steamApi.margeSteamApi();
 		mergerMap.forEach((name, merger) -> {
 			System.out.println(name + " game에 병합 시작");
@@ -46,8 +46,8 @@ public class GameDataTask {
 	public void run() {
 		System.out.println("🔥 DB갱신 시작");
 		scrap();
-		margeIntoGame();
-		info.scrapMarge();
+		mergeIntoGame();
+		info.scrapMerge();
 		
 		info.updateGameInfo();
 		System.out.println("DB 갱신 완료");

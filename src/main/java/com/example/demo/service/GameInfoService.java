@@ -29,35 +29,35 @@ public class GameInfoService {
 	private CurrencyExchange ex;
 
 	@Transactional
-	public void scrapMarge() {
+	public void scrapMerge() {
 		// 모두 삭제
-		infoMapper.scrapMargeClean();
+		infoMapper.scrapMergeClean();
 		
 		// 이 둘을 먼저 실행
 		for (GameInfo info : getSteamTopInfo()) {
-			infoMapper.scrapMarge(info);
+			infoMapper.scrapMerge(info);
 		}
 		for (GameInfo info : getNintendoExpInfo()) {
-			infoMapper.scrapMarge(info);
+			infoMapper.scrapMerge(info);
 		}
 		
 		for (GameInfo info : getSteamDCInfo()) {
-			infoMapper.scrapMarge(info);
+			infoMapper.scrapMerge(info);
 		}
 		for (GameInfo info : getSteamNewInfo()) {
-			infoMapper.scrapMarge(info);
+			infoMapper.scrapMerge(info);
 		}
 		for (GameInfo info : getDirectNewInfo()) {
-			infoMapper.scrapMarge(info);
+			infoMapper.scrapMerge(info);
 		}
 		for (GameInfo info : getNintendoDCInfo()) {
-			infoMapper.scrapMarge(info);
+			infoMapper.scrapMerge(info);
 		}
 		for (GameInfo info : getNintendoNewInfo()) {
-			infoMapper.scrapMarge(info);
+			infoMapper.scrapMerge(info);
 		}
 		for (GameInfo info : getPlanetNewInfo()) {
-			infoMapper.scrapMarge(info);
+			infoMapper.scrapMerge(info);
 		}
 	}
 

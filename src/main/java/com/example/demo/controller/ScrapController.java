@@ -6,8 +6,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +25,7 @@ public class ScrapController {
     }
 	
     // /steamdc, /steamnew, /directnew, /nintendodc...
-    @GetMapping("/{target}")
+    @PostMapping("/{target}")
     public ResponseEntity<String> scrap(@PathVariable("target") String target) {
         Scraper scraper = scraperMap.get(target);
         if (scraper == null) {
