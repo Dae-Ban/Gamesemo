@@ -139,9 +139,25 @@
 			</c:if>				        
     </div>
 
+
+<script>
+    	//글 작성 유효성 검사(로그인 하지 않았을때 메세지 출력)
+    	function check(){    		
+ //   		alert('${sessionScope.loginMember.id}');
+    		if(${empty sessionScope.loginMember.id}){
+    			alert('로그인 하세요.');
+    			return false;
+    		}else{
+    			location.href="${pageContext.request.contextPath}/community/form";
+    		}
+    	}     
+    </script> 
+
+
     <!-- 글쓰기 버튼 -->
     <div class="write-button">
-        <a href="${pageContext.request.contextPath}/community/form" class="btn-write">글작성</a>
+    <a href="javascript:check()" class="btn-write" >글작성</a>
+      <%--   <a href="${pageContext.request.contextPath}/community/form" class="btn-write">글작성</a> --%>
     </div>
 
 </div>

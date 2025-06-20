@@ -30,7 +30,7 @@ public class ReviewController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-//            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 걸기 
+            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 걸기 
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -38,7 +38,9 @@ public class ReviewController {
 
     @GetMapping("/list")
     public String list(@RequestParam(name = "page", defaultValue = "1") int page,
-                       Review review, Model model) {
+                       Review review, Model model, HttpSession session) {
+//    	ensureLoginSession(session);
+    	
         int total = reviewService.getCount(review);
         Pagenation pgn = new Pagenation(total, 10, page);
         pgn.setSearch(review.getSearch());

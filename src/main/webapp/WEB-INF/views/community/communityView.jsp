@@ -22,7 +22,15 @@
 			var cbr_content = $('#tt_'+cbr_num).val();	
 			location.href="/community/reply/update?cb_num="+${community.cb_num}+"&cbr_num="+cbr_num+"&cbr_content="+cbr_content;
 		}
-    </script>
+  
+		// 댓글 작성 유효성 검사
+		function check(){
+			if(${empty sessionScope.loginMember.id}){
+    			alert('로그인 하세요.');
+    			return false;
+    		}			
+		}   
+		</script>
 </head>
 <body>
 
@@ -109,6 +117,7 @@
 
         <!-- 댓글 등록 폼 -->
         <form method="post" action="${pageContext.request.contextPath}/community/reply/insert"
+        onsubmit="return check()"
               style="display: flex; gap: 10px; margin-bottom: 20px;">
             <input type="hidden" name="cb_num" value="${community.cb_num}" />
             <textarea name="cbr_content" rows="2" maxlength="200"

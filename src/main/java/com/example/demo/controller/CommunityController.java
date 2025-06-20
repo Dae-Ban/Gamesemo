@@ -31,7 +31,7 @@ public class CommunityController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-//            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 막아야함
+            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 막아야함
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -40,6 +40,7 @@ public class CommunityController {
     @GetMapping("/list")
     public String list(@RequestParam(name = "page", defaultValue = "1") int page,
                        Community community, Model model) {
+//    	ensureLoginSession(session);
         int total = communityService.getCount(community);
         Pagenation pgn = new Pagenation(total, 10, page);
         pgn.setSearch(community.getSearch());
@@ -60,7 +61,7 @@ public class CommunityController {
 
     @GetMapping("/view")
     public String view(@RequestParam("cb_num") int cb_num, Model model, HttpSession session) {
-        ensureLoginSession(session); 
+ //       ensureLoginSession(session); 
 
         communityService.updateReadCount(cb_num);
         Community community = communityService.getCommunity(cb_num);
@@ -77,7 +78,7 @@ public class CommunityController {
 
     @GetMapping("/form")
     public String form(Model model, HttpSession session) {
-        ensureLoginSession(session);
+  //      ensureLoginSession(session);
         model.addAttribute("community", new Community());
         return "community/communityForm";
     }
@@ -97,7 +98,7 @@ public class CommunityController {
 
     @GetMapping("/updateform")
     public String updateForm(@RequestParam("cb_num") int cb_num, Model model, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         Community community = communityService.getCommunity(cb_num);
         model.addAttribute("community", community);
         return "community/communityUpdateForm";
@@ -105,7 +106,7 @@ public class CommunityController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Community community, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         communityService.update(community);
         return "redirect:/community/view?cb_num=" + community.getCb_num();
     }

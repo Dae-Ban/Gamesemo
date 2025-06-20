@@ -28,7 +28,13 @@
 			location.href="/review/reply/update?rb_num="+${review.rb_num}+"&rbr_num="+rbr_num+"&rbr_content="+rbr_content;
 		}
 		
-    
+		// 댓글 작성 유효성 검사
+		function check(){
+			if(${empty sessionScope.loginMember.id}){
+    			alert('로그인 하세요.');
+    			return false;
+    		}			
+		}    
     </script>
     
 </head>
@@ -100,6 +106,7 @@
 
     <!-- 댓글 등록 폼 -->
     <form method="post" action="${pageContext.request.contextPath}/review/reply/insert"
+          onsubmit="return check()"
           style="display: flex; gap: 10px; margin-bottom: 20px;">
         <input type="hidden" name="rb_num" value="${review.rb_num}" />
         <%-- <input type="hidden" name="id" value="${sessionScope.loginMember.id}" /> --%>
