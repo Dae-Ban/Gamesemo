@@ -1,5 +1,11 @@
 @charset "UTF-8";
 /* 기본 스타일 */
+.paging {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 16px;
+}
+
 .paging a {
   display: inline-block;
   margin: 0 5px;
