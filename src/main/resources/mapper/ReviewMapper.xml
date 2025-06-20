@@ -140,6 +140,7 @@
     WHERE rnum &gt;= #{startRow}
 </select>
 
+
     
     
     
@@ -257,7 +258,7 @@
         WHERE rbr_num = #{rbr_num}
     </delete>
     
-    <!-- 신고 상태값 0,1 -->
+    <!-- 신고 상태값 0일반, 1 신고, 2는 삭제 -->
     <update id="updateBoardState">
     UPDATE REVIEW_BOARD
     SET rb_state = #{state}

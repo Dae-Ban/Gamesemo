@@ -31,7 +31,7 @@ public class CommunityController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("minjung1");    // 테스트용 기본값
+            loginMember.setId("minjung2");    // 테스트용 기본값
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -86,7 +86,7 @@ public class CommunityController {
     public String insert(@ModelAttribute Community community, HttpSession session) {
         Member member = (Member) session.getAttribute("loginMember");
 //      community.setId(member.getId());
-        community.setId("minjung1");
+        community.setId("minjung2");
         community.setCb_state(0);
 
         communityService.insert(community);
@@ -192,7 +192,7 @@ public class CommunityController {
     @PostMapping("/reply/insert")
     public String insertReply(@ModelAttribute CommunityReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
-        reply.setId("minjung1");
+        reply.setId("minjung2");
 
         int result = communityService.insertReply(reply);
         if(result==1) System.out.println("댓글 작성 성공");

@@ -27,7 +27,7 @@ public class ReportController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("minjung1");    // 테스트용 기본값
+            loginMember.setId("minjung2");    // 테스트용 기본값
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -48,7 +48,7 @@ public class ReportController {
     public String insertReport(@ModelAttribute Report report, HttpSession session, RedirectAttributes ra) {
         Member loginMember = ensureLoginSession(session);
 //      report.setId(loginMember.getId());
-        report.setId("minjung1");
+        report.setId("minjung2");
         report.setRp_date(new java.sql.Timestamp(System.currentTimeMillis()));
         report.setRp_status("PENDING");
 

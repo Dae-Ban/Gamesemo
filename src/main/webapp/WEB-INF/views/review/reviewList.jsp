@@ -39,35 +39,39 @@
             </tr>
         </thead>
         <tbody>
+        
+       		<c:set var="num" value="${pgn.total - (pgn.currentPage-1) * 10}"/>
             <c:forEach var="review" items="${reviewList}">
                 <tr>
-                    <td>${review.rb_num}</td>
+                    <td>${num}
+                    
+                    	<c:set var="num" value="${num-1}"/>
+                    
+                    </td>
                     <td>
                         <c:choose>
-                            <c:when test="${review.rb_like eq '추천'}">👍 추천</c:when>
-                            <c:when test="${review.rb_like eq '비추천'}">👎 비추천</c:when>
-                            <c:otherwise>-</c:otherwise>
-                        </c:choose>
-                    </td>
+              	              <c:when test="${review.rb_like eq '추천'}">👍 추천</c:when>
+              	             <c:when test="${review.rb_like eq '비추천'}">👎 비추천</c:when>
+              	              <c:otherwise>-</c:otherwise>
+             			           </c:choose>
+           						         </td>
                     
                     
-                   <td class="center">
-    <c:choose>
-        <c:when test="${review.rb_state == 1}">
-            <span style="color: red;">🚨 신고 처리된 게시글입니다</span>
-        </c:when>
-        <c:when test="${review.rb_state == 2}">
-            <span style="color: gray;">🗑️ 삭제된 게시글입니다</span>
-        </c:when>
-        <c:otherwise>
-            <a href="${pageContext.request.contextPath}/review/view?rb_num=${review.rb_num}">
-                ${review.rb_title}
-            </a>
-        </c:otherwise>
-    </c:choose>
-</td>
-
-
+           							        <td class="center">
+   													 <c:choose>
+    									    <c:when test="${review.rb_state == 1}">
+     						       <span style="color: red;">🚨 신고 처리된 게시글입니다</span>
+   										     </c:when>
+    								    <c:when test="${review.rb_state == 2}">
+   								         <span style="color: gray;">🗑️ 삭제된 게시글입니다</span>
+   													     </c:when>
+  												      <c:otherwise>
+         			   <a href="${pageContext.request.contextPath}/review/view?rb_num=${review.rb_num}">
+          							      ${review.rb_title}
+       									     </a>
+     						   </c:otherwise>
+  									  </c:choose>
+											</td>
 
                                      
                     <td>${review.id}</td>
@@ -81,19 +85,48 @@
             </c:if>
         </tbody>
     </table>
+    
 
-    <!-- 페이징 -->
-    <div class="pagination">
-        <c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
-            <c:choose>
-                <c:when test="${i == pgn.currentPage}">
-                    <span class="page current">[${i}]</span>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/review/list?page=${i}&search=${search}&keyword=${keyword}" class="page">[${i}]</a>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
+    <div class="pagenation">
+	    <!-- 전체 목록 페이징 처리 -->
+    	<c:if test="${empty keyword}">
+				<c:if test="${pgn.startPage > pgn.pagePerBlk }">
+					<li><a href="${pageContext.request.contextPath}/review/list?page=${pgn.startPage - 10}">이전</a></li>
+				</c:if>    
+        		<c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
+            		<c:choose>
+                		<c:when test="${i == pgn.currentPage}">
+                    		<span class="page current">[${i}]</span>
+                		</c:when>
+                		<c:otherwise>
+                    		<a href="${pageContext.request.contextPath}/review/list?page=${i}" class="page">[${i}]</a>
+                		</c:otherwise>
+            		</c:choose>
+        		</c:forEach>
+        		<c:if test="${pgn.endPage < pgn.totalPage}">
+					<li><a href="${pageContext.request.contextPath}/review/list?page=${pgn.startPage + 10}">다음</a></li>
+				</c:if>
+			</c:if>
+			
+		<!-- 검색 목록 페이징 처리 -->
+    	<c:if test="${!empty keyword}">
+				<c:if test="${pgn.startPage > pgn.pagePerBlk }">
+					<li><a href="${pageContext.request.contextPath}/review/list?page=${pgn.startPage - 10}&search=${search}&keyword=${keyword}">이전</a></li>
+				</c:if>    
+        		<c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
+            		<c:choose>
+                		<c:when test="${i == pgn.currentPage}">
+                    		<span class="page current">[${i}]</span>
+                		</c:when>
+                		<c:otherwise>
+                    		<a href="${pageContext.request.contextPath}/review/list?page=${i}&search=${search}&keyword=${keyword}" class="page">[${i}]</a>
+                		</c:otherwise>
+            		</c:choose>
+        		</c:forEach>
+        		<c:if test="${pgn.endPage < pgn.totalPage}">
+					<li><a href="${pageContext.request.contextPath}/review/list?page=${pgn.startPage + 10}&search=${search}&keyword=${keyword}">다음</a></li>
+				</c:if>
+			</c:if>				        
     </div>
 
     <!-- 글쓰기 버튼 -->

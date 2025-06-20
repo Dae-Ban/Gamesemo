@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +30,7 @@ public class ReviewController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("minjung1");    // 테스트용 기본값
+            loginMember.setId("minjung2");    // 테스트용 기본값
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -50,6 +49,9 @@ public class ReviewController {
         model.addAttribute("pgn", pgn);
         model.addAttribute("search", review.getSearch());
         model.addAttribute("keyword", review.getKeyword());
+        
+//        List<Review> topList = reviewService.getTopRecommended();
+//        model.addAttribute("topList", topList);
 
         return "review/reviewList";
     }
@@ -78,7 +80,7 @@ public class ReviewController {
     public String insert(@ModelAttribute Review review, HttpSession session) {
         Member member = (Member) session.getAttribute("loginMember");
 //      review.setId(member.getId());
-        review.setId("minjung1");
+        review.setId("minjung2");
         review.setRb_state(0);
 
         reviewService.insert(review);
@@ -166,7 +168,7 @@ public class ReviewController {
     @PostMapping("/reply/insert")
     public String insertReply(@ModelAttribute ReviewReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
-        reply.setId("minjung1");
+        reply.setId("minjung2");
 
         int result = reviewService.insertReply(reply);
         if(result==1) System.out.println("댓글 작성 성공");

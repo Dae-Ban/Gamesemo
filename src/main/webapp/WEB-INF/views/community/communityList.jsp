@@ -92,8 +92,8 @@
     <div class="pagenation">
 	    <!-- 전체 목록 페이징 처리 -->
     	<c:if test="${empty keyword}">
-				<c:if test="${pp.startPage > pp.pagePerBlk }">
-					<li><a href="${pageContext.request.contextPath}/community/list?page=${pp.startPage - 10}">이전</a></li>
+				<c:if test="${pgn.startPage > pgn.pagePerBlk }">
+					<li><a href="${pageContext.request.contextPath}/community/list?page=${pgn.startPage - 10}">이전</a></li>
 				</c:if>    
         		<c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
             		<c:choose>
@@ -105,15 +105,15 @@
                 		</c:otherwise>
             		</c:choose>
         		</c:forEach>
-        		<c:if test="${pp.endPage < pp.totalPage}">
-					<li><a href="${pageContext.request.contextPath}/community/list?page=${pp.startPage + 10}">다음</a></li>
+        		<c:if test="${pgn.endPage < pp.totalPage}">
+					<li><a href="${pageContext.request.contextPath}/community/list?page=${pgn.startPage + 10}">다음</a></li>
 				</c:if>
 			</c:if>
 			
 		<!-- 검색 목록 페이징 처리 -->
     	<c:if test="${!empty keyword}">
-				<c:if test="${pp.startPage > pp.pagePerBlk }">
-					<li><a href="${pageContext.request.contextPath}/community/list?page=${pp.startPage - 10}&search=${search}&keyword=${keyword}">이전</a></li>
+				<c:if test="${pgn.startPage > pgn.pagePerBlk }">
+					<li><a href="${pageContext.request.contextPath}/community/list?page=${pgn.startPage - 10}&search=${search}&keyword=${keyword}">이전</a></li>
 				</c:if>    
         		<c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
             		<c:choose>
@@ -125,8 +125,8 @@
                 		</c:otherwise>
             		</c:choose>
         		</c:forEach>
-        		<c:if test="${pp.endPage < pp.totalPage}">
-					<li><a href="${pageContext.request.contextPath}/community/list?page=${pp.startPage + 10}&search=${search}&keyword=${keyword}">다음</a></li>
+        		<c:if test="${pgn.endPage < pgn.totalPage}">
+					<li><a href="${pageContext.request.contextPath}/community/list?page=${pgn.startPage + 10}&search=${search}&keyword=${keyword}">다음</a></li>
 				</c:if>
 			</c:if>				        
     </div>
