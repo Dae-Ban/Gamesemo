@@ -12,4 +12,6 @@ public interface MemberMapper {
 	Member findBySocialIdAndPlatform(@Param("socialId") String socialId, @Param ("platform") String platform);
 
 	void insert(Member member);
+
+	void socialInsert(Member member);
 }	

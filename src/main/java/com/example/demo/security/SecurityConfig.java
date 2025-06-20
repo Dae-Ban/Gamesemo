@@ -2,19 +2,24 @@ package com.example.demo.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+	@Lazy
+	private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -37,9 +42,17 @@ public class SecurityConfig {
                 .permitAll()
             )
             .oauth2Login(oauth2 -> oauth2
-                .loginPage("/member/login")
-                .defaultSuccessUrl("/oauth2/success", true)
-            );
+                    .loginPage("/member/login")
+                    .defaultSuccessUrl("/oauth2/success", true)
+                    .failureHandler((request, response, exception) -> {
+                        exception.printStackTrace(); // 콘솔에 예외 출력
+                        response.getWriter().write("OAuth2 인증 실패: " + exception.getMessage());
+                        response.sendRedirect("/member/login?error");
+                    })
+                    .userInfoEndpoint(userInfo -> userInfo
+                        .userService(customOAuth2UserService)
+                    )
+                );
 
         return http.build();
     }

@@ -26,11 +26,6 @@ public class MemberServiceImpl implements MemberService{
     }
 
 	@Override
-	public Member findBySocialIdAndPlatform(String socialId, String platform) {
-        return memberMapper.findBySocialIdAndPlatform(socialId, platform);
-	}
-
-	@Override
 	public void insertMember(Member member) {
         memberMapper.insert(member);
 		
