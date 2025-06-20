@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.ReviewMapper;
+import com.example.demo.model.Community;
+import com.example.demo.model.CommunityLike;
 import com.example.demo.model.Pagenation;
 import com.example.demo.model.Review;
+import com.example.demo.model.ReviewLike;
 import com.example.demo.model.ReviewReply;
 
 @Service
@@ -58,13 +61,30 @@ public class ReviewService {
     public void deleteReply(int rbr_num) {
         reviewMapper.deleteReply(rbr_num);
     }
-    //댓글 수정
-//    public ReviewReply getReply(int rbr_num) {
-//        return reviewMapper.getReply(rbr_num);
-//    }
+    
 
+    //댓글 수정
 	public int replyupdate(ReviewReply reply) {
 		return reviewMapper.replyupdate(reply);
 	}
+	
+	//글 추천수 4개 출력
+		public List<Review> getTopRecommended() {
+		    return reviewMapper.getTopRecommended();
+		}
+		
+		//글 추천 추가
+		public boolean insertLike(ReviewLike like) {
+		    ReviewLike existing = reviewMapper.checkAlreadyLiked(like);
+		    if (existing == null) {
+		        return reviewMapper.insertLike(like) == 1;
+		    }
+		    return false;
+		}
+		
+		//글 추천한거 가져오기
+		public int getLikeCount(int rb_num) {
+		    return reviewMapper.getLikeCount(rb_num);
+		}
 	
 }

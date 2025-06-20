@@ -28,8 +28,6 @@
 
 
 
-
-
  <!--  총 게시글 수 -->
      <select id="getCount" parameterType="com.example.demo.model.Community" resultType="int">
     SELECT COUNT(*) FROM COMMUNITY_BOARD
@@ -247,23 +245,38 @@
         WHERE cbr_num = #{cbr_num}
     </delete>
     
+    
+     <!-- 신고 상태값 0일반, 1 신고, 2는 삭제 -->  <!-- 이거 필요한 부분인지 여쭤보기 -->
+    <update id="updateBoardState">
+    UPDATE COMMUNITY_BOARD
+    SET cb_state = #{state}
+    WHERE cb_num = #{cb_num}
+	</update>
+    
+    
+    
+    
     <!-- 글 추천 4개 리스트 뽑기 -->
-    <select id="getTopRecommended" resultMap="communityResult">
-    SELECT *
+   <select id="getTopRecommended" resultMap="communityResult">
+    SELECT cb_num, id, cb_title,
+           DBMS_LOB.SUBSTR(cb_content, 4000, 1) AS cb_content,
+           cb_readcount, cb_date, cb_state
     FROM (
-        SELECT cb.*
-        FROM (
-            SELECT cb.cb_num, cb.id, cb.cb_title, cb.cb_content, cb.cb_readcount, cb.cb_date, cb.cb_state,
-                   COUNT(cl.cb_num) AS like_count
-            FROM COMMUNITY_BOARD cb
-            LEFT JOIN CB_LIKE cl ON cb.cb_num = cl.cb_num
-            WHERE cb.cb_state = 0
-            GROUP BY cb.cb_num, cb.id, cb.cb_title, cb.cb_content, cb.cb_readcount, cb.cb_date, cb.cb_state
-            ORDER BY like_count DESC, cb_readcount desc
-        ) cb
+        SELECT cb.cb_num, cb.id, cb.cb_title,
+               DBMS_LOB.SUBSTR(cb.cb_content, 4000, 1) AS cb_content,
+               cb.cb_readcount, cb.cb_date, cb.cb_state,
+               COUNT(cl.cb_num) AS like_count
+        FROM COMMUNITY_BOARD cb
+        LEFT JOIN CB_LIKE cl ON cb.cb_num = cl.cb_num
+        WHERE cb.cb_state = 0
+        GROUP BY cb.cb_num, cb.id, cb.cb_title,
+                 DBMS_LOB.SUBSTR(cb.cb_content, 4000, 1),
+                 cb.cb_readcount, cb.cb_date, cb.cb_state
+        ORDER BY like_count DESC, cb_readcount DESC
     )
     WHERE ROWNUM &lt;= 4
 </select>
+
 
 	<!-- 글 추천하기 -->
 <select id="checkAlreadyLiked" parameterType="communityLike" resultType="communityLike">
@@ -271,7 +284,7 @@
 </select>
 
 <insert id="insertLike" parameterType="communityLike">
-    INSERT INTO CB_LIKE(pk, id, cb_num)
+    INSERT INTO CB_LIKE(c_like, id, cb_num)
     VALUES(cb_like_seq.NEXTVAL, #{id}, #{cb_num})
 </insert>
 
@@ -282,5 +295,3 @@
 
   
 </mapper>
-
-

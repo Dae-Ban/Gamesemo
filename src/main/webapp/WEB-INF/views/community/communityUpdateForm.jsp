@@ -7,14 +7,14 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>리뷰 수정</title>
+    <title>커뮤니티 수정</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <script src="${pageContext.request.contextPath}/smarteditor2/js/HuskyEZCreator.js"></script>
 </head>
 <body>
 
 <div class="community-form" style="max-width: 1000px; margin: 30px auto;">
-    <h2>✏ 리뷰 수정</h2>
+    <h2>✏ 커뮤니티 수정</h2>
 
     <form id="communityForm" action="${pageContext.request.contextPath}/community/update" method="post">
         <input type="hidden" name="cb_num" value="${community.cb_num}" />
@@ -22,12 +22,7 @@
         <!-- 제목 + 추천 -->
         <div style="margin-bottom: 10px;">
             제목:
-            <input type="text" name="cb_title" value="${community.cb_title}" required />
-<!--             <select name="cb_like" required> -->
-<!--                 <option value="">--선택--</option> -->
-<%--                 <option value="추천" ${community.cb_like == '추천' ? 'selected' : ''}>👍 추천</option> --%>
-<%--                 <option value="비추천" ${community.cb_like == '비추천' ? 'selected' : ''}>👎 비추천</option> --%>
-<!--             </select> -->
+            <input type="text" name="cb_title" value="${community.cb_title}"  size="140" required />
         </div>
 
         <!-- 내용 -->

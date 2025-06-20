@@ -57,6 +57,7 @@
         </c:if>
 
 		<c:set var="num" value="${pgn.total - (pgn.currentPage-1) * 10}"/>
+		
         <!-- 일반 글 -->
         <c:forEach var="community" items="${communityList}">
             <tr>
@@ -68,6 +69,13 @@
                         <c:when test="${community.cb_state == 1}">
                             <span style="color:red;">🚫 신고 처리된 게시글입니다.</span>
                         </c:when>
+                        
+                        
+                        <c:when test="${community.cb_state == 2}">
+   	 <span style="color: gray;">🗑️ 삭제된 게시글입니다</span>  <!-- 이거 필요한 부분인지 여쭤보기 -->
+   				 </c:when>
+                        
+                        
                         <c:otherwise>
                             <a href="${pageContext.request.contextPath}/community/view?cb_num=${community.cb_num}">
                                 ${community.cb_title}

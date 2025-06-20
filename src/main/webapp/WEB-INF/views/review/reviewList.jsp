@@ -40,13 +40,36 @@
         </thead>
         <tbody>
         
-       		<c:set var="num" value="${pgn.total - (pgn.currentPage-1) * 10}"/>
+        <!-- 추천 글 상단 고정 -->
+        <c:if test="${not empty topList}">
+            <c:forEach var="top" items="${topList}" varStatus="vs">
+                <tr>
+                    <td>${vs.index + 1}위 🔥</td>
+                    <td>
+                        <c:choose>
+              	              <c:when test="${top.rb_like eq '추천'}">👍 추천</c:when>
+              	             <c:when test="${top.rb_like eq '비추천'}">👎 비추천</c:when>
+              	             <c:otherwise>-</c:otherwise>
+             			  </c:choose>
+           			</td>           
+                    <td class="center">
+                        <a href="${pageContext.request.contextPath}/review/view?rb_num=${top.rb_num}">
+                            ${top.rb_title}
+                        </a>
+                    </td>
+                    <td>${top.id}</td>
+                    <td><fmt:formatDate value="${top.rb_date}" pattern="yyyy-MM-dd" /></td>
+                    <td>${top.rb_readcount}</td>
+                </tr>
+            </c:forEach>
+        </c:if>
+
+		    <c:set var="num" value="${pgn.total - (pgn.currentPage-1) * 10}"/>        
+        	<!-- 일반 글 -->
             <c:forEach var="review" items="${reviewList}">
                 <tr>
                     <td>${num}
-                    
                     	<c:set var="num" value="${num-1}"/>
-                    
                     </td>
                     <td>
                         <c:choose>
@@ -56,24 +79,25 @@
              			           </c:choose>
            						         </td>
                     
-                    
            							        <td class="center">
-   													 <c:choose>
-    									    <c:when test="${review.rb_state == 1}">
+           							        
+   									 <c:choose>
+    									 <c:when test="${review.rb_state == 1}">
      						       <span style="color: red;">🚨 신고 처리된 게시글입니다</span>
    										     </c:when>
-    								    <c:when test="${review.rb_state == 2}">
-   								         <span style="color: gray;">🗑️ 삭제된 게시글입니다</span>
-   													     </c:when>
-  												      <c:otherwise>
+   										     
+   										     
+    			 <c:when test="${review.rb_state == 2}">
+   	 <span style="color: gray;">🗑️ 삭제된 게시글입니다</span>  <!-- 이거 필요한 부분인지 여쭤보기 -->
+   				 </c:when>
+   				 
+  							<c:otherwise>
          			   <a href="${pageContext.request.contextPath}/review/view?rb_num=${review.rb_num}">
           							      ${review.rb_title}
-       									     </a>
+       						</a>
      						   </c:otherwise>
-  									  </c:choose>
-											</td>
-
-                                     
+  							 </c:choose>
+							</td>
                     <td>${review.id}</td>
                     <td><fmt:formatDate value="${review.rb_date}" pattern="yyyy-MM-dd" /></td>
                     <td>${review.rb_readcount}</td>

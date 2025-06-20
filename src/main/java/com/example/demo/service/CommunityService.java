@@ -65,10 +65,12 @@ public class CommunityService {
 		return communityMapper.replyupdate(reply);
 	}
 	
+	//글 추천수 4개 출력
 	public List<Community> getTopRecommended() {
 	    return communityMapper.getTopRecommended();
 	}
 	
+	//글 추천 추가
 	public boolean insertLike(CommunityLike like) {
 	    CommunityLike existing = communityMapper.checkAlreadyLiked(like);
 	    if (existing == null) {
@@ -77,6 +79,7 @@ public class CommunityService {
 	    return false;
 	}
 	
+	//글 추천한거 가져오기
 	public int getLikeCount(int cb_num) {
 	    return communityMapper.getLikeCount(cb_num);
 	}

@@ -51,7 +51,8 @@
          	<br>글번호: ${review.rb_num}<br>
             조회수: ${review.rb_readcount}<br>
             날짜: <fmt:formatDate value="${review.rb_date}" pattern="yyyy-MM-dd" /><br>
-            작성자: ${review.id}
+            작성자: ${review.id}<br>
+            👍 추천 수: ${likeCount}
         </div>
     </div>
 
@@ -78,9 +79,20 @@
                 </button>
             </form>
         </c:if>
+        
         <a href="${pageContext.request.contextPath}/review/list"
            style="margin: 0 5px; padding: 8px 14px; background-color: #666; color: white; text-decoration: none;">글목록</a>
-    </div>
+   		 </div>
+   		 
+   		 <!-- 글 추천하기 -->
+    <c:if test="${not empty sessionScope.loginMember}">
+    <form action="${pageContext.request.contextPath}/review/like" method="post" style="margin-top: 10px;">
+        <input type="hidden" name="rb_num" value="${review.rb_num}" />
+        <button type="submit">👍 추천하기</button>
+    </form>
+</c:if>
+   		 
+   		 
 
     <!-- 댓글 영역 -->
 <div style="background: #f5f5f5; padding: 20px; border-radius: 8px;">
@@ -124,7 +136,8 @@
                 <!-- 댓글 버튼 영역 (로그인 사용자 == 댓글 작성자일 경우만) -->
                 <c:if test="${reply.id eq sessionScope.loginMember.id}">
                     <div style="display: flex; gap: 8px;"  id="div_${reply.rbr_num }"   >
-                        <!-- 수정 폼으로 이동 -->
+                    
+                        <!-- 댓글 수정 폼으로 이동 -->
                         <form>
                             <input type="hidden" name="rbr_num" value="${reply.rbr_num}" />
                             <input type="hidden" name="rb_num" value="${review.rb_num}" />
@@ -135,7 +148,7 @@
                             </button>
                         </form>
 
-                        <!-- 삭제 -->
+                        <!-- 댓글 삭제 -->
                         <form method="get" action="${pageContext.request.contextPath}/review/reply/delete"
                               onsubmit="return confirm('댓글을 삭제하시겠습니까?');">
                             <input type="hidden" name="rbr_num" value="${reply.rbr_num}" />

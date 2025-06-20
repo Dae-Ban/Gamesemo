@@ -29,7 +29,7 @@
     <form id="reviewForm" action="${pageContext.request.contextPath}/review/insert" method="post" enctype="multipart/form-data">
         <div class="form-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
             <label for="rb_title" style="font-weight: bold; width: 30px;">제목</label>
-            <input type="text" name="rb_title" id="rb_title" required style="flex: 1; padding: 5px;" autocomplete="off">
+            <input type="text" name="rb_title" id="rb_title" required maxlength="50"     style="flex: 1; padding: 5px;" autocomplete="off">
             <select name="rb_like" style="width: 100px; padding: 5px;" required>
                 <option value="">--선택--</option>
                 <option value="추천">👍 추천</option>

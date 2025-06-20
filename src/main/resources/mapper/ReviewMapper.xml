@@ -15,8 +15,8 @@
         <result property="rb_state" column="rb_state"/>
         <result property="rb_like" column="rb_like"/>
     </resultMap>
-    
-    <!-- 댓글 목록 매핑 -->
+
+    <!-- 댓글 매핑 -->
     <resultMap id="replyResultMap" type="com.example.demo.model.ReviewReply">
         <result property="rbr_num" column="RBR_NUM"/>
         <result property="rb_num" column="RB_NUM"/>
@@ -26,157 +26,56 @@
         <result property="rbr_state" column="RBR_STATE"/>
     </resultMap>
 
-   <!--  총 게시글 수 -->
-<!--     <select id="getCount" parameterType="com.example.demo.model.Review" resultType="int"> -->
-<!--         SELECT COUNT(*) FROM REVIEW_BOARD -->
-<!--         <where> -->
-<!--             rb_state = 0 -->
-<!--             <choose> -->
-<!--                 <when test="search == 'rb_title'"> -->
-<!--                     AND rb_title LIKE '%' || #{keyword} || '%' -->
-<!--                 </when> -->
-<!--                 <when test="search == 'id'"> -->
-<!--                     AND id LIKE '%' || #{keyword} || '%' -->
-<!--                 </when> -->
-<!--                 <when test="search == 'all'"> -->
-<!--                     AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%') -->
-<!--                 </when> -->
-<!--                 <when test="search == 'rb_state_recommend'"> -->
-<!--                     AND rb_like = '추천' -->
-<!--                 </when> -->
-<!--             </choose> -->
-<!--         </where> -->
-<!--     </select> -->
-    
-    
-    
-    <!--  총 게시글 수 -->
-     <select id="getCount" parameterType="com.example.demo.model.Review" resultType="int">
-    SELECT COUNT(*) FROM REVIEW_BOARD
-    <where>
-        rb_state != 2
-        <choose>
-            <when test="search == 'rb_title'">
-                AND rb_title LIKE '%' || #{keyword} || '%'
-            </when>
-            <when test="search == 'id'">
-                AND id LIKE '%' || #{keyword} || '%'
-            </when>
-            <when test="search == 'all'">
-                AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%')
-            </when>
-            <when test="search == 'rb_state_recommend'">
-                AND rb_like = '추천'
-            </when>
-        </choose>
-    </where>
-</select>
+    <!-- 게시글 카운트 -->
+    <select id="getCount" parameterType="com.example.demo.model.Review" resultType="int">
+        SELECT COUNT(*) FROM REVIEW_BOARD
+        <where>
+            rb_state != 2
+            <choose>
+                <when test="search == 'rb_title'">
+                    AND rb_title LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="search == 'id'">
+                    AND id LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="search == 'all'">
+                    AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%')
+                </when>
+                <when test="search == 'rb_state_recommend'">
+                    AND rb_like = '추천'
+                </when>
+            </choose>
+        </where>
+    </select>
 
-    
-    
-    
-    
-    
-    
-    
     <!-- 페이징 목록 -->
-<!--     <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="reviewResult"> -->
-<!--         SELECT * FROM ( -->
-<!--             SELECT rownum rnum, a.* FROM ( -->
-<!--                 SELECT * FROM REVIEW_BOARD -->
-<!--                 <where> -->
-<!--                     rb_state = 0 -->
-<!--                     <choose> -->
-<!--                         <when test="search == 'rb_title'"> -->
-<!--                             AND rb_title LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-<!--                         <when test="search == 'id'"> -->
-<!--                             AND id LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-<!--                         <when test="search == 'all'"> -->
-<!--                             AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%') -->
-<!--                         </when> -->
-<!--                         <when test="search == 'rb_state_recommend'"> -->
-<!--                             AND rb_like = '추천' -->
-<!--                         </when> -->
-<!--                     </choose> -->
-<!--                 </where> -->
-<!--                 ORDER BY rb_num DESC -->
-<!--             ) a -->
-<!--             WHERE rownum &lt;= #{endRow} -->
-<!--         ) -->
-<!--         WHERE rnum &gt;= #{startRow} -->
-<!--     </select> -->
-    
-    
-    
-    
-    <!-- 페이징 목록 -->
-   <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="reviewResult">
-    SELECT * FROM (
-        SELECT rownum rnum, a.* FROM (
-            SELECT * FROM REVIEW_BOARD
-            <where>
-                rb_state != 2
-                <choose>
-                    <when test="search == 'rb_title'">
-                        AND rb_title LIKE '%' || #{keyword} || '%'
-                    </when>
-                    <when test="search == 'id'">
-                        AND id LIKE '%' || #{keyword} || '%'
-                    </when>
-                    <when test="search == 'all'">
-                        AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%')
-                    </when>
-                    <when test="search == 'rb_state_recommend'">
-                        AND rb_like = '추천'
-                    </when>
-                </choose>
-            </where>
-            ORDER BY rb_num DESC
-        ) a
-        WHERE rownum &lt;= #{endRow}
-    )
-    WHERE rnum &gt;= #{startRow}
-</select>
-
-
-    
-    
-    
-    
-    
-    
-
-<!--     페이징 목록 -->
-<!--     <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="reviewResult"> -->
-<!--         SELECT * FROM ( -->
-<!--             SELECT rownum rnum, a.* FROM ( -->
-<!--                 SELECT * FROM REVIEW_BOARD -->
-<!--                 <where> -->
-<!--                     rb_state = 0 -->
-<!--                     <choose> -->
-<!--                         <when test="search == 'rb_title'"> -->
-<!--                             AND rb_title LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-<!--                         <when test="search == 'id'"> -->
-<!--                             AND id LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-<!--                         <when test="search == 'all'"> -->
-<!--                             AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%') -->
-<!--                         </when> -->
-<!--                         <when test="search == 'rb_state_recommend'"> -->
-<!--                             AND rb_like = '추천' -->
-<!--                         </when> -->
-<!--                     </choose> -->
-<!--                 </where> -->
-<!--                 ORDER BY rb_num DESC -->
-<!--             ) a -->
-<!--             WHERE rownum &lt;= #{endRow} -->
-<!--         ) -->
-<!--         WHERE rnum &gt;= #{startRow} -->
-<!--     </select> -->
-
+    <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="reviewResult">
+        SELECT * FROM (
+            SELECT rownum rnum, a.* FROM (
+                SELECT * FROM REVIEW_BOARD
+                <where>
+                    rb_state != 2
+                    <choose>
+                        <when test="search == 'rb_title'">
+                            AND rb_title LIKE '%' || #{keyword} || '%'
+                        </when>
+                        <when test="search == 'id'">
+                            AND id LIKE '%' || #{keyword} || '%'
+                        </when>
+                        <when test="search == 'all'">
+                            AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%')
+                        </when>
+                        <when test="search == 'rb_state_recommend'">
+                            AND rb_like = '추천'
+                        </when>
+                    </choose>
+                </where>
+                ORDER BY rb_num DESC
+            ) a
+            WHERE rownum &lt;= #{endRow}
+        )
+        WHERE rnum &gt;= #{startRow}
+    </select>
 
     <!-- 상세보기 -->
     <select id="getReview" parameterType="int" resultMap="reviewResult">
@@ -221,52 +120,73 @@
     <!-- 댓글 등록 -->
     <insert id="insertReply" parameterType="replyBoard">
         INSERT INTO RB_REPLY (
-            RBR_NUM,
-            RB_NUM,
-            ID,
-            RBR_CONTENT,
-            RBR_DATE,
-            RBR_STATE
+            RBR_NUM, RB_NUM, ID, RBR_CONTENT, RBR_DATE, RBR_STATE
         ) VALUES (
-            rb_reply_seq.NEXTVAL,
-            #{rb_num},
-            #{id},
-            #{rbr_content},
-            SYSDATE,
-            #{rbr_state}
+            rb_reply_seq.NEXTVAL, #{rb_num}, #{id}, #{rbr_content}, SYSDATE, #{rbr_state}
         )
     </insert>
 
-    <!-- 댓글 목록 조회 -->
+    <!-- 댓글 목록 -->
     <select id="getReplyList" parameterType="int" resultMap="replyResultMap">
-        SELECT * FROM RB_REPLY
-        WHERE RB_NUM = #{rb_num} and rbr_state = 0
-        ORDER BY RBR_DATE DESC
+        SELECT * FROM RB_REPLY WHERE RB_NUM = #{rb_num} AND rbr_state = 0 ORDER BY RBR_DATE DESC
     </select>
-    
+
     <!-- 댓글 수정 -->
     <update id="replyupdate" parameterType="replyBoard">
-    	UPDATE RB_REPLY SET RBR_CONTENT=#{rbr_content}, rbr_date=sysdate 
-    	where rbr_num=#{rbr_num}    
+        UPDATE RB_REPLY
+        SET RBR_CONTENT = #{rbr_content}, rbr_date = SYSDATE
+        WHERE rbr_num = #{rbr_num}
     </update>
-    
 
     <!-- 댓글 삭제 -->
-    <delete id="deleteReply" parameterType="int">
-    	UPDATE RB_REPLY
+    <update id="deleteReply" parameterType="int">
+        UPDATE RB_REPLY
         SET rbr_state = 1
         WHERE rbr_num = #{rbr_num}
-    </delete>
-    
-    <!-- 신고 상태값 0일반, 1 신고, 2는 삭제 -->
+    </update>
+
+    <!-- 게시글 상태 변경 -->
     <update id="updateBoardState">
-    UPDATE REVIEW_BOARD
-    SET rb_state = #{state}
-    WHERE rb_num = #{rb_num}
-	</update>
-    
-    
+        UPDATE REVIEW_BOARD
+        SET rb_state = #{state}
+        WHERE rb_num = #{rb_num}
+    </update>
+
+    <!-- 글 추천 4개 리스트 -->
+    <select id="getTopRecommended" resultMap="reviewResult">
+        SELECT rb_num, id, rb_title,
+               DBMS_LOB.SUBSTR(rb_content, 4000, 1) AS rb_content,
+               rb_readcount, rb_date, rb_state, rb_like
+        FROM (
+            SELECT rb.rb_num, rb.id, rb.rb_title,
+                   DBMS_LOB.SUBSTR(rb.rb_content, 4000, 1) AS rb_content,
+                   rb.rb_readcount, rb.rb_date, rb.rb_state, rb.rb_like,
+                   COUNT(rl.rb_num) AS like_count
+            FROM REVIEW_BOARD rb
+            LEFT JOIN RB_LIKE rl ON rb.rb_num = rl.rb_num
+            WHERE rb.rb_state = 0
+            GROUP BY rb.rb_num, rb.id, rb.rb_title,
+                     DBMS_LOB.SUBSTR(rb.rb_content, 4000, 1),
+                     rb.rb_readcount, rb.rb_date, rb.rb_state, rb.rb_like
+            ORDER BY like_count DESC, rb.rb_readcount DESC
+        )
+        WHERE ROWNUM &lt;= 4
+    </select>
+
+    <!-- 추천 여부 체크 -->
+    <select id="checkAlreadyLiked" parameterType="reviewLike" resultType="reviewLike">
+        SELECT * FROM RB_LIKE WHERE id = #{id} AND rb_num = #{rb_num}
+    </select>
+
+    <!-- 추천 삽입 -->
+    <insert id="insertLike" parameterType="reviewLike">
+        INSERT INTO RB_LIKE(r_like, id, rb_num)
+        VALUES(rb_like_seq.NEXTVAL, #{id}, #{rb_num})
+    </insert>
+
+    <!-- 추천 개수 조회 -->
+    <select id="getLikeCount" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM RB_LIKE WHERE rb_num = #{rb_num}
+    </select>
 
 </mapper>
-
-

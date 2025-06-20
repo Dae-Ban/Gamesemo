@@ -30,7 +30,7 @@ public class ReviewController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("minjung2");    // 테스트용 기본값
+            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 걸기 
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -50,28 +50,31 @@ public class ReviewController {
         model.addAttribute("search", review.getSearch());
         model.addAttribute("keyword", review.getKeyword());
         
-//        List<Review> topList = reviewService.getTopRecommended();
-//        model.addAttribute("topList", topList);
+        List<Review> topList = reviewService.getTopRecommended();
+        model.addAttribute("topList", topList);
 
         return "review/reviewList";
     }
 
     @GetMapping("/view")
     public String view(@RequestParam("rb_num") int rb_num, Model model, HttpSession session) {
-        ensureLoginSession(session); 
+//        ensureLoginSession(session); 
 
         reviewService.updateReadCount(rb_num);
         Review review = reviewService.getReview(rb_num);
         List<ReviewReply> replylist = reviewService.getReplyList(rb_num);
 
+        int likeCount = reviewService.getLikeCount(rb_num);
+        
         model.addAttribute("review", review);
         model.addAttribute("replylist", replylist);
+        model.addAttribute("likeCount", likeCount);
         return "review/reviewView";
     }
 
     @GetMapping("/form")
     public String form(Model model, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         model.addAttribute("review", new Review());
         return "review/reviewForm";
     }
@@ -89,7 +92,7 @@ public class ReviewController {
 
     @GetMapping("/updateform")
     public String updateForm(@RequestParam("rb_num") int rb_num, Model model, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         Review review = reviewService.getReview(rb_num);
         model.addAttribute("review", review);
         return "review/reviewUpdateForm";
@@ -97,7 +100,7 @@ public class ReviewController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Review review, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         reviewService.update(review);
         return "redirect:/review/view?rb_num=" + review.getRb_num();
     }
@@ -160,6 +163,26 @@ public class ReviewController {
             e.printStackTrace();
         }
     }
+    
+    
+    @PostMapping("/like")
+    public String like(@RequestParam("rb_num") int rb_num, HttpSession session, RedirectAttributes ra) {
+        Member loginMember = ensureLoginSession(session);
+        ReviewLike like = new ReviewLike();
+//      like.setId(loginMember.getId());
+        like.setId("minjung2");
+        like.setRb_num(rb_num);
+
+        boolean isFirst = reviewService.insertLike(like);
+        if (isFirst) {
+            ra.addFlashAttribute("msg", "추천 완료!");
+        } else {
+            ra.addFlashAttribute("msg", "이미 추천한 글입니다.");
+        }
+
+        ra.addAttribute("rb_num", rb_num);
+        return "redirect:/review/view";
+    }
 
     // ---------------------------------------------
     // 아래부터 댓글 관련 메서드 (추가된 부분)
@@ -168,6 +191,7 @@ public class ReviewController {
     @PostMapping("/reply/insert")
     public String insertReply(@ModelAttribute ReviewReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
+//      reply.setId(loginMember.getId());
         reply.setId("minjung2");
 
         int result = reviewService.insertReply(reply);

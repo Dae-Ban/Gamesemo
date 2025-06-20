@@ -16,6 +16,15 @@
 </head>
 <body>
 
+
+<c:if test="${not empty msg}">
+    <script>
+        alert('${msg}');
+    </script>
+</c:if>
+
+
+
 <c:if test="${empty sessionScope.loginMember}">
     <script>
         alert("로그인 후 이용 가능합니다.");
@@ -29,7 +38,7 @@
     <form id="communityForm" action="${pageContext.request.contextPath}/community/insert" method="post" enctype="multipart/form-data">
         <div class="form-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
             <label for="cb_title" style="font-weight: bold; width: 30px;">제목</label>
-            <input type="text" name="cb_title" id="cb_title" required style="flex: 1; padding: 5px;" autocomplete="off">
+            <input type="text" name="cb_title" id="cb_title" maxlength="50" required style="flex: 1; padding: 5px;" autocomplete="off">
 <!--             <select name="cb_like" style="width: 100px; padding: 5px;" required> -->
 <!--                 <option value="">--선택--</option> -->
 <!--                 <option value="추천">👍 추천</option> -->
