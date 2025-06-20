@@ -31,7 +31,7 @@ public class CommunityController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("minjung2");    // 테스트용 기본값
+//            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 막아야함
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -87,8 +87,8 @@ public class CommunityController {
     		HttpSession session,
     		RedirectAttributes rttr) {
         Member member = (Member) session.getAttribute("loginMember");
-//      community.setId(member.getId());
-        community.setId("minjung2");
+        community.setId(member.getId());
+//        community.setId("minjung2");
         community.setCb_state(0);
         
         communityService.insert(community);
@@ -173,8 +173,8 @@ public class CommunityController {
     public String like(@RequestParam("cb_num") int cb_num, HttpSession session, RedirectAttributes ra) {
         Member loginMember = ensureLoginSession(session);
         CommunityLike like = new CommunityLike();
-//      like.setId(loginMember.getId());
-        like.setId("minjung2");
+      like.setId(loginMember.getId());
+//        like.setId("minjung2");
         like.setCb_num(cb_num);
 
         boolean isFirst = communityService.insertLike(like);
@@ -195,8 +195,8 @@ public class CommunityController {
     @PostMapping("/reply/insert")
     public String insertReply(@ModelAttribute CommunityReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
-//      reply.setId(loginMember.getId());
-        reply.setId("minjung2");
+      reply.setId(loginMember.getId());
+//        reply.setId("minjung2");
 
         int result = communityService.insertReply(reply);
         if(result==1) System.out.println("댓글 작성 성공");

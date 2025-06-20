@@ -30,7 +30,7 @@ public class ReviewController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 걸기 
+//            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 걸기 
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -82,8 +82,8 @@ public class ReviewController {
     @PostMapping("/insert")
     public String insert(@ModelAttribute Review review, HttpSession session) {
         Member member = (Member) session.getAttribute("loginMember");
-//      review.setId(member.getId());
-        review.setId("minjung2");
+        review.setId(member.getId());
+//        review.setId("minjung2");
         review.setRb_state(0);
 
         reviewService.insert(review);
@@ -169,8 +169,8 @@ public class ReviewController {
     public String like(@RequestParam("rb_num") int rb_num, HttpSession session, RedirectAttributes ra) {
         Member loginMember = ensureLoginSession(session);
         ReviewLike like = new ReviewLike();
-//      like.setId(loginMember.getId());
-        like.setId("minjung2");
+      like.setId(loginMember.getId());
+//        like.setId("minjung2");
         like.setRb_num(rb_num);
 
         boolean isFirst = reviewService.insertLike(like);
@@ -191,8 +191,8 @@ public class ReviewController {
     @PostMapping("/reply/insert")
     public String insertReply(@ModelAttribute ReviewReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
-//      reply.setId(loginMember.getId());
-        reply.setId("minjung2");
+      reply.setId(loginMember.getId());
+//        reply.setId("minjung2");
 
         int result = reviewService.insertReply(reply);
         if(result==1) System.out.println("댓글 작성 성공");
