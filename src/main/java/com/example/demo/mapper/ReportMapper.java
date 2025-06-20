@@ -10,10 +10,13 @@ import com.example.demo.model.Community;
 
 public interface ReportMapper {
     
-	List<ReportDTO> selectPagedReportList( @Param("startRow") int startRow,
-		    @Param("endRow") int endRow);
+	List<ReportDTO> getPagedReportList(@Param("type") String type,
+            @Param("keyword") String keyword,
+            @Param("startRow") int startRow,
+            @Param("endRow") int endRow);
     
-	int countReportTotal();
+	int getTotalReportCount(@Param("type") String type,
+            @Param("keyword") String keyword);
     
 	ReportDTO selectReportById(int rpNum);
     

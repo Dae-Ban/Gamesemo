@@ -16,14 +16,12 @@ public class AdminReportService {
     @Autowired
     private ReportMapper reportMapper;
 
-    // 페이지 처리
-    public List<ReportDTO> getPagedReportList(int startRow, int endRow) {
-        return reportMapper.selectPagedReportList(startRow, endRow);
+    public List<ReportDTO> getPagedReportList(String type, String keyword, int startRow, int endRow) {
+        return reportMapper.getPagedReportList(type, keyword, startRow, endRow);
     }
 
-    // 총 갯수
-    public int getTotalReportCount() {
-        return reportMapper.countReportTotal();
+    public int getTotalReportCount(String type, String keyword) {
+        return reportMapper.getTotalReportCount(type, keyword);
     }
 
     // 상세 조회

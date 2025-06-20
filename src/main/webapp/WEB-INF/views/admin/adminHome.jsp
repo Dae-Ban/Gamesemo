@@ -23,6 +23,9 @@
     <div class="menu-box">
       <a href="/admin/adminAnno">공지사항관리</a>
     </div>
+    <div class="menu-box">
+      <a href="">게임 데이터</a>
+    </div>
      <div class="menu-box">
     <a href="/admin/logout">로그아웃</a>
     </div>

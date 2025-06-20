@@ -1,4 +1,4 @@
-console.log("🟢 platForm.js 실행 시작됨");
+console.log("🟢 mainButton.js 실행 시작됨");
 
 if (typeof GameList === "undefined") {
   console.error("❌ GameList가 정의되지 않았습니다. gameList.js를 먼저 로드하세요.");
@@ -15,7 +15,8 @@ function renderGames(data, containerId) {
     container.innerHTML += `
       <div class="game-row">
         <a href="/game/${game.giNum}" class="game-item">
-          <img src="${game.giThumb}" alt="${game.giTitle}" class="game-thumb" />
+          <img src="${game.giThumb}" alt="${game.giTitle}" class="game-thumb"
+		  onerror="this.onerror=null; this.src='/images/icons/noThumb.png';" />
           <div class="game-info">
             <div class="game-title">${game.giTitle}</div>
             <div class="game-price">

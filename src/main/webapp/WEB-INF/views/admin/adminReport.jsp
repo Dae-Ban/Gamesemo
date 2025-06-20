@@ -25,11 +25,25 @@
     <a href="/admin/logout">로그아웃</a>
     </div>
   </div>
+  
+  <!-- 검색 영역 -->
+  <div class="search-container">
+  <form method="get" action="<c:url value='/admin/adminReport' />" class="search-form">
+    <select name="type">
+      <option value="reporter" ${param.type == 'reporter' ? 'selected' : ''}>신고자 ID</option>
+      <option value="table" ${param.type == 'table' ? 'selected' : ''}>게시판 종류</option>
+      <option value="status" ${param.type == 'status' ? 'selected' : ''}>처리상태</option>
+    </select>
+    <input type="text" name="keyword" value="${param.keyword}" placeholder="검색어 입력" />
+    <button type="submit">검색</button>
+  </form>
+  </div>
+  
 
 <table class="member-table">
     <tr>
       <th>번호</th>
-      <th>신고자</th>
+      <th>신고자 ID</th>
       <th>게시판</th>
       <th>제목</th>
       <th>신고 사유</th>
@@ -90,13 +104,19 @@
 <!-- 페이징 -->
 <div class="pagination" style="text-align:center; margin-top: 20px;">
   <c:if test="${p.pageCount > 0}">
-    
+
     <!-- 처음 페이지로 이동 -->
-    <a href="?page=1">&lt;</a>
+    <a href="?page=1
+      <c:if test='${not empty param.type}'> &type=${param.type}</c:if>
+      <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+    ">&lt;</a>
 
     <!-- 이전 블럭으로 이동 -->
     <c:if test="${p.startPage > 1}">
-      <a href="?page=${p.startPage - 1}">[이전]</a>
+      <a href="?page=${p.startPage - 1}
+        <c:if test='${not empty param.type}'> &type=${param.type}</c:if>
+        <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+      ">[이전]</a>
     </c:if>
 
     <!-- 페이지 번호 출력 -->
@@ -106,22 +126,30 @@
           <button class="page-btn current">${i}</button>
         </c:when>
         <c:otherwise>
-          <a href="?page=${i}" class="page-btn">${i}</a>
+          <a href="?page=${i}
+            <c:if test='${not empty param.type}'> &type=${param.type}</c:if>
+            <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+          " class="page-btn">${i}</a>
         </c:otherwise>
       </c:choose>
     </c:forEach>
 
     <!-- 다음 블럭으로 이동 -->
     <c:if test="${p.endPage < p.pageCount}">
-      <a href="?page=${p.endPage + 1}">[다음]</a>
+      <a href="?page=${p.endPage + 1}
+        <c:if test='${not empty param.type}'> &type=${param.type}</c:if>
+        <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+      ">[다음]</a>
     </c:if>
 
     <!-- 마지막 페이지로 이동 -->
-    <a href="?page=${p.pageCount}">&gt;</a>
+    <a href="?page=${p.pageCount}
+      <c:if test='${not empty param.type}'> &type=${param.type}</c:if>
+      <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+    ">&gt;</a>
 
   </c:if>
 </div>
-
 
 </body>
 </html>

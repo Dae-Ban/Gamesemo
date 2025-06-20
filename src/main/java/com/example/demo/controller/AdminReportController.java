@@ -19,19 +19,26 @@ public class AdminReportController {
     private AdminReportService adminReportService;
 
     @GetMapping("/adminReport")
-    public String reportList(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+    public String reportList(Model model,
+                             @RequestParam(name = "page", defaultValue = "1") int page,
+                             @RequestParam(name = "type", required = false) String type,
+                             @RequestParam(name = "keyword", required = false) String keyword) {
+
         int limit = 10;
         int startRow = (page - 1) * limit + 1;
         int endRow = page * limit;
 
-        List<ReportDTO> list = adminReportService.getPagedReportList(startRow, endRow);
-        int total = adminReportService.getTotalReportCount();
+        // 검색 조건이 없으면 전체 조회, 있으면 검색 조회
+        List<ReportDTO> list = adminReportService.getPagedReportList(type, keyword, startRow, endRow);
+        int total = adminReportService.getTotalReportCount(type, keyword);
 
         AdminPagenation p = new AdminPagenation(total, page, limit, 5);
 
         model.addAttribute("reportList", list);
-        model.addAttribute("p", p); 
+        model.addAttribute("p", p);
         model.addAttribute("page", page);
+        model.addAttribute("type", type);
+        model.addAttribute("keyword", keyword);
 
         return "/admin/adminReport";
     }

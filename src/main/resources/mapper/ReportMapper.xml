@@ -5,39 +5,69 @@
 <mapper namespace="com.example.demo.mapper.ReportMapper">
 
   <!-- ✅ 신고 목록 (페이징) -->
-  <select id="selectPagedReportList" resultMap="reportResultMap">
-    SELECT * FROM (
-      SELECT inner_query.*, ROWNUM rn
-      FROM (
-        SELECT 
-          R.RP_NUM,
-          R.ID,
-          R.RP_REASON,
-          R.RP_DATE,
-          R.RP_TABLE,
-          R.BOARD_NUM,
-          R.RP_STATUS,
-          CASE 
-            WHEN LOWER(R.RP_TABLE) = 'community_board' THEN C.CB_TITLE
-            WHEN LOWER(R.RP_TABLE) = 'review_board' THEN V.RB_TITLE
-            ELSE '알 수 없음'
-          END AS POSTTITLE
-        FROM REPORT R
-        LEFT JOIN COMMUNITY_BOARD C 
-          ON LOWER(R.RP_TABLE) = 'community_board' AND R.BOARD_NUM = C.CB_NUM
-        LEFT JOIN REVIEW_BOARD V 
-          ON LOWER(R.RP_TABLE) = 'review_board' AND R.BOARD_NUM = V.RB_NUM
-        ORDER BY R.RP_DATE DESC
-      ) inner_query
-      WHERE ROWNUM &lt;= #{endRow}
-    )
-    WHERE rn &gt;= #{startRow}
-  </select>
-
+<select id="getPagedReportList" resultMap="reportResultMap">
+  SELECT * FROM (
+    SELECT inner_query.*, ROWNUM rn
+    FROM (
+      SELECT 
+        R.RP_NUM,
+        R.ID,
+        R.RP_REASON,
+        R.RP_DATE,
+        R.RP_TABLE,
+        R.BOARD_NUM,
+        R.RP_STATUS,
+        CASE 
+          WHEN LOWER(R.RP_TABLE) = 'community_board' THEN C.CB_TITLE
+          WHEN LOWER(R.RP_TABLE) = 'review_board' THEN V.RB_TITLE
+          ELSE '알 수 없음'
+        END AS POSTTITLE
+      FROM REPORT R
+      LEFT JOIN COMMUNITY_BOARD C 
+        ON LOWER(R.RP_TABLE) = 'community_board' AND R.BOARD_NUM = C.CB_NUM
+      LEFT JOIN REVIEW_BOARD V 
+        ON LOWER(R.RP_TABLE) = 'review_board' AND R.BOARD_NUM = V.RB_NUM
+      <where>
+        <if test="type != null and keyword != null and keyword != ''">
+          <choose>
+            <when test="type == 'reporter'">
+              LOWER(R.ID) LIKE '%' || LOWER(#{keyword}) || '%'
+            </when>
+            <when test="type == 'table'">
+              LOWER(R.RP_TABLE) LIKE '%' || LOWER(#{keyword}) || '%'
+            </when>
+            <when test="type == 'status'">
+              R.RP_STATUS = #{keyword}
+            </when>
+          </choose>
+        </if>
+      </where>
+      ORDER BY R.RP_DATE DESC
+    ) inner_query
+    WHERE ROWNUM &lt;= #{endRow}
+  )
+  WHERE rn &gt;= #{startRow}
+</select>
   <!-- ✅ 신고 총 개수 -->
-  <select id="countReportTotal" resultType="int">
-    SELECT COUNT(*) FROM REPORT
-  </select>
+ <select id="getTotalReportCount" resultType="int">
+  SELECT COUNT(*)
+  FROM REPORT R
+  <where>
+    <if test="type != null and keyword != null and keyword != ''">
+      <choose>
+        <when test="type == 'reporter'">
+          LOWER(R.ID) LIKE '%' || LOWER(#{keyword}) || '%'
+        </when>
+        <when test="type == 'table'">
+          LOWER(R.RP_TABLE) LIKE '%' || LOWER(#{keyword}) || '%'
+        </when>
+        <when test="type == 'status'">
+          R.RP_STATUS = #{keyword}
+        </when>
+      </choose>
+    </if>
+  </where>
+</select>
 
   <!-- ✅ 신고 상세 조회 -->
   <select id="selectReportById" resultType="com.example.demo.model.ReportDTO">

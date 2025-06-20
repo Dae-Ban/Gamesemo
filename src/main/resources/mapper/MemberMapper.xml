@@ -3,5 +3,12 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.MemberMapper">
-
+    <select id="findById" parameterType="string" resultType="member">
+        SELECT *
+        FROM MEMBER
+        WHERE ID = #{id}
+    </select>
+       <select id="findBySocialIdAndPlatform" resultType="member">
+        SELECT * FROM MEMBER WHERE SOCIAL_ID = #{socialId} AND SOCIAL_PLATFORM = #{platform}
+    </select>
 </mapper>

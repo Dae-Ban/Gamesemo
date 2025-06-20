@@ -13,7 +13,7 @@
 <h2 style="text-align: center;">신고 상세</h2>
 <div class="form-container">
 <table class="form-table">
-  <tr><th>신고자</th><td>${report.id}</td></tr>
+  <tr><th>신고자 ID</th><td>${report.id}</td></tr>
   <tr><th>신고 사유</th><td>${report.rpReason}</td></tr>
   <tr><th>게시판</th><td>${report.rpTable}</td></tr>
   <tr><th>신고일</th><td>${report.rpDate}</td></tr>
@@ -56,7 +56,7 @@
 </tr>
 
 <tr>
-  <th>작성자</th>
+  <th>작성자 ID</th>
   <td>${post.id}</td>
 </tr>
 
