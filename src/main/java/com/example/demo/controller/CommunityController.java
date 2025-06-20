@@ -31,7 +31,7 @@ public class CommunityController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 막아야함
+//            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 막아야함
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;

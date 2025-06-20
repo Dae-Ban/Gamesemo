@@ -38,7 +38,7 @@ public class ReportController {
     public String reportForm(@RequestParam("rp_table") String rp_table,
                              @RequestParam("board_num") int board_num,
                              Model model, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         model.addAttribute("rp_table", rp_table);
         model.addAttribute("board_num", board_num);
         return "report/reportForm";
