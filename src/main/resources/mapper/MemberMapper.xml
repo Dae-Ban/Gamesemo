@@ -3,6 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.MemberMapper">
+
 	<select id="selectAllEmailSubscribers"
 		resultType="com.example.demo.model.Member">
 		SELECT * FROM MEMBER WHERE EMAIL_AD = 'Y'
@@ -40,10 +41,10 @@
 		#{email}
 	</select>
 
-	<select id="findById" parameterType="String"
-		resultType="com.example.demo.model.Member">
-		SELECT * FROM member WHERE id = #{id}
-	</select>
+	<!-- <select id="findById" parameterType="String" -->
+	<!-- resultType="com.example.demo.model.Member"> -->
+	<!-- SELECT * FROM member WHERE id = #{id} -->
+	<!-- </select> -->
 
 	<!-- (1) 이메일 중복 확인 -->
 	<select id="selectByEmailForRegister" parameterType="string"
@@ -138,7 +139,7 @@
 		SELECT * FROM MEMBER WHERE ID = #{id} AND PW = #{pw}
 	</select>
 
-	<!-- 영교님 부분 -->
+	<!-- !!!!!!!!!!!!!!!!!!!! 영교님 부분 !!!!!!!!!!!!!!!!!!!!!! -->
 
 	<select id="login" parameterType="String" resultType="member">
 		SELECT *
@@ -147,12 +148,33 @@
 	</select>
 
 	<select id="findBySocialIdAndPlatform" resultType="member">
-		SELECT * FROM MEMBER WHERE SOCIAL_ID = #{socialId} AND SOCIAL_PLATFORM =
+		SELECT * FROM
+		MEMBER WHERE SOCIAL_ID = #{socialId} AND SOCIAL_PLATFORM =
 		#{platform}
 	</select>
 
 
 
+	<select id="findById" parameterType="string" resultType="member">
+		SELECT *
+		FROM MEMBER
+		WHERE ID = #{id}
+	</select>
+
+	<insert id="insert" parameterType="member">
+		INSERT INTO MEMBER
+		(ID, NAME,
+		NICKNAME, PW, BIRTH_DATE, EMAIL_ID, EMAIL_DOMAIN,
+		SOCIAL_PLATFORM,
+		SOCIAL_ID, PHONE, GENDER, JOIN_DATE, STATE,
+		EMAIL_AD, EMAIL_VERIFIED)
+		VALUES
+		(#{id}, #{name}, #{nickname}, #{pw, jdbcType=VARCHAR},
+		#{birthDate},
+		#{emailId}, #{emailDomain}, #{socialPlatform},
+		#{socialId}, #{phone},
+		#{gender}, SYSDATE, #{state}, #{emailAd},
+		#{emailVerified})
+	</insert>
+
 </mapper>
-
-

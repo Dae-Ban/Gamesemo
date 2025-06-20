@@ -37,13 +37,11 @@ public class GameController {
 	public String gameContent(@RequestParam("gnum") int gnum,HttpSession session, Model model) {
 		  // 1) 같은 G_NUM 으로 모든 플랫폼 정보 조회
 	    List<GameInfo> platformList = gameInfoService.getGameInfosByGnum(gnum);
-	    System.out.println("platformList: "+ platformList);
 	    
 	    
 	    if (platformList.isEmpty()) {
 	        return "error/404";
 	    }
-	    System.out.println("platformList: "+ platformList);
 	    // 2) 대표 게임 정보 (첫 번째) 
 	    GameInfo game = platformList.get(0);
 
@@ -57,17 +55,21 @@ public class GameController {
 	    // 4) 유튜브 리뷰 영상 
 	    List<YouTubeVideo> reviewVideos;
 	    
-	    if (false) { // 테스트용 조건문: 항상 더미 데이터 사용
-	        reviewVideos = List.of(
-	            new YouTubeVideo("test1", "1", "relevance"),
-	            new YouTubeVideo("test2", "2", "relevance"),
-	            new YouTubeVideo("test3", "3", "relevance"),
-	            new YouTubeVideo("test4", "4", "relevance"),
-	            new YouTubeVideo("test5", "5", "relevance")
-	        );
-	    }else {
-	    	reviewVideos = youtubeVideoService.getOrFetchReviewVideos(gnum, game.getGiTitle() + " 리뷰");
-	    }
+	    //테스트 용도
+//	    if (false) { 
+//	        reviewVideos = List.of(
+//	            new YouTubeVideo("test1", "1", "relevance"),
+//	            new YouTubeVideo("test2", "2", "relevance"),
+//	            new YouTubeVideo("test3", "3", "relevance"),
+//	            new YouTubeVideo("test4", "4", "relevance"),
+//	            new YouTubeVideo("test5", "5", "relevance")
+//	        );
+//	    }else {
+//	    	reviewVideos = youtubeVideoService.getOrFetchReviewVideos(gnum, game.getGiTitle() + " 리뷰");
+//	    }
+	    
+	    reviewVideos = youtubeVideoService.getOrFetchReviewVideos(gnum, game.getGiTitle() + " 리뷰");
+	    
 	    // 5) 모델에 담기
 	    model.addAttribute("wishlisted", wishlisted);
 	    model.addAttribute("platformList", platformList);
@@ -79,28 +81,28 @@ public class GameController {
 	    return "game/gameContent";
 	}
 	
-	@GetMapping("/game/detail/{gnum}")
-	public String showGameDetail(@PathVariable int gnum,
-	                             Model model,
-	                             HttpSession session,
-	                             HttpServletRequest request) {
-
-	    GameInfo game = gameInfoService.getGameById(gnum);
-	    List<GameInfo> platformList = gameInfoService.getPlatforms(gnum);
-//	    List<YouTubeVideo> reviewVideos = youtubeVideoService.getOrFetchReviewVideos(gnum, game.getGiTitle() + " 리뷰");
-	    List<YouTubeVideo> reviewVideos = youtubeVideoService.getReviewVideos(gnum);
-
-	    model.addAttribute("game", game);
-	    model.addAttribute("platformList", platformList);
-	    model.addAttribute("reviewVideos", reviewVideos);
-
-	    // 현재 URI를 세션에 저장 (로그인 후 redirect 용도)
-	    String uri = request.getRequestURI();
-	    String query = request.getQueryString();
-	    session.setAttribute("redirectAfterLogin", uri + (query != null ? "?" + query : ""));
-
-	    return "game/detail"; // JSP 파일 경로
-	}
+//	@GetMapping("/game/detail/{gnum}")
+//	public String showGameDetail(@PathVariable int gnum,
+//	                             Model model,
+//	                             HttpSession session,
+//	                             HttpServletRequest request) {
+//
+//	    GameInfo game = gameInfoService.getGameById(gnum);
+//	    List<GameInfo> platformList = gameInfoService.getPlatforms(gnum);
+////	    List<YouTubeVideo> reviewVideos = youtubeVideoService.getOrFetchReviewVideos(gnum, game.getGiTitle() + " 리뷰");
+//	    List<YouTubeVideo> reviewVideos = youtubeVideoService.getReviewVideos(gnum);
+//
+//	    model.addAttribute("game", game);
+//	    model.addAttribute("platformList", platformList);
+//	    model.addAttribute("reviewVideos", reviewVideos);
+//
+//	    // 현재 URI를 세션에 저장 (로그인 후 redirect 용도)
+//	    String uri = request.getRequestURI();
+//	    String query = request.getQueryString();
+//	    session.setAttribute("redirectAfterLogin", uri + (query != null ? "?" + query : ""));
+//
+//	    return "game/detail"; // JSP 파일 경로
+//	}
 	
 	
 	

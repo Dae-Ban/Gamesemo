@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,8 +24,10 @@ public class EmailService {
 			helper.setSubject("오늘의 게임 할인 소식🎮");
 			helper.setText(htmlContent, true);
 			helper.setFrom("2j1william@gmail.com");
-			ClassPathResource logoImage = new ClassPathResource("static/images/icons/logo.png");
-			helper.addInline("logoImage", logoImage);
+			helper.addInline("logoImage", new File("src/main/resources/static/images/icons/logo.png"));
+			helper.addInline("emailIcon", new File("src/main/resources/static/images/icons/email.png"));
+			helper.addInline("kakaoIcon", new File("src/main/resources/static/images/icons/kakao.png"));
+
 			mailSender.send(message);
 			System.out.println("이메일 전송 완료: " + to);
 		} catch (Exception e) {
@@ -99,8 +103,7 @@ public class EmailService {
 				+ "<div style='max-width: 500px; margin: auto; background-color: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>"
 				+ "<h2 style='text-align: center; color: #333;'>이메일 인증</h2>"
 				+ "<p style='text-align: center;'>아래 버튼을 클릭하면 인증이 완료됩니다.</p>"
-				+ "<div style='text-align: center; margin-top: 30px;'>" + "<a href='"
-				+ url 
+				+ "<div style='text-align: center; margin-top: 30px;'>" + "<a href='" + url
 				+ "' style='background-color: #000000; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;'>이메일 인증</a>"
 				+ "</div>" + "</div>" + "</body>" + "</html>";
 

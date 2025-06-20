@@ -15,9 +15,7 @@ public class MemberService {
 	@Autowired
 	MemberMapper memberMapper;
 	
-	public void insertMember(Member member) {
-		memberMapper.insertMember(member);
-	}
+	
 
 	public Member findByEmail(String email) {
 		return memberMapper.findByEmail(email);
@@ -47,13 +45,14 @@ public class MemberService {
 		}
 		return null;
 	}
-	public Member modalLogin(String id, String pw) {
-		Member dbMember = memberMapper.modalLogin(id,pw);
-		if(dbMember != null && passwordEncoder.matches(pw, dbMember.getPw())) {
-			return dbMember;
-		}
-		return null;
-	}
+	
+//	public Member modalLogin(member login) {
+//		Member dbMember = memberMapper.modalLogin(id,pw);
+//		if(dbMember != null && passwordEncoder.matches(pw, dbMember.getPw())) {
+//			return dbMember;
+//		}
+//		return null;
+//	}
 
 	public Member findBySocialIdAndPlatform(String socialId, String platform) {
 		return memberMapper.findBySocialIdAndPlatform(socialId, platform);
@@ -63,7 +62,10 @@ public class MemberService {
 		return memberMapper.findById(id);
 	}
 	
-
+	public void insertMember(Member member) {
+		memberMapper.insertMember(member);
+	}
+	
 
 	
 	

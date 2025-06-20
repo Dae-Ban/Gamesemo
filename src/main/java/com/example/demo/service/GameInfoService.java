@@ -20,7 +20,6 @@ public class GameInfoService {
 	}
 
 	public List<GameInfo> getGameInfosByGnum(int gnum) {
-		System.out.println("sssssssssssssssssssssssssssssssssssssssssssss");
 		return gameInfoMapper.getGameInfosByGnum(gnum);
 	}
 

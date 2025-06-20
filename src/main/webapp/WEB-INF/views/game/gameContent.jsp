@@ -276,6 +276,13 @@ body {
 	right: 0;
 	margin-right: -40px;
 }
+
+.wishlist-btn-full.wishlisted {
+  background-color: #1D1D1D;
+  color: #fff;
+  border: 1px solid #1D1D1D;
+}
+
 </style>
 </head>
 <body>
@@ -327,7 +334,7 @@ body {
 						<c:when test="${not empty loginUser}">
 							<c:choose>
 								<c:when test="${wishlisted}">
-									<button class="wishlist-btn-full"  onclick="showWishlistToast('이미 위시리스트에 추가되었습니다.')">✔️ 위시리스트에
+									<button class="wishlist-btn-full wishlisted"  onclick="showWishlistToast('이미 위시리스트에 추가되었습니다.')">✔️ 위시리스트에
 										추가됨</button>
 								</c:when>
 								<c:otherwise>
@@ -406,6 +413,8 @@ body {
 	<!-- Swiper JS -->
 	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 	<script>
+	
+// 유튜브 슬라이더 갯수 및 간격 영역
 $(function() {
 	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 	<script>
@@ -438,7 +447,7 @@ $(function() {
  				  document.getElementById("loginModal").style.display = "flex";
  			}
 
-		
+		//로그인 submit 영역		
  		$(document).on("submit", "#ajaxLoginForm", function (e) {
  			  e.preventDefault();
  			  const id = $(this).find("input[name='id']").val();
@@ -449,11 +458,15 @@ $(function() {
  				    const path = sessionStorage.getItem("redirectAfterLogin") || "/";
  				    // origin 은 프로토콜+호스트+포트를 포함합니다.
  				    window.location.href = window.location.origin + path;
+ 				   $('.wishlist-btn-full').addClass('logged-in');
  				  } else {
  				    alert("로그인 실패. 아이디와 비밀번호를 확인하세요.");
  				  }
  				});
  			});
+ 		
+ 		
+ 		//위시리스트 버튼 토스트 부분
  		function showWishlistToast(message) {
  		    const toast = document.getElementById('wishlist-toast');
  		    toast.textContent = message || "위시리스트에 추가되었습니다!";
@@ -475,7 +488,7 @@ $(function() {
  			        showWishlistToast("위시리스트에 추가되었습니다!");
  			        location.reload();
  			      } else if (response === "already_exists") {
- 			        showWishlistToast("이미 위시리스트에 추가되었습니다.");
+ 			        showWishlistToast("이미 위시리스트에 추가되어 있습니다.");
  			      } else if (response === "not_logged_in") {
  			        // 로그인 여부 재확인
  			        handleWishlistClick(gnum);
