@@ -81,29 +81,7 @@ public class GameController {
 	    return "game/gameContent";
 	}
 	
-//	@GetMapping("/game/detail/{gnum}")
-//	public String showGameDetail(@PathVariable int gnum,
-//	                             Model model,
-//	                             HttpSession session,
-//	                             HttpServletRequest request) {
-//
-//	    GameInfo game = gameInfoService.getGameById(gnum);
-//	    List<GameInfo> platformList = gameInfoService.getPlatforms(gnum);
-////	    List<YouTubeVideo> reviewVideos = youtubeVideoService.getOrFetchReviewVideos(gnum, game.getGiTitle() + " 리뷰");
-//	    List<YouTubeVideo> reviewVideos = youtubeVideoService.getReviewVideos(gnum);
-//
-//	    model.addAttribute("game", game);
-//	    model.addAttribute("platformList", platformList);
-//	    model.addAttribute("reviewVideos", reviewVideos);
-//
-//	    // 현재 URI를 세션에 저장 (로그인 후 redirect 용도)
-//	    String uri = request.getRequestURI();
-//	    String query = request.getQueryString();
-//	    session.setAttribute("redirectAfterLogin", uri + (query != null ? "?" + query : ""));
-//
-//	    return "game/detail"; // JSP 파일 경로
-//	}
-	
+
 	
 	
 	

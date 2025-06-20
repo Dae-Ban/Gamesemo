@@ -15,7 +15,7 @@ import com.example.demo.service.AnnouncementService;
 @Controller
 @RequestMapping("ann")
 public class AnnController {
-	
+	//
 	@Autowired
 	AnnouncementService annService;
 
