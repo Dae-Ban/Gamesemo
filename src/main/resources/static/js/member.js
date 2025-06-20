@@ -576,12 +576,13 @@ fetch("/verify/sendFindPwCode", {
   body: new URLSearchParams({ email })
 })
 
+// 재원 - 아이디 찾기 코드 유효성 검사 (시작)  
 //아이디 찾기
 function checkIdCode() { 
 	const code = document.getElementById("findIdCode").value.trim();
 		const email = document.getElementById("findIdEmail").value.trim();
 		const result = document.getElementById("idResult");
-
+		
 		fetch("/verify/verifyCodeForId", {
 			method: "POST",
 			headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -603,6 +604,8 @@ function checkIdCode() {
 				result.style.color = "red";
 			});
 }
+// 재원 - 아이디 찾기 코드 유효성 검사 (끝)
+ 
 // 비번찾기
 function sendPwCode() { 
 	const id = document.getElementById("findPwId").value.trim();
@@ -645,7 +648,7 @@ function sendPwCode() {
 		});
 }
 
-
+//재원 - 인증코드 유효성 검사 (시작) 
 function verifyCode() {
 	const email = document.getElementById("findPwEmail").value.trim();
 	const code = document.getElementById("findPwCode").value.trim();
@@ -674,6 +677,7 @@ function verifyCode() {
 			result.style.color = "red";
 		});
 }
+//재원 - 인증코드 유효성 검사 (끝) 
 
 function resetPassword() {
 	const userId = document.getElementById("findPwId").value.trim();
