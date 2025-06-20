@@ -58,15 +58,16 @@ function renderGameTable(data) {
 			// 썸네일
 			$tr.append(
 				$("<td>").addClass("game-thumb").append(
-					$("<img>").attr({
-						src: game.giThumb,
-						alt: game.giTitle,
-						loading: "lazy"
-					})
-						.on("error", function() {
+					$("<div>").addClass("thumb-box").append(
+						$("<img>").attr({
+							src: game.giThumb,
+							alt: game.giTitle,
+							loading: "lazy"
+						}).on("error", function() {
 							this.onerror = null;
-							$(this).attr("src", fallbackImg).addClass("no-thumb")
+							$(this).attr("src", fallbackImg).addClass("no-thumb");
 						})
+					)
 				)
 			);
 
@@ -130,7 +131,7 @@ function renderGameGrid(data) {
 						.attr("loading", "lazy")
 						.on("error", function() {
 							this.onerror = null;
-							$(this).attr("src", fallbackImg).addClass("no-thumb")
+							$(this).attr("src", fallbackImg).addClass("no-thumb-sm")
 						})
 				)
 			);
