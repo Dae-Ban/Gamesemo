@@ -7,7 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <title>커뮤니티 게시판</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+<%--     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"> --%>
 </head>
 <body>
 
@@ -55,10 +56,13 @@
             </c:forEach>
         </c:if>
 
+		<c:set var="num" value="${pgn.total - (pgn.currentPage-1) * 10}"/>
         <!-- 일반 글 -->
         <c:forEach var="community" items="${communityList}">
             <tr>
-                <td>${community.cb_num}</td>
+                <td>${num}
+					<c:set var="num" value="${num-1}"/>
+                </td>
                 <td class="center">
                     <c:choose>
                         <c:when test="${community.cb_state == 1}">
@@ -84,18 +88,47 @@
         </tbody>
     </table>
 
-    <!-- 페이징 -->
+
     <div class="pagenation">
-        <c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
-            <c:choose>
-                <c:when test="${i == pgn.currentPage}">
-                    <span class="page current">[${i}]</span>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/community/list?page=${i}&search=${search}&keyword=${keyword}" class="page">[${i}]</a>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
+	    <!-- 전체 목록 페이징 처리 -->
+    	<c:if test="${empty keyword}">
+				<c:if test="${pp.startPage > pp.pagePerBlk }">
+					<li><a href="${pageContext.request.contextPath}/community/list?page=${pp.startPage - 10}">이전</a></li>
+				</c:if>    
+        		<c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
+            		<c:choose>
+                		<c:when test="${i == pgn.currentPage}">
+                    		<span class="page current">[${i}]</span>
+                		</c:when>
+                		<c:otherwise>
+                    		<a href="${pageContext.request.contextPath}/community/list?page=${i}" class="page">[${i}]</a>
+                		</c:otherwise>
+            		</c:choose>
+        		</c:forEach>
+        		<c:if test="${pp.endPage < pp.totalPage}">
+					<li><a href="${pageContext.request.contextPath}/community/list?page=${pp.startPage + 10}">다음</a></li>
+				</c:if>
+			</c:if>
+			
+		<!-- 검색 목록 페이징 처리 -->
+    	<c:if test="${!empty keyword}">
+				<c:if test="${pp.startPage > pp.pagePerBlk }">
+					<li><a href="${pageContext.request.contextPath}/community/list?page=${pp.startPage - 10}&search=${search}&keyword=${keyword}">이전</a></li>
+				</c:if>    
+        		<c:forEach var="i" begin="${pgn.startPage}" end="${pgn.endPage}">
+            		<c:choose>
+                		<c:when test="${i == pgn.currentPage}">
+                    		<span class="page current">[${i}]</span>
+                		</c:when>
+                		<c:otherwise>
+                    		<a href="${pageContext.request.contextPath}/community/list?page=${i}&search=${search}&keyword=${keyword}" class="page">[${i}]</a>
+                		</c:otherwise>
+            		</c:choose>
+        		</c:forEach>
+        		<c:if test="${pp.endPage < pp.totalPage}">
+					<li><a href="${pageContext.request.contextPath}/community/list?page=${pp.startPage + 10}&search=${search}&keyword=${keyword}">다음</a></li>
+				</c:if>
+			</c:if>				        
     </div>
 
     <!-- 글쓰기 버튼 -->

@@ -406,13 +406,13 @@
 }
 
 /* 페이지네이션 */
-.pagination {
+.pagenation {
     text-align: center;
     margin-top: 15px;
 }
 .page {
     display: inline-block;
-    padding: 5px 10px;
+    padding: 1px 1px;
     margin: 0 2px;
     color: #333;
     text-decoration: none;

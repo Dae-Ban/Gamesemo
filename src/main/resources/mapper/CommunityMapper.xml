@@ -259,7 +259,7 @@
             LEFT JOIN CB_LIKE cl ON cb.cb_num = cl.cb_num
             WHERE cb.cb_state = 0
             GROUP BY cb.cb_num, cb.id, cb.cb_title, cb.cb_content, cb.cb_readcount, cb.cb_date, cb.cb_state
-            ORDER BY like_count DESC
+            ORDER BY like_count DESC, cb_readcount desc
         ) cb
     )
     WHERE ROWNUM &lt;= 4
