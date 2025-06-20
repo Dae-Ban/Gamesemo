@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.merger.GameDataMerger;
 import com.example.demo.scraper.SteamApi;
@@ -35,9 +36,18 @@ public class GameDataController {
 	}
 	
 	@GetMapping("/master")
-	public String updateDB() {
-		task.run();
-		return "DB 업데이트";
+	public ModelAndView masterButton() {
+		return new ModelAndView("game/gamedataMaster");
+	}
+	
+	@GetMapping("/master/update")
+	public boolean updateDB() {
+		try {
+			task.run();
+		} catch(Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 	@GetMapping("/marge" + "{target}")
