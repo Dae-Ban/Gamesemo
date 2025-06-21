@@ -43,6 +43,12 @@
 		SELECT COUNT(*) FROM member WHERE nickname = #{nickname}
 	</select>
 
+	<select id="findByEmail"
+		resultType="com.example.demo.model.Member">
+		SELECT * FROM member
+		WHERE email_id || '@' || email_domain =
+		#{email}
+	</select>
 
 	<!-- 이메일 중복 확인 -->
 	<select id="selectByEmailForRegister" parameterType="string"
@@ -58,7 +64,8 @@
 		SELECT *
 		FROM MEMBER
 		WHERE ID = #{id}
-		AND state IN (0, 2) <!-- 상태값 0,2 회원만 로그인 가능 -->
+		AND state IN (0, 2) <!-- 상태값 0,2 회원만 
+			로그인 가능 -->
 	</select>
 
 	<select id="findBySocialIdAndPlatform" resultType="member">
@@ -113,8 +120,8 @@
 		AND email_id || '@' ||
 		email_domain = #{email}
 	</select>
-	
-	<!--  아이디/비번찾기  -->
+
+	<!-- 아이디/비번찾기 -->
 	<select id="findById" resultType="com.example.demo.model.Member"
 		parameterType="String">
 		SELECT * FROM member WHERE id = #{id}

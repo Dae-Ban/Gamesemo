@@ -8,7 +8,7 @@
 	href="${pageContext.request.contextPath}/css/member.css">
 </head>
 <body>
-	<div class="container">
+	<div class="containerbox">
 		<h2 class="title">아이디 / 비밀번호 찾기</h2>
 		<div class="divider"></div>
 		<div class="tab-menu">
@@ -47,8 +47,7 @@
 			<p id="pwMessage" class="result-text"></p>
 
 			<div class="form-group" id="pwCodeGroup" style="display: none;">
-				<label for="findPwCode" >인증번호</label> 
-				<input type="text"
+				<label for="findPwCode">인증번호</label> <input type="text"
 					id="findPwCode" placeholder="인증번호 입력">
 			</div>
 
