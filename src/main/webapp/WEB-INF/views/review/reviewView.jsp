@@ -15,7 +15,7 @@
 			
 			var content = $('#'+rbr_num).text().trim();
  
-			$('#'+rbr_num).html("<textarea rows='3' cols='120' id='tt_"+rbr_num+"'>"+content+"</textarea>");
+			$('#'+rbr_num).html("<textarea rows='3' cols='120' maxlength='200' id='tt_"+rbr_num+"'>"+content+"</textarea>");
 			
 			$('#div_'+rbr_num).html("<input type='button' value='확인' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;'  onclick='confirmupdate("+rbr_num+")' >" +
 					                "<input type='button' value='취소' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;'>");   // 수정 -> 확인버튼

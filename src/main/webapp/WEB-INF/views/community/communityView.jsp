@@ -13,7 +13,7 @@
     <script>
 		function replyupdate(cb_num, cbr_num){	
 			var content = $('#'+cbr_num).text().trim();
-			$('#'+cbr_num).html("<textarea rows='3' cols='120' id='tt_"+cbr_num+"'>"+content+"</textarea>");
+			$('#'+cbr_num).html("<textarea rows='3' cols='120' maxlength='200' id='tt_"+cbr_num+"'>"+content+"</textarea>");
 			$('#div_'+cbr_num).html("<input type='button' value='확인' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;'  onclick='confirmupdate("+cbr_num+")' >" +
 					                "<input type='button' value='취소' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;'>");
 		}   
