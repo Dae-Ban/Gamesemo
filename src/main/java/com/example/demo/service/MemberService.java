@@ -103,7 +103,7 @@ public class MemberService {
 		}
 		return null;
 	}
-	
+
 	public Member findBySocialIdAndPlatform(String socialId, String platform) {
 		return memberMapper.findBySocialIdAndPlatform(socialId, platform);
 	}
@@ -113,9 +113,11 @@ public class MemberService {
 	}
 	
 	public List<Member> selectAllEmailSubscribers() {
+
 	      return memberMapper.selectAllEmailSubscribers();
 	   }
 	
 }
+
 
 

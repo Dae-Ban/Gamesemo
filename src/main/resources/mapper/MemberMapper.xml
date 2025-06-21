@@ -151,6 +151,12 @@
 		WHERE id = #{id}
 		AND state = 0
 	</update>
+	
+	<!-- 이메일 수신동의 한사람 명단 -->
+	<select id="selectAllEmailSubscribers"
+		resultType="com.example.demo.model.Member">
+		SELECT * FROM MEMBER WHERE EMAIL_AD = 'Y'
+	</select>
 
 
 </mapper>

@@ -1,4 +1,3 @@
-
 package com.example.demo.security;
 
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -64,9 +62,6 @@ public class SecurityConfig {
 	        StrictHttpFirewall firewall = new StrictHttpFirewall();
 	        // double slash 허용
 	        firewall.setAllowUrlEncodedDoubleSlash(true); // URL 인코딩된 // 허용 (%2F%2F)
-//	        firewall.setAllowBackSlash(true); // (필요한 경우만)
-//	        firewall.setAllowSemicolon(true); // (필요한 경우만)
-//	        firewall.setAllowUrlEncodedSlash(true); // %2F 허용 (선택)
 	        return firewall;
 	    }
 	 
@@ -74,4 +69,6 @@ public class SecurityConfig {
 	    public WebSecurityCustomizer webSecurityCustomizer(HttpFirewall firewall) {
 	        return web -> web.httpFirewall(firewall);
 	    }
+
 }
+
