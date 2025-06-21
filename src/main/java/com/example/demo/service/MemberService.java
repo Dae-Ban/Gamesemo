@@ -113,7 +113,11 @@ public class MemberService {
 	}
 	
 	public List<Member> selectAllEmailSubscribers() {
-		return memberMapper.selectAllEmailSubscribers();
-	}
+
+	      return memberMapper.selectAllEmailSubscribers();
+	   }
+	
 }
+
+
 
