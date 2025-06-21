@@ -39,8 +39,10 @@ public class CommunityController {
 
     @GetMapping("/list")
     public String list(@RequestParam(name = "page", defaultValue = "1") int page,
-                       Community community, Model model) {
-//    	ensureLoginSession(session);
+                       Community community, Model model,
+                       HttpSession session) {  //, HttpSession session 이거 불필요
+ //   	ensureLoginSession(session);   //이것도 주석 막아야함 
+    	
         int total = communityService.getCount(community);
         Pagenation pgn = new Pagenation(total, 10, page);
         pgn.setSearch(community.getSearch());
@@ -61,7 +63,7 @@ public class CommunityController {
 
     @GetMapping("/view")
     public String view(@RequestParam("cb_num") int cb_num, Model model, HttpSession session) {
- //       ensureLoginSession(session); 
+//        ensureLoginSession(session); 
 
         communityService.updateReadCount(cb_num);
         Community community = communityService.getCommunity(cb_num);
@@ -78,7 +80,7 @@ public class CommunityController {
 
     @GetMapping("/form")
     public String form(Model model, HttpSession session) {
-  //      ensureLoginSession(session);
+        ensureLoginSession(session);
         model.addAttribute("community", new Community());
         return "community/communityForm";
     }
@@ -88,6 +90,7 @@ public class CommunityController {
     		HttpSession session,
     		RedirectAttributes rttr) {
         Member member = (Member) session.getAttribute("loginMember");
+        
         community.setId(member.getId());
 //        community.setId("minjung2");
         community.setCb_state(0);
@@ -98,7 +101,7 @@ public class CommunityController {
 
     @GetMapping("/updateform")
     public String updateForm(@RequestParam("cb_num") int cb_num, Model model, HttpSession session) {
-//        ensureLoginSession(session);
+        ensureLoginSession(session);
         Community community = communityService.getCommunity(cb_num);
         model.addAttribute("community", community);
         return "community/communityUpdateForm";
@@ -106,7 +109,7 @@ public class CommunityController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Community community, HttpSession session) {
-//        ensureLoginSession(session);
+        ensureLoginSession(session);
         communityService.update(community);
         return "redirect:/community/view?cb_num=" + community.getCb_num();
     }
@@ -197,7 +200,7 @@ public class CommunityController {
     public String insertReply(@ModelAttribute CommunityReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
       reply.setId(loginMember.getId());
-//        reply.setId("minjung2");
+ //       reply.setId("minjung2");
 
         int result = communityService.insertReply(reply);
         if(result==1) System.out.println("댓글 작성 성공");

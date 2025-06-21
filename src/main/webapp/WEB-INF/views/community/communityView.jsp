@@ -15,13 +15,20 @@
 			var content = $('#'+cbr_num).text().trim();
 			$('#'+cbr_num).html("<textarea rows='3' cols='120' maxlength='200' id='tt_"+cbr_num+"'>"+content+"</textarea>");
 			$('#div_'+cbr_num).html("<input type='button' value='확인' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;'  onclick='confirmupdate("+cbr_num+")' >" +
-					                "<input type='button' value='취소' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;'>");
+			 "<input type='button' value='취소' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;' onclick='cancelUpdate("+cbr_num+")' >");   // 수정 -> 확인버튼
+
 		}   
 		
 		function confirmupdate(cbr_num){
 			var cbr_content = $('#tt_'+cbr_num).val();	
 			location.href="/community/reply/update?cb_num="+${community.cb_num}+"&cbr_num="+cbr_num+"&cbr_content="+cbr_content;
 		}
+		
+		function cancelUpdate(cbr_num) {
+			location.reload();
+		}
+
+
   
 		// 댓글 작성 유효성 검사
 		function check(){

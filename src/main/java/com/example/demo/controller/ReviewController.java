@@ -38,7 +38,7 @@ public class ReviewController {
 
     @GetMapping("/list")
     public String list(@RequestParam(name = "page", defaultValue = "1") int page,
-                       Review review, Model model, HttpSession session) {
+        Review review, Model model, HttpSession session) {  //, HttpSession session 이거 불필요
 //    	ensureLoginSession(session);
     	
         int total = reviewService.getCount(review);

@@ -18,8 +18,7 @@
 			$('#'+rbr_num).html("<textarea rows='3' cols='120' maxlength='200' id='tt_"+rbr_num+"'>"+content+"</textarea>");
 			
 			$('#div_'+rbr_num).html("<input type='button' value='확인' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;'  onclick='confirmupdate("+rbr_num+")' >" +
-					                "<input type='button' value='취소' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;'>");   // 수정 -> 확인버튼
-
+					"<input type='button' value='취소' style='background-color: #444; color: white; border: none; padding: 6px 12px; cursor: pointer;' onclick='cancelUpdate("+rbr_num+")' >");   // 수정 -> 확인버튼
 		}   
 		
 		function confirmupdate(rbr_num){
@@ -27,6 +26,11 @@
 			
 			location.href="/review/reply/update?rb_num="+${review.rb_num}+"&rbr_num="+rbr_num+"&rbr_content="+rbr_content;
 		}
+		
+		function cancelUpdate(rbr_num) {
+			location.reload();
+		}
+
 		
 		// 댓글 작성 유효성 검사
 		function check(){
