@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,9 +104,6 @@ public class MemberService {
 		return null;
 	}
 	
-
-
-	
 	public Member findBySocialIdAndPlatform(String socialId, String platform) {
 		return memberMapper.findBySocialIdAndPlatform(socialId, platform);
 	}
@@ -114,9 +112,10 @@ public class MemberService {
 		return memberMapper.findById(id);
 	}
 	
-	public void insertMember(Member member) {
-		memberMapper.insertMember(member);
-	}
+	public List<Member> selectAllEmailSubscribers() {
+	      return memberMapper.selectAllEmailSubscribers();
+	   }
+	
 }
 
 

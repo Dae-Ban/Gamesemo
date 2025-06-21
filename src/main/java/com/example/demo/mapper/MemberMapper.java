@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -43,6 +44,8 @@ public interface MemberMapper {
 	public Member findByEmailForRegister(String email);
 
 	public boolean registerMember(Member member);
+	
+	public List<Member> selectAllEmailSubscribers();
 
 
 	

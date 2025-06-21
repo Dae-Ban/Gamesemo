@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private final MemberMapper memberMapper;
-	private final HttpSession session; // 세션객체 추가함(지선)
+	private final HttpSession session; //  세션객체 추가함(지선)
 
 
 	@Override
