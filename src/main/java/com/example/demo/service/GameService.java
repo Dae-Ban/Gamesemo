@@ -16,27 +16,10 @@ public class GameService {
 	@Autowired
 	private GameMapper gameMapper;
 
-	
-	@Autowired
-	private GameMapper mapper;
-//	@Autowired
-//	private Normalize norm;
-	
-	
 	public List<GameInfo> getGameList(Pagenation pgn) {
-		return mapper.getGameList(pgn);
+		return gameMapper.getGameList(pgn);
 	}
 	
 
-//	public List<GameInfo> search(String keyword) {
-//		return mapper.search(norm.normalize(keyword));
-//	}
-	
-//	public int getCount(String giState, String giPlatform) {
-//		Map<String, String> filter = new HashMap<>();
-//		filter.put("giState", giState);
-//		filter.put("giPlatform", giPlatform);
-//		return gameMapper.getCount(filter);
-//	}
 
 }

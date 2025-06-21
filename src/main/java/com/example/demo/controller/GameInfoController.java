@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/game")
-public class GameController {
+public class GameInfoController {
 
 	@Autowired
     private GameInfoService gameInfoService;

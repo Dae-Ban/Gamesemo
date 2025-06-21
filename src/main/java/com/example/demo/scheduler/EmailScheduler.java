@@ -8,17 +8,17 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.mapper.GameInfoMapper;
-import com.example.demo.mapper.MemberMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.Member;
 import com.example.demo.model.Pagenation;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.GameService;
+import com.example.demo.service.MemberService;
 
 @Component
 public class EmailScheduler {
 	@Autowired
-	private MemberMapper memberMapper;
+	private MemberService memberService;
 
 	@Autowired
 	private GameInfoMapper gameInfoMapper;
@@ -30,10 +30,9 @@ public class EmailScheduler {
 	private GameService gameService;
 
 //	@Scheduled(fixedDelay = 10000)
-//	    @Scheduled(cron = "0 0 10 * * ?") // 매일 오전 10시
-
+	@Scheduled(cron = "0 0 10 * * ?") // 매일 오전 10시
 	public void sendGameSaleEmails() {
-		List<Member> subscribers = memberMapper.selectAllEmailSubscribers();
+		List<Member> subscribers = memberService.selectAllEmailSubscribers();
 
 		List<GameInfo> planetGames = gameList(10, 10, 1, "planet", "dc", "priceDesc");
 		List<GameInfo> directGames = gameList(10, 10, 1, "direct", "dc", "priceDesc");
@@ -41,7 +40,8 @@ public class EmailScheduler {
 		List<GameInfo> steamGames = gameList(10, 10, 1, "steam", "dc", "priceDesc");
 
 		String htmlContent = buildHtmlContent(steamGames, nintendoGames, directGames, planetGames);
-
+		
+		System.out.println("htmlContent: " + htmlContent);
 		for (Member member : subscribers) {
 			emailService.sendHtmlMessage(member.getEmailId() + "@" + member.getEmailDomain(), htmlContent);
 		}
@@ -55,7 +55,12 @@ public class EmailScheduler {
 		platform_page.setSort(sort);
 
 		List<GameInfo> platformList = gameService.getGameList(platform_page);
-
+		
+		System.out.println("=== [" + platform + "] 게임 리스트 ===");
+		for (GameInfo game : platformList) {
+		    System.out.println(game.getGiTitle() + " / " + game.getGiFprice());
+		}
+		
 		return platformList;
 	}
 
