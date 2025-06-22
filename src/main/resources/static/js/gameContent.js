@@ -1,4 +1,4 @@
-// Swiper 초기화
+// Swiper 초기화.
 $(function () {
   new Swiper('#review-swiper', {
     slidesPerView: 4,
