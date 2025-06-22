@@ -5,47 +5,66 @@
 
 <mapper namespace="com.example.demo.mapper.AnnMapper">
 
-
-
 	<select id="count" resultType="int">
 		SELECT COUNT(*) FROM ANNOUNCEMENT
+	</select>
+  
+	<select id="countFiltered" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM ANNOUNCEMENT
+		<where>
+			<if test="search != null and keyword != null and keyword != ''">
+				<choose>
+					<when test="search == 'subject'">
+						AN_TITLE LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'content'">
+						AN_CONTENT LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'subcon'">
+						AN_TITLE LIKE '%' || #{keyword} || '%'
+						OR AN_CONTENT LIKE '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+
+	<select id="getAnnList" parameterType="map"
+		resultType="com.example.demo.model.Announcement">
+		SELECT * FROM (
+		SELECT a.*, ROWNUM AS rn
+		FROM (
+		SELECT *
+		FROM ANNOUNCEMENT
+		<where>
+			AN_STATE = 1
+			<if test="search != null and keyword != null and keyword != ''">
+				<choose>
+					<when test="search == 'subject'">
+						AND AN_TITLE LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'content'">
+						AND AN_CONTENT LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'subcon'">
+						AND (AN_TITLE LIKE '%' || #{keyword} || '%' OR AN_CONTENT LIKE '%' ||
+						#{keyword} || '%')
+					</when>
+				</choose>
+			</if>
+		</where>
+		ORDER BY AN_NUM DESC
+		) a
+		WHERE ROWNUM &lt;= #{end}
+		)
+		WHERE rn &gt;= #{start}
 	</select>
 
 
 
-	<select id="getAnnList" parameterType="map" resultType="com.example.demo.model.Announcement">
-    SELECT * FROM (
-        SELECT ROWNUM AS rn, inner.* FROM (
-            SELECT *
-            FROM ANNOUNCEMENT
-            <where>
-                <if test="search != null and keyword != null and keyword != ''">
-                    <choose>
-                        <when test="search == 'subject'">
-                            AN_TITLE LIKE '%' || #{keyword} || '%'
-                        </when>
-                        <when test="search == 'content'">
-                            AN_CONTENT LIKE '%' || #{keyword} || '%'
-                        </when>
-<!--                         <when test="search == 'writer'"> -->
-<!--                             AN_WRITER LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-                        <when test="search == 'subcon'">
-                            AN_TITLE LIKE '%' || #{keyword} || '%'
-                            OR AN_CONTENT LIKE '%' || #{keyword} || '%'
-                        </when>
-                    </choose>
-                </if>
-            </where>
-            ORDER BY AN_NUM DESC
-        ) inner
-        WHERE ROWNUM &lt;= #{page} * 10
-    )
-    WHERE rn > (#{page} - 1) * 10
-</select>
-
-<select id="getContent" parameterType="int" resultType="com.example.demo.model.Announcement">
-		select * from announcement where an_num=#{no}
-</select>
+	<select id="getContent" parameterType="int"
+		resultType="com.example.demo.model.Announcement">
+		SELECT * FROM ANNOUNCEMENT WHERE AN_NUM = #{no}
+	</select>
 
 </mapper>

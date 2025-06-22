@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
-import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.mapper.AnnMapper;
 import com.example.demo.model.Announcement;
@@ -13,23 +13,29 @@ import com.example.demo.model.Announcement;
 @Service
 public class AnnouncementService {
 
-	@Autowired
-	AnnMapper annMap;
-	
-	@Transactional
-	public List<Announcement> getAnnList(int page, String search, String keyword) throws SQLException {
-		return annMap.getAnnList(page, search, keyword);
-	}
+    @Autowired
+    private AnnMapper annMapper;
 
-	@Transactional
-	public int count() throws SQLException {
-		return annMap.count();
-	}
-	
-	@Transactional
-	public Announcement getContent(int no) {
-		Announcement ann =  annMap.getContent(no);
-		return ann;
-	}
+    public int count() {
+        return annMapper.count();
+    }
 
+    public int countFiltered(String search, String keyword) {
+        return annMapper.countFiltered(search, keyword);
+    }
+
+    public List<Announcement> getAnnList(int start, int end, String search, String keyword) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("start", start);
+        paramMap.put("end", end);
+        paramMap.put("search", search);
+        paramMap.put("keyword", keyword);
+        
+        return annMapper.getAnnList(paramMap); // ✅ Map 하나로 넘겨줌
+    }
+
+
+    public Announcement getContent(int no) {
+        return annMapper.getContent(no);
+    }
 }
