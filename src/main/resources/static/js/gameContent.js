@@ -62,7 +62,7 @@ function showWishlistToast(message) {
 // 위시리스트에 추가 AJAX 처리
 function addToWishlist(gnum) {
   $.ajax({
-    url: "/wishlist/add",
+    url: "/wishlist/gameAdd",
     type: "POST",
     data: { gnum },
     success: function (response) {

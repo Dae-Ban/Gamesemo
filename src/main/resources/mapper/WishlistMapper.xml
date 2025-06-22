@@ -16,7 +16,75 @@
 		SELECT
 		CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
 		FROM WISHLIST
-		WHERE G_NUM = #{gNum}
+		WHERE G_NUM
+		= #{gNum}
 		AND ID = #{id}
+	</select>
+
+	<select id="countWishlist" resultType="int">
+		SELECT COUNT(*) FROM wishlist w
+		JOIN game_info g ON w.g_num = g.g_num
+		WHERE w.id = #{id}
+		<if test="keyword != null and keyword != ''">
+			AND (LOWER(g.gi_title) LIKE LOWER(#{keyword})
+			OR LOWER(g.gi_platform) LIKE LOWER(#{keyword}))
+		</if>
+	</select>
+
+	<select id="getWishlistPaged"
+		resultType="com.example.demo.model.GameInfo">
+		SELECT * FROM (
+		SELECT g.*, ROWNUM rn FROM (
+		SELECT g.*
+		FROM wishlist w
+		left JOIN game_info g ON w.g_num = g.g_num
+		WHERE w.id = #{id}
+		ORDER BY
+		<choose>
+			<when test="order == 'title'"> g.gi_title ASC </when>
+			<when test="order == 'price'"> g.gi_fprice ASC </when>
+			<otherwise> g.gi_date DESC </otherwise>
+		</choose>
+		) g
+		WHERE ROWNUM &lt;= #{offset} + #{limit}
+		)
+		WHERE rn &gt; #{offset}
+	</select>
+
+	<select id="searchWishlistPaged"
+		resultType="com.example.demo.model.GameInfo">
+		SELECT * FROM (
+		SELECT g.*, ROWNUM rn FROM (
+		SELECT g.*
+		FROM wishlist w
+		LEFT OUTER JOIN game_info g ON w.g_num = g.g_num
+		WHERE w.id = #{id}
+		AND (LOWER(g.gi_title) LIKE LOWER(#{keyword})
+		OR LOWER(g.gi_platform) LIKE LOWER(#{keyword}))
+		ORDER BY
+		<choose>
+			<when test="order == 'title'"> g.gi_title ASC </when>
+			<when test="order == 'price'"> g.gi_fprice ASC </when>
+		</choose>
+		) g
+		WHERE ROWNUM &lt;= #{offset} + #{limit}
+		)
+		WHERE rn &gt; #{offset}
+	</select>
+
+
+	<insert id="addToWishlist">
+		INSERT INTO wishlist (wishl_num, g_num, id)
+		VALUES (wishlist_seq.NEXTVAL, #{gNum}, #{id})
+	</insert>
+
+	<delete id="removeFromWishlist">
+		DELETE FROM wishlist WHERE g_num = #{gNum} AND id = #{id}
+	</delete>
+
+	<select id="isGameInWishlist" resultType="boolean">
+		SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+		FROM wishlist
+		WHERE g_num = #{gNum} AND id = #{id}
 	</select>
 </mapper>
