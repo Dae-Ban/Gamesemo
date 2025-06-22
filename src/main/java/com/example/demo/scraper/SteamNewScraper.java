@@ -1,8 +1,6 @@
 package com.example.demo.scraper;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,7 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.controller.CommunityController;
+
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.ScrapData;
 import com.example.demo.util.KSTTime;
