@@ -74,6 +74,19 @@
 		#{platform}
 	</select>
 
+	<insert id="socialInsert" parameterType="member">
+		INSERT INTO MEMBER
+		(ID, NAME, NICKNAME, PW, BIRTH_DATE, EMAIL_ID, EMAIL_DOMAIN,
+		SOCIAL_PLATFORM, SOCIAL_ID, PHONE, GENDER, JOIN_DATE, STATE, EMAIL_AD,
+		EMAIL_VERIFIED)
+		VALUES
+		(#{id}, #{name}, '회원_'||TO_CHAR(seq_member_nickname.nextval), #{pw,
+		jdbcType=VARCHAR}, #{birthDate}, #{emailId}, #{emailDomain},
+		#{socialPlatform}, #{socialId}, #{phone}, #{gender}, SYSDATE,
+		#{state}, #{emailAd}, #{emailVerified})
+	</insert>
+
+
 
 	<!-- 회원정보 수정 -->
 	<update id="updateMember"
@@ -151,11 +164,14 @@
 		WHERE id = #{id}
 		AND state = 0
 	</update>
-	
+
 	<!-- 이메일 수신동의 한사람 명단 -->
 	<select id="selectAllEmailSubscribers"
 		resultType="com.example.demo.model.Member">
 		SELECT * FROM MEMBER WHERE EMAIL_AD = 'Y'
 	</select>
+
+
+
 
 </mapper>
