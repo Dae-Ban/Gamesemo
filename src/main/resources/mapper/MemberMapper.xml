@@ -171,7 +171,4 @@
 		SELECT * FROM MEMBER WHERE EMAIL_AD = 'Y'
 	</select>
 
-
-
-
 </mapper>

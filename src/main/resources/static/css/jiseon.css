@@ -3,37 +3,25 @@
 ============================= */
 body {
 	font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-	/* 	background-color: #f4f6f9; */
-	background-color: #ffffff;
+	background-color: #f4f6f9;
 	margin: 0;
 	padding: 40px;
 }
 
-/* 전체 레이아웃 */
 .container {
-	max-width: 480px;
-	margin: 50px auto;
-	padding: 24px;
+	max-width: 600px;
+	margin: 0 auto;
 	background: white;
+	padding: 40px;
 	border-radius: 12px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-/* 아이디비번찾기 */
-.containerbox {
-	max-width: 480px;
-	margin: 250px auto;
-	padding: 24px;
-	background: white;
-	border-radius: 12px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
 /* =============================
-📌  제목 / 구분선
+📌 제목 / 구분선
 ============================= */
 .title {
-	font-size: 26px;
+	font-size: 28px;
 	font-weight: 700;
 	margin-bottom: 30px;
 	color: #222;
@@ -63,12 +51,10 @@ body {
 
 input[type="text"], input[type="password"], input[type="email"], input[type="tel"],
 	input[type="date"], select {
-	width: 100%; /* ✅ 전체 너비 */
-	box-sizing: border-box;
-	padding: 12px 14px;
+	padding: 14px;
 	border: 1px solid #ccc;
 	border-radius: 6px;
-	font-size: 16px;
+	font-size: 15px;
 	background-color: #f9f9f9;
 	transition: border 0.2s ease;
 }
@@ -87,21 +73,14 @@ input:focus, select:focus {
 	flex-wrap: wrap;
 	gap: 16px;
 	align-items: center;
-	margin-top: 6px;
-}
-
-.checkbox-group {
-	font-weight: 600;
 }
 
 .radio-group label, .checkbox-group label {
-	font-weight: 400;
+	font-weight: normal;
 	display: flex;
 	align-items: center;
 	gap: 6px;
-	font-size: 15px;
-	color: #333;
-	white-space: nowrap; /* ✅ 줄바꿈 방지! */
+	font-size: 14px;
 }
 
 /* =============================
@@ -111,7 +90,6 @@ input:focus, select:focus {
 	display: flex;
 	gap: 10px;
 	align-items: center;
-	flex-wrap: wrap; /* 혹시 모를 넘침 방지 */
 }
 
 .input-row input, .input-row select {
@@ -164,8 +142,8 @@ input:focus, select:focus {
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
-	padding: 10px 0;
-	font-size: 15px;
+	padding: 16px 0;
+	font-size: 18px;
 	font-weight: bold;
 	background-color: #222;
 	color: white;
@@ -181,26 +159,25 @@ input:focus, select:focus {
 .btn-full {
 	width: 100%;
 }
-
 .btn-full:hover {
-	background-color: #444;
+  background-color: #444;
 }
 
 /* ✅ 나란히 정렬할 때: 부모가 flex, 자식이 반반 */
 .button-row {
-	display: flex !important;
-	flex-direction: row !important;
-	gap: 10px;
-	width: 100%;
-	margin-top: 30px; /* ✅ 이 줄 추가해서 간격 벌리기 */
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 10px;
+  width: 100%;
+  margin-top: 30px; /* ✅ 이 줄 추가해서 간격 벌리기 */
 }
+
 
 .btn-half {
-	flex: 1;
+  flex: 1;
 }
-
 .btn-half:hover {
-	background-color: #444;
+  background-color: #444;
 }
 
 /* =============================
@@ -262,9 +239,7 @@ input[readonly] {
 .input-inline {
 	display: flex;
 	gap: 10px;
-	font-size: 14px;
 	margin-bottom: 15px;
-	flex-wrap: wrap;
 }
 
 .input-inline input {
@@ -284,7 +259,7 @@ input[readonly] {
 /* 버튼 스타일 */
 .btn-small {
 	width: 120px;
-	padding: 10px;
+	padding: 12px;
 	font-size: 14px;
 	background-color: #222;
 	color: white;
@@ -304,8 +279,18 @@ input[readonly] {
 	margin-top: 10px;
 }
 
+/* 전체 레이아웃 */
+.container {
+	max-width: 600px;
+	margin: 40px auto;
+	padding: 40px;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
 .title {
-	font-size: 26px;
+	font-size: 28px;
 	font-weight: bold;
 	color: #111;
 }
@@ -316,64 +301,22 @@ input[readonly] {
 	margin: 20px 0;
 }
 
+
 /* 인증번호 전송, 확인, 비밀번호 변경 버튼 슬림 스타일 */
 .btn-slim {
-	display: inline-block;
-	width: 100%;
-	padding: 10px 16px;
-	font-size: 16px;
-	font-weight: normal; /* ✅ 기본 굵기 */
-	border: none;
-	border-radius: 6px;
-	margin-top: 5px;
-	background-color: black;
-	color: white;
-	cursor: pointer;
-	transition: background-color 0.3s;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: normal;  /* ✅ 기본 굵기 */
+  border: none;
+  border-radius: 6px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .btn-slim:hover {
-	background-color: #444;
-}
-
-/* =============================
-📌 이메일 입력 필드 너비 비율 조정 추가
-============================= */
-#emailId {
-	flex: 1;
-	min-width: 100px;
-}
-
-#emailDomainSelect {
-	flex: 1;
-	min-width: 100px;
-}
-
-#customEmailDomain {
-	flex: 1;
-	min-width: 90px;
-}
-
-#pwCodeGroup label {
-	margin-bottom: 10px;
-}
-
-
-/*회원가입 로딩시.. 스피너 추가 */
-.input-row span {
-	width: 16px;
-	text-align: center;
-}
-
-
-.loading-spinner {
-    width: 40px;
-    height: 40px;
-    animation: rotate 1s linear infinite;
-    margin-top: 80px;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  background-color: #444;
 }

@@ -82,7 +82,8 @@ public class MemberController {
 		return memberService.findByEmailForRegister(email) != null;
 	}
 
-	// 회원가입 폼
+
+	//회원가입 폼
 	@PostMapping("/register")
 	public String register(Member member, @RequestParam("pwConfirm") String pwConfirm, Model model,
 			RedirectAttributes redirectAttributes) {
