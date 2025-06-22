@@ -1,110 +1,79 @@
-$(document).ready(function(){
-	
-	$(function() {
-	    // Swiper 초기화
-	    var reviewSwiper = new Swiper('#review-swiper', {
-	      slidesPerView: 6,
-	      spaceBetween: 16,
-	      loop: false
-	    });
-
-	    // prev/next 버튼 바인딩
-	    $('#review-prev').on('click', function() {
-	      reviewSwiper.slidePrev();
-	    });
-	    $('#review-next').on('click', function() {
-	      reviewSwiper.slideNext();
-	    });
-	  });
-
-	  // 로그인 안내 토스트 (jQuery 버전)
-	  function showLoginToast() {
-	    var $toast = $('#login-toast');
-	    // 이미 실행 중인 경우 clear
-	    clearTimeout($toast.data('hideTimeout'));
-	    $toast.css('opacity', 1);
-
-	    // 2초 후 페이드아웃
-	    var timeout = setTimeout(function() {
-	      $toast.css('opacity', 0);
-	    }, 2000);
-	    $toast.data('hideTimeout', timeout);
-	  }
-	  
-	  function addToWishlist(giNum) {
-	    fetch('/wishlist/add?giNum=' + giNum, {
-	      method: 'POST',
-	      headers: {
-	        'Content-Type': 'application/json'
-	      }
-	    })
-	    .then(res => {
-	      if (res.ok) return res.text();
-	      throw new Error('위시리스트 추가 실패');
-	    })
-	    .then(data => {
-	      alert("위시리스트에 추가되었습니다!");
-	    })
-	    .catch(err => {
-	      alert(err.message);
-	    });
-	  }
-	  
-	  //모달 로그인 영역
-	  $(document).ready(function () {
-	    let pendingGiNum = null;
-
-	    // 위시리스트 버튼 클릭 시
-	    window.handleWishlistClick = function (giNum) {
-	      if (window.isLoggedIn) {
-	        addToWishlist(giNum);
-	      } else {
-	        pendingGiNum = giNum;
-	        showLoginModal();
-	      }
-	    };
-
-	    // 로그인 모달 열기
-	    function showLoginModal() {
-	      $('.login-container').css('display', 'flex'); // 보여줌
-	    }
-
-	    // 로그인 모달 닫기
-	    function closeLoginModal() {
-	      $('.login-container').hide();
-//	      pendingGiNum = null;
-	    }
-		
-		$('#close-button').on('click',function(){
-			$('.login-container').hide();			
-		});
-
-	    // 로그인 폼 제출 이벤트
-	    $('.login-box form').submit(function (e) {
-	      e.preventDefault();
-
-	      const formData = $(this).serialize();
-
-	      $.post('/member/ajaxLogin', formData, function (result) {
-	        if (result === 'success') {
-	          closeLoginModal();
-
-	          if (pendingGiNum !== null) {
-	            addToWishlist(pendingGiNum);
-	          }
-	        } else {
-	          alert("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");
-	        }
-	      });
-	    });
-
-	    // 바깥 클릭 시 모달 닫기 (선택사항)
-	    $(document).mouseup(function (e) {
-	      const modal = $(".login-box");
-	      if (!$('.login-box').is(e.target) && $('.login-box').has(e.target).length === 0) {
-	        closeLoginModal();
-	      }
-	    });
-	  });
-
+// Swiper 초기화.
+$(function () {
+  new Swiper('#review-swiper', {
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+    spaceBetween: 20,
+    navigation: {
+      nextEl: '#review-next',
+      prevEl: '#review-prev',
+    },
+    loop: false
+  });
 });
+
+// 로그인 모달 보여주기
+function showLoginModal() {
+  const redirectUrl = window.location.pathname + window.location.search;
+  sessionStorage.setItem("redirectAfterLogin", redirectUrl);
+  $("#loginModal").css("display", "flex");
+}
+
+// 로그인 모달 숨기기
+function hideLoginModal() {
+  $('#loginModal').hide();
+}
+
+// 비로그인 상태에서 위시리스트 버튼 클릭 시
+function handleWishlistClick(gameNum) {
+  sessionStorage.setItem("redirectAfterLogin", window.location.pathname + window.location.search);
+  document.getElementById("loginModal").style.display = "flex";
+}
+
+// 로그인 폼 AJAX 처리
+$(document).on("submit", "#ajaxLoginForm", function (e) {
+  e.preventDefault();
+  const id = $(this).find("input[name='id']").val();
+  const pw = $(this).find("input[name='pw']").val();
+
+  $.post("/wishlist/ajaxLogin", { id, pw }, function (res) {
+    if (res === "success") {
+      const path = sessionStorage.getItem("redirectAfterLogin") || "/";
+      window.location.href = window.location.origin + path;
+      $('.wishlist-btn-full').addClass('logged-in');
+    } else {
+      alert("로그인 실패. 아이디와 비밀번호를 확인하세요.");
+    }
+  });
+});
+
+// 위시리스트 추가 알림 토스트
+function showWishlistToast(message) {
+  const toast = document.getElementById('wishlist-toast');
+  toast.textContent = message || "위시리스트에 추가되었습니다!";
+  toast.style.opacity = '1';
+
+  clearTimeout(toast.hideTimeout);
+  toast.hideTimeout = setTimeout(() => {
+    toast.style.opacity = '0';
+  }, 2000);
+}
+
+// 위시리스트에 추가 AJAX 처리
+function addToWishlist(gnum) {
+  $.ajax({
+    url: "/wishlist/add",
+    type: "POST",
+    data: { gnum },
+    success: function (response) {
+      if (response === "success") {
+        showWishlistToast("위시리스트에 추가되었습니다!");
+        location.reload();
+      } else if (response === "already_exists") {
+        showWishlistToast("이미 위시리스트에 추가되어 있습니다.");
+      } else if (response === "not_logged_in") {
+        handleWishlistClick(gnum);
+      }
+    }
+  });
+}
