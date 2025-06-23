@@ -63,6 +63,6 @@ public class GameController {
 	
 	@GetMapping("/{gNum}")
 	public String details(@PathVariable("gNum") int gNum, @RequestParam(name = "page", defaultValue = "1") String page) {
-		return "/game/details";
+		return "/game/gameContent";
 	}
 }

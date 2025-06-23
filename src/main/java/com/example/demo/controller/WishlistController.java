@@ -18,13 +18,10 @@ import com.example.demo.mapper.WishlistMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.Member;
 import com.example.demo.model.Wishlist;
-import com.example.demo.model.YouTubeVideo;
-import com.example.demo.service.GameInfoService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.WishlistService;
 
 import jakarta.servlet.http.HttpSession;
-import jdk.tools.jlink.internal.Platform;
 
 @Controller
 @RequestMapping("/wishlist")
@@ -66,11 +63,11 @@ public class WishlistController {
 	@ResponseBody
 	public String ajaxLogin(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
 		
-		Member user = (Member) session.getAttribute("loginUser");
+		Member user = (Member) session.getAttribute("loginMember");
 			
 		Member member = memberService.findById(id); // ID로만 조회
 		if (member != null && passwordEncoder.matches(pw, member.getPw())) {
-			session.setAttribute("loginUser", member);
+			session.setAttribute("loginMember", member);
 			return "success";
 		}
 		return "fail";
@@ -81,12 +78,13 @@ public class WishlistController {
 			@RequestParam(name = "order", defaultValue = "recent") String order,
 			@RequestParam(name = "page", defaultValue = "1") int page, HttpSession session, Model model) {
 
-		String id = (String) session.getAttribute("id");
-		if (id == null) {
-			session.setAttribute("redirectAfterLogin", "/wishlist");
-			return "redirect:/member/login";
-		}
-
+		Member loginMember = (Member) session.getAttribute("loginMember");  // ✅ 수정
+	    if (loginMember == null) {
+	        session.setAttribute("redirectAfterLogin", "/wishlist");
+	        return "redirect:/member/login";
+	    }
+	    String id = loginMember.getId();  
+	    
 		int pageSize = 5;
 		int offset = (page - 1) * pageSize;
 
