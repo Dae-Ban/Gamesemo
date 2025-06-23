@@ -6,6 +6,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.service.MemberService;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +16,8 @@ import lombok.RequiredArgsConstructor;
 public class OAuthController {
 
     private final HttpSession session;
-
+    
+    MemberService memberService;;
 
     @GetMapping("/oauth2/success")
     public String oauth2Success(@AuthenticationPrincipal OAuth2User oAuth2User) {
@@ -25,6 +28,6 @@ public class OAuthController {
     		id = oAuth2User.getAttribute("id").toString();
         session.setAttribute("id", id);
 
-        return "redirect:/";
+        return "redirect:/main";
     }
 }

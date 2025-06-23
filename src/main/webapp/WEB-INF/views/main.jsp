@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+main jsp 화면
 </body>
 </html>
