@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.AdminMemberMapper">
+
+  <!-- 페이징 + 검색 목록 -->
+  <select id="pagingSearch" resultType="com.example.demo.model.AdminMember">
+    SELECT * FROM (
+      SELECT A.*, ROWNUM rn
+      FROM (
+        SELECT id, name, email_id, email_domain, state
+        FROM member
+        <where>
+          <if test="type != null and keyword != null and type.equals('name')">
+            name LIKE '%' || #{keyword} || '%'
+          </if>
+          <if test="type != null and keyword != null and type.equals('email')">
+            (email_id || '@' || email_domain) LIKE '%' || #{keyword} || '%'
+          </if>
+          <if test="type != null and keyword != null and type.equals('state')">
+            TO_CHAR(state) = #{keyword}
+          </if>
+        </where>
+        ORDER BY id DESC
+      ) A
+      WHERE ROWNUM &lt;= #{endRow}
+    )
+    WHERE rn &gt;= #{startRow}
+  </select>
+
+  <!-- 총 회원 수 (검색 포함) -->
+  <select id="getTotalCount" resultType="int">
+    SELECT COUNT(*) FROM member
+    <where>
+      <if test="type != null and keyword != null and type.equals('name')">
+        name LIKE '%' || #{keyword} || '%'
+      </if>
+      <if test="type != null and keyword != null and type.equals('email')">
+        (email_id || '@' || email_domain) LIKE '%' || #{keyword} || '%'
+      </if>
+      <if test="type != null and keyword != null and type.equals('state')">
+        TO_CHAR(state) = #{keyword}
+      </if>
+    </where>
+  </select>
+
+  <!-- 상태 변경 -->
+  <update id="updateState">
+    UPDATE member
+    SET state = #{state}
+    WHERE id = #{id}
+  </update>
+
+  <!-- 전체 회원 목록 -->
+  <select id="selectBasicMembers" resultType="com.example.demo.model.AdminMember">
+    SELECT id, name, email_id, email_domain, state
+    FROM member
+    ORDER BY id DESC
+  </select>
+
+
+</mapper>

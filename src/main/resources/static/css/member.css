@@ -12,7 +12,17 @@ body {
 /* 전체 레이아웃 */
 .container {
 	max-width: 480px;
-	margin: 40px auto;
+	margin: 50px auto;
+	padding: 24px;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 아이디비번찾기 */
+.containerbox {
+	max-width: 480px;
+	margin: 250px auto;
 	padding: 24px;
 	background: white;
 	border-radius: 12px;
@@ -315,6 +325,7 @@ input[readonly] {
 	font-weight: normal; /* ✅ 기본 굵기 */
 	border: none;
 	border-radius: 6px;
+	margin-top: 5px;
 	background-color: black;
 	color: white;
 	cursor: pointer;

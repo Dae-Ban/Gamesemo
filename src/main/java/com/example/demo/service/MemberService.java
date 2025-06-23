@@ -104,16 +104,21 @@ public class MemberService {
 		return null;
 	}
 
-	public Member findBySocialIdAndPlatform(String socialId, String platform) {
-		return memberMapper.findBySocialIdAndPlatform(socialId, platform);
-	}
-	
 	public Member findById(String id) {
 		return memberMapper.findById(id);
 	}
 	
 	public List<Member> selectAllEmailSubscribers() {
-		return memberMapper.selectAllEmailSubscribers();
+
+	      return memberMapper.selectAllEmailSubscribers();
+	   }
+
+
+	public void emailCheck() {
+		
 	}
+	
 }
+
+
 

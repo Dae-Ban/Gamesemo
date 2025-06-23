@@ -2,10 +2,8 @@ package com.example.demo.mapper;
 
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import com.example.demo.model.Member;
 
 @Mapper
@@ -47,13 +45,13 @@ public interface MemberMapper {
 	
 	public List<Member> selectAllEmailSubscribers();
 	
-	// 로그인 : 영교님꺼 추가
-
-	Member findBySocialIdAndPlatform(@Param("socialId") String socialId, @Param ("platform") String platform);
-
+	// 로그인 : 영교님꺼 추가	
+	
 	void socialInsert(Member member);
 
 	public Member login(String id);
+	
+	Member findBySocialIdAndPlatform(@Param("socialId") String socialId, @Param ("platform") String platform);
 
 	
 

@@ -82,7 +82,8 @@ public class MemberController {
 		return memberService.findByEmailForRegister(email) != null;
 	}
 
-	// 회원가입 폼
+
+	//회원가입 폼
 	@PostMapping("/register")
 	public String register(Member member, @RequestParam("pwConfirm") String pwConfirm, Model model,
 			RedirectAttributes redirectAttributes) {
@@ -497,11 +498,11 @@ public class MemberController {
 ////		return "redirect:/member/main"; // 로그인 페이지로 이동 (또는 홈)
 ////	}
 //
-	// 메인페이지
-	@GetMapping("/main")
-	public String memberMain(HttpSession session, Model model) {
-		Member member = (Member) session.getAttribute("loginMember");
-		model.addAttribute("member", member);
-		return "main";
-	}
+//	// 메인페이지
+//	@GetMapping("/main")
+//	public String memberMain(HttpSession session, Model model) {
+//		Member member = (Member) session.getAttribute("loginMember");
+//		model.addAttribute("member", member);
+//		return "main";
+//	}
 }

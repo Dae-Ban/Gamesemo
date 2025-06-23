@@ -85,6 +85,8 @@
 		#{socialPlatform}, #{socialId}, #{phone}, #{gender}, SYSDATE,
 		#{state}, #{emailAd}, #{emailVerified})
 	</insert>
+	
+	
 
 
 
@@ -170,8 +172,5 @@
 		resultType="com.example.demo.model.Member">
 		SELECT * FROM MEMBER WHERE EMAIL_AD = 'Y'
 	</select>
-
-
-
 
 </mapper>

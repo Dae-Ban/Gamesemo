@@ -1,15 +1,47 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/jiseon.css">
-
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member.css">
+	
 </head>
+
 <body>
+
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script>
+$(function () {
+    $("#registerForm").on("submit", function (e) {
+        // member.js에 이미 정의된 validateForm()을 호출
+        if (!validateForm()) {
+            return false;
+        }
+
+        // 스피너 처리
+        $("#registerBtn").prop("disabled", true);
+        $("#registerForm").hide();
+        $(".container").hide();
+        $("#registerOverlay").show();
+    });
+});
+
+</script>
+
+<!-- 가입 중 스피너 -->
+<div id="registerOverlay" style="display: none; text-align: center; padding: 20px;">
+    <img src="/images/spinner.png" class="loading-spinner" alt="로딩 중">
+    <p>가입 중입니다... 잠시만 기다려주세요</p>
+</div>
+
+<c:if test="${not empty error}">
+	<script>
+		alert("${error}");
+	</script>
+</c:if>
+
 	<div class="container">
 		<h2 class="title">회원가입</h2>
 		<div class="divider"></div>
@@ -18,6 +50,7 @@
 		<form action="${pageContext.request.contextPath}/member/register" method="post"
 			onsubmit="return validateForm();">
 			<input type="hidden" name="verify_type" value="MEMBER_JOIN"> 
+
 			<!-- ID -->
 			<div class="form-group">
 				<label for="id">ID</label> <input type="text" name="id" id="id"
@@ -91,6 +124,13 @@
 			</div>
 
 
+			<!-- 생년월일 -->
+			<div class="form-group">
+				<label for="birth">생년월일</label> <input type="date" name="birthDate"
+					id="birth" required>
+			</div>
+
+
 			<!-- 성별 -->
 			<div class="form-group">
 				<label>성별</label>
@@ -100,13 +140,6 @@
 						여자</label>
 				</div>
 			</div>
-
-			<!-- 생년월일 -->
-			<div class="form-group">
-				<label for="birth">생년월일</label> <input type="date" name="birthDate"
-					id="birth" required>
-			</div>
-
 
 
 			<!-- 선호 장르 -->
@@ -123,18 +156,19 @@
 			</div>
 
 			<!-- 이메일 약관 동의 -->
-			<div class="form-group">
+
+			<div class="form-group" style="align-items: center;">
 				<label><input type="checkbox" name="emailAd" value="Y">
 					이메일 광고 수신 동의</label>
 			</div>
 
 
 			<!-- 가입 버튼 -->
-			<button type="submit" class="btn btn-full">가입하기</button>
+			<button type="submit" class="btn btn-full" id="registerBtn">가입하기</button>
 		</form>
 	</div>
-
 
 	<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
 </body>
 </html>
+

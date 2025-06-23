@@ -1,0 +1,34 @@
+@charset "UTF-8";
+/* 기본 스타일 */
+.paging {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.paging a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 6px 12px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  color: #333;
+  background-color: #f9f9f9;
+  border-radius: 4px; 
+  transition: all 0.3s;
+}
+
+/* 현재 선택된 페이지 */
+.paging a.active {
+  background-color: #e50914;
+  color: #fff;
+  border-color: #e50914;
+  font-weight: bold;
+}
+
+/* Hover 효과 */
+.paging a:hover {
+  background-color: #b20710;
+  color: #fff;
+  border-color: #b20710;
+}
