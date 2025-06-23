@@ -9,7 +9,8 @@
 <meta charset="UTF-8">
 <title>${game.giTitle}–상세정보</title>
 <!-- Swiper CSS. -->
-<link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+<link rel="stylesheet"
+	href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
 <link rel="stylesheet" href="/css/gameContent.css" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -63,8 +64,9 @@
 						<c:when test="${not empty loginUser}">
 							<c:choose>
 								<c:when test="${wishlisted}">
-									<button class="wishlist-btn-full wishlisted"  onclick="showWishlistToast('이미 위시리스트에 추가되었습니다.')">✔️ 위시리스트에
-										추가됨</button>
+									<button class="wishlist-btn-full wishlisted"
+										onclick="showWishlistToast('이미 위시리스트에 추가되었습니다.')">✔️
+										위시리스트에 추가됨</button>
 								</c:when>
 								<c:otherwise>
 									<button class="wishlist-btn-full"
@@ -102,36 +104,46 @@
 			</div>
 		</div>
 		<!-- 모달 로그인 영역 -->
-		<div class="login-container" id="loginModal">
-			<div class="login-box">
-				<div class="close">
-					<img src="/images/icons/close-button.png" id="close-button"
-						onclick="hideLoginModal()" alt="닫기" />
+		<div class="modal-login-container" id="loginModal">
+			<div class="modal-login-box">
+				<div class="modal-login-close">
+					<img src="/images/icons/close-button.png" alt="닫기"
+						onclick="hideLoginModal()" />
 				</div>
-				<h2>로그인</h2>
-				<c:if test="${not empty error}">
-					<div style="color: red;">${error}</div>
-				</c:if>
+
+				<div class="modal-logo-global">
+					<img src="https://i.imgur.com/VKxL314.png" alt="로고"
+						class="modal-logo-img">
+				</div>
+
 				<form id="ajaxLoginForm">
-					<input type="text" name="id" placeholder="아이디" required /> <input
-						type="password" name="pw" placeholder="비밀번호" required /> <label><input
-						type="checkbox" name="rememberMe" /> 로그인 상태 유지</label> <input
-						type="submit" value="Log In" />
+					<input type="text" name="id" placeholder="아이디" required> <input
+						type="password" name="pw" placeholder="비밀번호" required>
+
+					<div class="modal-login-options">
+						<label> <input type="checkbox" name="rememberMe">
+							로그인 상태 유지
+						</label> <a href="/member/find" class="modal-find-link">아이디/비밀번호 찾기</a>
+					</div>
+
+					<input type="submit" value="로그인" class="modal-login-btn">
 				</form>
 
-				<div style="text-align: right;">
-					<a href="/member/find">아이디/비밀번호를 잊으셨나요?</a>
-				</div>
-				<div class="sns-buttons">
-					<a href="/oauth2/authorization/google"><img
-						src="/images/icons/google.png" alt="Google" /></a> <a
-						href="/oauth2/authorization/naver"><img
-						src="/images/icons/naver.png" alt="Naver" /></a> <a
-						href="/oauth2/authorization/kakao"><img
-						src="/images/icons/kakao.png" alt="Kakao" /></a>
-				</div>
-				<div style="text-align: center; margin-top: 20px;">
-					아직 계정이 없다면 <a href="/member/register">회원가입</a>
+				<div class="modal-bottom-links">
+					<p class="modal-sns-title">SNS 계정으로 간편 로그인하기</p>
+					<div class="modal-sns-buttons">
+						<a href="/oauth2/authorization/google" class="modal-sns-icon">
+							<img src="/images/icons/google.png" alt="Google">
+						</a> <a href="/oauth2/authorization/naver" class="modal-sns-icon">
+							<img src="/images/icons/naver.png" alt="Naver">
+						</a> <a href="/oauth2/authorization/kakao" class="modal-sns-icon">
+							<img src="/images/icons/kakao.png" alt="Kakao">
+						</a>
+					</div>
+
+					<div class="modal-register">
+						<a href="/member/register" class="modal-signup-btn">회원가입하기</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -142,7 +154,9 @@
 	<!-- Swiper JS -->
 	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 	<script src="/js/gameContent.js"></script>
-	
+
 
 </body>
+
 </html>
+
