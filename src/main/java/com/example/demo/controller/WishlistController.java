@@ -18,10 +18,13 @@ import com.example.demo.mapper.WishlistMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.Member;
 import com.example.demo.model.Wishlist;
+import com.example.demo.model.YouTubeVideo;
+import com.example.demo.service.GameInfoService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.WishlistService;
 
 import jakarta.servlet.http.HttpSession;
+import jdk.tools.jlink.internal.Platform;
 
 @Controller
 @RequestMapping("/wishlist")
@@ -39,19 +42,20 @@ public class WishlistController {
 	@Autowired
 	private WishlistMapper wishlistMapper;
 
-	//
+	
 	@PostMapping("/gameAdd")
 	@ResponseBody
 	public String addToWishlist(@RequestParam("gnum") int gnum, HttpSession session) {
-		Member user = (Member) session.getAttribute("loginUser");
+		Member user = (Member) session.getAttribute("loginMember");
 		if (user == null)
 			return "not_logged_in";
-
+		
 		Wishlist w = new Wishlist();
 		w.setGNum(gnum);
 		w.setId(user.getId());
 
 		int result = wishlistService.addWishlist(w);
+
 		if (result > 0)
 			return "success";
 		else
@@ -61,8 +65,9 @@ public class WishlistController {
 	@PostMapping("ajaxLogin")
 	@ResponseBody
 	public String ajaxLogin(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
-		// 정상 작동
-
+		
+		Member user = (Member) session.getAttribute("loginUser");
+			
 		Member member = memberService.findById(id); // ID로만 조회
 		if (member != null && passwordEncoder.matches(pw, member.getPw())) {
 			session.setAttribute("loginUser", member);
@@ -138,5 +143,17 @@ public class WishlistController {
 	private String getLoginId(HttpSession session) {
 		return (String) session.getAttribute("id");
 	}
+	
+	@PostMapping("/isLogin")
+	public String isLogin(HttpSession session) {
+		
+		if(session.getAttribute("loginMember") != null) {
+			return "sucess";
+		}
+		
+		return "fail";
+		
+	}
+	
 
 }

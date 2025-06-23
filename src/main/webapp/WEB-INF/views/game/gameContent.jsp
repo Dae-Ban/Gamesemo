@@ -61,25 +61,19 @@
 				</c:forEach>
 				<div class="wishlist-container">
 					<c:choose>
-						<c:when test="${not empty loginUser}">
-							<c:choose>
-								<c:when test="${wishlisted}">
-									<button class="wishlist-btn-full wishlisted"
-										onclick="showWishlistToast('이미 위시리스트에 추가되었습니다.')">✔️
-										위시리스트에 추가됨</button>
-								</c:when>
-								<c:otherwise>
-									<button class="wishlist-btn-full"
-										onclick="addToWishlist(${game.GNum})">위시리스트 추가</button>
-								</c:otherwise>
-							</c:choose>
+						<c:when test="${wishlisted}">
+							<button class="wishlist-btn-full wishlisted"
+								onclick="showWishlistToast('이미 위시리스트에 추가되어 있습니다.')">✔️
+								위시리스트에 추가됨</button>
 						</c:when>
+
 						<c:otherwise>
 							<button class="wishlist-btn-full"
-								onclick="handleWishlistClick(${game.GNum})">위시리스트 추가</button>
+								onclick="addToWishlist(${game.GNum})">위시리스트 추가</button>
 						</c:otherwise>
 					</c:choose>
 				</div>
+
 			</div>
 		</div>
 		<!-- 리뷰 영상 슬라이더 -->
