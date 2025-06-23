@@ -30,7 +30,7 @@ public class ReviewController {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 걸기 
+//            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 걸기 
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;
@@ -39,7 +39,7 @@ public class ReviewController {
     @GetMapping("/list")
     public String list(@RequestParam(name = "page", defaultValue = "1") int page,
         Review review, Model model, HttpSession session) {  //, HttpSession session 이거 불필요
-    	ensureLoginSession(session);
+//    	ensureLoginSession(session);   //이것도 불필요
     	
         int total = reviewService.getCount(review);
         Pagenation pgn = new Pagenation(total, 10, page);
@@ -60,7 +60,7 @@ public class ReviewController {
 
     @GetMapping("/view")
     public String view(@RequestParam("rb_num") int rb_num, Model model, HttpSession session) {
-        ensureLoginSession(session); 
+//        ensureLoginSession(session); 
 
         reviewService.updateReadCount(rb_num);
         Review review = reviewService.getReview(rb_num);
@@ -76,7 +76,7 @@ public class ReviewController {
 
     @GetMapping("/form")
     public String form(Model model, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         model.addAttribute("review", new Review());
         return "review/reviewForm";
     }
@@ -84,8 +84,8 @@ public class ReviewController {
     @PostMapping("/insert")
     public String insert(@ModelAttribute Review review, HttpSession session) {
         Member member = (Member) session.getAttribute("loginMember");
-//        review.setId(member.getId());
-        review.setId("minjung2");
+        review.setId(member.getId());
+//        review.setId("minjung2");
         review.setRb_state(0);
 
         reviewService.insert(review);
@@ -94,7 +94,7 @@ public class ReviewController {
 
     @GetMapping("/updateform")
     public String updateForm(@RequestParam("rb_num") int rb_num, Model model, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         Review review = reviewService.getReview(rb_num);
         model.addAttribute("review", review);
         return "review/reviewUpdateForm";
@@ -102,7 +102,7 @@ public class ReviewController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Review review, HttpSession session) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         reviewService.update(review);
         return "redirect:/review/view?rb_num=" + review.getRb_num();
     }
@@ -171,8 +171,8 @@ public class ReviewController {
     public String like(@RequestParam("rb_num") int rb_num, HttpSession session, RedirectAttributes ra) {
         Member loginMember = ensureLoginSession(session);
         ReviewLike like = new ReviewLike();
- //     like.setId(loginMember.getId());
-        like.setId("minjung2");
+      like.setId(loginMember.getId());
+ //       like.setId("minjung2");
         like.setRb_num(rb_num);
 
         boolean isFirst = reviewService.insertLike(like);
@@ -193,8 +193,9 @@ public class ReviewController {
     @PostMapping("/reply/insert")
     public String insertReply(@ModelAttribute ReviewReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
-//      reply.setId(loginMember.getId());
-        reply.setId("minjung2");
+//
+        reply.setId(loginMember.getId());
+//        reply.setId("minjung2");
 
         int result = reviewService.insertReply(reply);
         if(result==1) System.out.println("댓글 작성 성공");
@@ -207,7 +208,7 @@ public class ReviewController {
     public String deleteReply(@RequestParam("rbr_num") int rbr_num,
                               @RequestParam("rb_num") int rb_num,
                               HttpSession session, RedirectAttributes ra) {
-        ensureLoginSession(session);
+//        ensureLoginSession(session);
         reviewService.deleteReply(rbr_num);
         ra.addAttribute("rb_num", rb_num);
         return "redirect:/review/view";

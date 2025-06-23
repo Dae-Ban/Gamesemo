@@ -206,7 +206,7 @@
     </update>
 
     <!-- 댓글 등록 -->
-    <insert id="insertReply" parameterType="replyBoard">
+    <insert id="insertReply" parameterType="communityReply">  <!-- replyBoard -->
         INSERT INTO CB_REPLY (
             CBR_NUM,
             CB_NUM,
@@ -232,7 +232,7 @@
     </select>
     
     <!-- 댓글 수정 -->
-    <update id="replyupdate" parameterType="replyBoard">
+    <update id="replyupdate" parameterType="communityReply">    <!-- replyBoard -->
     	UPDATE CB_REPLY SET CBR_CONTENT=#{cbr_content}, cbr_date=sysdate 
     	where cbr_num=#{cbr_num}    
     </update>
