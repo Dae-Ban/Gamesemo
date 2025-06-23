@@ -10,16 +10,27 @@ import org.springframework.stereotype.Service;
 import com.example.demo.mapper.GameMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.Pagenation;
+import com.example.demo.util.Normalize;
 
 @Service
 public class GameService {
 	@Autowired
-	private GameMapper gameMapper;
+	private GameMapper mapper;
+	@Autowired
+	private Normalize norm;
 
 	public List<GameInfo> getGameList(Pagenation pgn) {
-		return gameMapper.getGameList(pgn);
+		return mapper.getGameList(pgn);
 	}
-	
 
+	public int getCount(String giState, String giPlatform) {
+		Map<String, String> filter = new HashMap<>();
+		filter.put("giState", giState);
+		filter.put("giPlatform", giPlatform);
+		return mapper.getCount(filter);
+	}
 
+	public List<GameInfo> search(String keyword) {
+		return mapper.search(norm.normalize(keyword));
+	}
 }

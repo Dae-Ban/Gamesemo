@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.GameDataMapper">
+	<insert id="insertSteamApi" parameterType="list">
+		INSERT ALL
+		<foreach collection="list" item="app">
+			INTO game (g_num, g_title,
+			n_title, steam_appid)
+			VALUES (#{app.gNum}, #{app.gTitle},
+			#{app.nTitle}, #{app.steamAppid})
+		</foreach>
+		SELECT * FROM dual
+	</insert>
+	<select id="selectAllAppIds" resultType="long">
+		SELECT steam_appid FROM
+		game
+	</select>
+	<select id="getGNum" parameterType="String" resultType="int">
+		SELECT
+		g_num FROM game WHERE n_title=#{nTitle}
+	</select>
+	<insert id="mergeSteamApi" parameterType="Game">
+		MERGE INTO game g
+		USING (
+		SELECT #{gTitle} AS g_title,
+		#{nTitle} AS n_title,
+		#{steamAppid} AS steam_appid
+		FROM dual
+		) api
+		ON (g.n_title = api.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET g.steam_appid = api.steam_appid
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title, n_title, steam_appid)
+		VALUES (seq_game.nextval, api.g_title, api.n_title, api.steam_appid)
+	</insert>
+
+	<insert id="mergeSteamDC">
+		MERGE INTO game g
+		USING (SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY
+		n_title ORDER BY title) AS rn
+		FROM steam_dc
+		)
+		WHERE rn = 1) s
+		ON
+		(g.n_title = s.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET
+		g.thumb=s.thumb
+		WHERE s.thumb IS NOT NULL
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title,
+		n_title,
+		thumb)
+		VALUES (seq_game.nextval, s.title, s.n_title, s.thumb)
+	</insert>
+
+	<insert id="mergeSteamNew">
+		MERGE INTO game g
+		USING (SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY
+		n_title ORDER BY title) AS rn
+		FROM steam_new
+		)
+		WHERE rn = 1) s
+		ON
+		(g.n_title = s.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET
+		g.thumb=s.thumb
+		WHERE s.thumb IS NOT NULL
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title,
+		n_title,
+		thumb)
+		VALUES (seq_game.nextval, s.title, s.n_title, s.thumb)
+	</insert>
+	
+	<insert id="mergeSteamTop">
+		MERGE INTO game g
+		USING (SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY
+		n_title ORDER BY title) AS rn
+		FROM steam_top
+		)
+		WHERE rn = 1) s
+		ON
+		(g.n_title = s.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET
+		g.thumb=s.thumb
+		WHERE s.thumb IS NOT NULL
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title,
+		n_title,
+		thumb)
+		VALUES (seq_game.nextval, s.title, s.n_title, s.thumb)
+	</insert>
+
+	<insert id="mergeDirectNew">
+		MERGE INTO game g
+		USING (
+		SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY n_title ORDER BY title) AS rn
+		FROM direct_new
+		) dsub
+		WHERE rn = 1
+		) d
+		ON (g.n_title = d.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET g.thumb = d.thumb
+		WHERE d.thumb IS NOT NULL
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title, n_title, thumb)
+		VALUES (seq_game.nextval, d.title, d.n_title, d.thumb)
+	</insert>
+
+	<insert id="mergeNintendoDC">
+		MERGE INTO game g
+		USING (
+		SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY n_title ORDER BY title) AS rn
+		FROM nintendo_dc
+		) dsub
+		WHERE rn = 1
+		) n
+		ON (g.n_title = n.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET g.thumb = n.thumb
+		WHERE n.thumb IS NOT NULL
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title, n_title, thumb)
+		VALUES (seq_game.nextval, n.title, n.n_title, n.thumb)
+	</insert>
+
+	<insert id="mergeNintendoNew">
+		MERGE INTO game g
+		USING (
+		SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY n_title ORDER BY title) AS rn
+		FROM nintendo_new
+		) dsub
+		WHERE rn = 1
+		) n
+		ON (g.n_title = n.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET g.thumb = n.thumb
+		WHERE n.thumb IS NOT NULL
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title, n_title, thumb)
+		VALUES (seq_game.nextval, n.title, n.n_title, n.thumb)
+	</insert>
+	
+	<insert id="mergeNintendoExp">
+		MERGE INTO game g
+		USING (
+		SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY n_title ORDER BY title) AS rn
+		FROM nintendo_exp
+		) dsub
+		WHERE rn = 1
+		) n
+		ON (g.n_title = n.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET g.thumb = n.thumb
+		WHERE n.thumb IS NOT NULL
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title, n_title, thumb)
+		VALUES (seq_game.nextval, n.title, n.n_title, n.thumb)
+	</insert>
+	
+	<insert id="mergePlanetNew">
+		MERGE INTO game g
+		USING (
+		SELECT title, n_title, thumb
+		FROM (
+		SELECT title, n_title, thumb,
+		ROW_NUMBER() OVER (PARTITION BY n_title ORDER BY title) AS rn
+		FROM planet_new
+		) dsub
+		WHERE rn = 1
+		) n
+		ON (g.n_title = n.n_title)
+		WHEN MATCHED THEN
+		UPDATE SET g.thumb = n.thumb
+		WHERE n.thumb IS NOT NULL
+		WHEN NOT MATCHED THEN
+		INSERT (g_num, g_title, n_title, thumb)
+		VALUES (seq_game.nextval, n.title, n.n_title, n.thumb)
+	</insert>
+	
+	<insert id="updateGameInfo">
+		MERGE INTO game_info gi
+		USING scrap_merge ms
+		ON (gi.gi_title = ms.gi_title AND gi.gi_platform = ms.gi_platform)
+		WHEN MATCHED THEN
+		UPDATE SET
+		gi.gi_thumb = ms.gi_thumb,
+		gi.gi_price = ms.gi_price,
+		gi.gi_fprice = ms.gi_fprice,
+		gi.gi_rate = ms.gi_rate,
+		gi.gi_link = ms.gi_link,
+		gi.gi_state = ms.gi_state,
+		gi.gi_date = systimestamp
+		WHEN NOT MATCHED THEN
+		INSERT (
+		gi_num, g_num, gi_platform, gi_title, gi_thumb,
+		gi_price, gi_fprice,
+		gi_rate, gi_link, gi_state, gi_date
+		)
+		VALUES (
+		seq_game_info.nextval, ms.g_num, ms.gi_platform, ms.gi_title,
+		ms.gi_thumb,
+		ms.gi_price, ms.gi_fprice, ms.gi_rate, ms.gi_link,
+		ms.gi_state, systimestamp
+		)
+	</insert>
+
+
+	<select id="gameInfoList" resultType="gameinfo">
+		SELECT * FROM game_info
+		ORDER BY gi_num ASC
+	</select>
+
+	<delete id="scrapMergeClean">
+		DELETE FROM scrap_merge
+	</delete>
+	<insert id="scrapMerge" parameterType="gameinfo">
+		MERGE INTO scrap_merge t
+		USING (
+		SELECT
+		#{gNum} AS g_num,
+		#{giPlatform} AS gi_platform,
+		#{giTitle}
+		AS gi_title,
+		#{giThumb} AS gi_thumb,
+		#{giPrice} AS gi_price,
+		#{giFprice}
+		AS gi_fprice,
+		#{giRate} AS gi_rate,
+		#{giLink} AS gi_link,
+		#{giState} AS
+		gi_state,
+		#{giDate} AS gi_date
+		FROM DUAL
+		) d
+		ON (t.g_num = d.g_num AND
+		t.gi_platform = d.gi_platform)
+		WHEN MATCHED THEN
+		UPDATE SET
+		t.gi_title =
+		d.gi_title,
+		t.gi_thumb = d.gi_thumb,
+		t.gi_price = d.gi_price,
+		t.gi_fprice = d.gi_fprice,
+		t.gi_rate = d.gi_rate,
+		t.gi_link = d.gi_link,
+		t.gi_state = CASE
+		WHEN t.gi_state = 'dc' AND d.gi_state = 'new' THEN
+		'newdc'
+		WHEN t.gi_state IS NULL THEN d.gi_state
+		ELSE t.gi_state
+		END,
+		t.gi_date = d.gi_date
+		WHEN NOT MATCHED THEN
+		INSERT (
+		g_num,
+		gi_platform,
+		gi_title, gi_thumb,
+		gi_price, gi_fprice, gi_rate, gi_link,
+		gi_state,
+		gi_date
+		)
+		VALUES (
+		d.g_num,
+		d.gi_platform, d.gi_title, d.gi_thumb,
+		d.gi_price, d.gi_fprice,
+		d.gi_rate, d.gi_link, d.gi_state, d.gi_date
+		)
+	</insert>
+
+</mapper>
