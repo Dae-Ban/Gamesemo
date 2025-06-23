@@ -8,12 +8,10 @@ import lombok.Data;
 @Data
 public class GameInfo {
     private int giNum;           // PK
-	  private int gNum;            // 게임 고유 번호
+	private int gNum;            // 게임 고유 번호
     private String giPlatform;   // 플랫폼 (예: steam, nintendo)
     private String giTitle;      // 게임 제목
     private String giThumb;      // 썸네일 이미지 URL
-    
-    
     private int giPrice;         // 원래 가격
     private int giFprice;        // 할인된 가격
     private int giRate;          // 할인율
