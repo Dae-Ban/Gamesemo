@@ -7,7 +7,7 @@
 
 	<insert id="updateGameInfo">
 		MERGE INTO game_info gi
-		USING scrap_marge ms
+		USING scrap_merge ms
 		ON (gi.gi_title = ms.gi_title AND gi.gi_platform = ms.gi_platform)
 		WHEN MATCHED THEN
 		UPDATE SET
@@ -39,10 +39,10 @@
 	</select>
 
 	<delete id="scrapMergeClean">
-		DELETE FROM scrap_marge
+		DELETE FROM scrap_merge
 	</delete>
 	<insert id="scrapMerge" parameterType="gameinfo">
-		MERGE INTO scrap_marge t
+		MERGE INTO scrap_merge t
 		USING (
 		SELECT
 		#{gNum} AS g_num,
