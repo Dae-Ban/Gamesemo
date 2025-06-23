@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ReportMapper">
+
+  <!-- ✅ 신고 목록 (페이징) -->
+<select id="getPagedReportList" resultMap="reportResultMap">
+  SELECT * FROM (
+    SELECT inner_query.*, ROWNUM rn
+    FROM (
+      SELECT 
+        R.RP_NUM,
+        R.ID,
+        R.RP_REASON,
+        R.RP_DATE,
+        R.RP_TABLE,
+        R.BOARD_NUM,
+        R.RP_STATUS,
+        CASE 
+          WHEN LOWER(R.RP_TABLE) = 'community_board' THEN C.CB_TITLE
+          WHEN LOWER(R.RP_TABLE) = 'review_board' THEN V.RB_TITLE
+          ELSE '알 수 없음'
+        END AS POSTTITLE
+      FROM REPORT R
+      LEFT JOIN COMMUNITY_BOARD C 
+        ON LOWER(R.RP_TABLE) = 'community_board' AND R.BOARD_NUM = C.CB_NUM
+      LEFT JOIN REVIEW_BOARD V 
+        ON LOWER(R.RP_TABLE) = 'review_board' AND R.BOARD_NUM = V.RB_NUM
+      <where>
+        <if test="type != null and keyword != null and keyword != ''">
+          <choose>
+            <when test="type == 'reporter'">
+              LOWER(R.ID) LIKE '%' || LOWER(#{keyword}) || '%'
+            </when>
+            <when test="type == 'table'">
+              LOWER(R.RP_TABLE) LIKE '%' || LOWER(#{keyword}) || '%'
+            </when>
+            <when test="type == 'status'">
+              R.RP_STATUS = #{keyword}
+            </when>
+          </choose>
+        </if>
+      </where>
+      ORDER BY R.RP_DATE DESC
+    ) inner_query
+    WHERE ROWNUM &lt;= #{endRow}
+  )
+  WHERE rn &gt;= #{startRow}
+</select>
+  <!-- ✅ 신고 총 개수 -->
+ <select id="getTotalReportCount" resultType="int">
+  SELECT COUNT(*)
+  FROM REPORT R
+  <where>
+    <if test="type != null and keyword != null and keyword != ''">
+      <choose>
+        <when test="type == 'reporter'">
+          LOWER(R.ID) LIKE '%' || LOWER(#{keyword}) || '%'
+        </when>
+        <when test="type == 'table'">
+          LOWER(R.RP_TABLE) LIKE '%' || LOWER(#{keyword}) || '%'
+        </when>
+        <when test="type == 'status'">
+          R.RP_STATUS = #{keyword}
+        </when>
+      </choose>
+    </if>
+  </where>
+</select>
+
+  <!-- ✅ 신고 상세 조회 -->
+  <select id="selectReportById" resultType="com.example.demo.model.ReportDTO">
+    SELECT * FROM REPORT WHERE RP_NUM = #{rpNum}
+  </select>
+
+ <!-- ✅ communityBoard용 resultMap -->
+<resultMap id="communityResultMap" type="com.example.demo.model.Community">
+  <id     property="cb_num"      column="CB_NUM"/>
+  <result property="id"          column="ID"/>
+  <result property="cb_title"    column="CB_TITLE"/>
+  <result property="cb_content"  column="CB_CONTENT"/>
+  <result property="cb_readcount" column="CB_READCOUNT"/>
+  <result property="cb_date"     column="CB_DATE"/>
+  <result property="cb_state"    column="CB_STATE"/>
+</resultMap>
+
+<!-- ✅ communityBoard 게시글 상세 조회 -->
+<select id="selectCommunityPost" resultMap="communityResultMap">
+  SELECT * FROM COMMUNITY_BOARD WHERE CB_NUM = #{boardNum}
+</select>
+
+  <!-- ✅ 리뷰게시판 게시글 상세 조회 (🛠 resultMap 사용!) -->
+  <resultMap id="reviewResultMap" type="com.example.demo.model.Review">
+    <id property="rb_num" column="RB_NUM"/>
+    <result property="id" column="ID"/>
+    <result property="rb_title" column="RB_TITLE"/>
+    <result property="rb_readcount" column="RB_READCOUNT"/>
+    <result property="rb_date" column="RB_DATE"/>
+    <result property="rb_state" column="RB_STATE"/>
+    <result property="rb_like" column="RB_LIKE"/>
+    <result property="rb_content" column="RB_CONTENT"/>
+  </resultMap>
+
+  <select id="selectReviewPost" resultMap="reviewResultMap">
+    SELECT * FROM REVIEW_BOARD WHERE RB_NUM = #{boardNum}
+  </select>
+
+  <!-- ✅ 신고 처리 상태 변경 -->
+  <update id="updateReportStatus">
+    UPDATE REPORT SET RP_STATUS = 'RESOLVED' WHERE RP_NUM = #{rpNum}
+  </update>
+
+  <!-- ✅ 자유게시판 블라인드 처리 -->
+  <update id="blindCommunityPost">
+    UPDATE COMMUNITY_BOARD SET CB_STATE = 1 WHERE CB_NUM = #{boardNum}
+  </update>
+  
+  <!-- 자유게시판 블라인드 해제 -->
+  <update id="unblindCommunityPost">
+  UPDATE COMMUNITY_BOARD SET CB_STATE = 0 WHERE CB_NUM = #{boardNum}
+  </update>
+
+  <!-- ✅ 리뷰게시판 블라인드 처리 -->
+  <update id="blindReviewPost">
+    UPDATE REVIEW_BOARD SET RB_STATE = 1 WHERE RB_NUM = #{boardNum}
+  </update>
+  
+  <!-- 리뷰게시판 블라인드 해제 -->
+  <update id="unblindReviewPost">
+  UPDATE REVIEW_BOARD SET RB_STATE = 0 WHERE RB_NUM = #{boardNum}
+  </update>
+
+  <!-- ✅ 신고 상태 복원 (PENDING) -->
+  <update id="updateReportStatusToPending">
+    UPDATE REPORT SET RP_STATUS = 'PENDING' WHERE RP_NUM = #{rpNum}
+  </update>
+  
+  
+
+  <!-- ✅ 신고 목록 결과 매핑 -->
+  <resultMap id="reportResultMap" type="com.example.demo.model.ReportDTO">
+    <id     property="rpNum"      column="RP_NUM" />
+    <result property="id"         column="ID" />
+    <result property="rpReason"   column="RP_REASON" />
+    <result property="rpDate"     column="RP_DATE" />
+    <result property="rpTable"    column="RP_TABLE" />
+    <result property="boardNum"   column="BOARD_NUM" />
+    <result property="rpStatus"   column="RP_STATUS" />
+    <result property="postTitle"  column="POSTTITLE" />
+  </resultMap>
+
+</mapper>

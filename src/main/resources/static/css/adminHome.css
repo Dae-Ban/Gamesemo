@@ -1,0 +1,38 @@
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  text-align: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.menu-box {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.menu-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.menu-box a {
+  text-decoration: none;
+  color: #001f60;
+  font-weight: bold;
+  font-size: 16px;
+};
