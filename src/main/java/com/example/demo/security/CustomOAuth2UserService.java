@@ -66,7 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			emailDomain = emailParts[1];
 		}
 
-		Member member = findBySocialIdAndPlatform(socialId, platform);
+		Member member = findBySocialIdAndPlatform(emailId, emailDomain);
 		if (member == null) {
 			member = new Member();
 			String shortUUID = UUID.randomUUID().toString().substring(0, 30);

@@ -63,8 +63,8 @@
 
 	<select id="findBySocialIdAndPlatform" resultType="member">
 		SELECT * FROM
-		MEMBER WHERE SOCIAL_ID = #{socialId} AND SOCIAL_PLATFORM =
-		#{platform}
+		MEMBER WHERE EMAIL_ID = #{emailId} AND EMAIL_DOMAIN =
+		#{emailDomain}
 	</select>
 	
 	<insert id="socialInsert" parameterType="member">
