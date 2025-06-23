@@ -46,7 +46,7 @@ public class GameInfoController {
 	    GameInfo game = platformList.get(0);
 
 	    // 3) 유저 세션
-	    Member loginUser = (Member) session.getAttribute("loginUser");
+	    Member loginUser = (Member) session.getAttribute("loginMember");
 	    boolean wishlisted = false;
 	    if (loginUser != null) {
 	        wishlisted = wishlistService.wishlistExists(gnum, loginUser.getId());
