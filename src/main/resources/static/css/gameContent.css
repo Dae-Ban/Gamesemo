@@ -1,0 +1,269 @@
+/* === 전체 레이아웃. === */
+body {
+	margin: 0;
+	font-family: 'Noto Sans KR', sans-serif;
+	background: #fff;
+	color: #333;
+}
+
+.container {
+	max-width: 1300px;
+	margin: 5% auto;
+	padding: 40px;
+	box-sizing: border-box;
+}
+/* === 상세 헤더 === */
+.detail-header {
+	display: flex;
+	gap: 40px;
+	align-items: center;
+}
+
+.thumb img {
+	width: 600px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+	flex: 1;
+}
+
+.info h1 {
+	margin-bottom: 16px;
+	font-size: 2.5rem;
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 8px;
+}
+/* === 가격 카드 === */
+.platform-card {
+	display: flex;
+	align-items: center;
+	padding: 16px;
+	border-radius: 8px;
+	margin-bottom: 16px;
+	background-color: #f9f9f9;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+	transition: box-shadow 0.2s;
+}
+
+.platform-card:hover {
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.discount-tag {
+	background: #E50914;
+	color: #fff;
+	font-size: 0.9rem;
+	font-weight: bold;
+	padding: 4px 10px;
+	border-radius: 6px;
+	text-align: center;
+}
+
+.price-info {
+	display: flex;
+	flex-direction: column;
+	margin-left: 16px;
+	gap: 4px;
+}
+
+.original {
+	font-size: 0.9rem;
+	text-decoration: line-through;
+	opacity: 0.7;
+}
+
+.discounted {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.btn {
+	display: inline-block;
+	margin-left: auto;
+	padding: 8px 16px;
+	border-radius: 20px;
+	font-size: 0.9rem;
+	font-weight: 500;
+	text-decoration: none;
+	color: #333;
+	border: 1px solid #ccc;
+	transition: background 0.2s, border-color 0.2s;
+}
+
+.btn:hover {
+	background: #eaeaea;
+	border-color: #bbb;
+}
+/* === 위시리스트 버튼 === */
+.wishlist-container {
+	text-align: center;
+	margin: 24px 0;
+}
+
+.wishlist-btn-full {
+	width: 100%;
+	max-width: 400px;
+	padding: 14px 0;
+	background: #E50914;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: bold;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.wishlist-btn-full:hover {
+	background: #b00710;
+}
+/* === 리뷰 영상 슬라이더 === */
+.video-section {
+	margin-top: 60px;
+}
+
+.video-section h2 {
+	margin-bottom: 16px;
+	font-size: 1.8rem;
+	border-bottom: 2px solid #ddd;
+}
+
+.video-slider {
+	position: relative;
+	padding: 0 40px;
+}
+
+.video-slider, #review-swiper {
+	overflow: visible !important;
+}
+
+.video-nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 2rem;
+	cursor: pointer;
+	color: #888;
+	z-index: 10;
+}
+
+.video-nav.prev {
+	left: 0;
+}
+
+.video-nav.next {
+	right: 0;
+}
+
+.swiper {
+	width: 100%;
+}
+
+.swiper-slide iframe {
+	width: 100%;
+	aspect-ratio: 16/9;
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-container {
+	display: none;
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.login-box {
+	width: 100%;
+	max-width: 400px;
+	margin: 100px auto;
+	padding: 30px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	background-color: #f9f9f9;
+	position: relative;
+}
+
+.login-box h2 {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.login-box input[type="text"], .login-box input[type="password"] {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+
+.login-box input[type="submit"] {
+	width: 100%;
+	padding: 10px;
+	background: royalblue;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.login-box .sns-buttons {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.login-box .sns-buttons img {
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+}
+
+.close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	width: 15px;
+	height: 15px;
+	cursor: pointer;
+}
+
+.close img {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+#review-swiper {
+	overflow: hidden !important; /* visible 강제 해제 */
+}
+
+/* 2) 네비 버튼 위치 조정 */
+.video-nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 2rem;
+	cursor: pointer;
+	color: #888;
+	z-index: 10;
+	user-select: none;
+}
+
+.video-nav.prev {
+	left: 0; /* 왼쪽 꼭대기 */
+	margin-left: -40px; /* .video-slider 패딩만큼 빼주면 깔끔 */
+}
+
+.video-nav.next {
+	right: 0;
+	margin-right: -40px;
+}
+
+.wishlist-btn-full.wishlisted {
+  background-color: #1D1D1D;
+  color: #fff;
+  border: 1px solid #1D1D1D;
+}

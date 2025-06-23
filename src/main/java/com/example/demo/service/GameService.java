@@ -14,20 +14,12 @@ import com.example.demo.model.Pagenation;
 @Service
 public class GameService {
 	@Autowired
-	private GameMapper mapper;
+	private GameMapper gameMapper;
 
 	public List<GameInfo> getGameList(Pagenation pgn) {
-		return mapper.getGameList(pgn);
+		return gameMapper.getGameList(pgn);
 	}
+	
 
-	public int getCount(String giState, String giPlatform) {
-		Map<String, String> filter = new HashMap<>();
-		filter.put("giState", giState);
-		filter.put("giPlatform", giPlatform);
-		return mapper.getCount(filter);
-	}
 
-	public List<GameInfo> search(String keyword) {
-		return mapper.search(keyword);
-	}
 }

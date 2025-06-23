@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 81bff28d1c0090f495cb9b221f9a7e7ad1769da7
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -146,4 +149,8 @@
 	
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 81bff28d1c0090f495cb9b221f9a7e7ad1769da7

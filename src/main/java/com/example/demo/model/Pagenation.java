@@ -59,6 +59,7 @@ public class Pagenation {
 	public void setGiPlatform(String giPlatform) {
 		this.giPlatform = giPlatform;
 	}
+
 	
 	public void setSort(String sort) {
 		this.sort = sort;
