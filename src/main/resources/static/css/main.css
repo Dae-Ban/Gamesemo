@@ -1,0 +1,447 @@
+/* 공통 스타일 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+/* 공통 컨테이너 (양쪽 너비)*/
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 헤더 */
+header {
+  z-index: 1000;
+  overflow: visible; /* ✅ 추가 */
+  position: relative; /* 기준점이 되어줌 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  background-color: black;
+  color: white;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-left: 40px; /* ← 원하는 만큼 숫자 조정 가능 */
+}
+
+.logo img {
+  height: 40px;
+  margin-right: 20px;
+}
+
+nav a {
+  color: white;
+  margin: 0 30px;
+  text-decoration: none;
+}
+
+/* 검색 + 로그인 + 프로필 */
+.search-login {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-left: auto; /* 오른쪽 정렬 유지 */
+
+}
+
+/* 검색 박스 */
+.search-box {
+  color: black;
+  display: flex;
+  align-items: center;
+  border: 1px solid #1a237e;
+  padding: 4px;
+  border-radius: 4px;
+  background: #f5f5f5;
+}
+
+.search-box input,
+.search-box select {
+  border: none;
+  outline: none;
+  padding: 5px;
+  background: transparent;
+  margin-right: 10px;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.search-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+/* 로그인 버튼 */
+.login-btn {
+  background-color: #e50914;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+  text-decoration: none;
+  transition: background-color 0.3s ease; /* 부드럽게 변화 */
+}
+
+.login-btn:hover {
+  background-color: #b20710;
+  color: white;
+  text-decoration: none;
+}
+
+.platform-buttons {
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  gap: 40px;                /* 버튼 사이 간격 */
+  margin-top: 40px;
+  flex-wrap: wrap;          /* 줄바꿈 허용 (옵션) */
+}
+
+.platform-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* 아이콘과 텍스트 사이 간격 */
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: black;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.platform-icon {
+  width: 22px;   /* 원하는 크기로 조절 */
+  height: 22px;
+}
+
+.platform-btn.active {
+  background: red;
+}
+
+/* ✅ hover 시 빨간색 배경으로 변경 */
+.platform-btn:hover {
+  background-color: red;
+}
+
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.game-header h2 {
+  font-size: 30px;      /* ✅ 크기 키우기 (기본 18~20px보다 큼) */
+  font-weight: 700;     /* ✅ 훨씬 더 굵게 */
+  margin: 0;
+}
+
+.game-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px; /* ✅ 여기 추가 */
+}
+
+.inline-more-link {
+  font-size: 14px;
+  color: #666;
+  text-decoration: none;
+}
+
+.inline-more-link:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* 전체 감싸는 컨테이너 두 줄 정렬 */
+.game-section {
+  display: flex;
+  justify-content: center;
+  gap: 200px;
+  flex-wrap: wrap; /* ✅ 반응형 대응 */
+  
+  
+  margin-top: 60px;  /* ✅ 플랫폼 버튼과 간격 벌리기 */
+}
+
+.game-category {
+  width: 420px; /* 또는 48% 정도 */
+  display: flex;
+  flex-direction: column;
+}
+
+.game-row {
+  margin-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+}
+
+.game-item {
+  display: flex;
+  align-items: flex-start;  /* 중앙 정렬 → top 정렬로 바꿈 */
+  gap: 10px;
+  text-decoration: none;
+  color: #222;
+  padding: 4px 0;
+}
+
+.game-thumb {
+  width: auto;
+  height: 80px;
+  max-width: 80px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background-color: transparent;
+  margin-right: 10px;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.game-title {
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 4px;
+  color: #111;
+}
+
+.game-price {
+  font-size: 14px;
+  color: #555;
+}
+
+.game-price del {
+  margin-right: 6px;
+  color: #999;
+}
+
+.game-discount {
+  color: red;
+  font-weight: bold;
+  margin-left: 6px;
+}
+
+.game-more {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.more-link {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.2s ease-in-out;
+}
+
+.more-link:hover {
+  background-color: #555;
+}
+
+/* 푸터 */
+footer {
+  background: black;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* 캐러셀 버튼 */
+/* 슬라이드 전체 영역 */
+#myCarousel {
+  position: relative; /* 버튼 기준 영역 지정 */
+  width: 800%;
+  margin: 30px auto;
+}
+
+/* 슬라이드 액자 프레임: 고정 비율 + 정중앙 정렬 */
+.carousel-frame {
+  width: 100%;
+  height: 500px;
+  overflow: visible; /* ✅ 드롭다운 겹침 방지 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* 이미지가 프레임을 꽉 채우면서 비율 유지 */
+.carousel-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  vertical-align: middle;
+  position: relative;
+}
+
+
+.carousel-control.left,
+.carousel-control.right {
+  background-image: none !important;
+  background-color: transparent;
+  color: black;
+  opacity: 0.8;
+  width: 50px;
+  height: 100%;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-control.left {
+  left: -60px;  /* ✅ 이미지 너비 기준으로 바깥쪽 위치 */
+}
+
+.carousel-control.right {
+  right: -70px;
+}
+
+.carousel-caption h3 {
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+
+/* 버튼 안의 아이콘 중앙 정렬 */
+.carousel-control .glyphicon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 기본 메뉴 스타일 */
+.simple-nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 30px;
+  font-weight: bold;
+  align-items: center;
+}
+
+.simple-nav a {
+  text-decoration: none;
+  color: white;
+  padding: 5px 10px;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.simple-nav a:hover {
+  color: red;
+}
+
+
+
+/* 커뮤니티 드롭다운 (hover 방식) */
+.dropdown {
+  position: relative;
+}
+
+.dropdown > .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 9999; /* 기존보다 더 높게 */
+  min-width: 120px;
+  white-space: nowrap;
+  border-radius: 6px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+}
+
+.dropdown-menu a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  padding: 8px 10px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f2f2f2;
+}
+
+.dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+/* ✅ 마이페이지 전용 클릭 드롭다운 */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.profile-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #ddd;
+  padding: 4px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.profile-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1000;
+  flex-direction: column;
+  min-width: 120px;
+  white-space: nowrap;
+  border-radius: 6px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+  
+}
+
+.profile-dropdown.active .profile-menu {
+  display: flex;
+}
+
+.profile-menu a {
+  display: block;
+  padding: 8px 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.profile-menu a:hover {
+  background-color: #f2f2f2;
+}
