@@ -313,14 +313,14 @@ function checkEmailDuplicateLive() {
 	checkEmailDuplicate();
 }
 
-// ✅ 이벤트 연결
+//✅ 이벤트 연결
 document.addEventListener("DOMContentLoaded", function() {
 	const emailCheckResult = document.getElementById("emailCheckResult");
 
-	// 이메일 아이디 입력 중 실시간 중복검사 실행
+	 //이메일 아이디 입력 중 실시간 중복검사 실행
 	document.getElementById("emailId").addEventListener("input", checkEmailDuplicateLive);
 
-	// 이메일 아이디 입력 후 blur 시 유효성 + 중복검사
+	 //이메일 아이디 입력 후 blur 시 유효성 + 중복검사
 	document.getElementById("emailId").addEventListener("blur", function() {
 		validateEmailId(this);
 	});
@@ -346,13 +346,13 @@ function getGender() {
 	}
 }
 
-document.getElementById("signupBtn").addEventListener("click", function() {
-	let gender = getGender();
-	if (gender) {
-		console.log("선택된 성별:", gender);
-		// 이후 회원가입 데이터를 서버로 전송하는 로직 추가
-	}
-});
+//document.getElementById("signupBtn").addEventListener("click", function() {
+//	let gender = getGender();
+//	if (gender) {
+//		console.log("선택된 성별:", gender);
+//		// 이후 회원가입 데이터를 서버로 전송하는 로직 추가
+//	}
+//});
 
 // 생년월일
 document.addEventListener("DOMContentLoaded", function() {

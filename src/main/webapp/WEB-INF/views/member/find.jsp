@@ -25,9 +25,7 @@
 
 			<div class="input-inline">
 				<input type="text" id="findIdCode" placeholder="인증번호 입력">
-
 				<button class="btn-small" onclick="checkIdCode()">확인</button>
-
 			</div>
 			<p id="idResult" class="result-text"></p>
 		</div>
@@ -48,7 +46,6 @@
 			</div>
 			<p id="pwMessage" class="result-text"></p>
 
-
 			<div class="form-group" id="pwCodeGroup" style="display: none;">
 				<label for="findPwCode">인증번호</label> <input type="text"
 					id="findPwCode" placeholder="인증번호 입력">
@@ -56,7 +53,6 @@
 
 			<div class="form-group" id="pwVerifyBtn" style="display: none;">
 				<button class="btn-slim" onclick="verifyCode()">확인</button>
-
 			</div>
 			<p id="pwResult" class="result-text"></p>
 		</div>
@@ -79,7 +75,6 @@
 			<p id="resetResult" class="result-text"></p>
 		</div>
 	</div>
-
 	<!--  비번 탭 안넘어가서 .. js 같이 씀  -->
 	<script>
 let idAuthCode = null;
@@ -118,4 +113,3 @@ document.addEventListener("DOMContentLoaded", () => {
 	<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
 </body>
 </html>
-

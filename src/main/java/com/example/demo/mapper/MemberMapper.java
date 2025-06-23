@@ -45,13 +45,13 @@ public interface MemberMapper {
 	
 	public List<Member> selectAllEmailSubscribers();
 	
-	// 로그인 : 영교님꺼 추가
-
-	Member findBySocialIdAndPlatform(@Param("socialId") String socialId, @Param ("platform") String platform);
-
+	// 로그인 : 영교님꺼 추가	
+	
 	void socialInsert(Member member);
 
 	public Member login(String id);
+	
+	Member findBySocialIdAndPlatform(@Param("socialId") String socialId, @Param ("platform") String platform);
 
 	
 

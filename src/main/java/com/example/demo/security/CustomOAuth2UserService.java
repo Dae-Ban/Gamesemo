@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -26,8 +27,9 @@ import lombok.RequiredArgsConstructor;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private final MemberMapper memberMapper;
-	private final HttpSession session; //  세션객체 추가함(지선)
-
+	private final HttpSession session;
+	
+	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
 		OAuth2User oAuth2User = super.loadUser(request);
@@ -68,7 +70,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			emailDomain = emailParts[1];
 		}
 
-		Member member = findBySocialIdAndPlatform(socialId, platform);
+		Member member = findByEmail(emailId, emailDomain);
 		if (member == null) {
 			member = new Member();
 			String shortUUID = UUID.randomUUID().toString().substring(0, 30);
@@ -88,13 +90,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			member.setEmailVerified("Y");
 			memberMapper.socialInsert(member);
 			
-			//추가(지선)
-			member = memberMapper.findBySocialIdAndPlatform(socialId, platform); 
+			member = memberMapper.findBySocialIdAndPlatform(socialId, platform);
 		}
-
-		// 마이페이지에 소셜로그인 정보 가져오기 추가 (지선)
-		session.setAttribute("loginMember", member);
 		
+		session.setAttribute("loginMember", member);
+
 		List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 		
 		if(platform.equals("kakao"))
@@ -103,7 +103,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			return new DefaultOAuth2User(authorities, attributes, "name");
 	}
 
-	public Member findBySocialIdAndPlatform(String socialId, String platform) {
-		return memberMapper.findBySocialIdAndPlatform(socialId, platform);
+	public Member findByEmail(String emailId, String emailDomain) {
+		return memberMapper.findByEmail(emailId + "@" + emailDomain);
 	}
 }
