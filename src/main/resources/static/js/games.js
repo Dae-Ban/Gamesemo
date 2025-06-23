@@ -181,5 +181,5 @@ function renderGames(data) {
 
 // 상세 페이지 링크
 $(document).on('click', 'tr.game-content', function() {
-	location.href = "/game/" + $(this).attr("id");
+	location.href = "/game/gameContent?gnum=" + $(this).attr("id");
 });
