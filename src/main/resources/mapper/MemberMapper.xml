@@ -85,6 +85,8 @@
 		#{socialPlatform}, #{socialId}, #{phone}, #{gender}, SYSDATE,
 		#{state}, #{emailAd}, #{emailVerified})
 	</insert>
+	
+	
 
 
 
