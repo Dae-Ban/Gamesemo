@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	if (pwConfirmInput) pwConfirmInput.addEventListener("input", checkPasswordMatch);
 });
 
-// 휴대폰 번호 인증
+// 휴대폰 번호 인증More actions
 function checkPhone() {
 	const phoneInput = document.getElementById("phone");
 	const resultBox = document.getElementById("phoneCheckResult");
@@ -166,20 +166,24 @@ function checkPhone() {
 	phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '');
 	const phone = phoneInput.value;
 
-	const regex = /^010\d{8}$/; // 정확히 010으로 시작 + 숫자 8개 → 총 11자리
-
-	// 11자리가 되기 전엔 검사하지 않음
-	if (phone.length < 11) {
-		resultBox.textContent = ""; // 메시지 숨김
+	//  먼저 010으로 시작하지 않는 경우 검사
+	if (phone && !phone.startsWith("010")) {
+		resultBox.textContent = "❌ 010으로 시작하는 번호만 입력 가능합니다.";
+		resultBox.style.color = "red";
 		return;
 	}
 
-	if (!regex.test(콜)) {
-		if (/[^0-9]/.test(콜)) {
-			resultBox.textContent = "❌ 숫자만 입력하세요. (예: 01012345678)";
-		} else {
-			resultBox.textContent = "❌ 올바른 휴대폰번호를 입력해주세요.";
-		}
+	//  11자리가 되기 전엔 안내문구만
+	if (phone.length < 11) {
+		resultBox.textContent = "휴대폰 번호는 11자리여야 합니다.";
+		resultBox.style.color = "gray";
+		return;
+	}
+
+	//  010으로 시작 + 11자리 정확히 입력된 경우만 통과
+	const regex = /^010\d{8}$/;
+	if (!regex.test(phone)) {
+		resultBox.textContent = "❌ 올바른 휴대폰번호를 입력해주세요.";
 		resultBox.style.color = "red";
 	} else {
 		resultBox.textContent = "✅ 올바른 휴대폰 번호입니다.";
@@ -746,3 +750,56 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.warn("⚠ 확인 버튼을 찾지 못했습니다.");
 	}
 });
+
+
+//회원정보수정 적용 안 돼서 추가함..More actions
+
+function validateUpdateForm() {
+	const name = document.getElementById("name")?.value.trim();
+	const nickname = document.getElementById("nickname")?.value.trim();
+	const phone = document.getElementById("phone")?.value.trim();
+	const emailId = document.getElementById("emailId")?.value.trim();
+	const emailDomain = document.getElementById("emailDomainSelect")?.value === "custom"
+		? document.getElementById("customEmailDomain")?.value.trim()
+		: document.getElementById("emailDomainSelect")?.value;
+	const birth = document.getElementById("birth")?.value.trim();
+	const agree = document.querySelector("input[name='agreeUpdate']");
+
+	if (!name || !nickname || !phone || !emailId || !emailDomain || !birth) {
+		alert("모든 항목을 빠짐없이 입력해주세요.");
+		return false;
+	}
+
+	// ✅ 이름 검사 (한글 또는 영문만)
+	const nameRegex = /^[가-힣a-zA-Z]+$/;
+	if (!nameRegex.test(name)) {
+		alert("이름은 한글 또는 영문만 입력 가능합니다.");
+		return false;
+	}
+
+	// ✅ 닉네임 검사 (2~10자)
+	if (nickname.length < 2 || nickname.length > 10) {
+		alert("닉네임은 2자 이상 10자 이하로 입력해주세요.");
+		return false;
+	}
+
+	// ✅ 필수 항목 누락 확인
+	if (!phone || !emailId || !emailDomain || !birth) {
+		alert("모든 항목을 빠짐없이 입력해주세요.");
+		return false;
+	}
+
+	// ✅ 전화번호 형식 확인
+	if (!/^010\d{8}$/.test(phone)) {
+		alert("휴대폰 번호는 010으로 시작하는 11자리 숫자여야 합니다.");
+		return false;
+	}
+
+	// ✅ 동의 여부
+	if (!agree?.checked) {
+		alert("정보 수정 동의는 필수입니다.");
+		return false;
+	}
+
+	return true; // 모든 조건 통과 시 제출 허용
+}
