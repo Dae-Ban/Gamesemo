@@ -47,6 +47,7 @@ public class GameDataController {
 		try {
 			task.run();
 		} catch(Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
