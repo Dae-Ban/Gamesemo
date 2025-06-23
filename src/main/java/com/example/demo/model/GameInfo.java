@@ -1,20 +1,14 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
-
-
 import org.apache.ibatis.type.Alias;
-
-
-import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Data;
 @Alias("gameinfo")
 @Data
 public class GameInfo {
     private int giNum;           // PK
-    private int gNum;            // 게임 고유 번호
+	  private int gNum;            // 게임 고유 번호
     private String giPlatform;   // 플랫폼 (예: steam, nintendo)
     private String giTitle;      // 게임 제목
     private String giThumb;      // 썸네일 이미지 URL
@@ -27,7 +21,7 @@ public class GameInfo {
     private String giState;      // 상태 (예: 활성, 비활성)
     private Timestamp giDate;    // 등록일
     private String steamAppid;
-
+  
 //	public int getGiNum() {
 //		return giNum;
 //	}

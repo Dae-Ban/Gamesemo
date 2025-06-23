@@ -12,7 +12,7 @@ $(function () {
   });
 });
 
-// 로그인 모달 보여주기
+// 로그인 모달 보여주기.
 function showLoginModal() {
   const redirectUrl = window.location.pathname + window.location.search;
   sessionStorage.setItem("redirectAfterLogin", redirectUrl);

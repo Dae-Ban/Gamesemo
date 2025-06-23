@@ -29,6 +29,6 @@ public interface WishlistMapper {
                                        @Param("keyword") String keyword,
                                        @Param("order") String order,
                                        @Param("offset") int offset,
-                                       @Param("limit") int limit);
+                                       @Param("limit") int limit); 
 
 }
