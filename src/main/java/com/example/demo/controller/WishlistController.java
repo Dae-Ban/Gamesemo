@@ -39,7 +39,7 @@ public class WishlistController {
 	@Autowired
 	private WishlistMapper wishlistMapper;
 
-
+	//
 	@PostMapping("/gameAdd")
 	@ResponseBody
 	public String addToWishlist(@RequestParam("gnum") int gnum, HttpSession session) {
