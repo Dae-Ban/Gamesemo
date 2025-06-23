@@ -38,10 +38,10 @@
 		ORDER BY gi_num ASC
 	</select>
 
-	<delete id="scrapMargeClean">
+	<delete id="scrapMergeClean">
 		DELETE FROM scrap_marge
 	</delete>
-	<insert id="scrapMarge" parameterType="gameinfo">
+	<insert id="scrapMerge" parameterType="gameinfo">
 		MERGE INTO scrap_marge t
 		USING (
 		SELECT

@@ -22,7 +22,7 @@
 		SELECT
 		g_num FROM game WHERE n_title=#{nTitle}
 	</select>
-	<insert id="margeSteamApi" parameterType="Game">
+	<insert id="mergeSteamApi" parameterType="Game">
 		MERGE INTO game g
 		USING (
 		SELECT #{gTitle} AS g_title,
@@ -38,7 +38,7 @@
 		VALUES (seq_game.nextval, api.g_title, api.n_title, api.steam_appid)
 	</insert>
 
-	<insert id="margeSteamDC">
+	<insert id="mergeSteamDC">
 		MERGE INTO game g
 		USING (SELECT title, n_title, thumb
 		FROM (
@@ -61,7 +61,7 @@
 		VALUES (seq_game.nextval, s.title, s.n_title, s.thumb)
 	</insert>
 
-	<insert id="margeSteamNew">
+	<insert id="mergeSteamNew">
 		MERGE INTO game g
 		USING (SELECT title, n_title, thumb
 		FROM (
@@ -84,7 +84,7 @@
 		VALUES (seq_game.nextval, s.title, s.n_title, s.thumb)
 	</insert>
 	
-	<insert id="margeSteamTop">
+	<insert id="mergeSteamTop">
 		MERGE INTO game g
 		USING (SELECT title, n_title, thumb
 		FROM (
@@ -107,7 +107,7 @@
 		VALUES (seq_game.nextval, s.title, s.n_title, s.thumb)
 	</insert>
 
-	<insert id="margeDirectNew">
+	<insert id="mergeDirectNew">
 		MERGE INTO game g
 		USING (
 		SELECT title, n_title, thumb
@@ -127,7 +127,7 @@
 		VALUES (seq_game.nextval, d.title, d.n_title, d.thumb)
 	</insert>
 
-	<insert id="margeNintendoDC">
+	<insert id="mergeNintendoDC">
 		MERGE INTO game g
 		USING (
 		SELECT title, n_title, thumb
@@ -147,7 +147,7 @@
 		VALUES (seq_game.nextval, n.title, n.n_title, n.thumb)
 	</insert>
 
-	<insert id="margeNintendoNew">
+	<insert id="mergeNintendoNew">
 		MERGE INTO game g
 		USING (
 		SELECT title, n_title, thumb
@@ -167,7 +167,7 @@
 		VALUES (seq_game.nextval, n.title, n.n_title, n.thumb)
 	</insert>
 	
-	<insert id="margeNintendoExp">
+	<insert id="mergeNintendoExp">
 		MERGE INTO game g
 		USING (
 		SELECT title, n_title, thumb
@@ -187,7 +187,7 @@
 		VALUES (seq_game.nextval, n.title, n.n_title, n.thumb)
 	</insert>
 	
-	<insert id="margePlanetNew">
+	<insert id="mergePlanetNew">
 		MERGE INTO game g
 		USING (
 		SELECT title, n_title, thumb
