@@ -1,11 +1,7 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
-
-
 import org.apache.ibatis.type.Alias;
-
-
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
