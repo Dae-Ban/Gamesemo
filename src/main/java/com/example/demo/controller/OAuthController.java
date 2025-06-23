@@ -6,8 +6,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.demo.service.MemberService;
-
+import com.example.demo.mapper.MemberMapper;
+import com.example.demo.model.Member;
+import com.example.demo.util.Normalize;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -15,19 +16,44 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OAuthController {
 
+    private final Normalize normalize;
+
     private final HttpSession session;
-    
-    MemberService memberService;;
+    private final MemberMapper memberMapper;
+
+
+
 
     @GetMapping("/oauth2/success")
     public String oauth2Success(@AuthenticationPrincipal OAuth2User oAuth2User) {
-    	String id;
-    	if(oAuth2User.getAttribute("id") == null)
-    		id = oAuth2User.getAttribute("sub").toString();
-    	else
-    		id = oAuth2User.getAttribute("id").toString();
-        session.setAttribute("id", id);
+        String socialId;
+        String platform;
+        
+      
+        // 1. 플랫폼 구분 및 ID 추출
+        if (oAuth2User.getAttribute("sub") != null) {
+            socialId = oAuth2User.getAttribute("sub").toString();  // Google
+            platform = "google";
+            System.out.println("social: " + socialId);
+            System.out.println("platform: " + platform);
+        } else if (oAuth2User.getAttribute("id") != null && oAuth2User.getAttribute("email") != null) {
+            socialId = oAuth2User.getAttribute("id").toString();   // Naver or Kakao
+            String email = oAuth2User.getAttribute("email").toString();
+            platform = email.contains("@kakao.com") ? "kakao" : "naver";
+        } else {
+            throw new IllegalArgumentException("지원하지 않는 소셜 로그인입니다.");
+        }
 
-        return "redirect:/main";
+        // 2. DB에서 사용자 조회
+        Member member = memberMapper.findBySocialIdAndPlatform(socialId, platform);
+        System.out.println("member: " + member);
+        // 3. 세션에 사용자 저장
+        if (member != null) {
+            session.setAttribute("loginMember", member);
+            return "redirect:/main";
+        } else {
+            // ❗ 소셜 로그인은 되었지만 DB에 회원 정보가 없음 (회원가입 유도)
+            return "redirect:/member/register=" + platform + "&socialId=" + socialId;
+        }
     }
 }

@@ -33,4 +33,5 @@ public class GameService {
 	public List<GameInfo> search(String keyword) {
 		return mapper.search(norm.normalize(keyword));
 	}
+
 }

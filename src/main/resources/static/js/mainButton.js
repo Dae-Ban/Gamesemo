@@ -14,7 +14,7 @@ function renderGames(data, containerId) {
   data.forEach(game => {
     container.innerHTML += `
       <div class="game-row">
-        <a href="/game/${game.giNum}" class="game-item">
+        <a href="/game/gameContent?gnum=${game.gnum}" class="game-item">
           <img src="${game.giThumb}" alt="${game.giTitle}" class="game-thumb"
 		  onerror="this.onerror=null; this.src='/images/icons/noThumb.png';" />
           <div class="game-info">

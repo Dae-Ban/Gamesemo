@@ -35,6 +35,10 @@ public class GameInfoService {
 		return gameInfoMapper.getByGame(gnum);
 	}
 
+	public List<GameInfo> getPlatformsByGame(int gnum) {
+		return gameInfoMapper.getPlatformsByGame(gnum);
+	}
+
 	
 
 }

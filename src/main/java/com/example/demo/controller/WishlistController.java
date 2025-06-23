@@ -78,7 +78,7 @@ public class WishlistController {
 			@RequestParam(name = "order", defaultValue = "recent") String order,
 			@RequestParam(name = "page", defaultValue = "1") int page, HttpSession session, Model model) {
 
-		Member loginMember = (Member) session.getAttribute("loginMember");  // ✅ 수정
+		Member loginMember = (Member) session.getAttribute("loginMember");  
 	    if (loginMember == null) {
 	        session.setAttribute("redirectAfterLogin", "/wishlist");
 	        return "redirect:/member/login";
@@ -89,9 +89,12 @@ public class WishlistController {
 		int offset = (page - 1) * pageSize;
 
 		int total = wishlistMapper.countWishlist(id, keyword);
+		System.out.println("세션 loginMember.getId(): " + id);
 		List<GameInfo> wishlist = (keyword != null && !keyword.trim().isEmpty())
 				? wishlistMapper.searchWishlistPaged(id, "%" + keyword + "%", order, offset, pageSize)
 				: wishlistMapper.getWishlistPaged(id, order, offset, pageSize);
+		System.out.println("위시리스트 개수: " + wishlist.size());
+
 
 		int totalPages = (int) Math.ceil((double) total / pageSize);
 

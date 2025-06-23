@@ -113,10 +113,6 @@ public class MemberService {
 	      return memberMapper.selectAllEmailSubscribers();
 	   }
 
-
-	public void emailCheck() {
-		
-	}
 	
 }
 
