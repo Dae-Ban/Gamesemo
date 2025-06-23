@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <a href="<c:url value='/announcement' />">공지사항</a>
+    <a href="<c:url value='announcement/announcementList' />">공지사항</a>
   </nav>
 
   <!-- 오른쪽: 검색 + 로그인 + 프로필 묶음 -->

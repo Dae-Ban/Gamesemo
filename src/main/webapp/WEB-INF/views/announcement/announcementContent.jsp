@@ -48,7 +48,7 @@
 
 		<div id="boardcont_menu">
 			<input type="button" value="목록" class="input_button"
-				onclick="location='announcement?page=${page}'" />
+				onclick="location='announcementList?page=${page}'" />
 		</div>
 	</div>
 </body>
