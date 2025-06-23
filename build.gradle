@@ -24,29 +24,24 @@ repositories {
 }
 
 dependencies {
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'                    
 	implementation 'org.springframework.boot:spring-boot-starter-mail'                     
 	implementation 'com.sun.mail:jakarta.mail:2.0.1'                                      
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'  
-	// jstl
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.0'                    
-	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	//oracle
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
-
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-	// jsoup
 	implementation 'org.jsoup:jsoup:1.15.3'
-	// commons-io
 	implementation 'commons-io:commons-io:2.18.0'
 }
 

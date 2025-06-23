@@ -20,6 +20,10 @@ public class Pagenation {
 	// 검색
 	private String search;
 	private String keyword;
+	// 게임 필터링
+	private String giState;
+	private String giPlatform;
+	private String sort;	// 정렬
 	
 	private int numStart;
 
@@ -45,6 +49,18 @@ public class Pagenation {
 
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+
+	public void setGiState(String giState) {
+		this.giState = giState;
+	}
+
+	public void setGiPlatform(String giPlatform) {
+		this.giPlatform = giPlatform;
+	}
+	
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 	
 }
