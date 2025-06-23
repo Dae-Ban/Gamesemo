@@ -12,7 +12,7 @@ public class SteamTopMerger implements GameDataMerger {
 
 	@Override
 	public void merge() {
-		mapper.margeSteamTop();
+		mapper.mergeSteamTop();
 	}
 
 	@Override

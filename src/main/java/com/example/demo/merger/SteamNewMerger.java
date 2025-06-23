@@ -12,7 +12,7 @@ public class SteamNewMerger implements GameDataMerger {
 
 	@Override
 	public void merge() {
-		mapper.margeSteamNew();
+		mapper.mergeSteamNew();
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class NintendoNewMerger implements GameDataMerger {
 
 	@Override
 	public void merge() {
-		mapper.margeNintendoNew();
+		mapper.mergeNintendoNew();
 	}
 
 	@Override

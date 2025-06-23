@@ -12,7 +12,7 @@ public class NintendoDCMerger implements GameDataMerger {
 
 	@Override
 	public void merge() {
-		mapper.margeNintendoDC();
+		mapper.mergeNintendoDC();
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class DirectNewMerger implements GameDataMerger {
 
 	@Override
 	public void merge() {
-		mapper.margeDirectNew();
+		mapper.mergeDirectNew();
 	}
 
 	@Override

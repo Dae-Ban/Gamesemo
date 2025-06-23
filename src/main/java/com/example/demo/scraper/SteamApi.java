@@ -133,7 +133,7 @@ public class SteamApi {
 	        }
 	        
 	        for(Game g : filtered)
-	        	mapper.margeSteamApi(g);
+	        	mapper.mergeSteamApi(g);
 
 	        System.out.println("✅ Steam App 목록 저장 완료 (" + filtered.size() + "건)");
 	        System.out.println("💡 기존 게임 수: " + existingAppIdSet.size());

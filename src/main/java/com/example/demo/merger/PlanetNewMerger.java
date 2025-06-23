@@ -12,7 +12,7 @@ public class PlanetNewMerger implements GameDataMerger {
 
 	@Override
 	public void merge() {
-		mapper.margePlanetNew();
+		mapper.mergePlanetNew();
 	}
 
 	@Override

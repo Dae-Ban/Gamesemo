@@ -12,7 +12,7 @@ public class SteamDCMerger implements GameDataMerger {
 
 	@Override
 	public void merge() {
-		mapper.margeSteamDC();
+		mapper.mergeSteamDC();
 	}
 
 	@Override
