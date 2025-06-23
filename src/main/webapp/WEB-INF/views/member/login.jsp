@@ -203,8 +203,10 @@
 		<div class="login-box">
 			<!-- 			<h2 class="login-title">겜세모 로그인</h2> -->
 			<div class="logo-global">
+			<a href="<c:url value='/main' />">
 				<img src="https://i.imgur.com/VKxL314.png" alt="로고"
 					class="logo-global-img">
+			</a>
 			</div>
 			<!-- 			<div class="divider"></div> -->
 			<form action="/member/login" method="post">
