@@ -9,7 +9,7 @@ import com.example.demo.model.Member;
 public interface MemberMapper {
     Member findById(String id);
 
-	Member findBySocialIdAndPlatform(@Param("emailId") String emailId, @Param ("emailDomain") String emailDomain);
+	Member findByEmail(@Param("emailId") String emailId, @Param ("emailDomain") String emailDomain);
 
 	void insert(Member member);
 

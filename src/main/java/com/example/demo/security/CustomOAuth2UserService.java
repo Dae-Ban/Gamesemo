@@ -66,7 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			emailDomain = emailParts[1];
 		}
 
-		Member member = findBySocialIdAndPlatform(emailId, emailDomain);
+		Member member = findByEmail(emailId, emailDomain);
 		if (member == null) {
 			member = new Member();
 			String shortUUID = UUID.randomUUID().toString().substring(0, 30);
@@ -95,7 +95,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			return new DefaultOAuth2User(authorities, attributes, "name");
 	}
 
-	public Member findBySocialIdAndPlatform(String socialId, String platform) {
-		return memberMapper.findBySocialIdAndPlatform(socialId, platform);
+	public Member findByEmail(String socialId, String platform) {
+		return memberMapper.findByEmail(socialId, platform);
 	}
 }

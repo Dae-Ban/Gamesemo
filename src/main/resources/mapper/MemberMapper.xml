@@ -61,7 +61,7 @@
 		AND state IN (0, 2) <!-- 상태값 0,2 회원만 로그인 가능 -->
 	</select>
 
-	<select id="findBySocialIdAndPlatform" resultType="member">
+	<select id="findByEmail" resultType="member">
 		SELECT * FROM
 		MEMBER WHERE EMAIL_ID = #{emailId} AND EMAIL_DOMAIN =
 		#{emailDomain}
