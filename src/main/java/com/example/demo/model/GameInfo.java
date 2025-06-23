@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 
 import org.apache.ibatis.type.Alias;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,7 +28,6 @@ public class GameInfo {
     private Timestamp giDate;    // 등록일
     private String steamAppid;
 
-//    
 //	public int getGiNum() {
 //		return giNum;
 //	}
