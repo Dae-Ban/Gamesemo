@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Alias("member")
 public class Member {
-    private String id;                 // ID (PK)
+    private String id;                // ID (PK)
     private String name;              // 이름
     private String nickname;          // 닉네임
     private String pw;                // 비밀번호
@@ -23,6 +23,5 @@ public class Member {
     private Timestamp joinDate;       // 가입일
     private int state;                // 상태값 (활성/비활성 등)
     private String emailAd;           // 이메일 광고 수신 동의 여부
-    private String emailVerified;     // 이메일 인증 여부
-    private String token;
+    private String emailVerified;     // 이메일 인증여부 
 }
