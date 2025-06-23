@@ -92,11 +92,7 @@
 
 </div>
 <!-- 푸터 영역 -->
-<<<<<<< HEAD
-<%@ include file="/WEB-INF/views/common/footer.jsp"  %>
-=======
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
->>>>>>> 81bff28d1c0090f495cb9b221f9a7e7ad1769da7
 
 <script src="<c:url value='/js/proFile.js'/>"></script>
 <script src="<c:url value='/js/gameList.js'/>" ></script>
