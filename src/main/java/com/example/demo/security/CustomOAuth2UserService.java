@@ -28,7 +28,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	private final MemberMapper memberMapper;
 	private final HttpSession session; //  세션객체 추가함(지선)
 
-
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
 		OAuth2User oAuth2User = super.loadUser(request);

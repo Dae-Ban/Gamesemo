@@ -5,8 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/member.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member.css">
 	
 </head>
 
@@ -47,9 +46,10 @@ $(function () {
 		<h2 class="title">회원가입</h2>
 		<div class="divider"></div>
 
-		<form id="registerForm" action="/member/register" method="post"
-		onsubmit="return validateForm();">
-
+		<!-- 		<form action="/member/register" method="post"> -->
+		<form action="${pageContext.request.contextPath}/member/register" method="post"
+			onsubmit="return validateForm();">
+			<input type="hidden" name="verify_type" value="MEMBER_JOIN"> 
 
 			<!-- ID -->
 			<div class="form-group">
@@ -123,11 +123,13 @@ $(function () {
 					style="font-size: 14px; margin-top: 4px;"></div>
 			</div>
 
+
 			<!-- 생년월일 -->
 			<div class="form-group">
 				<label for="birth">생년월일</label> <input type="date" name="birthDate"
 					id="birth" required>
 			</div>
+
 
 			<!-- 성별 -->
 			<div class="form-group">
@@ -154,6 +156,7 @@ $(function () {
 			</div>
 
 			<!-- 이메일 약관 동의 -->
+
 			<div class="form-group" style="align-items: center;">
 				<label><input type="checkbox" name="emailAd" value="Y">
 					이메일 광고 수신 동의</label>
@@ -168,3 +171,4 @@ $(function () {
 	<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
 </body>
 </html>
+
