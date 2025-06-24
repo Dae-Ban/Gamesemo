@@ -20,10 +20,20 @@ public class ReviewService {
     private ReviewMapper reviewMapper;
 
     public int getCount(Review review) {
-        return reviewMapper.getCount(review);
+        System.out.println("리뷰 카운트 호출");
+        try {
+            int i = reviewMapper.getCount(review);
+            System.out.println("리뷰 카운트 리턴");
+            return i;
+        } catch (Exception e) {
+            e.printStackTrace(); // 어떤 예외인지 콘솔에 출력
+            return 0;
+        }
     }
 
+
     public List<Review> getPagedList(Pagenation pgn) {
+    	System.out.println("리뷰 리스트");
         return reviewMapper.getPagedList(pgn);
     }
 
@@ -70,6 +80,7 @@ public class ReviewService {
 	
 	//글 추천수 4개 출력
 		public List<Review> getTopRecommended() {
+			System.out.println("리뷰서비스호출");
 		    return reviewMapper.getTopRecommended();
 		}
 		

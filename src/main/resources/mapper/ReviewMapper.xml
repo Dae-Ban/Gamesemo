@@ -14,6 +14,7 @@
         <result property="rb_date" column="rb_date"/>
         <result property="rb_state" column="rb_state"/>
         <result property="rb_like" column="rb_like"/>
+        <result property="nickname" column="nickname"/>
     </resultMap>
 
     <!-- 댓글 매핑 -->
@@ -28,58 +29,81 @@
 
     <!-- 게시글 카운트 -->
     <select id="getCount" parameterType="com.example.demo.model.Review" resultType="int">
-        SELECT COUNT(*) FROM REVIEW_BOARD
-        <where>
-            rb_state != 2
-            <choose>
-                <when test="search == 'rb_title'">
-                    AND rb_title LIKE '%' || #{keyword} || '%'
-                </when>
-                <when test="search == 'id'">
-                    AND id LIKE '%' || #{keyword} || '%'
-                </when>
-                <when test="search == 'all'">
-                    AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%')
-                </when>
-                <when test="search == 'rb_state_recommend'">
+    SELECT COUNT(*) 
+    FROM REVIEW_BOARD rb
+    JOIN MEMBER m ON rb.id = m.id
+    <where>
+        rb.rb_state != 2
+        <choose>
+            <when test="search == 'rb_title'">
+                AND rb.rb_title LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="search == 'id'">
+                AND m.nickname LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="search == 'all'">
+                AND (rb.rb_title LIKE '%' || #{keyword} || '%' 
+                     OR rb.rb_content LIKE '%' || #{keyword} || '%')
+            </when>
+            <when test="search == 'rb_state_recommend'">
                     AND rb_like = '추천'
-                </when>
-            </choose>
-        </where>
+            </when>
+        </choose>
+    </where>
     </select>
 
     <!-- 페이징 목록 -->
     <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="reviewResult">
         SELECT * FROM (
-            SELECT rownum rnum, a.* FROM (
-                SELECT * FROM REVIEW_BOARD
-                <where>
-                    rb_state != 2
-                    <choose>
-                        <when test="search == 'rb_title'">
-                            AND rb_title LIKE '%' || #{keyword} || '%'
-                        </when>
-                        <when test="search == 'id'">
-                            AND id LIKE '%' || #{keyword} || '%'
-                        </when>
-                        <when test="search == 'all'">
-                            AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%')
-                        </when>
-                        <when test="search == 'rb_state_recommend'">
-                            AND rb_like = '추천'
-                        </when>
-                    </choose>
-                </where>
-                ORDER BY rb_num DESC
-            ) a
-            WHERE rownum &lt;= #{endRow}
-        )
-        WHERE rnum &gt;= #{startRow}
+        SELECT rownum rnum, a.* FROM (
+            SELECT 
+                rb.rb_num,
+                m.nickname AS nickname,
+                rb.rb_title,
+                rb.rb_readcount,
+                rb.rb_date,
+                rb.rb_state,
+                rb.rb_content,
+                rb.rb_like
+            FROM REVIEW_BOARD rb
+            JOIN MEMBER m ON rb.id = m.id
+            <where>
+                rb.rb_state != 2
+                <choose>
+                    <when test="search == 'rb_title'">
+                        AND rb.rb_title LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="search == 'id'">
+                        AND m.nickname LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="search == 'all'">
+                        AND (rb.rb_title LIKE '%' || #{keyword} || '%' OR rb.rb_content LIKE '%' || #{keyword} || '%')
+                    </when>
+                    <when test="search == 'rb_state_recommend'">
+                    AND rb_like = '추천'
+            		</when>
+                </choose>
+            </where>
+            ORDER BY rb.rb_num DESC
+        ) a
+        WHERE rownum &lt;= #{endRow}
+    )
+    WHERE rnum &gt;= #{startRow}
     </select>
 
     <!-- 상세보기 -->
     <select id="getReview" parameterType="int" resultMap="reviewResult">
-        SELECT * FROM REVIEW_BOARD WHERE rb_num = #{rb_num}
+        SELECT 
+        rb.rb_num,
+        rb.id,
+	    rb.rb_title,
+	    rb.rb_readcount,
+	    rb.rb_date,
+	    rb.rb_state,
+	    rb.rb_content,
+	    m.nickname AS nickname
+        FROM REVIEW_BOARD rb
+        JOIN MEMBER m ON rb.id = m.id WHERE rb_num = #{rb_num}
     </select>
 
     <!-- 조회수 증가 -->
@@ -154,24 +178,31 @@
 
     <!-- 글 추천 4개 리스트 -->
     <select id="getTopRecommended" resultMap="reviewResult">
-        SELECT rb_num, id, rb_title,
-               DBMS_LOB.SUBSTR(rb_content, 4000, 1) AS rb_content,
-               rb_readcount, rb_date, rb_state, rb_like
-        FROM (
-            SELECT rb.rb_num, rb.id, rb.rb_title,
-                   DBMS_LOB.SUBSTR(rb.rb_content, 4000, 1) AS rb_content,
-                   rb.rb_readcount, rb.rb_date, rb.rb_state, rb.rb_like,
-                   COUNT(rl.rb_num) AS like_count
-            FROM REVIEW_BOARD rb
-            LEFT JOIN RB_LIKE rl ON rb.rb_num = rl.rb_num
-            WHERE rb.rb_state = 0
-            GROUP BY rb.rb_num, rb.id, rb.rb_title,
-                     DBMS_LOB.SUBSTR(rb.rb_content, 4000, 1),
-                     rb.rb_readcount, rb.rb_date, rb.rb_state, rb.rb_like
-            ORDER BY like_count DESC, rb.rb_readcount DESC
-        )
-        WHERE ROWNUM &lt;= 4
-    </select>
+    SELECT rb_num, nickname AS nickname, rb_title,
+           DBMS_LOB.SUBSTR(rb_content, 4000, 1) AS rb_content,
+           rb_readcount, rb_date, rb_state, rb_like
+    FROM (
+        SELECT rb.rb_num, m.nickname,
+               rb.rb_title,
+               DBMS_LOB.SUBSTR(rb.rb_content, 4000, 1) AS rb_content,
+               rb.rb_readcount,
+               rb.rb_date,
+               rb.rb_state,
+               rb.rb_like,
+               COUNT(rl.rb_num) AS like_count
+        FROM REVIEW_BOARD rb
+        JOIN MEMBER m ON rb.id = m.id
+        LEFT JOIN RB_LIKE rl ON rb.rb_num = rl.rb_num
+        WHERE rb.rb_state = 0
+        GROUP BY rb.rb_num, m.nickname,
+                 rb.rb_title,
+                 DBMS_LOB.SUBSTR(rb.rb_content, 4000, 1),
+                 rb.rb_readcount, rb.rb_date, rb.rb_state, rb.rb_like
+        ORDER BY like_count DESC, rb.rb_readcount DESC
+    )
+    WHERE ROWNUM &lt;= 4
+</select>
+
 
     <!-- 추천 여부 체크 -->
     <select id="checkAlreadyLiked" parameterType="reviewLike" resultType="reviewLike">
