@@ -9,7 +9,7 @@ public class AdminWebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AdminLoginInterceptor())
-                .addPathPatterns("/admin/**") // 검사할 경로
+                .addPathPatterns("/admin/**","/gamedata/**") // 검사할 경로
                 .excludePathPatterns(
                         "/admin/adminLogin",  // 로그인 폼
                         "/admin/login",       // 로그인 요청 처리
