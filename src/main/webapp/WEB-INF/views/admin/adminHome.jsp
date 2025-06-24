@@ -24,7 +24,8 @@
       <a href="/admin/adminAnno">공지사항관리</a>
     </div>
     <div class="menu-box">
-      <a href="">게임 데이터</a>
+       <%@ include file="/WEB-INF/views/game/gamedataMaster.jsp" %>
+       게임 DB 업데이트
     </div>
      <div class="menu-box">
     <a href="/admin/logout">로그아웃</a>
