@@ -9,9 +9,12 @@
 	href="${pageContext.request.contextPath}/css/member.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/mypage.css">
+<link rel="stylesheet" href="<c:url value='/css/header.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/footer.css' />" />
 </head>
 <body>
-
+<!-- 헤더 영역 -->
+<jsp:include page="/WEB-INF/views/common/header.jsp" flush="true"/>
 	<c:if test="${not empty message}">
 		<script>
 			alert("${message}");
@@ -94,5 +97,9 @@
 		</div>
 
 	</div>
+	<!-- 프로필 아이콘 드롭박스 -->
+	<script src="<c:url value='/js/proFile.js'/>"></script>
+<!-- 푸터 영역 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp" flush="true"/>
 </body>
 </html>

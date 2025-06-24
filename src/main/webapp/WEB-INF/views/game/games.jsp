@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,11 +8,14 @@
 <title>${headline } 게임</title>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/games.css">
+<link rel="stylesheet" href="<c:url value='/css/header.css' />" />
 <script type="text/javascript" src="/js/gameList.js"></script>
 <script type="text/javascript" src="/js/games.js"></script>
 <script type="text/javascript" src="/js/scrollUp.js"></script>
 </head>
 <body>
+<!-- 헤더 영역 -->
+<jsp:include page="/WEB-INF/views/common/header.jsp" flush="true"/>
 	<div class="container">
 		<header>
 			<h2><em></em><span></span>게임 <img src="/images/logo.png"></h2>
@@ -90,5 +94,6 @@
 			
 		</div>
 	</div>
+	<script src="<c:url value='/js/proFile.js'/>"></script>
 </body>
 </html>

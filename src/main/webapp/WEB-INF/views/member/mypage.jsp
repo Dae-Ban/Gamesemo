@@ -10,10 +10,13 @@
 	href="${pageContext.request.contextPath}/css/mypage.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/member.css">
+<link rel="stylesheet" href="<c:url value='/css/header.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/footer.css' />" />
 <!-- 기존 jiseon.css -->
 </head>
 <body>
-
+<!-- 헤더 영역 -->
+<jsp:include page="/WEB-INF/views/common/header.jsp" flush="true"/>
 	<!-- ✅메시지 알림 -->
 	<c:if
 		test="${not empty message or not empty success or not empty error}">
@@ -70,6 +73,10 @@
 
 		</div>
 	</div>
-
+	<div style="height:500px"></div>
+	
+	<script src="<c:url value='/js/proFile.js'/>"></script>
+<!-- 푸터 영역 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp" flush="true"/>
 </body>
 </html>
