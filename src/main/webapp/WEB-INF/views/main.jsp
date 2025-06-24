@@ -2,10 +2,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
+<head>
+  <meta charset="UTF-8">
+  <title>겜세모 - 메인</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="<c:url value='/css/main.css' />" />
+</head>
+
 <body>
 <!-- 헤더 영역 -->
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
-
+<jsp:include page="/WEB-INF/views/common/header.jsp" flush="true"/>
 
 <div class="container">
 <!-- Carousel Section -->
@@ -92,7 +104,7 @@
 
 </div>
 <!-- 푸터 영역 -->
-<%@ include file="/WEB-INF/views/common/footer.jsp"  %>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" flush="true"/>
 
 <script src="<c:url value='/js/proFile.js'/>"></script>
 <script src="<c:url value='/js/gameList.js'/>" ></script>

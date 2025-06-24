@@ -5,16 +5,9 @@
 <head>
   <meta charset="UTF-8">
   <title>겜세모 - 메인</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!-- Bootstrap JS -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <!-- Custom CSS -->
   <link rel="stylesheet" href="<c:url value='/css/main.css' />" />
 </head>
-<body>
 
 <header>
   <!-- 왼쪽: 로고 -->
