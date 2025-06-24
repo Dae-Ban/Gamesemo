@@ -136,7 +136,7 @@ public class ReviewController {
                 return;
             }
 
-            String filePath = request.getServletContext().getRealPath("/upload/");
+            String filePath = request.getServletContext().getRealPath("/upload2/");
             File file = new File(filePath);
             if (!file.exists()) file.mkdirs();
 
@@ -158,7 +158,7 @@ public class ReviewController {
             String sFileInfo = "";
             sFileInfo += "&bNewLine=true";
             sFileInfo += "&sFileName=" + sFilename;
-            sFileInfo += "&sFileURL=/upload/" + sRealFileNm;
+            sFileInfo += "&sFileURL=/upload2/" + sRealFileNm;
 
             response.getWriter().print(sFileInfo);
         } catch (Exception e) {
