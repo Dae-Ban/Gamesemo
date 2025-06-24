@@ -15,6 +15,7 @@ public class Community {
     private int cb_readcount;    // 조회수
     private Timestamp cb_date;   // 날짜
     private int cb_state;        // 상태
+    private String nickname;
 
     // 검색 관련 필드 (선택 사항)
     private String search;

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -40,6 +41,11 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/member/login")
                 .permitAll()
             )
+            
+            .headers(headers -> headers
+                    .frameOptions(frame -> frame.sameOrigin())
+                )
+            
             .oauth2Login(oauth2 -> oauth2
                     .loginPage("/member/login")
                     .defaultSuccessUrl("/oauth2/success", true)
@@ -69,6 +75,6 @@ public class SecurityConfig {
 	    public WebSecurityCustomizer webSecurityCustomizer(HttpFirewall firewall) {
 	        return web -> web.httpFirewall(firewall);
 	    }
-
+	 
 }
 

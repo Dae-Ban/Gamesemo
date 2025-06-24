@@ -40,8 +40,9 @@ public class ReviewController {
     public String list(@RequestParam(name = "page", defaultValue = "1") int page,
         Review review, Model model, HttpSession session) {  //, HttpSession session 이거 불필요
 //    	ensureLoginSession(session);   //이것도 불필요
-    	
+    	System.out.println("리뷰컨트롤러");
         int total = reviewService.getCount(review);
+        System.out.println("토탈: " + total);
         Pagenation pgn = new Pagenation(total, 10, page);
         pgn.setSearch(review.getSearch());
         pgn.setKeyword(review.getKeyword());

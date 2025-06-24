@@ -49,7 +49,7 @@
                             ${top.cb_title}
                         </a>
                     </td>
-                    <td>${top.id}</td>
+                    <td>${top.nickname}</td>
                     <td><fmt:formatDate value="${top.cb_date}" pattern="yyyy-MM-dd" /></td>
                     <td>${top.cb_readcount}</td>
                 </tr>
@@ -83,7 +83,7 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td>${community.id}</td>
+                <td>${community.nickname}</td>
                 <td><fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /></td>
                 <td>${community.cb_readcount}</td>
             </tr>

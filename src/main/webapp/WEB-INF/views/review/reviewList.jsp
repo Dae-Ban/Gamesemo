@@ -57,7 +57,7 @@
                             ${top.rb_title}
                         </a>
                     </td>
-                    <td>${top.id}</td>
+                    <td>${top.nickname}</td>
                     <td><fmt:formatDate value="${top.rb_date}" pattern="yyyy-MM-dd" /></td>
                     <td>${top.rb_readcount}</td>
                 </tr>
@@ -98,7 +98,7 @@
      						   </c:otherwise>
   							 </c:choose>
 							</td>
-                    <td>${review.id}</td>
+                    <td>${review.nickname}</td>
                     <td><fmt:formatDate value="${review.rb_date}" pattern="yyyy-MM-dd" /></td>
                     <td>${review.rb_readcount}</td>
                 </tr>
