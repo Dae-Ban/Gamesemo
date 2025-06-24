@@ -1,15 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>겜세모 - 메인</title>
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="<c:url value='/css/main.css' />" />
-</head>
 
-<header>
+<header class="gsmo-header">
   <!-- 왼쪽: 로고 -->
   <div class="logo">
     <img src="<c:url value='/images/logo1.png' />" alt="겜세모 로고" />
@@ -28,13 +20,13 @@
       </div>
     </div>
 
-    <a href="<c:url value='announcement/announcementList' />">공지사항</a>
+    <a href="<c:url value='/announcement/announcementList' />">공지사항</a>
   </nav>
 
   <!-- 오른쪽: 검색 + 로그인 + 프로필 묶음 -->
   <div class="search-login">
     <div class="search-box">
-      <form action="<c:url value='/game/search' />" method="get" style="display: flex; gap: 5px;">
+      <form action="<c:url value='/game/search' />" method="get">
         <input type="text" name="keyword" placeholder="게임 이름을 입력하세요" required />
         <button type="submit" class="search-btn">
           <img src="<c:url value='/images/icons/search-icon.png'/>" alt="검색" />

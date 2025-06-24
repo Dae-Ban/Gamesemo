@@ -13,6 +13,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <!-- Custom CSS -->
   <link rel="stylesheet" href="<c:url value='/css/main.css' />" />
+  <link rel="stylesheet" href="<c:url value='/css/header.css' />" />
+  <link rel="stylesheet" href="<c:url value='/css/footer.css' />" />
 </head>
 
 <body>

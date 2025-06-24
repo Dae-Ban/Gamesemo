@@ -11,11 +11,13 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap"
 	rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/css/header.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/footer.css' />" />
 <style>
 body {
 	font-family: 'Pretendard', sans-serif;
 	margin: 0;
-	padding: 40px 20px;
+	padding:0px;
 	background: #f9f9f9;
 	color: #333;
 }
@@ -26,6 +28,7 @@ body {
 }
 
 .title {
+	margin-top: 60px;  /* ✅ 추가: 헤더와의 간격 확보 */
 	font-size: 32px;
 	font-weight: bold;
 	margin-bottom: 24px;
@@ -157,6 +160,10 @@ body {
 </style>
 </head>
 <body>
+<!-- 헤더 영역 -->
+<jsp:include page="/WEB-INF/views/common/header.jsp" flush="true"/>
+
+<div class="wrapper">
 	<div class="container">
 		<div class="title">위시 리스트</div>
 		<form class="search-bar" method="get" action="/wishlist">
@@ -235,5 +242,11 @@ body {
     });
   });
 </script>
+
+</div>
+	<!-- 프로필 아이콘 드롭박스 -->
+	<script src="<c:url value='/js/proFile.js'/>"></script>
+<!-- 푸터 영역 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp" flush="true"/>
 </body>
 </html>

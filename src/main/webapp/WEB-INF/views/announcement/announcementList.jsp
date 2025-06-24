@@ -7,8 +7,12 @@
   <meta charset="UTF-8">
   <title>공지사항</title>
   <link rel="stylesheet" href="/css/announcement.css" />
+  <link rel="stylesheet" href="<c:url value='/css/header.css' />" />
+  <link rel="stylesheet" href="<c:url value='/css/footer.css' />" />
 </head>
 <body>
+<!-- 헤더 영역 -->
+<jsp:include page="/WEB-INF/views/common/header.jsp" flush="true"/>
 <div class="container">
   <h3>공지사항</h3>
 
@@ -66,5 +70,10 @@
     </c:if>
   </div>
 </div>
+
+<!-- 프로필 아이콘 드롭박스 -->
+	<script src="<c:url value='/js/proFile.js'/>"></script>
+<!-- 푸터 영역 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp" flush="true"/>
 </body>
 </html>
