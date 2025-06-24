@@ -76,7 +76,7 @@
     <div style="margin: 30px 0;">
         <c:choose>
             <c:when test="${not fn:contains(review.rb_content, '<img')}">
-                <img src="${pageContext.request.contextPath}/images/default-review.png"
+                <img src="${pageContext.request.contextPath}/images2/default-review.png"
                      alt="기본 이미지"
                      style="max-width:100%; margin-bottom:20px;" />
             </c:when>
