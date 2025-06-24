@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.CommunityMapper">
+
+    <!-- 리뷰 게시글 매핑 -->
+    <resultMap id="communityResult" type="com.example.demo.model.Community">
+        <result property="cb_num" column="cb_num"/>
+        <result property="id" column="id"/>
+        <result property="cb_title" column="cb_title"/>
+        <result property="cb_content" column="cb_content"/>
+        <result property="cb_readcount" column="cb_readcount"/>
+        <result property="cb_date" column="cb_date"/>
+        <result property="cb_state" column="cb_state"/>
+<!--         <result property="cb_like" column="cb_like"/> -->
+    </resultMap>
+    
+    <!-- 댓글 목록 매핑 -->
+    <resultMap id="replyResultMap" type="com.example.demo.model.CommunityReply">
+        <result property="cbr_num" column="CBR_NUM"/>
+        <result property="cb_num" column="CB_NUM"/>
+        <result property="id" column="ID"/>
+        <result property="cbr_content" column="CBR_CONTENT"/>
+        <result property="cbr_date" column="CBR_DATE"/>
+        <result property="cbr_state" column="CBR_STATE"/>
+    </resultMap>
+
+
+
+ <!--  총 게시글 수 -->
+     <select id="getCount" parameterType="com.example.demo.model.Community" resultType="int">
+    SELECT COUNT(*) FROM COMMUNITY_BOARD
+    <where>
+        cb_state != 2
+        <choose>
+            <when test="search == 'cb_title'">
+                AND cb_title LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="search == 'id'">
+                AND id LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="search == 'all'">
+                AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
+            </when>
+        </choose>
+    </where>
+</select>
+           
+       
+   
+     <!-- 페이징 목록 -->
+   <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="communityResult">
+    SELECT * FROM (
+        SELECT rownum rnum, a.* FROM (
+            SELECT * FROM COMMUNITY_BOARD
+            <where>
+                cb_state != 2
+                <choose>
+                    <when test="search == 'cb_title'">
+                        AND cb_title LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="search == 'id'">
+                        AND id LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="search == 'all'">
+                        AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
+                    </when>
+                    
+                </choose>
+            </where>
+            ORDER BY cb_num DESC
+        ) a
+        WHERE rownum &lt;= #{endRow}
+    )
+    WHERE rnum &gt;= #{startRow}
+</select>
+
+
+    <!-- 상세보기 -->
+    <select id="getCommunity" parameterType="int" resultMap="communityResult">
+        SELECT * FROM COMMUNITY_BOARD WHERE cb_num = #{cb_num}
+    </select>
+
+    <!-- 조회수 증가 -->
+    <update id="updateReadCount" parameterType="int">
+        UPDATE COMMUNITY_BOARD
+        SET cb_readcount = cb_readcount + 1
+        WHERE cb_num = #{cb_num}
+    </update>
+
+    <!-- 글 등록 -->
+    <insert id="insert" parameterType="com.example.demo.model.Community">
+        INSERT INTO COMMUNITY_BOARD (
+            cb_num, id, cb_title, cb_content,
+            cb_readcount, cb_date, cb_state
+        ) VALUES (
+            community_board_seq.NEXTVAL,
+            #{id}, #{cb_title}, #{cb_content},
+            0, SYSDATE, #{cb_state}
+        )
+    </insert>
+
+    <!-- 글 수정 -->
+    <update id="update" parameterType="com.example.demo.model.Community">
+        UPDATE COMMUNITY_BOARD
+        SET cb_title = #{cb_title},
+            cb_content = #{cb_content}
+        WHERE cb_num = #{cb_num}
+    </update>
+
+    <!-- 글 삭제 (논리삭제) -->
+    <update id="delete" parameterType="int">
+        UPDATE COMMUNITY_BOARD
+        SET cb_state = 2
+        WHERE cb_num = #{cb_num}
+    </update>
+
+    <!-- 댓글 등록 -->
+    <insert id="insertReply" parameterType="communityReply">  <!-- replyBoard -->
+        INSERT INTO CB_REPLY (
+            CBR_NUM,
+            CB_NUM,
+            ID,
+            CBR_CONTENT,
+            CBR_DATE,
+            CBR_STATE
+        ) VALUES (
+            cb_reply_seq.NEXTVAL,
+            #{cb_num},
+            #{id},
+            #{cbr_content},
+            SYSDATE,
+            #{cbr_state}
+        )
+    </insert>
+
+    <!-- 댓글 목록 조회 -->
+    <select id="getReplyList" parameterType="int" resultMap="replyResultMap">
+        SELECT * FROM CB_REPLY
+        WHERE CB_NUM = #{cb_num} and cbr_state = 0
+        ORDER BY CBR_DATE DESC
+    </select>
+    
+    <!-- 댓글 수정 -->
+    <update id="replyupdate" parameterType="communityReply">    <!-- replyBoard -->
+    	UPDATE CB_REPLY SET CBR_CONTENT=#{cbr_content}, cbr_date=sysdate 
+    	where cbr_num=#{cbr_num}    
+    </update>
+    
+
+    <!-- 댓글 삭제 -->
+    <delete id="deleteReply" parameterType="int">
+    	UPDATE CB_REPLY
+        SET cbr_state = 1
+        WHERE cbr_num = #{cbr_num}
+    </delete>
+    
+    
+     <!-- 신고 상태값 0일반, 1 신고, 2는 삭제 -->  <!-- 이거 필요한 부분인지 여쭤보기 -->
+    <update id="updateBoardState">
+    UPDATE COMMUNITY_BOARD
+    SET cb_state = #{state}
+    WHERE cb_num = #{cb_num}
+	</update>
+    
+    
+    
+    
+    <!-- 글 추천 4개 리스트 뽑기 -->
+   <select id="getTopRecommended" resultMap="communityResult">
+    SELECT cb_num, id, cb_title,
+           DBMS_LOB.SUBSTR(cb_content, 4000, 1) AS cb_content,
+           cb_readcount, cb_date, cb_state
+    FROM (
+        SELECT cb.cb_num, cb.id, cb.cb_title,
+               DBMS_LOB.SUBSTR(cb.cb_content, 4000, 1) AS cb_content,
+               cb.cb_readcount, cb.cb_date, cb.cb_state,
+               COUNT(cl.cb_num) AS like_count
+        FROM COMMUNITY_BOARD cb
+        LEFT JOIN CB_LIKE cl ON cb.cb_num = cl.cb_num
+        WHERE cb.cb_state = 0
+        GROUP BY cb.cb_num, cb.id, cb.cb_title,
+                 DBMS_LOB.SUBSTR(cb.cb_content, 4000, 1),
+                 cb.cb_readcount, cb.cb_date, cb.cb_state
+        ORDER BY like_count DESC, cb_readcount DESC
+    )
+    WHERE ROWNUM &lt;= 4
+</select>
+
+
+	<!-- 글 추천하기 -->
+<select id="checkAlreadyLiked" parameterType="communityLike" resultType="communityLike">
+    SELECT * FROM CB_LIKE WHERE id = #{id} AND cb_num = #{cb_num}
+</select>
+
+<insert id="insertLike" parameterType="communityLike">
+    INSERT INTO CB_LIKE(c_like, id, cb_num)
+    VALUES(cb_like_seq.NEXTVAL, #{id}, #{cb_num})
+</insert>
+
+<select id="getLikeCount" parameterType="int" resultType="int">
+    SELECT COUNT(*) FROM CB_LIKE WHERE cb_num = #{cb_num}
+</select>
+
+
+  
+</mapper>
