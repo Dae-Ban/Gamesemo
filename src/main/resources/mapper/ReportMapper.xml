@@ -150,4 +150,37 @@
     <result property="postTitle"  column="POSTTITLE" />
   </resultMap>
 
+
+
+    <!-- 신고 등록 -->
+    <insert id="insertReport" parameterType="com.example.demo.model.Report">
+        INSERT INTO REPORT (
+            RP_NUM,
+            ID,
+            RP_REASON,
+            RP_DATE,
+            RP_TABLE,
+            BOARD_NUM,
+            RP_STATUS
+        ) VALUES (
+            REPORT_SEQ.NEXTVAL, 
+            #{id},
+            #{rp_reason},
+            #{rp_date},
+            #{rp_table},
+            #{board_num},
+            #{rp_status}
+        )
+    </insert>
+
+    <!-- 중복 신고 여부 확인 -->
+    <select id="checkDuplicateReport" resultType="int" parameterType="map">
+        SELECT COUNT(*)
+        FROM REPORT
+        WHERE ID = #{id}
+          AND RP_TABLE = #{rp_table}
+          AND BOARD_NUM = #{board_num}
+    </select>
+
+
 </mapper>

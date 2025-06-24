@@ -5,10 +5,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.mapper.MemberMapper;
 import com.example.demo.model.Member;
 import com.example.demo.util.Normalize;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +27,7 @@ public class OAuthController {
 
 
     @GetMapping("/oauth2/success")
-    public String oauth2Success(@AuthenticationPrincipal OAuth2User oAuth2User) {
+    public String oauth2Success(@AuthenticationPrincipal OAuth2User oAuth2User, RedirectAttributes redirectAttributes) {
         String socialId;
         String platform;
         
@@ -52,8 +54,7 @@ public class OAuthController {
             session.setAttribute("loginMember", member);
             return "redirect:/main";
         } else {
-            // ❗ 소셜 로그인은 되었지만 DB에 회원 정보가 없음 (회원가입 유도)
-            return "redirect:/member/register=" + platform + "&socialId=" + socialId;
+            return "redirect:/main";
         }
     }
 }

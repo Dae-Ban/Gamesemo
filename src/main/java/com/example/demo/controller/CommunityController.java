@@ -128,6 +128,7 @@ public class CommunityController {
 
         return "redirect:/community/list";
     }
+    
 
     @RequestMapping("/smarteditorMultiImageUpload")
     public void smarteditorMultiImageUpload(HttpServletRequest request, HttpServletResponse response) {
@@ -143,7 +144,7 @@ public class CommunityController {
                 return;
             }
 
-            String filePath = request.getServletContext().getRealPath("/upload2/");
+            String filePath = request.getServletContext().getRealPath("/upload/");
             File file = new File(filePath);
             if (!file.exists()) file.mkdirs();
 
@@ -165,7 +166,7 @@ public class CommunityController {
             String sFileInfo = "";
             sFileInfo += "&bNewLine=true";
             sFileInfo += "&sFileName=" + sFilename;
-            sFileInfo += "&sFileURL=/upload2/" + sRealFileNm;
+            sFileInfo += "&sFileURL=/upload/" + sRealFileNm;
 
             response.getWriter().print(sFileInfo);
         } catch (Exception e) {
