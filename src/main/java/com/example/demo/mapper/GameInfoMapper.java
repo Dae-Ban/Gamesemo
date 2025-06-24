@@ -25,4 +25,7 @@ public interface GameInfoMapper {
 	List<YouTubeVideo> getReviewVideos(int gnum);
 
 	List<GameInfo> getByGame(int gnum);
+
+	List<GameInfo> getPlatformsByGame(int gnum);
+	
 }

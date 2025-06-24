@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,8 +25,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.AccountVerification;
+import com.example.demo.model.GameInfo;
 import com.example.demo.model.Member;
+import com.example.demo.model.YouTubeVideo;
 import com.example.demo.service.EmailService;
+import com.example.demo.service.GameInfoService;
+import com.example.demo.service.GameService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.VerifyService;
 
@@ -47,6 +52,9 @@ public class MemberController {
 	@Autowired
 	private VerifyService verifyService;
 
+	@Autowired
+	private GameService gameService; 
+	
 	MemberController(PasswordEncoder passwordEncoder, EmailService emailService) {
 		this.passwordEncoder = passwordEncoder;
 		this.emailService = emailService;
@@ -350,6 +358,31 @@ public class MemberController {
 		result.put("match", match);
 		return result;
 	}
+	
+//	@GetMapping("/game/detail")
+//	public String gameDetail(@RequestParam("gNum") int gNum, HttpSession session, Model model) {
+//	    GameInfo game = gameService.getGameInfo(gNum);
+//	    List<GameInfo> platformList = GameInfoService.getPlatformsByGame(gNum);
+//	    List<YouTubeVideo> reviewVideos = videoService.getReviewVideos(game.getGiTitle());
+//
+//	    // 로그인 여부 확인
+//	    Member loginUser = (Member) session.getAttribute("loginUser");
+//	    model.addAttribute("loginUser", loginUser);  // 로그인 했으면 객체가 들어감
+//
+//	    // 위시리스트에 이미 있는지 여부 판단
+//	    boolean wishlisted = false;
+//	    if (loginUser != null) {
+//	        wishlisted = wishlistMapper.isGameInWishlist(loginUser.getId(), (long) gNum);
+//	    }
+//	    model.addAttribute("wishlisted", wishlisted);
+//
+//	    model.addAttribute("game", game);
+//	    model.addAttribute("platformList", platformList);
+//	    model.addAttribute("reviewVideos", reviewVideos);
+//
+//	    return "game/gameContent";
+//	}
+
 //
 ////	// 아이디 찾기 - 이메일 인증번호 전송
 //	@PostMapping("/sendCodeForId")
@@ -463,8 +496,11 @@ public class MemberController {
 
 	// ✅ 탈퇴 처리 POST
 	@PostMapping("/delete")
-	public String deleteMember(@RequestParam("id") String id, @RequestParam("pw") String pw,
-			@RequestParam("pwConfirm") String pwConfirm, HttpSession session, RedirectAttributes redirectAttributes) {
+	public String deleteMember(@RequestParam("id") String id, 
+							   @RequestParam("pw") String pw,
+							   @RequestParam("pwConfirm") String pwConfirm, 
+							   HttpSession session, 
+							   RedirectAttributes redirectAttributes) {
 		Member loginMember = (Member) session.getAttribute("loginMember");
 
 		// 비밀번호 일치 확인

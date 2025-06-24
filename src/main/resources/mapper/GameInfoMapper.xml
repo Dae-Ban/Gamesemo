@@ -5,19 +5,19 @@
 
 <mapper namespace="com.example.demo.mapper.GameInfoMapper">
 
-<!-- 	<select id="selectTop10GamesByPlatform" resultType="gameinfo"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM -->
-<!-- 		( -->
-<!-- 		SELECT * -->
-<!-- 		FROM GAME_INFO -->
-<!-- 		WHERE -->
-<!-- 		LOWER(GI_PLATFORM) = LOWER(#{platform}) -->
-<!-- 		ORDER BY GI_NUM -->
-<!-- 		) -->
-<!-- 		WHERE ROWNUM -->
-<!-- 		&lt;= 10 -->
-<!-- 	</select> -->
+	<!-- <select id="selectTop10GamesByPlatform" resultType="gameinfo"> -->
+	<!-- SELECT * -->
+	<!-- FROM -->
+	<!-- ( -->
+	<!-- SELECT * -->
+	<!-- FROM GAME_INFO -->
+	<!-- WHERE -->
+	<!-- LOWER(GI_PLATFORM) = LOWER(#{platform}) -->
+	<!-- ORDER BY GI_NUM -->
+	<!-- ) -->
+	<!-- WHERE ROWNUM -->
+	<!-- &lt;= 10 -->
+	<!-- </select> -->
 
 	<select id="getGameInfo" parameterType="map"
 		resultType="gameinfo">
@@ -84,4 +84,5 @@
 		WHERE G_NUM = #{gnum}
 		ORDER BY GI_DATE DESC
 	</select>
+
 </mapper>

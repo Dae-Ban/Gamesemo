@@ -12,21 +12,29 @@
 </head>
 <body>
 	<div class="container">
+		<header>
+			<h2>검색 결과 <img src="/images/logo.png"></h2>
+			<hr>
+		</header>
 		<div class="content-wrap">
 			<main class="result-wrap">
-				<table class="game-contents"></table>
-				<div class="game-grid"></div>
+				<table class="game-contents" style="margin-bottom: 50px;"></table>
+				<div id="steam-more">
+					<h2><img src="/images/icons/steam.png"> 스팀에서 더 보기</h2>
+					<hr>
+				</div>
+				<div class="game-grid" style="margin-bottom: 50px;"></div>
 			</main>
 
 			<aside class="sidebar" style="height: 150px;">
-				<form id="filterForm">
+				<form id="filterForm" method="get" action="/game/search">
 					<!-- 검색창 -->
 					<div class="search-box">
-						<input type="text" id="keyword" placeholder="게임 검색" />
+						<input type="text" id="keyword" name="keyword" placeholder="게임 검색" />
 						<button type="submit">검색</button>
 					</div>
 				</form>
-				<button class="btn-wide">
+				<button class="btn-wide" onclick="location.href='/game'">
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
 				viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
 				stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-undo2-icon lucide-undo-2">

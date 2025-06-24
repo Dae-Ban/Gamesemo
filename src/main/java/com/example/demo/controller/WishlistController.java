@@ -39,19 +39,20 @@ public class WishlistController {
 	@Autowired
 	private WishlistMapper wishlistMapper;
 
-
+	
 	@PostMapping("/gameAdd")
 	@ResponseBody
 	public String addToWishlist(@RequestParam("gnum") int gnum, HttpSession session) {
-		Member user = (Member) session.getAttribute("loginUser");
+		Member user = (Member) session.getAttribute("loginMember");
 		if (user == null)
 			return "not_logged_in";
-
+		
 		Wishlist w = new Wishlist();
 		w.setGNum(gnum);
 		w.setId(user.getId());
 
 		int result = wishlistService.addWishlist(w);
+
 		if (result > 0)
 			return "success";
 		else
@@ -61,11 +62,12 @@ public class WishlistController {
 	@PostMapping("ajaxLogin")
 	@ResponseBody
 	public String ajaxLogin(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
-		// 정상 작동
-
+		
+		Member user = (Member) session.getAttribute("loginMember");
+			
 		Member member = memberService.findById(id); // ID로만 조회
 		if (member != null && passwordEncoder.matches(pw, member.getPw())) {
-			session.setAttribute("loginUser", member);
+			session.setAttribute("loginMember", member);
 			return "success";
 		}
 		return "fail";
@@ -76,19 +78,23 @@ public class WishlistController {
 			@RequestParam(name = "order", defaultValue = "recent") String order,
 			@RequestParam(name = "page", defaultValue = "1") int page, HttpSession session, Model model) {
 
-		String id = (String) session.getAttribute("id");
-		if (id == null) {
-			session.setAttribute("redirectAfterLogin", "/wishlist");
-			return "redirect:/member/login";
-		}
-
+		Member loginMember = (Member) session.getAttribute("loginMember");  
+	    if (loginMember == null) {
+	        session.setAttribute("redirectAfterLogin", "/wishlist");
+	        return "redirect:/member/login";
+	    }
+	    String id = loginMember.getId();  
+	    
 		int pageSize = 5;
 		int offset = (page - 1) * pageSize;
 
 		int total = wishlistMapper.countWishlist(id, keyword);
+		System.out.println("세션 loginMember.getId(): " + id);
 		List<GameInfo> wishlist = (keyword != null && !keyword.trim().isEmpty())
 				? wishlistMapper.searchWishlistPaged(id, "%" + keyword + "%", order, offset, pageSize)
 				: wishlistMapper.getWishlistPaged(id, order, offset, pageSize);
+		System.out.println("위시리스트 개수: " + wishlist.size());
+
 
 		int totalPages = (int) Math.ceil((double) total / pageSize);
 
@@ -138,5 +144,17 @@ public class WishlistController {
 	private String getLoginId(HttpSession session) {
 		return (String) session.getAttribute("id");
 	}
+	
+	@PostMapping("/isLogin")
+	public String isLogin(HttpSession session) {
+		
+		if(session.getAttribute("loginMember") != null) {
+			return "sucess";
+		}
+		
+		return "fail";
+		
+	}
+	
 
 }

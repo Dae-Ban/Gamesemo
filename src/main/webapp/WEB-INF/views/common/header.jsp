@@ -50,17 +50,17 @@
     </div>
 
       <!-- ✅ 로그인 안 된 경우: 로그인 버튼 -->
-  <c:if test="${empty sessionScope.id}">
+  <c:if test="${empty sessionScope.loginMember}">
     <a href="/member/login" class="login-btn">로그인</a>
   </c:if>
 
   <!-- ✅ 로그인 된 경우: 로그아웃 버튼 -->
-  <c:if test="${not empty sessionScope.id}">
+  <c:if test="${not empty sessionScope.loginMember}">
     <a href="<c:url value='/member/logout' />" class="login-btn">로그아웃</a>
   </c:if>
 
   <!-- 마이페이지 드롭다운은 로그인된 경우에만 보여주고 싶다면 여기도 감싸기 -->
-  <c:if test="${not empty sessionScope.id}">
+  <c:if test="${not empty sessionScope.loginMember}">
     <div class="profile-dropdown" id="profileDropdown">
       <img src="<c:url value='/images/icons/profile-icon.png'/>" alt="프로필" class="profile-icon" />
       <div class="profile-menu">
