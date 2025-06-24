@@ -16,7 +16,7 @@ public class Review {
     private int rb_state;         // 상태
     private String rb_like;       // 리뷰 추천
     private String rb_content;    // 내용 (CLOB)
-    
+     
     private String search;
     private String keyword;
 }
