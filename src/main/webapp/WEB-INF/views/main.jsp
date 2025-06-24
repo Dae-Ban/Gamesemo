@@ -76,7 +76,7 @@
   <div class="game-category">
     <div class="game-header">
       <h2>💸 할인 게임 Top 10</h2>
-      <a href="/game/list?state=dc" class="inline-more-link">더보기 &gt;</a>
+      <a href="/game?state=dc" class="inline-more-link">더보기 &gt;</a>
     </div>
     <div id="discounted-games" class="game-list-container"></div>
   </div>
@@ -84,7 +84,7 @@
   <div class="game-category">
     <div class="game-header">
       <h2>🆕 신상 게임 Top 10</h2>
-      <a href="/game/list?state=new" class="inline-more-link">더보기 &gt;</a>
+      <a href="/game?state=new" class="inline-more-link">더보기 &gt;</a>
     </div>
     <div id="new-games" class="game-list-container"></div>
   </div>
