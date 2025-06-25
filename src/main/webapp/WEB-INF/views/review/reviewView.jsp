@@ -48,6 +48,17 @@
     }
 </script>
     
+ <!-- 사진 크기 -->   
+    <style>
+    .review-content img {
+        max-width: 800px;
+        height: auto;
+        display: block;
+        margin: 20px auto;
+    }
+</style>
+    
+    
 </head>
 <body>
 
@@ -74,15 +85,29 @@
     </div>
 
     <div style="margin: 30px 0;">
-        <c:choose>
-            <c:when test="${not fn:contains(review.rb_content, '<img')}">
-                <img src="${pageContext.request.contextPath}/images/default-review.png"
-                     alt="기본 이미지"
-                     style="max-width:100%; margin-bottom:20px;" />
-            </c:when>
-        </c:choose>
-        <c:out value="${review.rb_content}" escapeXml="false" />
-    </div>
+    <c:choose>
+        <c:when test="${review.rb_state == 1}">
+            <div style="color: red; font-size: 18px; font-weight: bold; text-align: center;">
+                🚫 신고 처리된 게시글입니다.
+            </div>
+        </c:when>
+        <c:otherwise>
+            <c:choose>
+                <c:when test="${not fn:contains(review.rb_content, '<img')}">
+                    <img src="${pageContext.request.contextPath}/images/default-review.png"
+                         alt="기본 이미지"
+                         style="width: 700px; display: block; margin: 0 auto; margin-bottom: 20px;" />
+                </c:when>
+            </c:choose>
+
+            <!--  CSS 적용 위한 wrapper -->
+            <div class="review-content">
+                <c:out value="${review.rb_content}" escapeXml="false" />
+            </div>
+        </c:otherwise>
+    </c:choose>
+</div>
+
 
     <div style="text-align: center; margin-bottom: 30px;">
         <c:if test="${review.id eq sessionScope.loginMember.id}">
