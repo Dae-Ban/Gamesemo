@@ -48,8 +48,8 @@ public class NintendoExpScraper implements Scraper {
 						System.out.println("⛔ 품절 또는 가격 정보 없음: " + title);
 						continue;
 					}
-					if (price == null || price.isEmpty())
-						price = fprice;
+					if (price == null || price.isEmpty()) price = fprice;
+					if (fprice == null || fprice.isEmpty()) fprice = price;
 					g.setPrice(price);
 					g.setFprice(fprice);
 
