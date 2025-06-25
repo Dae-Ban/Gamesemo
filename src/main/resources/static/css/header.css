@@ -70,6 +70,8 @@
   font-size: 13px;
   margin: 0;
   box-sizing: border-box;
+  
+  color: #111; /* ✅ 추가: 텍스트 색상 어둡게 */
 }
 
 .gsmo-header .search-btn {
@@ -158,23 +160,24 @@
 
 /* 마이페이지 전용 클릭 드롭다운 */
 .gsmo-header .profile-dropdown {
-  position: relative;
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.gsmo-header .profile-icon {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  cursor: pointer;
   background-color: #ddd;
-  object-fit: contain;     /* contain → cover로 꽉 채움 */
-  display: block;
-  padding: 0;            /* ✅ 패딩 제거로 정렬 정확 */
-  color: black;
+  overflow: hidden;                  /* 아이콘 넘침 방지 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
+.gsmo-header .profile-icon {
+  width: 70%;                        /* ✅ 내부 이미지 크기 축소 */
+  height: 70%;
+  object-fit: contain;
+  display: block;
+}
 .gsmo-header .profile-menu {
   display: none;
   position: absolute;

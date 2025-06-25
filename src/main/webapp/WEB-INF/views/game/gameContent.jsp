@@ -12,10 +12,17 @@
 <link rel="stylesheet"
 	href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
 <link rel="stylesheet" href="/css/gameContent.css" />
+<link rel="stylesheet" href="<c:url value='/css/header.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/footer.css' />" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 <body>
+<!-- 헤더 영역 -->
+<jsp:include page="/WEB-INF/views/common/header.jsp" flush="true"/>
+
+<div class="wrapper">
+
 	<div class="container">
 		<div class="detail-header">
 			<div class="thumb">
@@ -148,8 +155,13 @@
 	<!-- Swiper JS -->
 	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 	<script src="/js/gameContent.js"></script>
+	
 
-
+		<!-- 프로필 아이콘 드롭박스 -->
+	<script src="<c:url value='/js/proFile.js'/>"></script>
+<!-- 푸터 영역 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp" flush="true"/>
+</div>
 </body>
 
 
