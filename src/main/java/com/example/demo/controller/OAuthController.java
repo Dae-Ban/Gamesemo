@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 
+import java.util.Map;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -20,25 +22,29 @@ public class OAuthController {
     private final HttpSession session;
     private final MemberMapper memberMapper;
 
-
-
-
     @GetMapping("/oauth2/success")
     public String oauth2Success(@AuthenticationPrincipal OAuth2User oAuth2User, RedirectAttributes redirectAttributes) {
         String socialId;
         String platform;
         
-      
-        // 1. 플랫폼 구분 및 ID 추출
+     // 1. 플랫폼 구분 및 ID 추출
         if (oAuth2User.getAttribute("sub") != null) {
-            socialId = oAuth2User.getAttribute("sub").toString();  // Google
+            // Google
+            socialId = oAuth2User.getAttribute("sub").toString();
             platform = "google";
-            System.out.println("social: " + socialId);
-            System.out.println("platform: " + platform);
-        } else if (oAuth2User.getAttribute("id") != null && oAuth2User.getAttribute("email") != null) {
-            socialId = oAuth2User.getAttribute("id").toString();   // Naver or Kakao
-            String email = oAuth2User.getAttribute("email").toString();
-            platform = email.contains("@kakao.com") ? "kakao" : "naver";
+
+        } else if (oAuth2User.getAttribute("response") != null) {
+            // Naver
+            Map<String, Object> response = (Map) oAuth2User.getAttribute("response");
+            socialId = response.get("id").toString();
+            platform = "naver";
+
+        } else if (oAuth2User.getAttribute("kakao_account") != null) {
+            // Kakao
+            Map<String, Object> kakaoAccount = (Map) oAuth2User.getAttribute("kakao_account");
+            socialId = oAuth2User.getAttribute("id").toString(); // 카카오 기본 ID는 최상위
+            platform = "kakao";
+
         } else {
             throw new IllegalArgumentException("지원하지 않는 소셜 로그인입니다.");
         }
