@@ -9,8 +9,13 @@
     <title>커뮤니티 게시판</title>
     <link rel="stylesheet" href="/css/style.css">
 <%--     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"> --%>
+
+ <link rel="stylesheet" href="<c:url value='/css/header.css' />" />
+  <link rel="stylesheet" href="<c:url value='/css/footer.css' />" />
 </head>
 <body>
+<!-- 헤더 영역 -->
+<jsp:include page="/WEB-INF/views/common/header.jsp" flush="true"/>
 
 <div class="community-wrapper">
 
@@ -159,7 +164,12 @@
     <a href="javascript:check()" class="btn-write" >글작성</a>
       <%--   <a href="${pageContext.request.contextPath}/community/form" class="btn-write">글작성</a> --%>
     </div>
+    
 
 </div>
+
+   <!-- 푸터 영역 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp" flush="true"/>
+<script src="<c:url value='/js/proFile.js'/>"></script>
 </body>
 </html>
