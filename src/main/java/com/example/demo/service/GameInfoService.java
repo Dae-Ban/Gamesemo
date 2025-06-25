@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.mapper.GameInfoMapper;
 import com.example.demo.model.GameInfo;
-import com.example.demo.model.YouTubeVideo;
 
 @Service
 public class GameInfoService {

@@ -1,20 +1,34 @@
 package com.example.demo.controller;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.model.*;
+import com.example.demo.model.Member;
+import com.example.demo.model.Pagenation;
+import com.example.demo.model.Review;
+import com.example.demo.model.ReviewLike;
+import com.example.demo.model.ReviewReply;
 import com.example.demo.service.ReviewService;
-import com.example.demo.service.ReportService;
 
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/review")
@@ -23,14 +37,10 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @Autowired
-    private ReportService reportService;
-
     private Member ensureLoginSession(HttpSession session) {
         Member loginMember = (Member) session.getAttribute("loginMember");
         if (loginMember == null) {
             loginMember = new Member();
-//            loginMember.setId("minjung2");    // 테스트용 기본값, 병합할때는 주석 걸기 
             session.setAttribute("loginMember", loginMember);
         }
         return loginMember;

@@ -46,7 +46,6 @@ public class MemberController {
 	@Autowired
 	private VerifyService verifyService;
 
-	
 	MemberController(PasswordEncoder passwordEncoder, EmailService emailService) {
 		this.passwordEncoder = passwordEncoder;
 		this.emailService = emailService;

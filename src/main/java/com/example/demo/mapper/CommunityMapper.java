@@ -3,12 +3,11 @@ package com.example.demo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import com.example.demo.model.Pagenation;
 import com.example.demo.model.Community;
 import com.example.demo.model.CommunityLike;
 import com.example.demo.model.CommunityReply;
+import com.example.demo.model.Pagenation;
 
 @Mapper
 public interface CommunityMapper {

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.mapper.GameInfoMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.Member;
 import com.example.demo.model.Pagenation;
@@ -19,9 +18,6 @@ import com.example.demo.service.MemberService;
 public class EmailScheduler {
 	@Autowired
 	private MemberService memberService;
-
-	@Autowired
-	private GameInfoMapper gameInfoMapper;
 
 	@Autowired
 	private EmailService emailService;
