@@ -54,11 +54,8 @@ public class PlanetNewScraper implements Scraper {
 					g.setPrice(price);
 					g.setFprice(fprice);
 					
-					String rate = game.select(".prices .price_saving").text().trim();
-					if(rate == null || rate.isEmpty())
-						g.setRate("0");
-					else
-						g.setRate(rate);
+					String dcRate = game.select(".prices .price_saving").text().trim();
+					g.setRate((dcRate == null || dcRate.isEmpty()) ? "0" : dcRate);
 					
 					g.setThumb(game.select("a.stretched-link > img").attr("src"));
 					g.setLink("https://us.gamesplanet.com" + game.select("h4 > a.stretched-link").attr("href"));

@@ -41,10 +41,7 @@ public class DirectNewScraper implements Scraper {
 					g.setTitle(title);
 
 					String dcRate = game.select(".vm-product-descr-container-1 span.label-danger").text().trim();
-					if (dcRate == null || dcRate.isEmpty())
-						g.setRate("0");
-					else
-						g.setRate(dcRate);
+					g.setRate((dcRate == null || dcRate.isEmpty()) ? "0" : dcRate);
 
 					String fprice = game.select("div.PricesalesPrice > span.PricesalesPrice").text().trim();
 					String price = game.select("div.PricebasePrice > span.PricebasePrice").text().trim();

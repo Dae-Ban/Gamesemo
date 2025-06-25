@@ -58,9 +58,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			throw new IllegalArgumentException("Unknown platform: " + platform);
 		}
 		
-		System.out.println("name:" + name);
-		System.out.println("email:" + email);
-		
 		String emailId = "", emailDomain = "";
 		if (email != null && email.contains("@")) {
 			String[] emailParts = email.split("@");

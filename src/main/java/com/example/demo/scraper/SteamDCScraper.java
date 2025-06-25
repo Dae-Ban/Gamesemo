@@ -39,7 +39,9 @@ public class SteamDCScraper implements Scraper {
 					pk++;
 					g.setPk(pk);
 					g.setTitle(title);
-					g.setRate(game.select(".discount_pct").text().trim());
+					
+					String dcRate = game.select(".discount_pct").text().trim();
+					g.setRate((dcRate == null || dcRate.isEmpty()) ? "0" : dcRate);
 					
 					String price = game.select(".discount_original_price").text().trim();
 					String fprice = game.select(".discount_final_price").text().trim();
