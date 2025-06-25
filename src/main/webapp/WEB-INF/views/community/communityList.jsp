@@ -146,17 +146,22 @@
 
 
 <script>
-    	//글 작성 유효성 검사(로그인 하지 않았을때 메세지 출력)
-    	function check(){    		
- //   		alert('${sessionScope.loginMember.id}');
-    		if(${empty sessionScope.loginMember.id}){
-    			alert('로그인 하세요.');
-    			return false;
-    		}else{
-    			location.href="${pageContext.request.contextPath}/community/form";
-    		}
-    	}     
-    </script> 
+    // 글 작성 버튼 클릭 시 유효성 검사
+    function check() {
+        const isLoggedIn = ${sessionScope.loginMember != null}; // 로그인 여부
+        const memberState = '${sessionScope.loginMember.state}'; // 회원 상태값
+
+        if (!isLoggedIn) {
+            alert('로그인 하세요.');
+            return false;
+        } else if (memberState === '2') {
+            alert('블랙리스트 계정은 글을 작성할 수 없습니다.');
+            return false;
+        } else {
+            location.href = "${pageContext.request.contextPath}/community/form";
+        }
+    }
+</script>
 
 
     <!-- 글쓰기 버튼 -->
