@@ -45,10 +45,7 @@ public class SteamTopScraper implements Scraper {
 					g.setTitle(title);
 
 					String dcRate = game.select(".discount_pct").text().trim();
-					if (dcRate == null || dcRate == "")
-						g.setRate("0");
-					else
-						g.setRate(dcRate);
+					g.setRate((dcRate == null || dcRate.isEmpty()) ? "0" : dcRate);
 
 					String fprice = game.select(".discount_final_price").text().trim();
 					if (fprice.equals("Free"))
