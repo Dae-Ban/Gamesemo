@@ -63,8 +63,6 @@ public class WishlistController {
 	@ResponseBody
 	public String ajaxLogin(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
 		
-		Member user = (Member) session.getAttribute("loginMember");
-			
 		Member member = memberService.findById(id); // ID로만 조회
 		if (member != null && passwordEncoder.matches(pw, member.getPw())) {
 			session.setAttribute("loginMember", member);

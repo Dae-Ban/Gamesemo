@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.mapper.GameDataMapper;
-import com.example.demo.mapper.GameInfoMapper;
 import com.example.demo.mapper.ScrapMapper;
 import com.example.demo.model.GameInfo;
 import com.example.demo.model.ScrapData;

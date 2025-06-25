@@ -1,8 +1,9 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
+
 import org.apache.ibatis.type.Alias;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 @Alias("gameinfo")
 @Data

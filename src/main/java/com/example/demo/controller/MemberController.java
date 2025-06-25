@@ -5,12 +5,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,12 +23,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.AccountVerification;
-import com.example.demo.model.GameInfo;
 import com.example.demo.model.Member;
-import com.example.demo.model.YouTubeVideo;
 import com.example.demo.service.EmailService;
-import com.example.demo.service.GameInfoService;
-import com.example.demo.service.GameService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.VerifyService;
 
@@ -52,9 +46,6 @@ public class MemberController {
 	@Autowired
 	private VerifyService verifyService;
 
-	@Autowired
-	private GameService gameService; 
-	
 	MemberController(PasswordEncoder passwordEncoder, EmailService emailService) {
 		this.passwordEncoder = passwordEncoder;
 		this.emailService = emailService;

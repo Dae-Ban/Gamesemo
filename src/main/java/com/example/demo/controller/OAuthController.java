@@ -9,7 +9,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.mapper.MemberMapper;
 import com.example.demo.model.Member;
-import com.example.demo.util.Normalize;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class OAuthController {
-
-    private final Normalize normalize;
 
     private final HttpSession session;
     private final MemberMapper memberMapper;
