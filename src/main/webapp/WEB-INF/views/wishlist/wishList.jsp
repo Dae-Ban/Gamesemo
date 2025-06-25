@@ -64,10 +64,19 @@ body {
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.game-thumb img {
+.game-thumb {
 	width: 120px;
 	height: 70px;
-	object-fit: cover;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 6px;
+}
+
+.game-thumb img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
 	border-radius: 6px;
 }
 
