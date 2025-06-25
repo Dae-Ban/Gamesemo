@@ -445,41 +445,41 @@ public class MemberController {
 //		return result;
 //	}
 //
-//	// 비번찾기 - 새비번설정
-//	@PostMapping("/resetPassword")
-//	@ResponseBody
-//	public Map<String, Object> resetPassword(@RequestBody Map<String, String> data) {
-//		String id = data.get("id");
-//		String newPassword = data.get("newPassword");
-//
-//		Map<String, Object> result = new HashMap<>();
-//
-//		Member member = memberService.findById(id);
-//		if (member == null) {
-//			result.put("success", false);
-//			result.put("message", "회원 정보 없음");
-//			return result;
-//		}
-//
-//		// 비밀번호 암호화
-//		String encodedPw = passwordEncoder.encode(newPassword);
-//
-//		// Map으로 전달
-//		Map<String, Object> paramMap = new HashMap<>();
-//		paramMap.put("id", id);
-//		paramMap.put("newPw", encodedPw);
-//
-//		boolean updated = memberService.updatePasswordForFind(paramMap); // service 메서드도 새로 만들어야 함
-//
-//		if (updated) {
-//			result.put("success", true);
-//		} else {
-//			result.put("success", false);
-//			result.put("message", "DB 업데이트 실패");
-//		}
-//
-//		return result;
-//	}
+	// 비번찾기 - 새비번설정
+	@PostMapping("/resetPassword")
+	@ResponseBody
+	public Map<String, Object> resetPassword(@RequestBody Map<String, String> data) {
+		String id = data.get("id");
+		String newPassword = data.get("newPassword");
+
+		Map<String, Object> result = new HashMap<>();
+
+		Member member = memberService.findById(id);
+		if (member == null) {
+			result.put("success", false);
+			result.put("message", "회원 정보 없음");
+			return result;
+		}
+
+		// 비밀번호 암호화
+		String encodedPw = passwordEncoder.encode(newPassword);
+
+		// Map으로 전달
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("id", id);
+		paramMap.put("newPw", encodedPw);
+
+		boolean updated = memberService.updatePasswordForFind(paramMap); // service 메서드도 새로 만들어야 함
+
+		if (updated) {
+			result.put("success", true);
+		} else {
+			result.put("success", false);
+			result.put("message", "DB 업데이트 실패");
+		}
+
+		return result;
+	}
 
 	// 탈퇴 폼 GET
 	@GetMapping("/delete")
