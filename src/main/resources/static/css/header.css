@@ -129,13 +129,14 @@
 }
 
 .gsmo-header .dropdown-menu {
-  display: none;
+   display: none;
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 50%;                  /* 가운데 기준 */
+  transform: translateX(-50%); /* 가운데 정렬 */
   background: white;
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 5px 0;             /* 상하 padding만 */
   z-index: 9999;
   min-width: 120px;
   white-space: nowrap;
@@ -144,10 +145,11 @@
 }
 
 .gsmo-header .dropdown-menu a {
-  display: block;
+   display: block;
+  font-size: 13px;          /* 글씨 크기 줄임 */
   color: #333;
   text-decoration: none;
-  padding: 8px 10px;
+  padding: 2px 10px;        /* 공간 줄이기 */
 }
 
 .gsmo-header .dropdown-menu a:hover {
