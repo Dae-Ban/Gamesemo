@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -53,7 +54,7 @@ public class EmailService {
 
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			helper.setFrom("Gamesemo");
+			helper.setFrom(new InternetAddress("2j1william@gmail.com", "Gamesemo"));
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(content, true);
@@ -81,7 +82,7 @@ public class EmailService {
 
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			helper.setFrom("Gamesemo");
+			helper.setFrom(new InternetAddress("2j1william@gmail.com", "Gamesemo"));
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(content, true);
@@ -111,7 +112,7 @@ public class EmailService {
 
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			helper.setFrom("Gamesemo");
+			helper.setFrom(new InternetAddress("2j1william@gmail.com", "Gamesemo"));
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(content, true);
