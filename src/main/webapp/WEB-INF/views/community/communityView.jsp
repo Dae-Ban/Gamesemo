@@ -47,6 +47,16 @@
         alert("로그인 후 이용 가능합니다.");
     }
 </script>
+
+<!-- 사진 크기 -->
+ <style>
+    .community-content img {
+        max-width: 800px;
+        height: auto;
+        display: block;
+        margin: 20px auto;
+    }
+</style>
 		
 </head>
 <body>
@@ -64,7 +74,7 @@
          	<br>글번호: ${community.cb_num}<br>
             조회수: ${community.cb_readcount}<br>
             날짜: <fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /><br>
-            작성자: ${community.nickname}<br>
+            작성자: ${community.id}<br>
             👍 추천 수: ${likeCount}
         </div>
     </div>
@@ -82,15 +92,20 @@
         <c:otherwise>
             <c:choose>
                 <c:when test="${not fn:contains(community.cb_content, '<img')}">
-                    <img src="${pageContext.request.contextPath}/images2/default-community.png"
+                    <img src="${pageContext.request.contextPath}/images/default-community.png"
                          alt="기본 이미지"
-                         style="max-width:100%; margin-bottom:20px;" />
+                         style="width: 700px; display: block; margin: 0 auto; margin-bottom: 20px;" />
                 </c:when>
             </c:choose>
-            <c:out value="${community.cb_content}" escapeXml="false" />
+
+            <!--  CSS 적용 위한 wrapper -->
+            <div class="community-content">
+                <c:out value="${community.cb_content}" escapeXml="false" />
+            </div>
         </c:otherwise>
     </c:choose>
 </div>
+
 
 
 
