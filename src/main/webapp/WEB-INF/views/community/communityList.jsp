@@ -9,8 +9,13 @@
     <title>커뮤니티 게시판</title>
     <link rel="stylesheet" href="/css/style.css">
 <%--     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"> --%>
+
+ <link rel="stylesheet" href="<c:url value='/css/header.css' />" />
+  <link rel="stylesheet" href="<c:url value='/css/footer.css' />" />
 </head>
 <body>
+<!-- 헤더 영역 -->
+
 
 <div class="community-wrapper">
 
@@ -49,7 +54,7 @@
                             ${top.cb_title}
                         </a>
                     </td>
-                    <td>${top.id}</td>
+                    <td>${top.nickname}</td>
                     <td><fmt:formatDate value="${top.cb_date}" pattern="yyyy-MM-dd" /></td>
                     <td>${top.cb_readcount}</td>
                 </tr>
@@ -83,7 +88,7 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td>${community.id}</td>
+                <td>${community.nickname}</td>
                 <td><fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /></td>
                 <td>${community.cb_readcount}</td>
             </tr>
@@ -141,17 +146,22 @@
 
 
 <script>
-    	//글 작성 유효성 검사(로그인 하지 않았을때 메세지 출력)
-    	function check(){    		
- //   		alert('${sessionScope.loginMember.id}');
-    		if(${empty sessionScope.loginMember.id}){
-    			alert('로그인 하세요.');
-    			return false;
-    		}else{
-    			location.href="${pageContext.request.contextPath}/community/form";
-    		}
-    	}     
-    </script> 
+    // 글 작성 버튼 클릭 시 유효성 검사
+    function check() {
+        const isLoggedIn = ${sessionScope.loginMember != null}; // 로그인 여부
+        const memberState = '${sessionScope.loginMember.state}'; // 회원 상태값
+
+        if (!isLoggedIn) {
+            alert('로그인 하세요.');
+            return false;
+        } else if (memberState === '2') {
+            alert('블랙리스트 계정은 글을 작성할 수 없습니다.');
+            return false;
+        } else {
+            location.href = "${pageContext.request.contextPath}/community/form";
+        }
+    }
+</script>
 
 
     <!-- 글쓰기 버튼 -->
@@ -159,7 +169,12 @@
     <a href="javascript:check()" class="btn-write" >글작성</a>
       <%--   <a href="${pageContext.request.contextPath}/community/form" class="btn-write">글작성</a> --%>
     </div>
+    
 
 </div>
+
+   <!-- 푸터 영역 -->
+
+<script src="<c:url value='/js/proFile.js'/>"></script>
 </body>
 </html>

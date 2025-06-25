@@ -13,6 +13,7 @@
         <result property="cb_readcount" column="cb_readcount"/>
         <result property="cb_date" column="cb_date"/>
         <result property="cb_state" column="cb_state"/>
+        <result property="nickname" column="nickname"/>
 <!--         <result property="cb_like" column="cb_like"/> -->
     </resultMap>
     
@@ -29,146 +30,79 @@
 
 
  <!--  총 게시글 수 -->
-     <select id="getCount" parameterType="com.example.demo.model.Community" resultType="int">
-    SELECT COUNT(*) FROM COMMUNITY_BOARD
+<select id="getCount" parameterType="com.example.demo.model.Community" resultType="int">
+    SELECT COUNT(*) 
+    FROM COMMUNITY_BOARD cb
+    JOIN MEMBER m ON cb.id = m.id
     <where>
-        cb_state != 2
+        cb.cb_state != 2
         <choose>
             <when test="search == 'cb_title'">
-                AND cb_title LIKE '%' || #{keyword} || '%'
+                AND cb.cb_title LIKE '%' || #{keyword} || '%'
             </when>
             <when test="search == 'id'">
-                AND id LIKE '%' || #{keyword} || '%'
+                AND m.nickname LIKE '%' || #{keyword} || '%'
             </when>
             <when test="search == 'all'">
-                AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
+                AND (cb.cb_title LIKE '%' || #{keyword} || '%' 
+                     OR cb.cb_content LIKE '%' || #{keyword} || '%')
             </when>
         </choose>
     </where>
 </select>
-            
-     
 
-  
-<!--     <select id="getCount" parameterType="com.example.demo.model.Community" resultType="int"> -->
-<!--         SELECT COUNT(*) FROM COMMUNITY_BOARD -->
-<!--         <where> -->
-<!--             cb_state = 0 -->
-<!--             <choose> -->
-<!--                 <when test="search == 'cb_title'"> -->
-<!--                     AND cb_title LIKE '%' || #{keyword} || '%' -->
-<!--                 </when> -->
-<!--                 <when test="search == 'id'"> -->
-<!--                     AND id LIKE '%' || #{keyword} || '%' -->
-<!--                 </when> -->
-<!--                 <when test="search == 'all'"> -->
-<!--                     AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%') -->
-<!--                 </when> -->
-                
-                
-                
-<!--                 <when test="search == 'cb_state_recommend'"> -->
-                                               
-                                               
-                                    
-                                                
-<!--                 </when> -->   
+           
        
-    
-    
-    
+   
      <!-- 페이징 목록 -->
-   <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="communityResult">
+<select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="communityResult">
     SELECT * FROM (
         SELECT rownum rnum, a.* FROM (
-            SELECT * FROM COMMUNITY_BOARD
+            SELECT 
+                cb.cb_num,
+                m.nickname AS nickname,
+                cb.cb_title,
+                cb.cb_readcount,
+                cb.cb_date,
+                cb.cb_state,
+                cb.cb_content
+            FROM COMMUNITY_BOARD cb
+            JOIN MEMBER m ON cb.id = m.id
             <where>
-                cb_state != 2
+                cb.cb_state != 2
                 <choose>
                     <when test="search == 'cb_title'">
-                        AND cb_title LIKE '%' || #{keyword} || '%'
+                        AND cb.cb_title LIKE '%' || #{keyword} || '%'
                     </when>
                     <when test="search == 'id'">
-                        AND id LIKE '%' || #{keyword} || '%'
+                        AND m.nickname LIKE '%' || #{keyword} || '%'
                     </when>
                     <when test="search == 'all'">
-                        AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%')
+                        AND (cb.cb_title LIKE '%' || #{keyword} || '%' OR cb.cb_content LIKE '%' || #{keyword} || '%')
                     </when>
-                    
                 </choose>
             </where>
-            ORDER BY cb_num DESC
+            ORDER BY cb.cb_num DESC
         ) a
         WHERE rownum &lt;= #{endRow}
     )
     WHERE rnum &gt;= #{startRow}
 </select>
 
-    
-    
-  
-<!--     <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="communityResult"> -->
-<!--         SELECT * FROM ( -->
-<!--             SELECT rownum rnum, a.* FROM ( -->
-<!--                 SELECT * FROM COMMUNITY_BOARD -->
-<!--                 <where> -->
-<!--                     cb_state = 0 -->
-<!--                     <choose> -->
-<!--                         <when test="search == 'cb_title'"> -->
-<!--                             AND cb_title LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-<!--                         <when test="search == 'id'"> -->
-<!--                             AND id LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-<!--                         <when test="search == 'all'"> -->
-<!--                             AND (cb_title LIKE '%' || #{keyword} || '%' OR cb_content LIKE '%' || #{keyword} || '%') -->
-<!--                         </when> -->
-
-<!--                     </choose> -->
-<!--                 </where> -->
-<!--                 ORDER BY cb_num DESC -->
-<!--             ) a -->
-<!--             WHERE rownum &lt;= #{endRow} -->
-<!--         ) -->
-<!--         WHERE rnum &gt;= #{startRow} -->
-<!--     </select> -->
-    
-    
-    
-
-<!--     페이징 목록 -->
-<!--     <select id="getPagedList" parameterType="com.example.demo.model.Pagenation" resultMap="reviewResult"> -->
-<!--         SELECT * FROM ( -->
-<!--             SELECT rownum rnum, a.* FROM ( -->
-<!--                 SELECT * FROM REVIEW_BOARD -->
-<!--                 <where> -->
-<!--                     rb_state = 0 -->
-<!--                     <choose> -->
-<!--                         <when test="search == 'rb_title'"> -->
-<!--                             AND rb_title LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-<!--                         <when test="search == 'id'"> -->
-<!--                             AND id LIKE '%' || #{keyword} || '%' -->
-<!--                         </when> -->
-<!--                         <when test="search == 'all'"> -->
-<!--                             AND (rb_title LIKE '%' || #{keyword} || '%' OR rb_content LIKE '%' || #{keyword} || '%') -->
-<!--                         </when> -->
-<!--                         <when test="search == 'rb_state_recommend'"> -->
-<!--                             AND rb_like = '추천' -->
-<!--                         </when> -->
-<!--                     </choose> -->
-<!--                 </where> -->
-<!--                 ORDER BY rb_num DESC -->
-<!--             ) a -->
-<!--             WHERE rownum &lt;= #{endRow} -->
-<!--         ) -->
-<!--         WHERE rnum &gt;= #{startRow} -->
-<!--     </select> -->
-
 
     <!-- 상세보기 -->
     <select id="getCommunity" parameterType="int" resultMap="communityResult">
-        SELECT * FROM COMMUNITY_BOARD WHERE cb_num = #{cb_num}
+        SELECT 
+        cb.cb_num,
+        cb.id,
+	    cb.cb_title,
+	    cb.cb_readcount,
+	    cb.cb_date,
+	    cb.cb_state,
+	    cb.cb_content,
+	    m.nickname AS nickname
+        FROM COMMUNITY_BOARD cb
+        JOIN MEMBER m ON cb.id = m.id WHERE cb_num = #{cb_num}
     </select>
 
     <!-- 조회수 증가 -->
@@ -258,24 +192,32 @@
     
     <!-- 글 추천 4개 리스트 뽑기 -->
    <select id="getTopRecommended" resultMap="communityResult">
-    SELECT cb_num, id, cb_title,
+    SELECT cb_num, nickname AS nickname, cb_title,
            DBMS_LOB.SUBSTR(cb_content, 4000, 1) AS cb_content,
            cb_readcount, cb_date, cb_state
     FROM (
-        SELECT cb.cb_num, cb.id, cb.cb_title,
+        SELECT cb.cb_num, m.nickname,
+               cb.cb_title,
                DBMS_LOB.SUBSTR(cb.cb_content, 4000, 1) AS cb_content,
-               cb.cb_readcount, cb.cb_date, cb.cb_state,
+               cb.cb_readcount,
+               cb.cb_date,
+               cb.cb_state,
                COUNT(cl.cb_num) AS like_count
         FROM COMMUNITY_BOARD cb
+        JOIN MEMBER m ON cb.id = m.id
         LEFT JOIN CB_LIKE cl ON cb.cb_num = cl.cb_num
         WHERE cb.cb_state = 0
-        GROUP BY cb.cb_num, cb.id, cb.cb_title,
+        GROUP BY cb.cb_num, m.nickname,
+                 cb.cb_title,
                  DBMS_LOB.SUBSTR(cb.cb_content, 4000, 1),
                  cb.cb_readcount, cb.cb_date, cb.cb_state
         ORDER BY like_count DESC, cb_readcount DESC
     )
     WHERE ROWNUM &lt;= 4
 </select>
+
+
+
 
 
 	<!-- 글 추천하기 -->

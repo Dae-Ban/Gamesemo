@@ -31,12 +31,22 @@
 
   
 		// 댓글 작성 유효성 검사
-		function check(){
-			if(${empty sessionScope.loginMember.id}){
-    			alert('로그인 하세요.');
-    			return false;
-    		}			
-		}   
+		function check() {
+        const isLoggedIn = ${sessionScope.loginMember != null};
+        const memberState = '${sessionScope.loginMember.state}';
+
+        if (!isLoggedIn) {
+            alert('로그인 하세요.');
+            return false;
+        }
+
+        if (memberState === '2') {
+            alert('블랙리스트 계정은 댓글을 작성할 수 없습니다.');
+            return false;
+        }
+
+        return true; // 통과 시 정상 제출
+    }  
 		
 		</script>
 		
