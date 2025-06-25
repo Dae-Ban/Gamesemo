@@ -150,6 +150,10 @@ public class MemberController {
 		Member member = memberService.login(login);
 		System.out.println("DB에서 찾은 Member: " + member);
 		if (member != null) {
+			if ("N".equals(member.getEmailVerified())) {
+	            model.addAttribute("error", "이메일 인증이 완료되지 않았습니다.");
+	            return "member/login";
+	        }
 			session.setAttribute("loginMember", member);
 			session.setAttribute("id", member.getId());
 			if (rememberMe != null) {

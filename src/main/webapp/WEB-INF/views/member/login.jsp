@@ -196,6 +196,12 @@
 			alert("${message}");
 		</script>
 	</c:if>
+	
+	<c:if test="${not empty error}">
+    <script>
+        alert("${error}");
+    </script>
+</c:if>
 
 	<div class="container">
 
