@@ -89,7 +89,7 @@
          	<br>글번호: ${review.rb_num}<br>
             조회수: ${review.rb_readcount}<br>
             날짜: <fmt:formatDate value="${review.rb_date}" pattern="yyyy-MM-dd" /><br>
-            작성자: ${review.id}<br>
+            작성자: ${review.nickname}<br>
             👍 추천 수: ${likeCount}
         </div>
     </div>

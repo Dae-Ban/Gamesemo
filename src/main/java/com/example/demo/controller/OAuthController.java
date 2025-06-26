@@ -33,10 +33,9 @@ public class OAuthController {
             socialId = oAuth2User.getAttribute("sub").toString();
             platform = "google";
 
-        } else if (oAuth2User.getAttribute("response") != null) {
+        } else if (oAuth2User.getAttribute("id") != null) {
             // Naver
-            Map<String, Object> response = (Map) oAuth2User.getAttribute("response");
-            socialId = response.get("id").toString();
+            socialId = oAuth2User.getAttribute("id").toString();
             platform = "naver";
 
         } else if (oAuth2User.getAttribute("kakao_account") != null) {
