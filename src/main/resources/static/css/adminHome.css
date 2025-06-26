@@ -15,13 +15,18 @@ h1 {
   gap: 30px;
 }
 
+/* 메뉴 박스 */
 .menu-box {
   background-color: #ffffff;
   border: 1px solid #ccc;
-  padding: 20px 30px;
+  padding: 0;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  width: 140px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
 }
 
@@ -30,9 +35,26 @@ h1 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.menu-box a {
-  text-decoration: none;
-  color: #001f60;
+/* a와 button 공통 스타일 */
+.menu-box a,
+.menu-box button#master-btn {
+  all: unset; /* 버튼 기본 스타일 제거 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   font-weight: bold;
   font-size: 16px;
+  color: #001f60;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+/* hover 시 배경색 변경 */
+.menu-box a:hover,
+.menu-box button#master-btn:hover {
+  background-color: #f0f0f0;
 }
