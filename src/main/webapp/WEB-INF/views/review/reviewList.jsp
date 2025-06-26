@@ -171,7 +171,7 @@
             alert('블랙리스트 계정은 글을 작성할 수 없습니다.');
             return false;
         } else {
-            location.href = "${pageContext.request.contextPath}/community/form";
+            location.href = "${pageContext.request.contextPath}/review/form";
         }
     }
     </script>    
