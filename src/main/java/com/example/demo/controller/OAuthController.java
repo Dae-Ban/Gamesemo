@@ -29,15 +29,15 @@ public class OAuthController {
         
      // 1. 플랫폼 구분 및 ID 추출
         if (oAuth2User.getAttribute("sub") != null) {
-            // Google
+            // Google	
             socialId = oAuth2User.getAttribute("sub").toString();
             platform = "google";
 
-        } else if (oAuth2User.getAttribute("response") != null) {
+        } else if (oAuth2User.getAttribute("id") != null) {
             // Naver
-            Map<String, Object> response = (Map) oAuth2User.getAttribute("response");
-            socialId = response.get("id").toString();
-            platform = "naver";
+            //Map<String, Object> response = (Map) oAuth2User.getAttribute("id");
+            socialId = oAuth2User.getAttribute("id").toString();
+            platform = "naver";	
 
         } else if (oAuth2User.getAttribute("kakao_account") != null) {
             // Kakao

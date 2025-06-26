@@ -4,7 +4,8 @@
 <header class="gsmo-header">
   <!-- 왼쪽: 로고 -->
   <div class="logo">
-    <img src="<c:url value='/images/logo1.png' />" alt="겜세모 로고" />
+  <a href="<c:url value='/main' />"><img src="<c:url value='/images/logo1.png' />" alt="겜세모 로고" /></a>
+    
   </div>
 
   <!-- 가운데: 메뉴 -->
