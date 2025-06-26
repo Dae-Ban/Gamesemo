@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
     <meta charset="UTF-8">
     <title>커뮤니티 상세보기</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">

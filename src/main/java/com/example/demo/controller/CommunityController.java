@@ -137,7 +137,7 @@ public class CommunityController {
 
         return "redirect:/community/list";
     }
-    
+     
 
     @RequestMapping("/smarteditorMultiImageUpload")
     public void smarteditorMultiImageUpload(HttpServletRequest request, HttpServletResponse response) {

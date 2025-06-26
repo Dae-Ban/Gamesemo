@@ -19,7 +19,7 @@ public interface ReviewMapper {
     void insert(Review review);                   // 글 등록
     void update(Review review);                   // 글 수정
     void delete(int rb_num);                      // 글 삭제
-
+ 
     // 댓글 관련
     int insertReply(ReviewReply reply);          // 댓글 등록
     List<ReviewReply> getReplyList(int rb_num);   // 댓글 목록 조회

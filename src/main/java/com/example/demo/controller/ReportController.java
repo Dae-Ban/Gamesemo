@@ -32,7 +32,7 @@ public class ReportController {
         }
         return loginMember;
     }	
-	
+	 
 	
 	@GetMapping("/report/form")
     public String reportForm(@RequestParam("rp_table") String rp_table,

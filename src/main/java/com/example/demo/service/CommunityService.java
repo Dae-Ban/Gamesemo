@@ -10,7 +10,7 @@ import com.example.demo.model.Pagenation;
 import com.example.demo.model.Community;
 import com.example.demo.model.CommunityLike;
 import com.example.demo.model.CommunityReply;
-
+ 
 @Service
 public class CommunityService {
 

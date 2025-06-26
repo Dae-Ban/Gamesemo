@@ -13,5 +13,5 @@ public class Report {
     private String rp_table;
     private int board_num;
     private String rp_status;
-    
+     
 }

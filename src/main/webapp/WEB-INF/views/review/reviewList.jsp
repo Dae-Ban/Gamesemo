@@ -157,7 +157,7 @@
 			</c:if>				        
     </div>
     
-    
+     
     <script>
     	//글 작성 유효성 검사(로그인 하지 않았을때 메세지 출력)
     	function check() {
