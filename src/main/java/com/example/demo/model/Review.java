@@ -20,4 +20,4 @@ public class Review {
      
     private String search;
     private String keyword;
-}
+} 

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     response.setHeader("X-Frame-Options", "SAMEORIGIN");
-%>
+%> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>

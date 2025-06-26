@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
     <meta charset="UTF-8">
     <title>커뮤니티 상세보기</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
@@ -84,7 +84,7 @@
          	<br>글번호: ${community.cb_num}<br>
             조회수: ${community.cb_readcount}<br>
             날짜: <fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /><br>
-            작성자: ${community.id}<br>
+            작성자: ${community.nickname}<br>
             👍 추천 수: ${likeCount}
         </div>
     </div>

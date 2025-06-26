@@ -21,3 +21,4 @@ public class Community {
     private String search;
     private String keyword;
 }
+ 

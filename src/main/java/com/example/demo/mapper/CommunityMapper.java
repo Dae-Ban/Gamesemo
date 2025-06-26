@@ -34,5 +34,5 @@ public interface CommunityMapper {
 	int insertLike(CommunityLike like);
 	int getLikeCount(int cb_num);
 
-	
+	 
 }

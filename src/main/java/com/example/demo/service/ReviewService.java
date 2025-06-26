@@ -31,7 +31,7 @@ public class ReviewService {
         }
     }
 
-
+ 
     public List<Review> getPagedList(Pagenation pgn) {
     	System.out.println("리뷰 리스트");
         return reviewMapper.getPagedList(pgn);

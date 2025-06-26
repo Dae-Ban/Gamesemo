@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>신고하기</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-</head>
+</head> 
 <body>
 
 <!-- 로그인 안 된 경우 차단 -->

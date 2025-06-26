@@ -5,7 +5,7 @@
 %>
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<head> 
     <meta charset="UTF-8">
     <title>커뮤니티 수정</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">

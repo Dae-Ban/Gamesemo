@@ -23,7 +23,7 @@ public interface ReportMapper {
             @Param("keyword") String keyword);
     
 	ReportDTO selectReportById(int rpNum);
-    
+     
 	Community selectCommunityPost(int boardNum);
     
 	Review selectReviewPost(int boardNum);
