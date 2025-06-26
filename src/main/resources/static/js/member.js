@@ -401,7 +401,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 	});
 });
-
+ 
 
 // 📌 필수 약관 동의 체크 여부 
 function validateForm() {
