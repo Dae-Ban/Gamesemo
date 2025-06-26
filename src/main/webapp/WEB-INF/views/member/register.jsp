@@ -126,7 +126,7 @@
 				</div>
 			</div>
 
-
+ 
 			<!-- 선호 장르 -->
 			<div class="form-group">
 				<label>선호 장르 (복수 선택가능)</label>

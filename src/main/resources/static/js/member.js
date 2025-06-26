@@ -205,7 +205,7 @@ function checkPhone() {
 		resultBox.style.color = "green";
 	}
 }
-
+ 
 document.addEventListener("DOMContentLoaded", () => {
 	const phoneInput = document.getElementById("phone");
 	if (phoneInput) {
