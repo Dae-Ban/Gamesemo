@@ -11,11 +11,6 @@
 
 <body>
 
-<script>
-
-
-</script>
-
 <!-- 가입 중 스피너 -->
 <div id="registerOverlay" style="display: none; text-align: center; padding: 20px;">
     <img src="/images/spinner.png" class="loading-spinner" alt="로딩 중">
