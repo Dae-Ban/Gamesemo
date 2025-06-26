@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -138,18 +139,22 @@ public class CommunityController {
         return "redirect:/community/list";
     }
      
-
     @RequestMapping("/smarteditorMultiImageUpload")
     public void smarteditorMultiImageUpload(HttpServletRequest request, HttpServletResponse response) {
         try {
-            response.setContentType("text/plain; charset=UTF-8");
+            request.setCharacterEncoding("utf-8");
+            response.setContentType("text/html;charset=utf-8");
+
+            String callback = request.getParameter("callback");           // /smarteditor2/photo_uploader/callback.html
+            String callbackFunc = request.getParameter("callback_func"); // tmpFrame_xxx_func
             String sFilename = request.getHeader("file-name");
             String sFilenameExt = sFilename.substring(sFilename.lastIndexOf(".") + 1).toLowerCase();
             String[] allowFileArr = {"jpg", "png", "bmp", "gif"};
-            boolean isImage = Arrays.asList(allowFileArr).contains(sFilenameExt);
 
+            boolean isImage = Arrays.asList(allowFileArr).contains(sFilenameExt);
             if (!isImage) {
-                response.getWriter().print("NOTALLOW_" + sFilename);
+                String errStr = "NOTALLOW_" + sFilename;
+                response.sendRedirect(callback + "?callback_func=" + callbackFunc + "&errstr=" + errStr);
                 return;
             }
 
@@ -157,8 +162,8 @@ public class CommunityController {
             File file = new File(filePath);
             if (!file.exists()) file.mkdirs();
 
-            String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
-            String sRealFileNm = today + UUID.randomUUID() + sFilename.substring(sFilename.lastIndexOf("."));
+            String today = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+            String sRealFileNm = today + "_" + UUID.randomUUID() + sFilename.substring(sFilename.lastIndexOf("."));
             String rlFileNm = filePath + File.separator + sRealFileNm;
 
             InputStream inputStream = request.getInputStream();
@@ -172,16 +177,58 @@ public class CommunityController {
             outputStream.flush();
             outputStream.close();
 
-            String sFileInfo = "";
-            sFileInfo += "&bNewLine=true";
-            sFileInfo += "&sFileName=" + sFilename;
-            sFileInfo += "&sFileURL=/upload/" + sRealFileNm;
+            String fileUrl = "/upload/" + sRealFileNm;
 
-            response.getWriter().print(sFileInfo);
+            response.sendRedirect(callback + "?callback_func=" + callbackFunc + "&bNewLine=true&sFileName=" + URLEncoder.encode(sFilename, "UTF-8") + "&sFileURL=" + URLEncoder.encode(fileUrl, "UTF-8"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+//    @RequestMapping("/smarteditorMultiImageUpload")
+//    public void smarteditorMultiImageUpload(HttpServletRequest request, HttpServletResponse response) {
+//        try {
+//            response.setContentType("text/plain; charset=UTF-8");
+//            String sFilename = request.getHeader("file-name");
+//            String sFilenameExt = sFilename.substring(sFilename.lastIndexOf(".") + 1).toLowerCase();
+//            String[] allowFileArr = {"jpg", "png", "bmp", "gif"};
+//            boolean isImage = Arrays.asList(allowFileArr).contains(sFilenameExt);
+//
+//            if (!isImage) {
+//                response.getWriter().print("NOTALLOW_" + sFilename);
+//                return;
+//            }
+//
+//            String filePath = request.getServletContext().getRealPath("/upload/");
+//            File file = new File(filePath);
+//            if (!file.exists()) file.mkdirs();
+//
+//            String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
+//            String sRealFileNm = today + UUID.randomUUID() + sFilename.substring(sFilename.lastIndexOf("."));
+//            String rlFileNm = filePath + File.separator + sRealFileNm;
+//
+//            InputStream inputStream = request.getInputStream();
+//            OutputStream outputStream = new FileOutputStream(rlFileNm);
+//            byte[] bytes = new byte[Integer.parseInt(request.getHeader("file-size"))];
+//            int numRead;
+//            while ((numRead = inputStream.read(bytes, 0, bytes.length)) != -1) {
+//                outputStream.write(bytes, 0, numRead);
+//            }
+//            inputStream.close();
+//            outputStream.flush();
+//            outputStream.close();
+//
+//            String sFileInfo = "";
+//            sFileInfo += "&bNewLine=true";
+//            sFileInfo += "&sFileName=" + sFilename;
+//            sFileInfo += "&sFileURL=/upload/" + sRealFileNm;
+//
+//            response.getWriter().print(sFileInfo);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @PostMapping("/like")
     public String like(@RequestParam("cb_num") int cb_num, HttpSession session, RedirectAttributes ra) {
