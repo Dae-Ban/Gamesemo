@@ -1,5 +1,25 @@
 /*회원가입 아이디 유효성 + 중복 검사 */
 
+
+function validateForm() {
+	const emailAd = document.querySelector('input[name="emailAd"]');
+	const isPwValid = checkPassword();
+	console.log("폼 검증 시작");
+	if (!emailAd.checked) {
+		alert("이메일 광고 수신 동의는 필수입니다.");
+		emailAd.focus();
+		return false;
+	}
+	
+	if (!isPwValid) {
+		alert("비밀번호 조건을 확인해주세요."); 
+		return false;
+	}
+
+	return true; 
+}
+
+
 function checkId() {
 	const id = document.getElementById("id").value.trim();
 	const resultBox = document.getElementById("idCheckResult");
