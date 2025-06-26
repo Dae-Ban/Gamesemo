@@ -1,4 +1,5 @@
 /*회원가입 아이디 유효성 + 중복 검사 */
+console.log("✅ member.js 로드됨");
 
 function checkId() {
 	const id = document.getElementById("id").value.trim();
@@ -115,14 +116,18 @@ function checkPassword() {
 	const pw = document.getElementById("pw").value;
 	const resultBox = document.getElementById("pwCheckResult");
 
-	const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\|[\]{};:'",.<>/?`~])[A-Za-z\d!@#$%^&*()\-_=+\\|[\]{};:'",.<>/?`~]{8,}$/
-
+	const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\|[\]{};:'",.<>/?`~])[A-Za-z\d!@#$%^&*()\-_=+\\|[\]{};:'",.<>/?`~]{8,}$/;
+	
 	if (!regex.test(pw)) {
 		resultBox.textContent = "비밀번호는 8자 이상, 영문과 숫자, 특수문자를 포함해야 합니다.";
 		resultBox.style.color = "gray";
+		console.log("111111111111111111111111111111");
+		return false;
 	} else {
 		resultBox.textContent = "✅ 사용 가능한 비밀번호입니다.";
 		resultBox.style.color = "green";
+		console.log("222222222222222222222222222222");
+		return true;
 	}
 }
 
@@ -342,7 +347,7 @@ function getGender() {
 	}
 }
 
-document.getElementById("signupBtn").addEventListener("click", function() {
+document.getElementById("registerBtn").addEventListener("click", function() {
 	let gender = getGender();
 	if (gender) {
 		console.log("선택된 성별:", gender);
@@ -367,6 +372,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // 📌 필수 약관 동의 체크 여부 
 function validateForm() {
 	const emailAd = document.querySelector('input[name="emailAd"]');
+	console.log("폼 검증 시작");
 	if (!emailAd.checked) {
 		alert("이메일 광고 수신 동의는 필수입니다.");
 		emailAd.focus();
@@ -376,6 +382,55 @@ function validateForm() {
 	// ✅ 장르 선택은 필수가 아니므로 검사 생략
 	return true; // 통과 시 제출 허용
 }
+
+$(function () {
+	console.log("✅ jQuery 작동 확인됨!");
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+	console.log("✅ DOMContentLoaded 실행됨"); // 확인용 로그
+
+	const form = document.getElementById("registerForm");
+	console.log("폼 찾은 결과:", form); // 폼이 null이면 바인딩 실패
+
+	if (form) {
+		form.addEventListener("submit", function (e) {
+			console.log("✅ 폼 제출 이벤트 감지됨");
+
+			if (!validateForm()) {
+				console.log("❌ 유효성 검사 실패");
+				e.preventDefault();
+				return false;
+			}
+
+			// 스피너 처리
+			document.getElementById("registerBtn").disabled = true;
+			form.style.display = "none";
+			document.querySelector(".container").style.display = "none";
+			document.getElementById("registerOverlay").style.display = "block";
+		});
+	} else {
+		console.log("❌ registerForm ID를 가진 폼을 찾지 못했습니다.");
+	}
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  $("#registerForm").on("submit", function (e) {
+    if (!validateForm()) {
+      console.log("❌ 폼 유효성 검사 실패");
+      return false;
+    }
+
+    console.log("✅ 폼 제출 통과, 스피너 보여줌");
+
+    $("#registerBtn").prop("disabled", true);
+    $("#registerForm").hide();
+    $(".container").hide();
+    $("#registerOverlay").show();
+  });
+});
 
 
 
