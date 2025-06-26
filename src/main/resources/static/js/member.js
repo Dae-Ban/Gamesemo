@@ -121,12 +121,10 @@ function checkPassword() {
 	if (!regex.test(pw)) {
 		resultBox.textContent = "비밀번호는 8자 이상, 영문과 숫자, 특수문자를 포함해야 합니다.";
 		resultBox.style.color = "gray";
-		console.log("111111111111111111111111111111");
 		return false;
 	} else {
 		resultBox.textContent = "✅ 사용 가능한 비밀번호입니다.";
 		resultBox.style.color = "green";
-		console.log("222222222222222222222222222222");
 		return true;
 	}
 }
@@ -372,10 +370,16 @@ document.addEventListener("DOMContentLoaded", function() {
 // 📌 필수 약관 동의 체크 여부 
 function validateForm() {
 	const emailAd = document.querySelector('input[name="emailAd"]');
+	const isPwValid = checkPassword();
 	console.log("폼 검증 시작");
 	if (!emailAd.checked) {
 		alert("이메일 광고 수신 동의는 필수입니다.");
 		emailAd.focus();
+		return false;
+	}
+	
+	if (!isPwValid) {
+		alert("비밀번호 조건을 확인해주세요."); // ✅ 경고 추가
 		return false;
 	}
 
@@ -386,35 +390,6 @@ function validateForm() {
 $(function () {
 	console.log("✅ jQuery 작동 확인됨!");
 });
-
-document.addEventListener("DOMContentLoaded", function () {
-	console.log("✅ DOMContentLoaded 실행됨"); // 확인용 로그
-
-	const form = document.getElementById("registerForm");
-	console.log("폼 찾은 결과:", form); // 폼이 null이면 바인딩 실패
-
-	if (form) {
-		form.addEventListener("submit", function (e) {
-			console.log("✅ 폼 제출 이벤트 감지됨");
-
-			if (!validateForm()) {
-				console.log("❌ 유효성 검사 실패");
-				e.preventDefault();
-				return false;
-			}
-
-			// 스피너 처리
-			document.getElementById("registerBtn").disabled = true;
-			form.style.display = "none";
-			document.querySelector(".container").style.display = "none";
-			document.getElementById("registerOverlay").style.display = "block";
-		});
-	} else {
-		console.log("❌ registerForm ID를 가진 폼을 찾지 못했습니다.");
-	}
-});
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
   $("#registerForm").on("submit", function (e) {
