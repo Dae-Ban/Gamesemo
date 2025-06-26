@@ -140,9 +140,11 @@ function checkPassword() {
 	if (!regex.test(pw)) {
 		resultBox.textContent = "비밀번호는 8자 이상, 영문과 숫자, 특수문자를 포함해야 합니다.";
 		resultBox.style.color = "gray";
+		return false;
 	} else {
 		resultBox.textContent = "✅ 사용 가능한 비밀번호입니다.";
 		resultBox.style.color = "green";
+		return true;
 	}
 }
 
