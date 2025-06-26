@@ -61,7 +61,7 @@
 <!-- 사진 크기 -->
  <style>
     .community-content img {
-        max-width: 800px;
+        max-width: 700px;
         height: auto;
         display: block;
         margin: 20px auto;
@@ -84,7 +84,7 @@
          	<br>글번호: ${community.cb_num}<br>
             조회수: ${community.cb_readcount}<br>
             날짜: <fmt:formatDate value="${community.cb_date}" pattern="yyyy-MM-dd" /><br>
-            작성자: ${community.id}<br>
+            작성자: ${community.nickname}<br>
             👍 추천 수: ${likeCount}
         </div>
     </div>

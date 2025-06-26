@@ -120,7 +120,7 @@
             rb_readcount, rb_date, rb_state, rb_like
         ) VALUES (
             review_board_seq.NEXTVAL,
-            #{id}, #{rb_title}, #{rb_content},
+            #{id, jdbcType=VARCHAR}, #{rb_title}, #{rb_content},
             0, SYSDATE, #{rb_state}, #{rb_like}
         )
     </insert>

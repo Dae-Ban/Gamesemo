@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +26,7 @@ import com.example.demo.model.CommunityReply;
 import com.example.demo.model.Member;
 import com.example.demo.model.Pagenation;
 import com.example.demo.service.CommunityService;
+import com.example.demo.service.ReportService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,6 +38,10 @@ public class CommunityController {
 
     @Autowired
     private CommunityService communityService;
+    
+    @Autowired
+    private ReportService reportService;
+
 
     private Member ensureLoginSession(HttpSession session) {
         Member loginMember = (Member) session.getAttribute("loginMember");
@@ -50,7 +56,7 @@ public class CommunityController {
     public String list(@RequestParam(name = "page", defaultValue = "1") int page,
                        Community community, Model model,
                        HttpSession session) {  //, HttpSession session 이거 불필요
-//    	ensureLoginSession(session);   //이것도 주석 막아야함 
+    	ensureLoginSession(session);   //이것도 주석 막아야함 
     	
         int total = communityService.getCount(community);
         Pagenation pgn = new Pagenation(total, 10, page);
@@ -72,7 +78,7 @@ public class CommunityController {
 
     @GetMapping("/view")
     public String view(@RequestParam("cb_num") int cb_num, Model model, HttpSession session) {
-//        ensureLoginSession(session); 
+        ensureLoginSession(session); 
 
         communityService.updateReadCount(cb_num);
         Community community = communityService.getCommunity(cb_num);
@@ -89,7 +95,7 @@ public class CommunityController {
 
     @GetMapping("/form")
     public String form(Model model, HttpSession session) {
-//        ensureLoginSession(session);
+        ensureLoginSession(session);
         model.addAttribute("community", new Community());
         return "community/communityForm";
     }
@@ -110,15 +116,15 @@ public class CommunityController {
 
     @GetMapping("/updateform")
     public String updateForm(@RequestParam("cb_num") int cb_num, Model model, HttpSession session) {
-//        ensureLoginSession(session);
-        Community community = communityService.getCommunity(cb_num);
+        ensureLoginSession(session);
+       Community community = communityService.getCommunity(cb_num);
         model.addAttribute("community", community);
         return "community/communityUpdateForm";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute Community community, HttpSession session) {
-//        ensureLoginSession(session);
+        ensureLoginSession(session);
         communityService.update(community);
         return "redirect:/community/view?cb_num=" + community.getCb_num();
     }
@@ -142,14 +148,19 @@ public class CommunityController {
     @RequestMapping("/smarteditorMultiImageUpload")
     public void smarteditorMultiImageUpload(HttpServletRequest request, HttpServletResponse response) {
         try {
-            response.setContentType("text/plain; charset=UTF-8");
+            request.setCharacterEncoding("utf-8");
+            response.setContentType("text/html;charset=utf-8");
+
+            String callback = request.getParameter("callback");           // /smarteditor2/photo_uploader/callback.html
+            String callbackFunc = request.getParameter("callback_func"); // tmpFrame_xxx_func
             String sFilename = request.getHeader("file-name");
             String sFilenameExt = sFilename.substring(sFilename.lastIndexOf(".") + 1).toLowerCase();
             String[] allowFileArr = {"jpg", "png", "bmp", "gif"};
-            boolean isImage = Arrays.asList(allowFileArr).contains(sFilenameExt);
 
+            boolean isImage = Arrays.asList(allowFileArr).contains(sFilenameExt);
             if (!isImage) {
-                response.getWriter().print("NOTALLOW_" + sFilename);
+                String errStr = "NOTALLOW_" + sFilename;
+                response.sendRedirect(callback + "?callback_func=" + callbackFunc + "&errstr=" + errStr);
                 return;
             }
 
@@ -157,8 +168,8 @@ public class CommunityController {
             File file = new File(filePath);
             if (!file.exists()) file.mkdirs();
 
-            String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
-            String sRealFileNm = today + UUID.randomUUID() + sFilename.substring(sFilename.lastIndexOf("."));
+            String today = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+            String sRealFileNm = today + "_" + UUID.randomUUID() + sFilename.substring(sFilename.lastIndexOf("."));
             String rlFileNm = filePath + File.separator + sRealFileNm;
 
             InputStream inputStream = request.getInputStream();
@@ -172,12 +183,10 @@ public class CommunityController {
             outputStream.flush();
             outputStream.close();
 
-            String sFileInfo = "";
-            sFileInfo += "&bNewLine=true";
-            sFileInfo += "&sFileName=" + sFilename;
-            sFileInfo += "&sFileURL=/upload/" + sRealFileNm;
+            String fileUrl = "/upload/" + sRealFileNm;
 
-            response.getWriter().print(sFileInfo);
+            response.sendRedirect(callback + "?callback_func=" + callbackFunc + "&bNewLine=true&sFileName=" + URLEncoder.encode(sFilename, "UTF-8") + "&sFileURL=" + URLEncoder.encode(fileUrl, "UTF-8"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -210,7 +219,7 @@ public class CommunityController {
     public String insertReply(@ModelAttribute CommunityReply reply, HttpSession session, RedirectAttributes ra) {
         Member loginMember = (Member) session.getAttribute("loginMember");
       reply.setId(loginMember.getId());
-//        reply.setId("minjung2");
+ //       reply.setId("minjung2");
 
         int result = communityService.insertReply(reply);
         if(result==1) System.out.println("댓글 작성 성공");

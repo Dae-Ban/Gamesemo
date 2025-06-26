@@ -59,6 +59,9 @@
         fCreator: "createSEditor2",
         fOnAppLoad: function () {
             console.log("에디터 로드 완료");
+        },
+        htParams : {
+            sUploadURL : "${pageContext.request.contextPath}/smarteditorMultiImageUpload"
         }
     });
 
@@ -99,6 +102,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>
