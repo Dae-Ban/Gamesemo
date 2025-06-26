@@ -126,6 +126,21 @@ function checkPassword() {
 	}
 }
 
+$(function () {
+    $("#registerForm").on("submit", function (e) {
+        // member.js에 이미 정의된 validateForm()을 호출
+        if (!validateForm()) {
+            return false;
+        }
+
+        // 스피너 처리
+        $("#registerBtn").prop("disabled", true);
+        $("#registerForm").hide();
+        $(".container").hide();
+        $("#registerOverlay").show();
+    });
+});
+
 function checkPasswordMatch() {
 	const pw = document.getElementById("pw").value;
 	const pwConfirm = document.getElementById("pwConfirm").value;
@@ -346,13 +361,13 @@ function getGender() {
 	}
 }
 
-//document.getElementById("signupBtn").addEventListener("click", function() {
-//	let gender = getGender();
-//	if (gender) {
-//		console.log("선택된 성별:", gender);
-//		// 이후 회원가입 데이터를 서버로 전송하는 로직 추가
-//	}
-//});
+document.getElementById("registerBtn").addEventListener("click", function() {
+	let gender = getGender();
+	if (gender) {
+		console.log("선택된 성별:", gender);
+		// 이후 회원가입 데이터를 서버로 전송하는 로직 추가
+	}
+});
 
 // 생년월일
 document.addEventListener("DOMContentLoaded", function() {

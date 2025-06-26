@@ -11,22 +11,8 @@
 
 <body>
 
-<script src="https://code.jquery.com/jquery-latest.js"></script>
 <script>
-$(function () {
-    $("#registerForm").on("submit", function (e) {
-        // member.js에 이미 정의된 validateForm()을 호출
-        if (!validateForm()) {
-            return false;
-        }
 
-        // 스피너 처리
-        $("#registerBtn").prop("disabled", true);
-        $("#registerForm").hide();
-        $(".container").hide();
-        $("#registerOverlay").show();
-    });
-});
 
 </script>
 
@@ -47,8 +33,7 @@ $(function () {
 		<div class="divider"></div>
 
 		<!-- 		<form action="/member/register" method="post"> -->
-		<form action="${pageContext.request.contextPath}/member/register" method="post"
-			onsubmit="return validateForm();">
+		<form id="registerForm" action="${pageContext.request.contextPath}/member/register" method="post">
 			<input type="hidden" name="verify_type" value="MEMBER_JOIN"> 
 
 			<!-- ID -->
@@ -167,7 +152,8 @@ $(function () {
 			<button type="submit" class="btn btn-full" id="registerBtn">가입하기</button>
 		</form>
 	</div>
-
+	
+	<script src="https://code.jquery.com/jquery-latest.js" defer></script>
 	<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
 </body>
 </html>
