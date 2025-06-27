@@ -1,25 +1,5 @@
 /*회원가입 아이디 유효성 + 중복 검사 */
 
-
-function validateForm() {
-	const emailAd = document.querySelector('input[name="emailAd"]');
-	const isPwValid = checkPassword();
-	console.log("폼 검증 시작");
-	if (!emailAd.checked) {
-		alert("이메일 광고 수신 동의는 필수입니다.");
-		emailAd.focus();
-		return false;
-	}
-	
-	if (!isPwValid) {
-		alert("비밀번호 조건을 확인해주세요."); 
-		return false;
-	}
-
-	return true; 
-}
-
-
 function checkId() {
 	const id = document.getElementById("id").value.trim();
 	const resultBox = document.getElementById("idCheckResult");
@@ -140,28 +120,11 @@ function checkPassword() {
 	if (!regex.test(pw)) {
 		resultBox.textContent = "비밀번호는 8자 이상, 영문과 숫자, 특수문자를 포함해야 합니다.";
 		resultBox.style.color = "gray";
-		return false;
 	} else {
 		resultBox.textContent = "✅ 사용 가능한 비밀번호입니다.";
 		resultBox.style.color = "green";
-		return true;
 	}
 }
-
-$(function () {
-    $("#registerForm").on("submit", function (e) {
-        // member.js에 이미 정의된 validateForm()을 호출
-        if (!validateForm()) {
-            return false;
-        }
-
-        // 스피너 처리
-        $("#registerBtn").prop("disabled", true);
-        $("#registerForm").hide();
-        $(".container").hide();
-        $("#registerOverlay").show();
-    });
-});
 
 function checkPasswordMatch() {
 	const pw = document.getElementById("pw").value;
@@ -227,7 +190,7 @@ function checkPhone() {
 		resultBox.style.color = "green";
 	}
 }
- 
+
 document.addEventListener("DOMContentLoaded", () => {
 	const phoneInput = document.getElementById("phone");
 	if (phoneInput) {
@@ -350,14 +313,14 @@ function checkEmailDuplicateLive() {
 	checkEmailDuplicate();
 }
 
-//✅ 이벤트 연결
+// ✅ 이벤트 연결
 document.addEventListener("DOMContentLoaded", function() {
 	const emailCheckResult = document.getElementById("emailCheckResult");
 
-	 //이메일 아이디 입력 중 실시간 중복검사 실행
+	// 이메일 아이디 입력 중 실시간 중복검사 실행
 	document.getElementById("emailId").addEventListener("input", checkEmailDuplicateLive);
 
-	 //이메일 아이디 입력 후 blur 시 유효성 + 중복검사
+	// 이메일 아이디 입력 후 blur 시 유효성 + 중복검사
 	document.getElementById("emailId").addEventListener("blur", function() {
 		validateEmailId(this);
 	});
@@ -383,7 +346,7 @@ function getGender() {
 	}
 }
 
-document.getElementById("registerBtn").addEventListener("click", function() {
+document.getElementById("signupBtn").addEventListener("click", function() {
 	let gender = getGender();
 	if (gender) {
 		console.log("선택된 성별:", gender);
@@ -403,7 +366,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 	});
 });
- 
+
 
 // 📌 필수 약관 동의 체크 여부 
 function validateForm() {
