@@ -147,7 +147,7 @@ public class ReviewController {
                 return;
             }
 
-            String filePath = request.getServletContext().getRealPath("/upload/");
+            String filePath = "/home/ubuntu/upload";
             File file = new File(filePath);
             if (!file.exists()) file.mkdirs();
 
