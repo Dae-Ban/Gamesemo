@@ -5,31 +5,37 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member.css">
-	
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/member.css">
+
 </head>
 
 <body>
 
-<!-- 가입 중 스피너 -->
-<div id="registerOverlay" style="display: none; text-align: center; padding: 20px;">
-    <img src="/images/spinner.png" class="loading-spinner" alt="로딩 중">
-    <p>가입 중입니다... 잠시만 기다려주세요</p>
-</div>
 
-<c:if test="${not empty error}">
-	<script>
-		alert("${error}");
-	</script>
-</c:if>
+
+	<!-- 가입 중 스피너 -->
+	<div id="registerOverlay"
+		style="display: none; text-align: center; padding: 20px;">
+		<img src="/images/spinner.png" class="loading-spinner" alt="로딩 중">
+		<p>가입 중입니다... 잠시만 기다려주세요</p>
+	</div>
+
+	<c:if test="${not empty error}">
+		<script>
+			alert("${error}");
+		</script>
+	</c:if>
 
 	<div class="container">
 		<h2 class="title">회원가입</h2>
 		<div class="divider"></div>
 
 		<!-- 		<form action="/member/register" method="post"> -->
-		<form id="registerForm" action="${pageContext.request.contextPath}/member/register" method="post" onsubmit="return validateForm();">
-			<input type="hidden" name="verify_type" value="MEMBER_JOIN"> 
+		<form id="registerForm"
+			action="${pageContext.request.contextPath}/member/register"
+			method="post">
+			<input type="hidden" name="verify_type" value="MEMBER_JOIN">
 
 			<!-- ID -->
 			<div class="form-group">
@@ -121,7 +127,7 @@
 				</div>
 			</div>
 
- 
+
 			<!-- 선호 장르 -->
 			<div class="form-group">
 				<label>선호 장르 (복수 선택가능)</label>
@@ -147,9 +153,7 @@
 			<button type="submit" class="btn btn-full" id="registerBtn">가입하기</button>
 		</form>
 	</div>
-	
 	<script src="https://code.jquery.com/jquery-latest.js" defer></script>
-	<script src="${pageContext.request.contextPath}/js/member.js" defer></script>
+	<script src="/js/member.js" defer></script>
 </body>
 </html>
-
