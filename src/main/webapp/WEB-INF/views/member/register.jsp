@@ -28,7 +28,7 @@
 		<div class="divider"></div>
 
 		<!-- 		<form action="/member/register" method="post"> -->
-		<form id="registerForm" action="${pageContext.request.contextPath}/member/register" method="post">
+		<form id="registerForm" action="${pageContext.request.contextPath}/member/register" method="post" onsubmit="return validateForm();">
 			<input type="hidden" name="verify_type" value="MEMBER_JOIN"> 
 
 			<!-- ID -->

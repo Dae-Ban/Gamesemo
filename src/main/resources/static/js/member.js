@@ -120,9 +120,11 @@ function checkPassword() {
 	if (!regex.test(pw)) {
 		resultBox.textContent = "비밀번호는 8자 이상, 영문과 숫자, 특수문자를 포함해야 합니다.";
 		resultBox.style.color = "gray";
+		return false;
 	} else {
 		resultBox.textContent = "✅ 사용 가능한 비밀번호입니다.";
 		resultBox.style.color = "green";
+		return true;
 	}
 }
 
@@ -371,16 +373,31 @@ document.addEventListener("DOMContentLoaded", function() {
 // 📌 필수 약관 동의 체크 여부 
 function validateForm() {
 	const emailAd = document.querySelector('input[name="emailAd"]');
+
 	if (!emailAd.checked) {
 		alert("이메일 광고 수신 동의는 필수입니다.");
 		emailAd.focus();
 		return false;
 	}
 
-	// ✅ 장르 선택은 필수가 아니므로 검사 생략
-	return true; // 통과 시 제출 허용
-}
+	const isPwValid = checkPassword();
+	if (!isPwValid) {
+		alert("비밀번호 조건을 확인해주세요.");
+		document.getElementById("pw").focus();
+		return false;
+	}
 
+	// 비밀번호 일치 검사도 추가 추천
+	const pw = document.getElementById("pw").value;
+	const pwConfirm = document.getElementById("pwConfirm").value;
+	if (pw !== pwConfirm) {
+		alert("비밀번호가 일치하지 않습니다.");
+		document.getElementById("pwConfirm").focus();
+		return false;
+	}
+
+	return true;
+}
 
 
 // ** 비밀번호 변경
