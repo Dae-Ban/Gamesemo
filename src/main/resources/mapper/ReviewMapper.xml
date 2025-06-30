@@ -9,7 +9,7 @@
         <result property="rb_num" column="rb_num"/>
         <result property="id" column="id"/>
         <result property="rb_title" column="rb_title"/>
-        <result property="rb_content" column="rb_content"/>
+        <result property="rb_content" column="rb_content" jdbcType="CLOB"/>
         <result property="rb_readcount" column="rb_readcount"/>
         <result property="rb_date" column="rb_date"/>
         <result property="rb_state" column="rb_state"/>
@@ -63,7 +63,6 @@
                 rb.rb_readcount,
                 rb.rb_date,
                 rb.rb_state,
-                rb.rb_content,
                 rb.rb_like
             FROM REVIEW_BOARD rb
             JOIN MEMBER m ON rb.id = m.id

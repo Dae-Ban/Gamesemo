@@ -226,7 +226,7 @@
     </c:when>
     <c:otherwise>
         <div style="text-align: right; margin-top: 10px;">
-            <a href="${pageContext.request.contextPath}/rcreport/report/form?rp_table=COMMUNIRT_BOARD&board_num=${community.cb_num}"
+            <a href="${pageContext.request.contextPath}/rcreport/report/form?rp_table=COMMUNITY_BOARD&board_num=${community.cb_num}"
                style="color: red; text-decoration: none;">🚨 신고하기</a>
         	</div>
     				</c:otherwise>
