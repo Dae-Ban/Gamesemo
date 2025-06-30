@@ -62,7 +62,7 @@
                 cb.cb_num,
                 m.nickname AS nickname,
                 cb.cb_title,
-                cb.rb_content,
+                cb.cb_content,
                 cb.cb_readcount,
                 cb.cb_date,
                 cb.cb_state
