@@ -65,7 +65,7 @@
                 rb.rb_content,
                 cb.cb_readcount,
                 cb.cb_date,
-                cb.cb_state,
+                cb.cb_state
             FROM COMMUNITY_BOARD cb
             JOIN MEMBER m ON cb.id = m.id
             <where>
