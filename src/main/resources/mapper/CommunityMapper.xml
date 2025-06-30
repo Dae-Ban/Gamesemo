@@ -9,7 +9,7 @@
         <result property="cb_num" column="cb_num"/>
         <result property="id" column="id"/>
         <result property="cb_title" column="cb_title"/>
-        <result property="cb_content" column="cb_content" jdbcType="CLOB"/>
+        <result property="cb_content" column="cb_content"/>
         <result property="cb_readcount" column="cb_readcount"/>
         <result property="cb_date" column="cb_date"/>
         <result property="cb_state" column="cb_state"/>
