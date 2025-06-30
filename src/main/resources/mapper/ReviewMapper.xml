@@ -60,6 +60,7 @@
                 rb.rb_num,
                 m.nickname AS nickname,
                 rb.rb_title,
+                rb.rb_content,
                 rb.rb_readcount,
                 rb.rb_date,
                 rb.rb_state,
