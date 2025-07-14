@@ -51,6 +51,8 @@
 
 2025년 6월 1일 ~ 6월 29일
 
+---
+
 ## 메인화면
 <img width="1905" height="883" alt="image" src="https://github.com/user-attachments/assets/1147e4cc-52a5-471c-8043-fbc742020009" />
 
