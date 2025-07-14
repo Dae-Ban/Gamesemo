@@ -1,8 +1,10 @@
-# 🎮 Gamesemo - 게임 플랫폼 세일 정보 통합 웹사이트
+# 🎮 Gamesemo(게임세일모아) - 게임 플랫폼 세일 정보 통합 웹사이트
 
 **Gamesemo**는 스팀(Steam), 닌텐도(Nintendo), 게임스플래넷(Games Planet), 다이렉트 게임즈(Direct Games) 등  
 다양한 게임 플랫폼의 세일 정보를 모아  
 유저들에게 **쉽고 빠르게** 전달하는 웹 기반 통합 세일 정보 서비스입니다.
+
+[Gamesemo 노션 페이지](https://www.notion.so/1-Gamesemo-201678f892a780829c78eb6ea64d315f)
 
 ---
 
