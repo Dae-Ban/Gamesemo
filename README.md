@@ -51,3 +51,12 @@
 
 2025년 6월 1일 ~ 6월 29일
 
+## 메인화면
+<img width="1905" height="883" alt="image" src="https://github.com/user-attachments/assets/1147e4cc-52a5-471c-8043-fbc742020009" />
+
+## 세일목록
+<img width="1904" height="906" alt="image" src="https://github.com/user-attachments/assets/be8cb652-021c-4bac-b09f-1e11f41695fa" />
+
+## 게임상세
+<img width="1904" height="908" alt="image" src="https://github.com/user-attachments/assets/d63173cc-275b-4900-a1ba-8470cee1a29a" />
+
