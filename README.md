@@ -29,7 +29,7 @@ Gamesemo(게임세일모아) - 게임 플랫폼 세일 정보 통합 웹사이�
 ## Notion 링크
 <p align="center">
    <a href="www.notion.so/2-N-EAR-21f678f892a7803ca924ca3c5816cffe" target="_blank">
-    <img width="443" height="100" alt="Group 5" src="https://github.com/user-attachments/assets/e9d6cdc0-f21b-4f73-ba05-6fc0c7bbc648" />
+    <img width="443" height="100" alt="Group 5" src="https://www.notion.so/2025-1-201678f892a780829c78eb6ea64d315f" />
   </a>
 </p>
 
