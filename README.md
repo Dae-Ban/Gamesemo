@@ -1,6 +1,6 @@
 <p align="center">
 
-<img width="619" height="132" alt="Group 4 (1)" src="https://github.com/user-attachments/assets/868e7a4f-b0e0-49bd-a8c5-383a6707ee0d" />
+<img width="617" height="132" alt="Group 4 (2)" src="https://github.com/user-attachments/assets/189f8549-2923-451f-a6c3-1cc6d6a5a89d" />
 
 Gamesemo(게임세일모아) - 게임 플랫폼 세일 정보 통합 웹사이트
 
