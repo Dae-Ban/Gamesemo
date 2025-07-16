@@ -29,7 +29,9 @@ Gamesemo(게임세일모아) - 게임 플랫폼 세일 정보 통합 웹사이�
 ## 개발 기간
 
 **기간:** 2025년 6월 1일 ~ 6월 29일
-
+<p align="center">
+ <img width="2388" height="1318" alt="Group 3" src="https://github.com/user-attachments/assets/5c5466a8-98ff-4a35-85d6-9451c599216b" />
+</p>
 
 ---
 
