@@ -1,6 +1,7 @@
 <p align="center">
 
-<img width="619" height="132" alt="Group 4" src="https://github.com/user-attachments/assets/4fbfb1e0-c4ef-4fb3-a7ec-8643d9acc4ae" />
+<img width="619" height="132" alt="Group 4 (1)" src="https://github.com/user-attachments/assets/868e7a4f-b0e0-49bd-a8c5-383a6707ee0d" />
+
 Gamesemo(게임세일모아) - 게임 플랫폼 세일 정보 통합 웹사이트
 
 **Gamesemo**는 스팀(Steam), 닌텐도(Nintendo), 게임스플래넷(Games Planet), 다이렉트 게임즈(Direct Games) 등 다양한 게임 플랫폼의 세일 정보를 모아 유저들에게 **쉽고 빠르게** 전달하는 웹 기반 통합 세일 정보 서비스입니다.
