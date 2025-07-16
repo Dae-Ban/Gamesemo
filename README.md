@@ -1,3 +1,5 @@
+## 소개
+
 <p align="center">
 
 <img width="617" height="132" alt="Group 4 (2)" src="https://github.com/user-attachments/assets/189f8549-2923-451f-a6c3-1cc6d6a5a89d" />
@@ -13,6 +15,7 @@ Gamesemo(게임세일모아) - 게임 플랫폼 세일 정보 통합 웹사이�
 
 ## 목차
 
+- [소개](#소개)
 - [개발 기간](#개발-기간)
 - [Notion 링크](#notion-링크)
 - [프로젝트 목표](#프로젝트-목표)
