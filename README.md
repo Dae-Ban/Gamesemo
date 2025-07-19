@@ -102,7 +102,7 @@ Gamesemo(게임세일모아) - 게임 플랫폼 세일 정보 통합 웹사이�
 ### Database:
 
 <div align=left>
-   <img src="https://img.shields.io/badge/ORACLE-F80000?style=flat-square&logo=oracle&logoColor=white"/>
+   <img src="https://img.shields.io/badge/ORACLE-F80000?style=for-the-badge&logo=oracle&logoColor=white"/>
    <img src="https://img.shields.io/badge/eXERD-750B0F?style=for-the-badge&logo=exerd&logoColor=white">
 </div>
   
