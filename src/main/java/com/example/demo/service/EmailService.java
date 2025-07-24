@@ -4,6 +4,7 @@ package com.example.demo.service;
 import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,9 @@ public class EmailService {
 			helper.setSubject("오늘의 게임 할인 소식🎮");
 			helper.setText(htmlContent, true);
 			helper.setFrom("2j1william@gmail.com");
-			helper.addInline("logoImage", new File("src/main/resources/static/images/icons/logo.png"));
-			helper.addInline("emailIcon", new File("src/main/resources/static/images/icons/email.png"));
-			helper.addInline("kakaoIcon", new File("src/main/resources/static/images/icons/kakao.png"));
+			helper.addInline("logoImage", new ClassPathResource("static/images/icons/logo.png"));
+			helper.addInline("emailIcon", new ClassPathResource("static/images/icons/email.png"));
+			helper.addInline("kakaoIcon", new ClassPathResource("static/images/icons/kakao.png"));
 
 			mailSender.send(message);
 			System.out.println("이메일 전송 완료: " + to);

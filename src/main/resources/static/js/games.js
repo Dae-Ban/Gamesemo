@@ -72,9 +72,9 @@ $(document).ready(function() {
 	});
 
 	// 페이지 진입 직후 화면 높이가 문서 높이보다 같거나 크면 강제 로딩
-	if ($(window).height() >= $(document).height()) {
-		tryLoadUntilFill();
-	}
+	if ($('main').length && $(window).height() >= $('main').outerHeight()) {
+			tryLoadUntilFill();
+		}
 });
 
 function tryLoadUntilFill() {
