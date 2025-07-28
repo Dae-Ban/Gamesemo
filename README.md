@@ -1,4 +1,4 @@
-fork from:<br>
+Forked from:<br>
 https://github.com/wlee412/Gamesemo<br>
 
 ## 소개
